@@ -1,26 +1,62 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap');
+
+/* Custom title font */
+@font-face {
+  font-family: 'MainFont';
+  src: url('/font/main-font.woff2') format('woff2');
+  font-display: swap;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Color system */
+  --main-text: #ffffff;
+  --secondary-text: rgb(204, 204, 204);
+  --highlight-text: rgb(31, 213, 249);
+  --main-background: #000000;
+
+  /* Font variables */
+  --font-title: 'MainFont', sans-serif;
+  --font-main: 'Public Sans', sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--main-background);
+  --color-foreground: var(--main-text);
+  --color-secondary: var(--secondary-text);
+  --color-highlight: var(--highlight-text);
+  --font-sans: var(--font-main);
+  --font-title: var(--font-title);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--main-background);
+  color: var(--main-text);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility classes for text colors */
+.text-main {
+  color: var(--main-text);
+}
+
+.text-secondary {
+  color: var(--secondary-text);
+}
+
+.text-highlight {
+  color: var(--highlight-text);
+}
+
+/* Utility classes for fonts */
+.font-title {
+  font-family: var(--font-title);
+}
+
+.font-main {
+  font-family: var(--font-main);
 }
