@@ -1,17 +1,6 @@
 import * as React from "react";
-
-/**
- * HeroBoard
- * ------------
- * TSX conversion of the snippet you provided.
- * Notes:
- * - All `class` → `className`.
- * - Inline styles converted to JS objects.
- * - SVG attribute names adapted for React (e.g., stopColor, strokeWidth, strokeLinecap, strokeDasharray, pathLength).
- * - `currentcolor` → `currentColor`.
- * - Gradient `id`s cleaned (no special characters) and references updated.
- * - Image paths (e.g. /images/home/hero-grid.svg) are left as-is; make sure they exist in your public/ folder.
- */
+import BoxWithHover from "./BoxWithHover";
+import { Brain, Bot, CloudDownload, History, Bitcoin, Cpu, BrainCircuit, BookOpenText, ChartLine } from "lucide-react";
 
 export interface HeroBoardProps {
     className?: string;
@@ -23,19 +12,13 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
     return (
         <div
             className={[
-                "absolute left-[calc(50%-600px)] top-[120px] h-[1095px] w-[1580px]",
+                "absolute left-[-400px] top-[120px] h-[800px] w-[1280px]",
                 className,
             ]
                 .filter(Boolean)
                 .join(" ")}
             style={{ transform: "translateY(0px) rotate(-30deg) skewX(30deg)", ...style }}
         >
-            <img
-                className="absolute left-0 top-0 object-none"
-                alt="Grid"
-                src="/hero-grid.svg"
-                style={{ opacity: 1 }}
-            />
 
             {/* Lines & shimmers canvas */}
             <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-full w-full max-w-7xl -translate-x-1/2 -translate-y-1/2">
@@ -350,140 +333,186 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             </div>
 
             {/* Top box 1*/}
-
-            <div className="relative absolute left-[calc(50%-52px)] top-[289px] z-20 text-fg0">
-                {/* Ghost / depth icons (trimmed to most visible three for brevity) */}
-                <div className="absolute" style={{ zIndex: 10, backgroundColor: "black", transform: "translateY(7.4782px) translateX(-7.4782px)" }}>
-                    <div className="flex items-center justify-center rounded-md border border-fg0 shadow-[-3px_3px_0px_0px_theme(colors.fg0)] h-16 w-16 px-3 py-3" style={{ backgroundColor: "rgb(var(--lk-color-bg1))", transform: "none" }}>
-                        <div className="relative flex items-center justify-center" style={{ opacity: 1 }}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M2 4H5V5H3V7H2V4ZM7 4H11V5H7V4ZM13 4H17V5H13V4ZM18.8889 4H22V7H21V5H18.8889V4ZM3 10V14H2V10H3ZM18.5 11C16.0147 11 14 13.0147 14 15.5C14 17.9853 16.0147 20 18.5 20C20.9853 20 23 17.9853 23 15.5C23 13.0147 20.9853 11 18.5 11ZM13 15.5C13 12.4624 15.4624 10 18.5 10C21.5376 10 24 12.4624 24 15.5C24 18.5376 21.5376 21 18.5 21C15.4624 21 13 18.5376 13 15.5ZM15.5 15.5C15.5 13.8431 16.8431 12.5 18.5 12.5C20.1569 12.5 21.5 13.8431 21.5 15.5C21.5 17.1569 20.1569 18.5 18.5 18.5C16.8431 18.5 15.5 17.1569 15.5 15.5ZM3 16.8571V19H5V20H2V16.8571H3ZM7 19H11V20H7V19Z" fill="currentColor" />
-                            </svg>
-                        </div>
+            <BoxWithHover
+                posClass="absolute left-[calc(50%-52px)] top-[284px]"
+                label="Data"
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <CloudDownload />
+                        <span className="text-main">Fetch data</span>
+                        <span>We are fetching financial data from the yahoo finance. All indicators and algorithms are calculated inside the app.</span>
                     </div>
-                </div>
-            </div>
+                }
+                side="top"
+                align="center"
+                sideOffset={12}
+            />
 
             {/* Top box 2*/}
-            <div className="relative absolute left-[calc(50%+60px)] top-[289px] z-20 text-fg0" style={{ transformStyle: "preserve-3d" }}>
-                {/* Ghost / depth icons (trimmed to most visible three for brevity) */}
-                <div className="absolute" style={{ zIndex: 10, backgroundColor: "black", transform: "translateY(7.4782px) translateX(-7.4782px)" }}>
-                    <div className="flex items-center justify-center rounded-md border border-fg0 shadow-[-3px_3px_0px_0px_theme(colors.fg0)] h-12 w-12 px-3 py-3" style={{ backgroundColor: "rgb(var(--lk-color-bg1))", transform: "none" }}>
-                        <div className="relative flex items-center justify-center" style={{ opacity: 1 }}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M2 4H5V5H3V7H2V4ZM7 4H11V5H7V4ZM13 4H17V5H13V4ZM18.8889 4H22V7H21V5H18.8889V4ZM3 10V14H2V10H3ZM18.5 11C16.0147 11 14 13.0147 14 15.5C14 17.9853 16.0147 20 18.5 20C20.9853 20 23 17.9853 23 15.5C23 13.0147 20.9853 11 18.5 11ZM13 15.5C13 12.4624 15.4624 10 18.5 10C21.5376 10 24 12.4624 24 15.5C24 18.5376 21.5376 21 18.5 21C15.4624 21 13 18.5376 13 15.5ZM15.5 15.5C15.5 13.8431 16.8431 12.5 18.5 12.5C20.1569 12.5 21.5 13.8431 21.5 15.5C21.5 17.1569 20.1569 18.5 18.5 18.5C16.8431 18.5 15.5 17.1569 15.5 15.5ZM3 16.8571V19H5V20H2V16.8571H3ZM7 19H11V20H7V19Z" fill="currentColor" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+60px)] top-[284px]"
+                label="Algorithm"
+                tooltip={<div className="flex flex-col gap-2">
+                    <Bot />
+                    <span className="text-main">Custom algorithms</span>
+                    <span>
+                        We transformed +10 years of trading experience into algorithms.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+            />
 
             {/* Top box 3*/}
-            <div className="relative absolute left-[calc(50%+172px)] top-[289px] z-20 text-fg0" style={{ transformStyle: "preserve-3d" }}>
-                {/* Ghost / depth icons (trimmed to most visible three for brevity) */}
-                <div className="absolute" style={{ zIndex: 10, backgroundColor: "black", transform: "translateY(7.4782px) translateX(-7.4782px)" }}>
-                    <div className="flex items-center justify-center rounded-md border border-fg0 shadow-[-3px_3px_0px_0px_theme(colors.fg0)] h-12 w-12 px-3 py-3" style={{ backgroundColor: "rgb(var(--lk-color-bg1))", transform: "none" }}>
-                        <div className="relative flex items-center justify-center" style={{ opacity: 1 }}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M2 4H5V5H3V7H2V4ZM7 4H11V5H7V4ZM13 4H17V5H13V4ZM18.8889 4H22V7H21V5H18.8889V4ZM3 10V14H2V10H3ZM18.5 11C16.0147 11 14 13.0147 14 15.5C14 17.9853 16.0147 20 18.5 20C20.9853 20 23 17.9853 23 15.5C23 13.0147 20.9853 11 18.5 11ZM13 15.5C13 12.4624 15.4624 10 18.5 10C21.5376 10 24 12.4624 24 15.5C24 18.5376 21.5376 21 18.5 21C15.4624 21 13 18.5376 13 15.5ZM15.5 15.5C15.5 13.8431 16.8431 12.5 18.5 12.5C20.1569 12.5 21.5 13.8431 21.5 15.5C21.5 17.1569 20.1569 18.5 18.5 18.5C16.8431 18.5 15.5 17.1569 15.5 15.5ZM3 16.8571V19H5V20H2V16.8571H3ZM7 19H11V20H7V19Z" fill="currentColor" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+172px)] top-[284px]"
+                label="Backtest"
+                tooltip={<div className="flex flex-col gap-2">
+                    <History />
+                    <span className="text-main">Backtest algorithm</span>
+                    <span>
+                        Backtest Algorithms to see performance of every algorithm. And pick the best one.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+            />
 
             {/* Top box 4*/}
-
-            <div className="relative absolute left-[calc(50%+284px)] top-[289px] z-20 text-fg0" style={{ transformStyle: "preserve-3d" }}>
-                {/* Ghost / depth icons (trimmed to most visible three for brevity) */}
-                <div className="absolute" style={{ zIndex: 10, backgroundColor: "black", transform: "translateY(7.4782px) translateX(-7.4782px)" }}>
-                    <div className="flex items-center justify-center rounded-md border border-fg0 shadow-[-3px_3px_0px_0px_theme(colors.fg0)] h-12 w-12 px-3 py-3" style={{ backgroundColor: "rgb(var(--lk-color-bg1))", transform: "none" }}>
-                        <div className="relative flex items-center justify-center" style={{ opacity: 1 }}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M2 4H5V5H3V7H2V4ZM7 4H11V5H7V4ZM13 4H17V5H13V4ZM18.8889 4H22V7H21V5H18.8889V4ZM3 10V14H2V10H3ZM18.5 11C16.0147 11 14 13.0147 14 15.5C14 17.9853 16.0147 20 18.5 20C20.9853 20 23 17.9853 23 15.5C23 13.0147 20.9853 11 18.5 11ZM13 15.5C13 12.4624 15.4624 10 18.5 10C21.5376 10 24 12.4624 24 15.5C24 18.5376 21.5376 21 18.5 21C15.4624 21 13 18.5376 13 15.5ZM15.5 15.5C15.5 13.8431 16.8431 12.5 18.5 12.5C20.1569 12.5 21.5 13.8431 21.5 15.5C21.5 17.1569 20.1569 18.5 18.5 18.5C16.8431 18.5 15.5 17.1569 15.5 15.5ZM3 16.8571V19H5V20H2V16.8571H3ZM7 19H11V20H7V19Z" fill="currentColor" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+284px)] top-[284px]"
+                label="Decision"
+                tooltip={<div className="flex flex-col gap-2">
+                    <Brain />
+                    <span className="text-main">Do we trade?</span>
+                    <span>
+                        Our machine learning model helps improve algorithm performance. And make decisions to trade or not.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+            />
 
             {/* Crypto Exchange */}
-            <div className="flex items-center justify-center rounded-md border absolute left-[calc(50%+394px)] top-[260px] z-20" style={{ backgroundColor: "black", transform: "none", width: "180px", height: "120px" }}>
-                <div className="relative flex items-center justify-center" style={{ opacity: 1 }}>
-                    Crypto Exchange
-                </div>
-            </div>
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+394px)] top-[260px]"
+                label={"Crypto Exchange"}
+                tooltip={<div className="flex flex-col gap-2">
+                    <Bitcoin />
+                    <span className="text-main">Crypto Exchange</span>
+                    <span>
+                        Trading bot opens and closes positions on crypto exchange automatically.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+                className="h-[120px] w-[180px]"
+            />
 
             {/* Train classifier */}
-            <div className="flex items-center justify-center rounded-md border absolute left-[calc(50%+215px)] top-[576px] z-20" style={{ backgroundColor: "black", transform: "none", width: "180px", height: "120px" }}>
-                <div className="relative flex items-center justify-center opacity-25" style={{ opacity: 1 }}>
-                    Train classifier
-                </div>
-            </div>
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+215px)] top-[576px]"
+                label={"Train classifier"}
+                tooltip={<div className="flex flex-col gap-2">
+                    <Cpu />
+                    <span className="text-main">Train classifier</span>
+                    <span>
+                        We train our machine learning model to make better decisions.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+                className="h-[120px] w-[180px]"
+            />
 
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+402px)] top-[440px]"
+                label="ML Model"
+                tooltip={<div className="flex flex-col gap-2">
+                    <BrainCircuit />
+                    <span className="text-main">Trained model</span>
+                    <span>
+                        The trained model is used to spot weak signals generated by the algorithms.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+            />
 
-            {/* Trained model */}
-            <div className="relative absolute left-[calc(50%+402px)] top-[440px] z-20" style={{ transformStyle: "preserve-3d" }}>
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+562px)] top-[440px]"
+                label="Trading Journal"
+                tooltip={<div className="flex flex-col gap-2">
+                    <BookOpenText />
+                    <span className="text-main">Trading Journal</span>
+                    <span>
+                        We keep track of all our trades in a trading journal.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+            />
 
-                <div className="absolute" style={{ opacity: 1, zIndex: 10, backgroundColor: "black", transform: "translateY(0px) translateX(0px)" }}>
-                    <div className="flex items-center justify-center rounded-md border h-16 w-16 p-3" style={{ backgroundColor: "black", transform: "none" }}>
-                        <div className="relative flex items-center justify-center text-xs" style={{ opacity: 1 }}>
-                            Trained model
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Trading Journal */}
-            <div className="relative absolute left-[calc(50%+562px)] top-[440px] z-20" style={{ transformStyle: "preserve-3d" }}>
-
-                <div className="absolute" style={{ opacity: 1, zIndex: 10, backgroundColor: "black", transform: "translateY(0px) translateX(0px)" }}>
-                    <div className="flex items-center justify-center rounded-md border h-16 w-16 p-3" style={{ backgroundColor: "black", transform: "none" }}>
-                        <div className="relative flex items-center justify-center text-xs" style={{ opacity: 1 }}>
-                            Trading Journal
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Backtest model outside ML box*/}
-            <div className="relative absolute left-[calc(50%+265px)] top-[785px] z-20">
-
-                <div className="absolute" style={{ opacity: 1, zIndex: 10, backgroundColor: "black", transform: "translateY(0px) translateX(0px)" }}>
-                    <div className="flex items-center justify-center rounded-md border h-16 w-16 p-3" style={{
-                        backgroundColor: "black", transform: "none"
-                    }}>
-                        <div className="relative flex items-center justify-center text-xs" style={{ opacity: 1 }
-                        } >
-                            Backtest model
-                        </div>
-                    </div>
-                </div>
-            </div >
-
-
-
-
-
-
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+265px)] top-[785px]"
+                label="Backtest"
+                tooltip={<div className="flex flex-col gap-2">
+                    <History />
+                    <span className="text-main">Backtest trained model</span>
+                    <span>
+                        Backtest the trained model to see how it performs with different parameters.
+                    </span>
+                </div>}
+                side="top"
+                align="center"
+                sideOffset={12}
+            />
 
             {/* Stats badges */}
-            < div className="flex items-center justify-center rounded-md border px-3 py-1.5 text-xs text-fg0 absolute left-[calc(50%+150px)] top-[440px] z-20" style={{ backgroundColor: "black", transform: "none" }
-            }>
-                <div className="relative flex items-center justify-center" style={{ opacity: 1 }}>
-                    <div className="flex items-center justify-center" style={{ opacity: 1 }}>
-                        Indicators
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+150px)] top-[435px]"
+                label={"Indicators"}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <ChartLine />
+                        <span className="text-main">Indicators</span>
+                        <span>
+                            We use indicators to train models and identify weak spots in algorithms.
+                        </span>
                     </div>
-                </div>
-            </div >
+                }
+                side="top"
+                align="center"
+                sideOffset={12}
+                className="px-3 py-1.5 text-fg0 h-auto w-auto"
 
-            <div className="flex items-center justify-center rounded-md border px-3 py-1.5 text-xs text-fg0 absolute left-[calc(50%+132px)] top-[480px] z-20" style={{ backgroundColor: "black", transform: "none" }}>
-                <div className="relative flex items-center justify-center" style={{ opacity: 1 }}>
-                    <div className="flex items-center justify-center" style={{ opacity: 1 }}>
-                        Financial Data
+            />
+
+            <BoxWithHover
+                posClass="absolute left-[calc(50%+132px)] top-[485px]"
+                label={"Financial Data"}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <ChartLine />
+                        <span className="text-main">Financial Data</span>
+                        <span>
+                            We use financial data to train models and identify weak spots in algorithms.
+                        </span>
                     </div>
-                </div>
-            </div>
+                }
+                side="top"
+                align="center"
+                sideOffset={12}
+                className="px-3 py-1.5 text-fg0 text-xs h-auto w-auto"
+
+            />
 
             {/* Panel with frame path */}
             <div className="absolute left-[calc(50%-95px)] top-[399px] z-[5] flex h-[350px] w-[597px] border border-dashed border-zinc-700 px-3 py-2" style={{ opacity: 1, backgroundColor: "rgba(7, 7, 7, 0.8)" }}>
