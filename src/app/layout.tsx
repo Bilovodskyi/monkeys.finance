@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ML Crypto Bot",
+  title: "AlgoSquid",
   description: "Machine Learning Cryptocurrency Trading Bot",
 };
 
