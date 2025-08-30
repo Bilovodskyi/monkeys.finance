@@ -1,6 +1,6 @@
 import HeroBoard from "@/components/hero-animation/HeroAnimation";
 import { CustomButton } from "@/components/CustomButton";
-import HeroSteps from "./HeroSteps";
+import HeroSteps from "./HeroAnimatedSteps";
 import { Github } from "lucide-react";
 import Image from "next/image";
 
