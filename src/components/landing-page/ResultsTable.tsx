@@ -3,19 +3,55 @@
 import { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import SlidingStrategiesTabs from './SlidingStrategiesTabs';
+import { CustomButton } from '../CustomButton';
+import { BacktestPie } from './BacktestPie';
+import { useBacktestStats } from '@/hooks/useBacktestStats';
+import { X } from 'lucide-react';
 
 interface TradeData {
     date: string;
     cashBalance: number;
+    capitalChange: number | null;
     totalEquity: number;
     entryPrice: number;
     positionType: string;
+}
+
+interface TradePair {
+    firstTrade: TradeData;
+    secondTrade: TradeData;
+    totalChange: number;
 }
 
 export function ResultsTable() {
     const [data, setData] = useState<TradeData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [showAllOpen, setShowAllOpen] = useState(false);
+
+    // Function to group trades into pairs
+    const groupTradesIntoPairs = (trades: TradeData[]): TradePair[] => {
+        const pairs: TradePair[] = [];
+
+        // Group every 2 consecutive trades
+        for (let i = 0; i < trades.length - 1; i += 2) {
+            const firstTrade = trades[i];
+            const secondTrade = trades[i + 1];
+
+            if (firstTrade && secondTrade) {
+                // Calculate the total change between the two trades
+                const totalChange = secondTrade.totalEquity - firstTrade.totalEquity;
+
+                pairs.push({
+                    firstTrade,
+                    secondTrade,
+                    totalChange
+                });
+            }
+        }
+
+        return pairs;
+    };
 
     useEffect(() => {
         const loadExcelData = async () => {
@@ -57,11 +93,19 @@ export function ResultsTable() {
                     return {
                         date: dateString,
                         cashBalance: parseFloat(row['cash_balance']) || 0,
+                        capitalChange: null, // Will be calculated after mapping
                         totalEquity: parseFloat(row['total_equity']) || 0,
                         entryPrice: parseFloat(row['entry_price']) || 0,
                         positionType: row['position_type'] || 'Unknown'
                     };
                 });
+
+                // Calculate capital change between consecutive rows
+                for (let i = 2; i < transformedData.length; i++) {
+                    const previousCashBalance = transformedData[i - 1].totalEquity;
+                    const currentCashBalance = transformedData[i].totalEquity;
+                    transformedData[i].capitalChange = currentCashBalance - previousCashBalance;
+                }
 
                 setData(transformedData);
             } catch (err) {
@@ -72,24 +116,27 @@ export function ResultsTable() {
                 const sampleData: TradeData[] = [
                     {
                         date: '2024-08-17',
-                        cashBalance: 10000,
+                        cashBalance: 100000,
+                        capitalChange: null, // First row has no previous row
                         totalEquity: 45230.50,
                         entryPrice: 63500.25,
-                        positionType: 'Long'
+                        positionType: 'Buy'
                     },
                     {
                         date: '2024-08-17',
-                        cashBalance: 9750,
+                        cashBalance: 102000,
+                        capitalChange: 2000, // 102000 - 100000 = +2000
                         totalEquity: 47850.75,
                         entryPrice: 64200.00,
-                        positionType: 'Short'
+                        positionType: 'Sell'
                     },
                     {
                         date: '2024-08-18',
-                        cashBalance: 10250,
+                        cashBalance: 101500,
+                        capitalChange: -500, // 101500 - 102000 = -500
                         totalEquity: 52100.25,
                         entryPrice: 65800.50,
-                        positionType: 'Long'
+                        positionType: 'Buy'
                     }
                 ];
                 setData(sampleData);
@@ -104,7 +151,7 @@ export function ResultsTable() {
     if (loading) {
         return (
             <section className="bg-black border border-zinc-800 rounded-lg p-6 mt-8">
-                <h2 className="text-2xl font-semibold mb-4 text-white">Trading Results</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-white">Backtest Results</h2>
                 <div className="flex items-center justify-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1fd5f9]"></div>
                     <span className="ml-3 text-secondary">Loading trading data...</span>
@@ -113,9 +160,11 @@ export function ResultsTable() {
         );
     }
 
+    const pairs = groupTradesIntoPairs(data.slice(1, 14));
+    const stats = useBacktestStats(data.slice(1));
+
     return (
-        <section className="bg-black p-24 mt-8">
-            <SlidingStrategiesTabs />
+        <section className="bg-black px-24 mt-8">
 
             {error && (
                 <div className="mb-4 p-3 bg-red-900/20 border border-red-600 rounded text-red-400 text-sm">
@@ -123,41 +172,192 @@ export function ResultsTable() {
                 </div>
             )}
 
-            <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                    <thead>
-                        <tr className="border-b border-zinc-700">
-                            <th className="text-left py-3 px-4 font-semibold text-white">Date</th>
-                            <th className="text-right py-3 px-4 font-semibold text-white">Cash Balance</th>
-                            <th className="text-right py-3 px-4 font-semibold text-white">Total Equity</th>
-                            <th className="text-right py-3 px-4 font-semibold text-white">Entry Price</th>
-                            <th className="text-center py-3 px-4 font-semibold text-white">Position Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((row, index) => (
-                            <tr key={index} className="border-b border-zinc-800 hover:bg-zinc-900/50 transition-colors">
-                                <td className="py-3 px-4 text-secondary">{row.date}</td>
-                                <td className="py-3 px-4 text-right text-white">${row.cashBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-                                <td className="py-3 px-4 text-right text-white">${row.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-                                <td className="py-3 px-4 text-right text-white">${row.entryPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-                                <td className="py-3 px-4 text-center">
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${row.positionType.toLowerCase() === 'long'
-                                        ? 'bg-green-900/20 text-green-400 border border-green-600'
-                                        : 'bg-red-900/20 text-red-400 border border-red-600'
-                                        }`}>
-                                        {row.positionType}
-                                    </span>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <div className="flex justify-center h-screen py-24">
 
-            <div className="mt-4 text-xs text-secondary">
-                Showing {data.length} trading records
+                <div className="w-2/3 px-4">
+                    <h2 className='text-2xl mb-6 text-white font-title'>Strategies <span className='text-highlight'>Backtest</span> Results</h2>
+
+                    <div className="space-y-2 pr-2">
+                        {pairs.map((pair, index) => (
+                            <div
+                                key={index}
+                                className={`relative bg-black border border-zinc-800 py-4 px-6`}
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                                    {/* Position Types */}
+                                    <div className="flex gap-2 justify-center md:justify-start">
+                                        {pair.firstTrade.positionType !== 'Unknown' && (
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${pair.firstTrade.positionType.toLowerCase() === 'buy'
+                                                ? 'bg-green-900/20 text-green-400 border border-green-600'
+                                                : 'bg-red-900/20 text-red-400 border border-red-600'
+                                                }`}>
+                                                {pair.firstTrade.positionType}
+                                            </span>
+                                        )}
+                                        {pair.secondTrade.positionType !== 'Unknown' && (
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${pair.secondTrade.positionType.toLowerCase() === 'buy'
+                                                ? 'bg-green-900/20 text-green-400 border border-green-600'
+                                                : 'bg-red-900/20 text-red-400 border border-red-600'
+                                                }`}>
+                                                {pair.secondTrade.positionType}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Dates */}
+                                    <div className="text-center md:text-left">
+                                        <div className="text-sm text-secondary font-medium">{pair.firstTrade.date}</div>
+                                        <div className="text-sm text-secondary">{pair.secondTrade.date}</div>
+                                    </div>
+
+                                    {/* Capital Change */}
+                                    <div className="text-center">
+                                        <div className="text-xs text-gray-400 mb-1">P&L</div>
+                                        <span className={`font-semibold text-lg ${pair.totalChange >= 0
+                                            ? 'text-green-400'
+                                            : 'text-red-400'
+                                            }`}>
+                                            {pair.totalChange >= 0 ? '+' : ''}${pair.totalChange.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                        </span>
+                                    </div>
+
+                                    {/* Total Equity */}
+                                    <div className="text-center">
+                                        <div className="text-xs text-gray-400 mb-1">Total Equity</div>
+                                        <div className="text-xs text-white">${pair.firstTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                        <div className="text-sm text-white font-medium">→ ${pair.secondTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                    </div>
+
+                                    {/* Entry Price */}
+                                    <div className="text-center md:text-right">
+                                        <div className="text-xs text-gray-400 mb-1">Entry Price</div>
+                                        <div className="text-sm text-white font-medium">${pair.firstTrade.entryPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        ))}
+                        <div className='flex justify-center pt-8'>
+                            <CustomButton isBlue={false} onClick={() => setShowAllOpen(true)}>
+                                View all
+                            </CustomButton>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-1/3 h-full overflow-hidden flex flex-col">
+                    <SlidingStrategiesTabs />
+                    <div className='p-8'>
+                        <div className='grid grid-cols-3 grid-rows-2 gap-4 w-full'>
+                            <div className='border border-highlight py-2 px-3 text-white text-center text-sm'>Bitcoin</div>
+                            <div className='border border-zinc-700 py-2 px-3 text-white text-center text-sm'>Ethereum</div>
+                            <div className='border border-zinc-700 py-2 px-3 text-white text-center text-sm'>XRP</div>
+                            <div className='border border-zinc-700 py-2 px-3 text-white text-center text-sm'>Dogecoin</div>
+                            <div className='border border-zinc-700 py-2 px-3 text-white text-center text-sm'>Binance Coin</div>
+                            <div className='border border-zinc-700 py-2 px-3 text-white text-center text-sm'>Solana</div>
+                        </div>
+                    </div>
+                    <div className='flex justify-center gap-8 p-8 w-full'>
+                        <div className='flex gap-4'>
+                            <BacktestPie percentage={Math.round(stats.profitableTradesPct)} />
+                            <div className='flex flex-col gap-1'>
+                                <span>{Math.round(stats.profitableTradesPct)}%</span>
+                                <span className='text-zinc-400 text-sm'>Profitable Trades</span>
+                            </div>
+                        </div>
+
+                        <div className='flex gap-4'>
+                            <BacktestPie percentage={Math.round(stats.capitalChangePct)} />
+                            <div className='flex flex-col gap-1'>
+                                <span>{Math.round(stats.capitalChangePct)}%</span>
+                                <span className='text-zinc-400 text-sm'>Capital Change</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='p-8'>
+                        <div className='mb-2 flex items-center justify-between'>
+                            <span className='text-sm text-zinc-300'>Number of Trades</span>
+                            <span className='text-sm text-zinc-400'>{stats.numTrades}</span>
+                        </div>
+                        <div className='h-1 w-full rounded-full bg-zinc-800 overflow-hidden'>
+                            <div className='h-full bg-[#1fd5f9] rounded-full' style={{ width: '100%' }} />
+                        </div>
+                    </div>
+                    <div className='p-8'>
+                        <div className='mb-2 flex items-center justify-between'>
+                            <span className='text-sm text-zinc-300'>Win Trades</span>
+                            <span className='text-sm text-zinc-400'>{stats.winTradesCount}</span>
+                        </div>
+                        <div className='h-1 w-full rounded-full bg-zinc-800 overflow-hidden'>
+                            <div className='h-full bg-[#1fd5f9] rounded-full' style={{ width: `${Math.round(stats.winPct)}%` }} />
+                        </div>
+                    </div>
+                    <div className='p-8'>
+                        <div className='mb-2 flex items-center justify-between'>
+                            <span className='text-sm text-zinc-300'>Loss Trades</span>
+                            <span className='text-sm text-zinc-400'>{stats.lossTradesCount}</span>
+                        </div>
+                        <div className='h-1 w-full rounded-full bg-zinc-800 overflow-hidden'>
+                            <div className='h-full bg-[#1fd5f9] rounded-full' style={{ width: `${Math.round(stats.lossPct)}%` }} />
+                        </div>
+                    </div>
+                </div>
             </div>
+            {showAllOpen && (
+                <div className="fixed inset-0 z-[100]">
+                    <div className="absolute inset-0 bg-black/60" onClick={() => setShowAllOpen(false)} />
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] bg-[#0C0C0C] border border-zinc-800 rounded-lg px-4 py-6 overflow-y-auto">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-semibold text-white">All Trades</h3>
+                            <button className="text-zinc-400 hover:text-white" onClick={() => setShowAllOpen(false)}><X /></button>
+                        </div>
+                        <div className="space-y-2 pr-2">
+                            {stats.pairs.map((pair, index) => (
+                                <div key={index} className={`relative bg-[#0C0C0C] border border-zinc-800 py-4 px-6`}>
+                                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                                        <div className="flex gap-2 justify-center md:justify-start">
+                                            {pair.firstTrade.positionType !== 'Unknown' && (
+                                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${pair.firstTrade.positionType.toLowerCase() === 'buy'
+                                                    ? 'bg-green-900/20 text-green-400 border border-green-600'
+                                                    : 'bg-red-900/20 text-red-400 border border-red-600'
+                                                    }`}>
+                                                    {pair.firstTrade.positionType}
+                                                </span>
+                                            )}
+                                            {pair.secondTrade.positionType !== 'Unknown' && (
+                                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${pair.secondTrade.positionType.toLowerCase() === 'buy'
+                                                    ? 'bg-green-900/20 text-green-400 border border-green-600'
+                                                    : 'bg-red-900/20 text-red-400 border border-red-600'
+                                                    }`}>
+                                                    {pair.secondTrade.positionType}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="text-center md:text-left">
+                                            <div className="text-sm text-secondary font-medium">{pair.firstTrade.date}</div>
+                                            <div className="text-sm text-secondary">{pair.secondTrade.date}</div>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-xs text-gray-400 mb-1">P&L</div>
+                                            <span className={`font-semibold text-lg ${pair.totalChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                {pair.totalChange >= 0 ? '+' : ''}${pair.totalChange.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                            </span>
+                                        </div>
+                                        <div className="text-center">
+                                            <div className="text-xs text-gray-400 mb-1">Total Equity</div>
+                                            <div className="text-xs text-white">${pair.firstTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                            <div className="text-sm text-white font-medium">→ ${pair.secondTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                        </div>
+                                        <div className="text-center md:text-right">
+                                            <div className="text-xs text-gray-400 mb-1">Entry Price</div>
+                                            <div className="text-sm text-white font-medium">${(pair.firstTrade.entryPrice ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
