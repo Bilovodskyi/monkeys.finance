@@ -62,3 +62,35 @@ body {
 .font-main {
   font-family: var(--font-main);
 }
+
+/* HoverEffectAroundCard animation */
+@keyframes hoverEffectPulse {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  25% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale(1.005);
+  }
+
+  75% {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.01);
+  }
+}
+
+.hover-effect-pulse {
+  animation: hoverEffectPulse .5s cubic-bezier(.4, 0, .2, 1);
+}

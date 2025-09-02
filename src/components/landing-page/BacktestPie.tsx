@@ -9,8 +9,9 @@ export const BacktestPie = ({ percentage = 65 }) => {
 
     // Colors: primary depends on percentage; secondary is dark gray (rest of pie)
     const primaryColor = percentage > 0 ? "#4ade80" /* green-400 */ : "#f87171" /* red-400 */;
+    const primaryColorAlternative = "#fff"
     const secondaryColor = "#1f2937"; // gray-800
-    const COLORS = [primaryColor, secondaryColor];
+    const COLORS = [primaryColorAlternative, secondaryColor];
 
     return (
         <div className="h-16 w-16 shrink-0 flex items-center justify-center relative">

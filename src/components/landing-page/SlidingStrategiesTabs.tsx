@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { GalleryVerticalEnd, ListTodo } from "lucide-react";
 
 const SlidingTabs: React.FC = () => {
     const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
@@ -35,21 +34,21 @@ const SlidingTabs: React.FC = () => {
                 <button
                     ref={rulesRef}
                     onClick={() => setActiveTab("Ribbon")}
-                    className={`cursor-pointer py-3 flex gap-2 transition-colors duration-300 ${activeTab === "Ribbon"
+                    className={`font-title cursor-pointer py-3 flex gap-2 transition-colors duration-300 ${activeTab === "Ribbon"
                         ? "text-white"
                         : "text-neutral-500 hover:text-white"
                         }`}>
-                    <ListTodo />
+
                     Backtesting Ribbon
                 </button>
                 <button
                     ref={historyRef}
                     onClick={() => setActiveTab("ATR")}
-                    className={`cursor-pointer py-3 flex gap-2 transition-colors duration-300 ${activeTab === "ATR"
+                    className={`font-title cursor-pointer py-3 flex gap-2 transition-colors duration-300 ${activeTab === "ATR"
                         ? "text-white"
                         : "text-neutral-500 hover:text-white"
                         }`}>
-                    <GalleryVerticalEnd />
+
                     Backtesting ATR
                 </button>
 
