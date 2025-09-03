@@ -94,3 +94,22 @@ body {
 .hover-effect-pulse {
   animation: hoverEffectPulse .5s cubic-bezier(.4, 0, .2, 1);
 }
+
+/* Rise and fade duplicate container animation */
+@keyframes riseFade {
+
+  /* Cancel parent's rotate(-30deg) and skewX(30deg), move up, then reapply */
+  0% {
+    opacity: 1;
+    transform: skewX(-30deg) rotate(30deg) translateY(0) rotate(-30deg) skewX(30deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: skewX(-30deg) rotate(30deg) translateY(-50px) rotate(-30deg) skewX(30deg);
+  }
+}
+
+.anim-rise-fade {
+  animation: riseFade 2.5s ease-out 0s infinite;
+}

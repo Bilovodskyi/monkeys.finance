@@ -2,6 +2,10 @@
 
 
 import * as React from "react";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import AnimatedContainer from "./AnimatedContainer";
 
 type Props = {
     className?: string;
@@ -9,68 +13,139 @@ type Props = {
 };
 
 const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
-    return (
-        <div style={{ height: "300vh", width: "100vw", ...style }} className={`relative overflow-hidden ${className}`}>
-            <div style={{ transform: "rotate(-30deg) skewX(30deg)", perspective: "1000px", transformStyle: "preserve-3d" }}>
-                <style jsx>{`
-                     @keyframes riseFade {
-                        /* Cancel parent's rotate(-30deg) and skewX(30deg), move up, then reapply */
-                        0% { opacity: 1; transform: skewX(-30deg) rotate(30deg) translateY(0) rotate(-30deg) skewX(30deg); }
-                        100% { opacity: 0; transform: skewX(-30deg) rotate(30deg) translateY(-50px) rotate(-30deg) skewX(30deg); }
-                     }
-                     .anim-rise-fade {
-                         animation: riseFade 2.5s ease-out 0s 3 forwards;
-                     }
-                 `}</style>
+    const sectionOne = useRef<HTMLDivElement>(null);
+    const sectionTwo = useRef<HTMLDivElement>(null);
+    const sectionThree = useRef<HTMLDivElement>(null);
+    const sectionFour = useRef<HTMLDivElement>(null);
+    const containerOne = useRef<HTMLDivElement>(null);
+    const containerTwo = useRef<HTMLDivElement>(null);
+    const containerThree = useRef<HTMLDivElement>(null);
+    const containerFour = useRef<HTMLDivElement>(null);
 
-                {/* Animated shadow clone */}
-                <div
-                    className="absolute left-[95px] top-[399px] z-20 h-[350px] w-[597px] border border-dashed border-zinc-200 pointer-events-none anim-rise-fade"
-                    style={{
-                        backgroundColor: "transparent",
-                        opacity: 1,
-                    }}
+    useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Container One: progress-based animation through sectionOne
+        if (sectionOne.current && containerOne.current) {
+            gsap.fromTo(containerOne.current,
+                { y: -300, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionOne.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1, // smooth scrubbing with 1 second lag
+                    },
+                }
+            );
+        }
+
+        // Container Two: progress-based animation through sectionTwo
+        if (sectionTwo.current && containerTwo.current) {
+            gsap.fromTo(containerTwo.current,
+                { y: -300, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionTwo.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1,
+                    },
+                }
+            );
+        }
+
+        // Container Three: progress-based animation through sectionThree
+        if (sectionThree.current && containerThree.current) {
+            gsap.fromTo(containerThree.current,
+                { y: -300, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionThree.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1,
+                    },
+                }
+            );
+        }
+
+        // Container Four: progress-based animation through sectionFour
+        if (sectionFour.current && containerFour.current) {
+            gsap.fromTo(containerFour.current,
+                { y: -300, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionFour.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1,
+                    },
+                }
+            );
+        }
+
+        return () => {
+            ScrollTrigger.getAll().forEach(t => t.kill());
+        };
+    }, []);
+
+    return (
+        <div style={{ width: "100vw", ...style }} className={`relative ${className}`}>
+            <div ref={sectionOne} className="w-full h-screen sticky top-0 z-30" style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
+
+
+
+                <div>
+                    <h2>Machine Learning Step</h2>
+                    <h2>Backtest Trained Model</h2>
+                </div>
+                <AnimatedContainer
+                    ref={containerOne}
+                    title="Machine Learning step"
+                    className="absolute right-[250px] bottom-[150px]"
+                    showAnimatedClone={true}
+                    showLightSweeps={true}
                 />
 
-                <div className="absolute left-[95px] top-[399px] z-10 flex h-[350px] w-[597px] border border-dashed border-zinc-700 px-3 py-2" style={{ opacity: 1, backgroundColor: "rgba(7, 7, 7, 0.8)" }}>
-                    {/* Light sweeps underneath: bottom and left */}
-                    <div
-                        className="pointer-events-none absolute left-0 bottom-0 h-40 w-full transition-opacity ease-out z-20"
-                        style={{
-                            transform: 'translateY(100%) skewX(-47deg) scaleY(-1)',
-                            transformOrigin: 'center top',
-                            transitionDuration: '1000ms',
-                            background: 'linear-gradient(to bottom, rgb(255,255,255) 0%, rgba(255,255,255,0) 100%)',
-                            opacity: 0.1,
-                        }}
-                    />
-                    <div
-                        className="pointer-events-none absolute left-0 top-0 h-full w-40 transition-opacity ease-out"
-                        style={{
-                            transform: 'translateX(-100%) skewY(-43deg) scaleX(-1)',
-                            transformOrigin: 'right center',
-                            transitionDuration: '1000ms',
-                            background: 'linear-gradient(to left, rgb(255,255,255) 0%, rgba(255,255,255,0) 100%)',
-                            opacity: 0.1,
-                        }}
-                    />
-                    <a
-                        href="/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group h-fit self-start text-fg3 hover:text-cyan-500 hover:underline"
-                    >
-                        <span className="flex gap-1 font-mono text-xs uppercase tracking-widest" style={{ opacity: 1 }}>
-                            Machine Learning step
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 text-fg3 group-hover:text-cyan-500">
-                                <path d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
-                            </svg>
-                        </span>
-                    </a>
+                <AnimatedContainer
+                    ref={containerTwo}
+                    title="Data Processing step"
+                    className="absolute right-[245px] bottom-[165px]"
+                    showLightSweeps={false}
+                />
 
-                </div>
+                <AnimatedContainer
+                    ref={containerThree}
+                    title="Backtesting step"
+                    className="absolute right-[240px] bottom-[180px]"
+                    showAnimatedClone={false}
+                    showLightSweeps={true}
+                />
+
+                <AnimatedContainer
+                    ref={containerFour}
+                    title="Results Analysis"
+                    className="absolute right-[235px] bottom-[195px]"
+                    showLightSweeps={false}
+                />
 
             </div>
+            <div ref={sectionTwo} className="h-screen "></div>
+            <div ref={sectionThree} className="h-screen"></div>
+            <div ref={sectionFour} className="h-screen"></div>
 
         </div>
     );
