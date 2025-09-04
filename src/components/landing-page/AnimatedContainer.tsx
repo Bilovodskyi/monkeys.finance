@@ -26,18 +26,18 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
         return (
             <div
                 ref={ref}
-                className={`z-10 flex h-[350px] w-[597px] border rounded-lg border-dashed border-zinc-700 shadow-[-5px_5px_0px_0px_#3f3f46] px-3 py-2 ${className}`}
+                className={`z-10 flex h-[350px] w-[597px] border rounded-lg border-dashed border-zinc-700 shadow-[-10px_10px_0px_0px_#3f3f46] px-3 py-2 ${className}`}
                 style={{
                     transform: "rotate(-30deg) skewX(30deg)",
                     opacity: 1,
-                    backgroundColor: "rgba(7, 7, 7, 0.8)",
+                    backgroundColor: "rgba(7, 7, 7, 1)",
                     ...style
                 }}
             >
                 {/* Animated container clone */}
                 {showAnimatedClone && (
                     <div
-                        className="absolute left-0 top-0 z-20 h-[350px] w-[597px] border border-dashed border-zinc-200 pointer-events-none anim-rise-fade"
+                        className="absolute rounded-lg left-0 top-0 z-20 h-[350px] w-[597px] border border-dashed border-zinc-200 pointer-events-none anim-rise-fade"
                         style={{
                             backgroundColor: "transparent",
                             opacity: 1,

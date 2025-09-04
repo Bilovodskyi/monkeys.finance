@@ -185,7 +185,7 @@ export function ResultsTable() {
                 <div className="w-2/3 px-4">
                     <div className='w-full flex items-end justify-between'>
                         <div className='flex flex-col gap-2'>
-                            <h2 className='text-2xl text-white font-title'>Strategies <span className='text-highlight'>Backtest</span> Results</h2>
+                            <h2 className='text-3xl text-white font-title'>Strategies <span className='text-highlight'>Backtest</span> Results</h2>
                             <h3 className='text-sm text-secondary'>Without Machine Learning</h3>
                         </div>
                         <h2 className='text-sm text-secondary'>

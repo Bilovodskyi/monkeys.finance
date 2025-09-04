@@ -2,10 +2,11 @@
 
 
 import * as React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedContainer from "./AnimatedContainer";
+import StepProgressDot from "./StepProgressDot";
 
 type Props = {
     className?: string;
@@ -21,6 +22,18 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
     const containerTwo = useRef<HTMLDivElement>(null);
     const containerThree = useRef<HTMLDivElement>(null);
     const containerFour = useRef<HTMLDivElement>(null);
+    const step1Ring = useRef<HTMLDivElement | null>(null);
+    const line1 = useRef<HTMLDivElement>(null);
+    const line2 = useRef<HTMLDivElement>(null);
+    const line3 = useRef<HTMLDivElement>(null);
+
+    // State for managing visual effects
+    const [containerEffects, setContainerEffects] = useState({
+        container1: { showAnimatedClone: false, showLightSweeps: false },
+        container2: { showAnimatedClone: false, showLightSweeps: false },
+        container3: { showAnimatedClone: false, showLightSweeps: false },
+        container4: { showAnimatedClone: false, showLightSweeps: false },
+    });
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -38,9 +51,70 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                         start: "top top",
                         end: "bottom top",
                         scrub: 1, // smooth scrubbing with 1 second lag
+                        onUpdate: (self) => {
+                            // Turn on effects when animation is 90% complete
+                            if (self.progress >= 0.9) {
+                                setContainerEffects(prev => {
+                                    if (!prev.container1.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container1: { showAnimatedClone: true, showLightSweeps: true }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            } else if (self.progress < 0.9) {
+                                // Reset effects when scrolling back
+                                setContainerEffects(prev => {
+                                    if (prev.container1.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container1: { showAnimatedClone: false, showLightSweeps: false }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            }
+                        },
                     },
                 }
             );
+        }
+
+        // Step 1 ring animation tied to sectionOne scroll progress
+        if (sectionOne.current && step1Ring.current) {
+            ScrollTrigger.create({
+                trigger: sectionOne.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+                onUpdate: (self) => {
+                    const cycles = 3; // number of pulses across the section
+                    const t = (self.progress * cycles) % 1; // 0..1 within a cycle
+                    const scale = 1 + 0.7 * t; // grow ring
+                    const opacity = 0.6 * (1 - t); // fade as it grows
+                    gsap.set(step1Ring.current, { scale, opacity, transformOrigin: "50% 50%" });
+                },
+            });
+        }
+
+        // Line animations - appear after their respective container animations finish
+        if (line1.current) {
+            gsap.set(line1.current, { scaleY: 0, transformOrigin: "top" });
+            ScrollTrigger.create({
+                trigger: sectionOne.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Line appears instantly when container one animation finishes (90% progress)
+                    if (self.progress >= 0.9) {
+                        gsap.set(line1.current, { scaleY: 1 });
+                    } else {
+                        gsap.set(line1.current, { scaleY: 0 });
+                    }
+                },
+            });
         }
 
         // Container Two: progress-based animation through sectionTwo
@@ -56,9 +130,55 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                         start: "top top",
                         end: "bottom top",
                         scrub: 1,
+                        onUpdate: (self) => {
+                            // Turn off effects for container 1, turn on for container 2 when 90% complete
+                            if (self.progress >= 0.9) {
+                                setContainerEffects(prev => {
+                                    if (!prev.container2.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container1: { showAnimatedClone: false, showLightSweeps: false },
+                                            container2: { showAnimatedClone: true, showLightSweeps: true }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            } else if (self.progress < 0.9) {
+                                // Reset to previous state when scrolling back
+                                setContainerEffects(prev => {
+                                    if (prev.container2.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container1: { showAnimatedClone: true, showLightSweeps: true },
+                                            container2: { showAnimatedClone: false, showLightSweeps: false }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            }
+                        },
                     },
                 }
             );
+        }
+
+        // Line 2 animation - appears after container two animation finishes
+        if (line2.current) {
+            gsap.set(line2.current, { scaleY: 0, transformOrigin: "top" });
+            ScrollTrigger.create({
+                trigger: sectionTwo.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Line appears instantly when container two animation finishes (90% progress)
+                    if (self.progress >= 0.9) {
+                        gsap.set(line2.current, { scaleY: 1 });
+                    } else {
+                        gsap.set(line2.current, { scaleY: 0 });
+                    }
+                },
+            });
         }
 
         // Container Three: progress-based animation through sectionThree
@@ -74,9 +194,55 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                         start: "top top",
                         end: "bottom top",
                         scrub: 1,
+                        onUpdate: (self) => {
+                            // Turn off effects for container 2, turn on for container 3 when 90% complete
+                            if (self.progress >= 0.9) {
+                                setContainerEffects(prev => {
+                                    if (!prev.container3.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container2: { showAnimatedClone: false, showLightSweeps: false },
+                                            container3: { showAnimatedClone: true, showLightSweeps: true }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            } else if (self.progress < 0.9) {
+                                // Reset to previous state when scrolling back
+                                setContainerEffects(prev => {
+                                    if (prev.container3.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container2: { showAnimatedClone: true, showLightSweeps: true },
+                                            container3: { showAnimatedClone: false, showLightSweeps: false }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            }
+                        },
                     },
                 }
             );
+        }
+
+        // Line 3 animation - appears after container three animation finishes
+        if (line3.current) {
+            gsap.set(line3.current, { scaleY: 0, transformOrigin: "top" });
+            ScrollTrigger.create({
+                trigger: sectionThree.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Line appears instantly when container three animation finishes (90% progress)
+                    if (self.progress >= 0.9) {
+                        gsap.set(line3.current, { scaleY: 1 });
+                    } else {
+                        gsap.set(line3.current, { scaleY: 0 });
+                    }
+                },
+            });
         }
 
         // Container Four: progress-based animation through sectionFour
@@ -90,8 +256,35 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     scrollTrigger: {
                         trigger: sectionFour.current,
                         start: "top top",
-                        end: "bottom top",
+                        end: "bottom-=300px top",
                         scrub: 1,
+                        onUpdate: (self) => {
+                            // Turn off effects for container 3, turn on for container 4 when 90% complete
+                            if (self.progress >= 0.9) {
+                                setContainerEffects(prev => {
+                                    if (!prev.container4.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container3: { showAnimatedClone: false, showLightSweeps: false },
+                                            container4: { showAnimatedClone: true, showLightSweeps: true }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            } else if (self.progress < 0.9) {
+                                // Reset to previous state when scrolling back
+                                setContainerEffects(prev => {
+                                    if (prev.container4.showAnimatedClone) {
+                                        return {
+                                            ...prev,
+                                            container3: { showAnimatedClone: true, showLightSweeps: true },
+                                            container4: { showAnimatedClone: false, showLightSweeps: false }
+                                        };
+                                    }
+                                    return prev;
+                                });
+                            }
+                        },
                     },
                 }
             );
@@ -104,42 +297,89 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
     return (
         <div style={{ width: "100vw", ...style }} className={`relative ${className}`}>
-            <div ref={sectionOne} className="w-full h-screen sticky top-0 z-30" style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
+            <div ref={sectionOne} className="w-full h-screen sticky top-0 z-30 overflow-hidden" style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
+                <div className="h-screen flex flex-col gap-4 justify-center pl-24 w-1/3">
+                    <h2 className='text-3xl text-white font-title pb-8'>How to <span className='text-highlight'>Start</span></h2>
 
+                    <ul className="space-y-8 text-secondary text-lg">
 
+                        <li className="flex items-center gap-4 relative">
+                            <StepProgressDot triggerRef={sectionOne} label={1} size={28} />
+                            <div ref={line1} className="w-[1px] h-28 bg-highlight absolute left-4 top-14"></div>
+                            <div className="flex flex-col gap-2">
 
-                <div>
-                    <h2>Machine Learning Step</h2>
-                    <h2>Backtest Trained Model</h2>
+                                <h2>Log in or create an account to get started</h2>
+                                <p className="text-secondary text-sm">
+                                    Create a secure account to unlock every tool. We protect your information with industry-standard encryption and strict access controls, so your data stays private while you work.
+                                </p>
+                            </div>
+                        </li>
+                        <li className="flex items-center gap-4 relative">
+                            <StepProgressDot triggerRef={sectionTwo} label={2} size={28} />
+                            <div ref={line2} className="w-[1px] h-28 bg-highlight absolute left-4 top-14"></div>
+
+                            <div className="flex flex-col gap-2">
+
+                                <h2>Pick algorithm and cryptocurrency to trade</h2>
+                                <p className="text-secondary text-sm">
+                                    Pick an algorithm, then a cryptocurrency, and backtest the pair. You’re free to explore as many combinations as you like to find the most profitable one.
+                                </p>
+                            </div>
+                        </li>
+                        <li className="flex items-center gap-4 relative">
+                            <StepProgressDot triggerRef={sectionThree} label={3} size={28} />
+                            <div ref={line3} className="w-[1px] h-28 bg-highlight absolute left-4 top-14"></div>
+
+                            <div className="flex flex-col gap-2">
+
+                                <h2>Connect to your crypto exchange</h2>
+                                <p className="text-secondary text-sm">
+                                    We support the most popular crypto exchanges and are working on adding even more. You can also generate signals and trade on your own.
+                                </p>
+                            </div>
+                        </li>
+                        <li className="flex items-center gap-4">
+                            <StepProgressDot triggerRef={sectionFour} label={4} size={28} endOffset={200} />
+                            <div className="flex flex-col gap-2">
+
+                                <h2>Trading bot will trade for you automatically</h2>
+                                <p className="text-secondary text-sm">
+                                    Our trading bot will trade for you automatically. You can set the parameters and let it trade for you. 24/7 without breaks and mistakes.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <AnimatedContainer
                     ref={containerOne}
-                    title="Machine Learning step"
-                    className="absolute right-[250px] bottom-[150px]"
-                    showAnimatedClone={true}
-                    showLightSweeps={true}
+                    title="Log in or create an account"
+                    className="absolute right-[250px] bottom-[200px]"
+                    showAnimatedClone={containerEffects.container1.showAnimatedClone}
+                    showLightSweeps={containerEffects.container1.showLightSweeps}
                 />
 
                 <AnimatedContainer
                     ref={containerTwo}
-                    title="Data Processing step"
-                    className="absolute right-[245px] bottom-[165px]"
-                    showLightSweeps={false}
+                    title="Pick algorithm and instrument"
+                    className="absolute right-[245px] bottom-[220px]"
+                    showAnimatedClone={containerEffects.container2.showAnimatedClone}
+                    showLightSweeps={containerEffects.container2.showLightSweeps}
                 />
 
                 <AnimatedContainer
                     ref={containerThree}
-                    title="Backtesting step"
-                    className="absolute right-[240px] bottom-[180px]"
-                    showAnimatedClone={false}
-                    showLightSweeps={true}
+                    title="Connect to crypto exchange"
+                    className="absolute right-[240px] bottom-[240px]"
+                    showAnimatedClone={containerEffects.container3.showAnimatedClone}
+                    showLightSweeps={containerEffects.container3.showLightSweeps}
                 />
 
                 <AnimatedContainer
                     ref={containerFour}
-                    title="Results Analysis"
-                    className="absolute right-[235px] bottom-[195px]"
-                    showLightSweeps={false}
+                    title="You all set! Now bot will trade for you"
+                    className="absolute right-[235px] bottom-[260px]"
+                    showAnimatedClone={containerEffects.container4.showAnimatedClone}
+                    showLightSweeps={containerEffects.container4.showLightSweeps}
                 />
 
             </div>
