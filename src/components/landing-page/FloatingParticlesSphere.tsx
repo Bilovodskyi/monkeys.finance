@@ -24,9 +24,13 @@ function fibonacciSpherePoints(count = 5000, radius = 1) {
         const x = Math.cos(phi) * r;
         const z = Math.sin(phi) * r;
 
-        pts[i * 3 + 0] = x * radius;
-        pts[i * 3 + 1] = y * radius;
-        pts[i * 3 + 2] = z * radius;
+        // Distribute particles throughout entire sphere volume
+        // Use cube root for uniform volume distribution (not surface bias)
+        const randomRadius = radius * Math.pow(Math.random(), 1 / 3);
+
+        pts[i * 3 + 0] = x * randomRadius;
+        pts[i * 3 + 1] = y * randomRadius;
+        pts[i * 3 + 2] = z * randomRadius;
 
         // speed: much slower for subtle movement
         speeds[i] = 0.2 + Math.random() * 0.2;
@@ -100,7 +104,7 @@ const vertexShader = `
 
     // perspective-correct size with very small, high-quality particles
     float dist = length((modelViewMatrix * vec4(p, 1.0)).xyz);
-    float size = 0.4 / dist; // 2x smaller particles for ultra-premium quality
+    float size = 0.2 / dist; // 2x smaller particles for ultra-premium quality
     
     // Enhanced distance-based alpha with better falloff
     vAlpha = clamp(3.5 / dist, 0.1, 1.0);
@@ -118,22 +122,15 @@ const fragmentShader = `
   varying float vAlpha;
   varying vec3 vColor;
   void main(){
-    // Ultra-high quality micro particles with perfect circles
+    // Create solid circular particles
     vec2 uv = gl_PointCoord - 0.5;
     float r = length(uv);
     
-    // Perfect circular mask with premium antialiasing
-    float mask = 1.0 - smoothstep(0.25, 0.5, r);
+    // Sharp circular mask - solid inside, transparent outside
+    float mask = step(r, 0.5);
     
-    // Enhanced radial gradient for depth and quality - gentle to preserve colors
-    float brightness = pow(1.0 - r * 2.0, 1.2);
-    brightness = clamp(brightness, 0.6, 1.0); // High minimum to preserve color distinction
-    
-    // Very subtle core highlight to maintain premium look without washing out colors
-    float core = exp(-r * 6.0) * 0.15;
-    
-    // Apply brightness while preserving color identity
-    vec3 finalColor = vColor * brightness + vColor * core;
+    // Use the color as-is without any gradients or brightness modifications
+    vec3 finalColor = vColor;
     
     gl_FragColor = vec4(finalColor, vAlpha * mask);
   }
@@ -176,7 +173,15 @@ function ParticleSphere({ count = 6000, baseRadius = 1 }) {
 }
 
 // ---------- Scroll Scene Wrapper
-function Scene() {
+interface SceneProps {
+    sectionOneRef: React.RefObject<HTMLDivElement | null>;
+    sectionTwoRef: React.RefObject<HTMLDivElement | null>;
+    insideTextRef: React.RefObject<HTMLDivElement | null>;
+    sphereTitleRef: React.RefObject<HTMLHeadingElement | null>;
+    sphereDescriptionRef: React.RefObject<HTMLParagraphElement | null>;
+}
+
+function Scene({ sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sphereDescriptionRef }: SceneProps) {
     const group = useRef<THREE.Group>(null);
     const { camera } = useThree();
 
@@ -187,72 +192,140 @@ function Scene() {
         camera.position.set(0, 0, 6);
         camera.lookAt(0, 0, 0);
 
-        const tl = gsap.timeline({
-            defaults: { ease: "power2.out" },
-            scrollTrigger: {
-                trigger: "#scroll-stage",
-                start: "top top",
-                end: "+=2000", // longer scroll area for slower zoom-in animation
-                scrub: true,
-                pin: true,
-            },
-        });
+        if (!sectionOneRef.current || !sectionTwoRef.current || !group.current ||
+            !insideTextRef.current || !sphereTitleRef.current || !sphereDescriptionRef.current) return;
 
-        // 1) Grow sphere 
-        tl.to(group.current!.scale, { x: 8, y: 8, z: 8, duration: 5 }, 0);
+        // 1) Sphere scale animation (Section 1 + half of Section 2 = 1.5 sections)
+        gsap.fromTo(group.current.scale,
+            { x: 0.4, y: 0.4, z: 0.4 },
+            {
+                x: 8, y: 8, z: 8,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionOneRef.current,
+                    start: "top top",
+                    end: () => `+=${sectionOneRef.current!.offsetHeight + sectionTwoRef.current!.offsetHeight * 0.5}`,
+                    scrub: 1,
+                }
+            }
+        );
 
-        // 2) Move camera forward into the sphere
-        tl.to(camera.position, { z: 0.5, duration: 5 }, 0.4);
+        // 2) Camera zoom animation (Section 1 + half of Section 2 = 1.5 sections)
+        gsap.fromTo(camera.position,
+            { z: 6 },
+            {
+                z: 0.5,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionOneRef.current,
+                    start: "top bottom",
+                    end: () => `+=${sectionOneRef.current!.offsetHeight + sectionTwoRef.current!.offsetHeight * 0.5}`,
+                    scrub: 1,
+                }
+            }
+        );
 
-        // 3) Drift camera slightly for parallax feel
-        tl.to(camera.position, { x: 0.6, y: -0.3, duration: 0.8 }, 0.8);
+        // 3) Text container show (last half of Section 2)
+        gsap.fromTo(insideTextRef.current,
+            { opacity: 0 },
+            {
+                opacity: 1,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionTwoRef.current,
+                    start: "40% bottom",
+                    end: "45% bottom",
+                    scrub: 1,
+                }
+            }
+        );
 
-        // 4) Optional: fade in text when inside (show much sooner)
-        tl.to("#inside-text", { autoAlpha: 1, y: 0, duration: 0.6 }, 1);
+        // 4) Title animation (last half of Section 2)
+        gsap.fromTo(sphereTitleRef.current,
+            { opacity: 0, y: 32, scale: 0.95 },
+            {
+                opacity: 1, y: 0, scale: 1,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionTwoRef.current,
+                    start: "45% bottom",
+                    end: "50% bottom",
+                    scrub: 1,
+                }
+            }
+        );
+
+        // 5) Description animation (last half of Section 2)
+        gsap.fromTo(sphereDescriptionRef.current,
+            { opacity: 0, y: 24, filter: "blur(4px)" },
+            {
+                opacity: 1, y: 0, filter: "blur(0px)",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionTwoRef.current,
+                    start: "50% bottom",
+                    end: "55% bottom",
+                    scrub: 1,
+                }
+            }
+        );
+
 
         return () => {
-            tl.scrollTrigger && tl.scrollTrigger.kill();
-            tl.kill();
+            ScrollTrigger.getAll().forEach(t => t.kill());
         };
-    }, [camera]);
+    }, [camera, sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sphereDescriptionRef]);
 
     return (
-        <group ref={group} scale={[0.05, 0.05, 0.05]}>
-            <ParticleSphere count={24000} baseRadius={1} />
-            {/* optional faint core glow */}
-            <mesh>
-                <sphereGeometry args={[0.15, 16, 16]} />
-                <meshBasicMaterial color="#000" transparent opacity={0.05} />
-            </mesh>
+        <group ref={group} scale={[0.4, 0.4, 0.4]}>
+            <ParticleSphere count={28000} baseRadius={1} />
         </group>
     );
 }
 
-// ---------- Page Scaffolding
+// ---------- Page Scaffolding  
 export default function ParticleSphereScroll() {
+    // Refs for scroll sections
+    const sectionOneRef = useRef<HTMLDivElement>(null);
+    const sectionTwoRef = useRef<HTMLDivElement>(null);
+
+    // Refs for text elements
+    const insideTextRef = useRef<HTMLDivElement>(null);
+    const sphereTitleRef = useRef<HTMLHeadingElement>(null);
+    const sphereDescriptionRef = useRef<HTMLParagraphElement>(null);
+
     return (
         <div className="relative w-full bg-black text-white">
             {/* Scroll stage pinned during the animation */}
-            <section id="scroll-stage" className="sticky top-0 h-screen w-full">
+            <section ref={sectionOneRef} className="bg-green-500 sticky top-0 h-screen w-full">
                 <Canvas camera={{ fov: 60, near: 0.1, far: 100 }} gl={{ antialias: true, powerPreference: "high-performance" }}>
                     <color attach="background" args={[0x000000]} />
                     <fog attach="fog" args={[0x000000, 5, 50]} />
 
-                    <Scene />
+                    <Scene
+                        sectionOneRef={sectionOneRef}
+                        sectionTwoRef={sectionTwoRef}
+                        insideTextRef={insideTextRef}
+                        sphereTitleRef={sphereTitleRef}
+                        sphereDescriptionRef={sphereDescriptionRef}
+                    />
                 </Canvas>
 
                 {/* Inside-sphere CTA/Text */}
-                <div id="inside-text" className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 translate-y-6">
+                <div ref={insideTextRef} className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0">
                     <div className="mx-auto max-w-2xl text-center px-6">
-                        <h2 className="text-3xl md:text-5xl font-light tracking-tight">
+                        <h2 ref={sphereTitleRef} className="text-3xl md:text-5xl font-light tracking-tight opacity-0 translate-y-8 scale-95">
                             Bring ML to your trading
                         </h2>
-                        <p className="mt-4 text-white/70">
+                        <p ref={sphereDescriptionRef} className="mt-4 text-white/70 opacity-0 translate-y-6 blur-sm">
                             Our Machine Learning models are trained on thousands of trades to boost algorithm performance.
                         </p>
                     </div>
                 </div>
             </section>
+
+            {/* Hidden scroll sections for tracking scroll progress */}
+            <div ref={sectionTwoRef} className="h-screen bg-red-500"></div>
         </div>
     );
 }
