@@ -1,6 +1,7 @@
 "use client"
 
 import React, { forwardRef } from "react";
+import LedGridFlicker from "./LedGridAnimation";
 
 interface AnimatedContainerProps {
     title: string;
@@ -34,6 +35,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     ...style
                 }}
             >
+                <LedGridFlicker rows={100} cols={180} activeTarget={200} className="absolute left-0 top-0 z-20 h-[350px] w-[597px]" />
                 {/* Animated container clone */}
                 {showAnimatedClone && (
                     <div
@@ -103,7 +105,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group h-fit self-start text-fg3 hover:text-cyan-500 hover:underline"
+                    className="group h-fit self-start hover:text-cyan-500 hover:underline z-30"
                 >
                     <span className="flex gap-1 font-mono text-xs uppercase tracking-widest" style={{ opacity: 1 }}>
                         {title}
@@ -113,7 +115,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                                 {subtitle}
                             </>
                         )}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 text-fg3 group-hover:text-cyan-500">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 group-hover:text-cyan-500">
                             <path d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
                         </svg>
                     </span>

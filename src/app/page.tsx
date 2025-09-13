@@ -1,6 +1,6 @@
 import { HeroSection } from "@/components/landing-page/HeroSection";
 import { ResultsTable } from "@/components/landing-page/ResultsTable";
-import HowItWorksSkewStack from "@/components/landing-page/test";
+import HowItWorksSkewStack from "@/components/landing-page/HowItWorksSection";
 import ParticleSphereScroll from "@/components/landing-page/FloatingParticlesSphere";
 
 export default function Home() {
