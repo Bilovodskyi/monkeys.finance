@@ -35,7 +35,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     ...style
                 }}
             >
-                <LedGridFlicker rows={100} cols={180} activeTarget={200} className="absolute left-0 top-0 z-20 h-[350px] w-[597px]" />
+                <LedGridFlicker rows={117} cols={200} activeTarget={800} className="absolute left-0 top-0 z-20 h-[350px] w-[597px]" />
                 {/* Animated container clone */}
                 {showAnimatedClone && (
                     <div

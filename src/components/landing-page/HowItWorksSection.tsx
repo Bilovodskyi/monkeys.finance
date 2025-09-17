@@ -35,8 +35,49 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
         container4: { showAnimatedClone: false, showLightSweeps: false },
     });
 
+    // Track which step is currently active in the viewport
+    const [activeStep, setActiveStep] = useState<number>(1);
+
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
+
+        // Active step highlight triggers
+        if (sectionOne.current) {
+            ScrollTrigger.create({
+                trigger: sectionOne.current,
+                start: "top top",
+                end: "bottom top",
+                onEnter: () => setActiveStep(1),
+                onEnterBack: () => setActiveStep(1),
+            });
+        }
+        if (sectionTwo.current) {
+            ScrollTrigger.create({
+                trigger: sectionTwo.current,
+                start: "top top",
+                end: "bottom top",
+                onEnter: () => setActiveStep(2),
+                onEnterBack: () => setActiveStep(2),
+            });
+        }
+        if (sectionThree.current) {
+            ScrollTrigger.create({
+                trigger: sectionThree.current,
+                start: "top top",
+                end: "bottom top",
+                onEnter: () => setActiveStep(3),
+                onEnterBack: () => setActiveStep(3),
+            });
+        }
+        if (sectionFour.current) {
+            ScrollTrigger.create({
+                trigger: sectionFour.current,
+                start: "top top",
+                end: "bottom top",
+                onEnter: () => setActiveStep(4),
+                onEnterBack: () => setActiveStep(4),
+            });
+        }
 
         // Container One: progress-based animation through sectionOne
         if (sectionOne.current && containerOne.current) {
@@ -308,7 +349,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <div ref={line1} className="w-[1px] h-28 bg-highlight absolute left-4 top-14"></div>
                             <div className="flex flex-col gap-2">
 
-                                <h2>Log in or create an account to get started</h2>
+                                <h2 className={`${activeStep === 1 ? "text-white" : "text-secondary"} transition-colors`}>Log in or create an account to get started</h2>
                                 <p className="text-secondary text-sm">
                                     Create a secure account to unlock every tool. We protect your information with industry-standard encryption and strict access controls, so your data stays private while you work.
                                 </p>
@@ -320,7 +361,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
                             <div className="flex flex-col gap-2">
 
-                                <h2>Pick algorithm and cryptocurrency to trade</h2>
+                                <h2 className={`${activeStep === 2 ? "text-white" : "text-secondary"} transition-colors`}>Pick algorithm and cryptocurrency to trade</h2>
                                 <p className="text-secondary text-sm">
                                     Pick an algorithm, then a cryptocurrency, and backtest the pair. You’re free to explore as many combinations as you like to find the most profitable one.
                                 </p>
@@ -332,7 +373,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
                             <div className="flex flex-col gap-2">
 
-                                <h2>Connect to your crypto exchange</h2>
+                                <h2 className={`${activeStep === 3 ? "text-white" : "text-secondary"} transition-colors`}>Connect to your crypto exchange</h2>
                                 <p className="text-secondary text-sm">
                                     We support the most popular crypto exchanges and are working on adding even more. You can also generate signals and trade on your own.
                                 </p>
@@ -342,7 +383,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <StepProgressDot triggerRef={sectionFour} label={4} size={28} endOffset={200} />
                             <div className="flex flex-col gap-2">
 
-                                <h2>Trading bot will trade for you automatically</h2>
+                                <h2 className={`${activeStep === 4 ? "text-white" : "text-secondary"} transition-colors`}>Trading bot will trade for you automatically</h2>
                                 <p className="text-secondary text-sm">
                                     Our trading bot will trade for you automatically. You can set the parameters and let it trade for you. 24/7 without breaks and mistakes.
                                 </p>

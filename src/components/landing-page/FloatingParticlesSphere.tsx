@@ -131,9 +131,9 @@ const vertexShader = `
     float angle = uTime * aSpeed * 0.05 * step(0.999, k); // drift only when done
     p = rotation3d(aAxis, angle) * p;
 
-    // perspective-correct size with very small, high-quality particles
+    // perspective-correct size with slightly larger particles
     float dist = length((modelViewMatrix * vec4(p, 1.0)).xyz);
-    float size = 0.2 / dist; // 2x smaller particles for ultra-premium quality
+    float size = 0.25 / dist;
     
     // Enhanced distance-based alpha with better falloff, fade in with assembly
     float baseAlpha = clamp(3.5 / dist, 0.1, 1.0);
@@ -145,7 +145,7 @@ const vertexShader = `
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
     // Grow size from 0 to full during assembly to avoid popping in from nowhere
-    float baseSize = max(size * 30.0, 0.5);
+    float baseSize = max(size * 36.0, 0.9);
     float sizeEase = smoothstep(0.0, 0.35, k);
     gl_PointSize = baseSize * sizeEase;
   }
@@ -171,7 +171,7 @@ const fragmentShader = `
 `;
 
 // ---------- Points Mesh
-function ParticleSphere({ count = 6000, baseRadius = 1, assembleProgressRef }: { count?: number; baseRadius?: number; assembleProgressRef?: React.MutableRefObject<number> }) {
+function ParticleSphere({ count = 5000, baseRadius = 1, assembleProgressRef }: { count?: number; baseRadius?: number; assembleProgressRef?: React.MutableRefObject<number> }) {
     const materialRef = useRef<THREE.ShaderMaterial>(null);
     const { pts, speeds, axes, colors, starts, assembleSpeed, assembleDelay } = useMemo(() => fibonacciSpherePoints(count, baseRadius), [count, baseRadius]);
 
@@ -216,12 +216,13 @@ function ParticleSphere({ count = 6000, baseRadius = 1, assembleProgressRef }: {
 interface SceneProps {
     sectionOneRef: React.RefObject<HTMLDivElement | null>;
     sectionTwoRef: React.RefObject<HTMLDivElement | null>;
+    sectionThreeRef: React.RefObject<HTMLDivElement | null>;
     insideTextRef: React.RefObject<HTMLDivElement | null>;
     sphereTitleRef: React.RefObject<HTMLHeadingElement | null>;
     sphereDescriptionRef: React.RefObject<HTMLParagraphElement | null>;
 }
 
-function Scene({ sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sphereDescriptionRef }: SceneProps) {
+function Scene({ sectionOneRef, sectionTwoRef, sectionThreeRef, insideTextRef, sphereTitleRef, sphereDescriptionRef }: SceneProps) {
     const group = useRef<THREE.Group>(null);
     const { camera } = useThree();
     const assembleProgress = useRef(0);
@@ -233,34 +234,34 @@ function Scene({ sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sp
         camera.position.set(0, 0, 6);
         camera.lookAt(0, 0, 0);
 
-        if (!sectionOneRef.current || !sectionTwoRef.current || !group.current ||
+        if (!sectionOneRef.current || !sectionTwoRef.current || !sectionThreeRef.current || !group.current ||
             !insideTextRef.current || !sphereTitleRef.current || !sphereDescriptionRef.current) return;
 
-        // 1) Sphere scale animation (Section 1 + half of Section 2 = 1.5 sections)
+        // 1) Sphere scale animation (only during Section 1)
         gsap.fromTo(group.current.scale,
-            { x: 0.4, y: 0.4, z: 0.4 },
+            { x: 0.8, y: 0.8, z: 0.8 },
             {
                 x: 8, y: 8, z: 8,
                 ease: "none",
                 scrollTrigger: {
-                    trigger: sectionOneRef.current,
+                    trigger: sectionTwoRef.current,
                     start: "top top",
-                    end: () => `+=${sectionOneRef.current!.offsetHeight + sectionTwoRef.current!.offsetHeight * 0.5}`,
+                    end: () => `+=${sectionTwoRef.current!.offsetHeight + sectionThreeRef.current!.offsetHeight * 0.5}`,
                     scrub: 1,
                 }
             }
         );
 
-        // 2) Camera zoom animation (Section 1 + half of Section 2 = 1.5 sections)
+        // 2) Camera zoom animation (start on Section 2, extend into half of Section 3)
         gsap.fromTo(camera.position,
             { z: 6 },
             {
                 z: 0.5,
                 ease: "none",
                 scrollTrigger: {
-                    trigger: sectionOneRef.current,
+                    trigger: sectionTwoRef.current,
                     start: "top bottom",
-                    end: () => `+=${sectionOneRef.current!.offsetHeight + sectionTwoRef.current!.offsetHeight * 0.5}`,
+                    end: () => `+=${sectionTwoRef.current!.offsetHeight + sectionThreeRef.current!.offsetHeight * 0.5}`,
                     scrub: 1,
                 }
             }
@@ -285,7 +286,7 @@ function Scene({ sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sp
                 opacity: 1,
                 ease: "none",
                 scrollTrigger: {
-                    trigger: sectionTwoRef.current,
+                    trigger: sectionThreeRef.current,
                     start: "40% bottom",
                     end: "45% bottom",
                     scrub: 1,
@@ -300,7 +301,7 @@ function Scene({ sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sp
                 opacity: 1, y: 0, scale: 1,
                 ease: "none",
                 scrollTrigger: {
-                    trigger: sectionTwoRef.current,
+                    trigger: sectionThreeRef.current,
                     start: "45% bottom",
                     end: "50% bottom",
                     scrub: 1,
@@ -315,7 +316,7 @@ function Scene({ sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sp
                 opacity: 1, y: 0, filter: "blur(0px)",
                 ease: "none",
                 scrollTrigger: {
-                    trigger: sectionTwoRef.current,
+                    trigger: sectionThreeRef.current,
                     start: "50% bottom",
                     end: "55% bottom",
                     scrub: 1,
@@ -330,8 +331,8 @@ function Scene({ sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sp
     }, [camera, sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sphereDescriptionRef]);
 
     return (
-        <group ref={group} scale={[0.4, 0.4, 0.4]}>
-            <ParticleSphere count={28000} baseRadius={1} assembleProgressRef={assembleProgress} />
+        <group ref={group} scale={[0.8, 0.8, 0.8]}>
+            <ParticleSphere count={35000} baseRadius={1} assembleProgressRef={assembleProgress} />
         </group>
     );
 }
@@ -341,6 +342,7 @@ export default function ParticleSphereScroll() {
     // Refs for scroll sections
     const sectionOneRef = useRef<HTMLDivElement>(null);
     const sectionTwoRef = useRef<HTMLDivElement>(null);
+    const sectionThreeRef = useRef<HTMLDivElement>(null);
 
     // Refs for text elements
     const insideTextRef = useRef<HTMLDivElement>(null);
@@ -355,13 +357,7 @@ export default function ParticleSphereScroll() {
                     <color attach="background" args={[0x000000]} />
                     <fog attach="fog" args={[0x000000, 5, 50]} />
 
-                    <Scene
-                        sectionOneRef={sectionOneRef}
-                        sectionTwoRef={sectionTwoRef}
-                        insideTextRef={insideTextRef}
-                        sphereTitleRef={sphereTitleRef}
-                        sphereDescriptionRef={sphereDescriptionRef}
-                    />
+                    <Scene sectionOneRef={sectionOneRef} sectionTwoRef={sectionTwoRef} sectionThreeRef={sectionThreeRef} insideTextRef={insideTextRef} sphereTitleRef={sphereTitleRef} sphereDescriptionRef={sphereDescriptionRef} />
                 </Canvas>
 
                 {/* Inside-sphere CTA/Text */}
@@ -379,6 +375,7 @@ export default function ParticleSphereScroll() {
 
             {/* Hidden scroll sections for tracking scroll progress */}
             <div ref={sectionTwoRef} className="h-screen bg-red-500"></div>
+            <div ref={sectionThreeRef} className="h-screen bg-blue-500"></div>
         </div>
     );
 }

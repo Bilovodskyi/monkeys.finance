@@ -11,7 +11,7 @@
 :root {
   /* Color system */
   --main-text: #ffffff;
-  --secondary-text: rgb(204, 204, 204);
+  --secondary-text: rgba(204, 204, 204, 0.851);
   --highlight-text: rgb(31, 213, 249);
   --main-background: #000000;
   --lk-color-cyan: rgb(6, 182, 212);

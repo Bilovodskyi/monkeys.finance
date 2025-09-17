@@ -11,10 +11,12 @@ export default function LedGridFlickerWrapper({
     cols = 80,
     activeTarget = 50,
     holdSec = 4,
-    cell = { w: 0.14, h: 0.14, gap: 0.03 },
+    cell = { w: 0.24, h: 0.24, gap: 0.12 },
     baseColors = ["#000"],
     dimColor = "#121314", // single dim color
     brightColor = "#2e3033", // single bright color
+    // dimColor = "#2e3033", // single dim color
+    // brightColor = "#6e737a", // single bright color
 }: {
     className?: string;
     style?: React.CSSProperties;
@@ -71,7 +73,7 @@ function GridFlicker({
         const totalW = cols * cell.w + (cols - 1) * cell.gap;
         const totalH = rows * cell.h + (rows - 1) * cell.gap;
 
-        const scale = Math.min(visibleW / totalW, visibleH / totalH) * 0.98; // small padding
+        const scale = Math.min(visibleW / totalW, visibleH / totalH) * 1.002; // slight overscan to avoid edge gaps
 
         return {
             w: cell.w * scale,
@@ -119,22 +121,8 @@ function GridFlicker({
             }
         }
 
-        // Initialize with activeTarget bright cells so it never starts empty
-        // Avoid double-run (e.g., StrictMode) with guard
+        // Fill entire grid with dim color on start; no pre-bright cells
         if (!didInit.current) {
-            let activated = 0;
-            const picked = new Set<number>();
-            while (activated < Math.min(activeTarget, count) && picked.size < count) {
-                const idx = Math.floor(Math.random() * count);
-                if (picked.has(idx)) continue;
-                picked.add(idx);
-
-                isActive[idx] = 1;
-                const dur = holdSec * (0.85 + Math.random() * 0.4);
-                activeUntil[idx] = dur; // since clock starts at 0
-                meshRef.current.setColorAt(idx, brightTone);
-                activated++;
-            }
             didInit.current = true;
         }
 
@@ -147,24 +135,21 @@ function GridFlicker({
         const t = state.clock.getElapsedTime();
         if (!meshRef.current) return;
 
-        // 1) Cool down any expired cells back to a dim/base color
+        // 1) Cool down any expired cells back to dim color
         let activeNow = 0;
         for (let i = 0; i < count; i++) {
             if (isActive[i]) {
                 if (t >= activeUntil[i]) {
                     isActive[i] = 0;
-                    // cool to dim tone most of the time, otherwise base for texture
-                    const pick = Math.random() < 0.7
-                        ? dimTone
-                        : basePalette[Math.floor(Math.random() * basePalette.length)];
-                    meshRef.current.setColorAt(i, pick);
+                    // Always cool back to dim tone (background remains filled)
+                    meshRef.current.setColorAt(i, dimTone);
                 } else {
                     activeNow++;
                 }
             }
         }
 
-        // 2) If we have fewer than the target, light up new random cells
+        // 2) If we have fewer than the target, light up new random cells (bright color), else keep dim
         const need = Math.max(0, activeTarget - activeNow);
         for (let n = 0; n < need; n++) {
             let i = Math.floor(Math.random() * count);
@@ -181,7 +166,14 @@ function GridFlicker({
             meshRef.current.setColorAt(i, brightTone);
         }
 
-        // 3) Push color buffer updates
+        // 3) Ensure dim background persists on non-active cells
+        for (let i = 0; i < count; i++) {
+            if (!isActive[i]) {
+                meshRef.current.setColorAt(i, dimTone);
+            }
+        }
+
+        // 4) Push color buffer updates
         if ((meshRef.current as any).instanceColor)
             (meshRef.current as any).instanceColor.needsUpdate = true;
     });
