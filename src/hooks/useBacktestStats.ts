@@ -1,7 +1,7 @@
 export type BacktestTrade = {
     date: string;
     totalEquity: number;
-    entryPrice?: number;
+    entryPrice: number;
     positionType: string;
     capitalChange?: number | null;
 };
@@ -22,9 +22,35 @@ export type BacktestStats = {
     capitalChangePct: number; // 0-100, clamped growth for UI pies
     winPct: number; // wins / pairs
     lossPct: number; // losses / pairs
+    totalGain: number;
 };
 
-export function useBacktestStats(trades: BacktestTrade[]): BacktestStats {
+export const EMPTY_BACKTEST_STATS: BacktestStats = {
+    pairs: [],
+    numTrades: 0,
+    winTradesCount: 0,
+    lossTradesCount: 0,
+    neutralTradesCount: 0,
+    profitableTradesPct: 0,
+    capitalChangePct: 0,
+    winPct: 0,
+    lossPct: 0,
+    totalGain: 0,
+};
+
+const isFiniteNumber = (n: unknown): n is number => typeof n === "number" && Number.isFinite(n);
+
+export function useBacktestStats(tradesInput: ReadonlyArray<BacktestTrade> | null | undefined): BacktestStats {
+    // Guard: tolerate undefined/null and filter out malformed rows
+    const trades: BacktestTrade[] = Array.isArray(tradesInput)
+        ? tradesInput.filter((t): t is BacktestTrade => !!t && isFiniteNumber(t.totalEquity))
+        : [];
+
+    // Early return if nothing to compute
+    if (trades.length === 0) {
+        return EMPTY_BACKTEST_STATS;
+    }
+
     // Group consecutive entries into trade pairs (open, close)
     const pairs: TradePair[] = [];
     for (let i = 0; i + 1 < trades.length; i += 2) {
@@ -61,6 +87,8 @@ export function useBacktestStats(trades: BacktestTrade[]): BacktestStats {
     // Clamp for UI pies to 0..100 (negative growth shows as 0 with red color in pie)
     const capitalChangePct = Math.max(0, Math.min(100, growthPct));
 
+    const totalGain = endEquity - startEquity;
+
     return {
         pairs,
         numTrades,
@@ -71,6 +99,7 @@ export function useBacktestStats(trades: BacktestTrade[]): BacktestStats {
         capitalChangePct,
         winPct,
         lossPct,
+        totalGain,
     };
 }
 

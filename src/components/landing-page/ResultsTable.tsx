@@ -1,28 +1,14 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import * as XLSX from 'xlsx';
+import { useState } from 'react';
 import SlidingStrategiesTabs from './SlidingStrategiesTabs';
 import { CustomButton } from '../CustomButton';
 import { BacktestPie } from './BacktestPie';
 import { useBacktestStats } from '@/hooks/useBacktestStats';
 import { X } from 'lucide-react';
 import HoverEffectAroundCard from '../hero-animation/HoverEffectAroundCard';
-
-interface TradeData {
-    date: string;
-    cashBalance: number;
-    capitalChange: number | null;
-    totalEquity: number;
-    entryPrice: number;
-    positionType: string;
-}
-
-interface TradePair {
-    firstTrade: TradeData;
-    secondTrade: TradeData;
-    totalChange: number;
-}
+import groupTradesIntoPairs from '@/utils/groupTradesIntoPairs';
+import { useExcelTradeData } from '@/hooks/useExcelTradeData';
 
 type Instrument = 'Bitcoin' | 'Ethereum' | 'XRP' | 'Dogecoin' | 'Binance Coin' | 'Solana';
 
@@ -30,131 +16,18 @@ type Instrument = 'Bitcoin' | 'Ethereum' | 'XRP' | 'Dogecoin' | 'Binance Coin' |
 const instruments: Instrument[] = ['Bitcoin', 'Ethereum', 'XRP', 'Dogecoin', 'Binance Coin', 'Solana'];
 
 export function ResultsTable() {
-    const [data, setData] = useState<TradeData[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [showAllOpen, setShowAllOpen] = useState(false);
     const [selectedInstrument, setSelectedInstrument] = useState<Instrument>("Bitcoin");
     const [sideFilter, setSideFilter] = useState<"buy" | "sell" | "all">("buy");
 
-    // Function to group trades into pairs
-    const groupTradesIntoPairs = (trades: TradeData[]): TradePair[] => {
-        const pairs: TradePair[] = [];
+    const { data, loading, error } = useExcelTradeData("/data/BTC-USD_1h_20250817-204937.xlsx");
 
-        // Group every 2 consecutive trades
-        for (let i = 0; i < trades.length - 1; i += 2) {
-            const firstTrade = trades[i];
-            const secondTrade = trades[i + 1];
+    const hasData = data.length > 0;
+    const firstDate = data.at(0)?.date ?? "—";
+    const lastDate = data.at(-1)?.date ?? "—";
+    const visibleTrades = hasData && data.length > 1 ? data.slice(1, 16) : [];
+    const statsInput = hasData && data.length > 1 ? data.slice(1) : [];
 
-            if (firstTrade && secondTrade) {
-                // Calculate the total change between the two trades
-                const totalChange = secondTrade.totalEquity - firstTrade.totalEquity;
-
-                pairs.push({
-                    firstTrade,
-                    secondTrade,
-                    totalChange
-                });
-            }
-        }
-
-        return pairs;
-    };
-
-    useEffect(() => {
-        const loadExcelData = async () => {
-            try {
-                setLoading(true);
-                // Fetch the Excel file from the public directory
-                const response = await fetch('/data/BTC-USD_1h_20250817-204937.xlsx');
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch Excel file');
-                }
-
-                const arrayBuffer = await response.arrayBuffer();
-                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-
-                // Get the first worksheet
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert to JSON
-                const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-                console.log(jsonData);
-
-                // Transform the data to match our interface
-                const transformedData: TradeData[] = jsonData.map((row: any, index: number) => {
-                    // Convert Excel date serial number to JavaScript Date
-                    let dateString = '';
-                    if (row.Date) {
-                        if (typeof row.Date === 'number') {
-                            // Excel date serial number (days since 1900-01-01)
-                            const excelDate = new Date((row.Date - 25569) * 86400 * 1000);
-                            dateString = excelDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-                        } else {
-                            dateString = row.Date.toString();
-                        }
-                    }
-
-                    return {
-                        date: dateString,
-                        cashBalance: parseFloat(row['cash_balance']) || 0,
-                        capitalChange: null, // Will be calculated after mapping
-                        totalEquity: parseFloat(row['total_equity']) || 0,
-                        entryPrice: parseFloat(row['entry_price']) || 0,
-                        positionType: row['position_type'] || 'Unknown'
-                    };
-                });
-
-                // Calculate capital change between consecutive rows
-                for (let i = 2; i < transformedData.length; i++) {
-                    const previousCashBalance = transformedData[i - 1].totalEquity;
-                    const currentCashBalance = transformedData[i].totalEquity;
-                    transformedData[i].capitalChange = currentCashBalance - previousCashBalance;
-                }
-
-                setData(transformedData);
-            } catch (err) {
-                console.error('Error loading Excel data:', err);
-                setError(err instanceof Error ? err.message : 'Failed to load data');
-
-                // Fallback to sample data
-                const sampleData: TradeData[] = [
-                    {
-                        date: '2024-08-17',
-                        cashBalance: 100000,
-                        capitalChange: null, // First row has no previous row
-                        totalEquity: 45230.50,
-                        entryPrice: 63500.25,
-                        positionType: 'Buy'
-                    },
-                    {
-                        date: '2024-08-17',
-                        cashBalance: 102000,
-                        capitalChange: 2000, // 102000 - 100000 = +2000
-                        totalEquity: 47850.75,
-                        entryPrice: 64200.00,
-                        positionType: 'Sell'
-                    },
-                    {
-                        date: '2024-08-18',
-                        cashBalance: 101500,
-                        capitalChange: -500, // 101500 - 102000 = -500
-                        totalEquity: 52100.25,
-                        entryPrice: 65800.50,
-                        positionType: 'Buy'
-                    }
-                ];
-                setData(sampleData);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadExcelData();
-    }, []);
 
     if (loading) {
         return (
@@ -168,8 +41,8 @@ export function ResultsTable() {
         );
     }
 
-    const pairs = groupTradesIntoPairs(data.slice(1, 16));
-    const stats = useBacktestStats(data.slice(1));
+    const pairs = groupTradesIntoPairs(visibleTrades);
+    const stats = useBacktestStats(statsInput);
 
     return (
         <section className="bg-black px-24 mt-8">
@@ -189,7 +62,7 @@ export function ResultsTable() {
                             <h3 className='text-sm text-secondary'>Without Machine Learning</h3>
                         </div>
                         <h2 className='text-sm text-secondary'>
-                            Backtest Period: {data[0].date} - {data[data.length - 1].date}
+                            Backtest Period: {firstDate} - {lastDate}
                         </h2>
                     </div>
 
@@ -367,7 +240,7 @@ export function ResultsTable() {
 
                                 <h3 className="text-lg font-title">Showing All becktested trades for <span className='text-highlight'>{selectedInstrument}</span></h3>
                                 <h3 className='text-sm font-title'>
-                                    from {data[0].date} to {data[data.length - 1].date}
+                                    from {firstDate} to {lastDate}
                                 </h3>
                             </div>
                             <button className="text-zinc-400 hover:text-white" onClick={() => setShowAllOpen(false)}><X /></button>

@@ -12,6 +12,7 @@
   /* Color system */
   --main-text: #ffffff;
   --secondary-text: rgba(204, 204, 204, 0.851);
+  --tertiary-text: rgba(204, 204, 204, 0.7);
   --highlight-text: rgb(31, 213, 249);
   --main-background: #000000;
   --lk-color-cyan: rgb(6, 182, 212);
@@ -27,6 +28,7 @@
   --color-foreground: var(--main-text);
   --color-secondary: var(--secondary-text);
   --color-highlight: var(--highlight-text);
+  --color-tertiary: var(--tertiary-text);
   --font-sans: var(--font-main);
   --font-title: var(--font-title);
 }

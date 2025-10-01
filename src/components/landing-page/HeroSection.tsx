@@ -3,6 +3,7 @@ import { CustomButton } from "@/components/CustomButton";
 import HeroSteps from "./HeroAnimatedSteps";
 import { Github } from "lucide-react";
 import Image from "next/image";
+import { SignUpButton } from "@clerk/nextjs";
 
 export function HeroSection() {
     return (
@@ -28,7 +29,12 @@ export function HeroSection() {
                     Our best algorithms implemented with machine learning conected to your exchange.
                 </p>
                 <div className="flex gap-4 items-center">
-                    <CustomButton isBlue={true}>Start Trading</CustomButton>
+                    <CustomButton isBlue={true}>
+                        <SignUpButton>
+
+                            Start Trading
+                        </SignUpButton>
+                    </CustomButton>
                     <CustomButton isBlue={false}>Documentation</CustomButton>
                 </div>
                 <HeroSteps />
