@@ -9,11 +9,8 @@ import { X } from 'lucide-react';
 import HoverEffectAroundCard from '../hero-animation/HoverEffectAroundCard';
 import groupTradesIntoPairs from '@/utils/groupTradesIntoPairs';
 import { useExcelTradeData } from '@/hooks/useExcelTradeData';
-
-type Instrument = 'Bitcoin' | 'Ethereum' | 'XRP' | 'Dogecoin' | 'Binance Coin' | 'Solana';
-
-
-const instruments: Instrument[] = ['Bitcoin', 'Ethereum', 'XRP', 'Dogecoin', 'Binance Coin', 'Solana'];
+import type { Instrument } from '@/data/constants';
+import { instruments } from '@/data/constants';
 
 export function ResultsTable() {
     const [showAllOpen, setShowAllOpen] = useState(false);
