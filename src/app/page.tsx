@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
   const { userId } = await auth();
-  if (userId != null) redirect("/private/instances");
+  if (userId != null) redirect("/instances");
   return (
     <main className="h-screen">
       <HeroSection />

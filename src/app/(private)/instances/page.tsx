@@ -142,7 +142,7 @@ export default function Instances() {
                             </div>
                         </div>
                         <div className="flex gap-2 justify-end ">
-                            <CustomButton isBlue={false}>
+                            <CustomButton isBlue={true}>
                                 Create
                             </CustomButton>
                             <CustomButton isBlue={false} onClick={(e) => { e.preventDefault(); setOpen(false); }}>
