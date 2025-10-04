@@ -1,7 +1,7 @@
 import HeroBoard from "@/components/hero-animation/HeroAnimation";
 import { CustomButton } from "@/components/CustomButton";
 import HeroSteps from "./HeroAnimatedSteps";
-import { Github } from "lucide-react";
+import { Github, Star } from "lucide-react";
 import Image from "next/image";
 import { SignUpButton } from "@clerk/nextjs";
 
@@ -11,10 +11,16 @@ export function HeroSection() {
             {/* Header */}
             <section className="absolute top-0 left-0 py-6 px-24 flex items-center gap-4 justify-between w-full">
                 <img src="/main-logo.png" alt="Main Logo" className="w-32" />
-                <div className="flex items-center gap-2 text-secondary text-sm">
+                <div className="flex items-center gap-4 text-secondary text-sm">
                     <Github />
-                    <p className="whitespace-nowrap font-semibold hover:underline cursor-pointer">ml-crypto-bot</p>
+                    <div className="flex items-center gap-1 hover:underline cursor-pointer hover:text-white z-50">
+                        <p className="whitespace-nowrap font-semibold">github</p>
+                        /
+                        <p className="whitespace-nowrap font-semibold">ml-crypto-bot</p>
+                        <Star className="w-3 h-3 text-yellow-500" />
+                    </div>
                 </div>
+
             </section>
 
             {/* Hero Content */}
@@ -29,12 +35,11 @@ export function HeroSection() {
                     Our best algorithms implemented with machine learning conected to your exchange.
                 </p>
                 <div className="flex gap-4 items-center">
-                    <CustomButton isBlue={true}>
-                        <SignUpButton>
-
+                    <SignUpButton>
+                        <CustomButton isBlue={true}>
                             Start Trading
-                        </SignUpButton>
-                    </CustomButton>
+                        </CustomButton>
+                    </SignUpButton>
                     <CustomButton isBlue={false}>Documentation</CustomButton>
                 </div>
                 <HeroSteps />

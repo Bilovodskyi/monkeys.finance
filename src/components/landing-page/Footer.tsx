@@ -1,4 +1,5 @@
 import { CustomButton } from "../CustomButton";
+import { SignUpButton } from "@clerk/nextjs";
 
 export default function Footer() {
     return (
@@ -11,7 +12,7 @@ export default function Footer() {
                     Login or register to join our trading community and get access to our trading algorithms backtest algorithms and machine learning models.
                 </p>
                 <div className="flex gap-4 items-center">
-                    <CustomButton isBlue={true}>Start Trading</CustomButton>
+                    <SignUpButton><CustomButton isBlue={true}>Start Trading</CustomButton></SignUpButton>
                     <CustomButton isBlue={false}>Contact Us</CustomButton>
                 </div>
             </div>
