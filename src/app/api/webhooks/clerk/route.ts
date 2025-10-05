@@ -119,10 +119,19 @@ export async function POST(req: Request) {
             // Insert new user
             console.log("[clerk-webhook] Creating user:", { clerkId, email, name });
 
+            function addMonths(date: Date, months: number) {
+                const d = new Date(date);
+                d.setMonth(d.getMonth() + months);
+                return d;
+            }
+
             await db.insert(UserTable).values({
                 clerkId,
                 email,
                 name,
+                trialEndsAt: addMonths(new Date(), 6),
+                plan: "free",
+                billingStatus: "trialing",
                 // Optional: set default timezone based on user data if available
                 // timezone: data.timezone || "UTC",
             });

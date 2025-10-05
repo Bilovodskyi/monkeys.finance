@@ -25,6 +25,19 @@ export default function BacktestPage() {
 
     return (
         <div className="flex flex-col h-full">
+            <div className='px-6 pt-6 w-1/2'>
+                <div className='grid grid-cols-6 grid-rows-1 gap-4 w-full'>
+                    {instruments.map((instrument) => (
+                        <div key={instrument} className='group relative'>
+                            {selectedInstrument === instrument && (
+                                <HoverEffectAroundCard offset={4} />
+                            )}
+                            <div onClick={() => setSelectedInstrument(instrument)} className='hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-3 text-white text-center text-sm'>{instrument}</div>
+                        </div>
+                    ))}
+
+                </div>
+            </div>
             <div className="flex p-6 gap-6">
                 <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-xl font-title">{formatNumberWithCommas(stats.totalGain)} USD</h1>
@@ -43,19 +56,7 @@ export default function BacktestPage() {
                     <h2 className="text-sm text-tertiary font-title">Total Trades / Wins / Losses</h2>
                 </div>
             </div>
-            <div className='px-6 py-2 w-1/2'>
-                <div className='grid grid-cols-6 grid-rows-1 gap-4 w-full'>
-                    {instruments.map((instrument) => (
-                        <div key={instrument} className='group relative'>
-                            {selectedInstrument === instrument && (
-                                <HoverEffectAroundCard offset={4} />
-                            )}
-                            <div onClick={() => setSelectedInstrument(instrument)} className='hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-3 text-white text-center text-sm'>{instrument}</div>
-                        </div>
-                    ))}
 
-                </div>
-            </div>
             <div className="flex-1 p-6 bg-black flex flex-col overflow-hidden">
                 {/* Sticky Header */}
                 <div className="grid grid-cols-7 border border-zinc-800 backdrop-blur-md">

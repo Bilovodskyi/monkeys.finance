@@ -132,13 +132,11 @@ export default function Instances() {
                                 <span className="text-tertiary text-sm mr-1 font-mein">Your instance:</span>
                                 <h1 className="font-title">BTC-BINANCE-4H-SQUID-RIBBON-V0.0.1</h1>
                             </div>
-                            <div className="grid grid-cols-2 grid-rows-3 gap-2">
+                            <div className="grid grid-cols-2 grid-rows-2 gap-2">
                                 <span className="text-tertiary text-sm mr-1 font-mein">Strategy: <span className="text-white">Squid Ribbon V 0.0.1</span></span>
                                 <span className="text-tertiary text-sm mr-1 font-mein">Instrument: <span className="text-white">BTC</span></span>
                                 <span className="text-tertiary text-sm mr-1 font-mein">Exchange: <span className="text-white">Binance</span></span>
                                 <span className="text-tertiary text-sm mr-1 font-mein">Signal: <span className="text-white">4H</span></span>
-                                <span className="text-tertiary text-sm mr-1 font-mein">API Key: <span className="text-white">Provided</span></span>
-
                             </div>
                         </div>
                         <div className="flex gap-2 justify-end ">

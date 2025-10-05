@@ -17,7 +17,7 @@ export function HeroSection() {
                         <p className="whitespace-nowrap font-semibold">github</p>
                         /
                         <p className="whitespace-nowrap font-semibold">ml-crypto-bot</p>
-                        <Star className="w-3 h-3 text-yellow-500" />
+                        <Star className="w-3 h-3" />
                     </div>
                 </div>
 

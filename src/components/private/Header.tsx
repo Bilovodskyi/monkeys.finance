@@ -1,7 +1,16 @@
+import { EntitlementResponse, getEntitlementForUser } from "@/services/entitlements";
+import { formatEntitlementHeading } from "@/lib/entitlements";
 import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { Search } from "lucide-react";
 
-export default function Header() {
+export default async function Header() {
+    const { userId } = await auth();
+    if (!userId) return null;
+
+    const data: EntitlementResponse | null = await getEntitlementForUser(userId);
+    if (!data) return null;
+
     return (
         <header className="bg-black border-b border-zinc-800 flex justify-between items-center px-6 h-[70px] shrink-0">
             <div className="flex items-center justify-between w-[300px] cursor-pointer group/search">
@@ -15,7 +24,7 @@ export default function Header() {
                 </div>
             </div>
             <div className="flex items-center justify-between gap-4">
-                <div className="text-secondary text-xs bg-zinc-900 px-2 py-1 rounded-full border border-zinc-800">Pro plan - 14 days left</div>
+                <div className="text-secondary text-xs bg-zinc-900 px-2 py-1 rounded-full border border-zinc-800">{formatEntitlementHeading(data)}</div>
                 <UserButton />
             </div>
         </header>

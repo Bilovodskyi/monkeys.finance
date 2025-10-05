@@ -1,11 +1,20 @@
 import { Check } from "lucide-react";
 import { CustomButton } from "@/components/CustomButton";
+import { formatEntitlementHeading } from "@/lib/entitlements";
+import { auth } from "@clerk/nextjs/server";
+import { EntitlementResponse, getEntitlementForUser } from "@/services/entitlements";
+import { parseIsoToDateTime } from "@/lib/utils";
 
-export default function Plan() {
+export default async function Plan() {
+    const { userId } = await auth();
+    if (!userId) return null;
+
+    const data: EntitlementResponse | null = await getEntitlementForUser(userId);
+    if (!data || !data.trialEndsAt) return null;
     return (
         <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
-            <h1 className="text-lg font-bold">Pro Trial - 14 days left</h1>
-            <p className="text-center text-sm text-tertiary">Your trial will end in 14 days. You can upgrade to pro plan to continue using the bot.</p>
+            <h1 className="text-lg font-bold">{formatEntitlementHeading(data)}</h1>
+            <p className="text-center text-sm text-tertiary">Your trial will end on {parseIsoToDateTime(data.trialEndsAt).date} at {parseIsoToDateTime(data.trialEndsAt).time}. You can upgrade to pro plan to continue using the bot.</p>
             <div className="flex gap-4 mt-6">
                 <div className="border border-zinc-800 p-6 space-y-3 h-full w-[250px]">
                     <h2 className="text-lg font-bold">Monthly</h2>

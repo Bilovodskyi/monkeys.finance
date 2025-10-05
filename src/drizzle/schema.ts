@@ -8,26 +8,50 @@ export const exchange = pgEnum("exchange", [
     "binance", "binanceus", "bybit", "okx", "kraken", "coinbase"
 ]);
 export const status = pgEnum("status", ["active", "paused"]);
+export const billingStatus = pgEnum("billing_status", [
+    "none",       // no Stripe linkage yet
+    "trialing",   // in free trial window
+    "active",     // paying and current
+    "past_due",   // payment failed / grace
+    "canceled"    // canceled sub
+]);
 
 
 export const UserTable = pgTable("user", {
     id: uuid("id").defaultRandom().primaryKey(),
+    // Clerk linkage
     clerkId: text("clerk_id").notNull().unique(),
+
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 
+    // Identity
     email: text("email").notNull().unique(),
     name: text("name").notNull(),
 
+    // Ops / analytics
     numberOfInstances: integer("number_of_instances").default(0),
-    role: userRole("role").default("user").notNull(),
-    plan: plan("plan").default("free").notNull(),
-    notifyEmail: text("notify_email"),
 
+    // App entitlements
+    plan: plan("plan").default("free").notNull(),                // feature tier
+    billingStatus: billingStatus("billing_status").default("trialing").notNull(), // billing state
+    trialEndsAt: timestamp("trial_ends_at", { withTimezone: true }),             // set on create: createdAt + 6 months
+
+    // Stripe linkage (later)
+    subscriptionId: text("subscription_id"),     // Stripe subscription id (nullable until they pay)
+
+    // Misc prefs
+    notifyEmail: text("notify_email"),           // you chose text
     timezone: text("timezone").default("UTC").notNull(),
 
+    // Account state inside app
     status: status("status").default("active").notNull(),
-});
+}, (t) => ({
+    // helpful indexes
+    byClerk: index("user_by_clerk_idx").on(t.clerkId),
+    byTrialEnd: index("user_trial_end_idx").on(t.trialEndsAt),
+    byBillingStatus: index("user_billing_status_idx").on(t.billingStatus),
+}));
 
 export const InstanceTable = pgTable("instance", {
     id: uuid("id").defaultRandom().primaryKey(),

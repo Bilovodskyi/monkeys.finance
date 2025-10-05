@@ -2,20 +2,35 @@
 
 import { Activity, Fingerprint, GalleryVerticalEnd, History, Pyramid, Receipt, Shield } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type SideMenuTab = "instances" | "history" | "backtest" | "bot" | "plan" | "how" | "safety";
 
+function tabFromPath(pathname: string): SideMenuTab {
+    if (pathname.startsWith("/history")) return "history";
+    if (pathname.startsWith("/backtest")) return "backtest";
+    if (pathname.startsWith("/bot")) return "bot";
+    if (pathname.startsWith("/plan")) return "plan";
+    if (pathname.startsWith("/how")) return "how";
+    if (pathname.startsWith("/safety")) return "safety";
+    return "instances";
+}
+
 export default function SideMenu() {
-    const [activeTab, setActiveTab] = useState<SideMenuTab>("instances");
+    const pathname = usePathname();
     const router = useRouter();
+    const activeTab = tabFromPath(pathname);
+
+    const setActiveTab = (tab: SideMenuTab) => {
+        router.push(`/${tab}`);
+    }
     return (
         <div className="group/side-menu absolute left-0 bg-black h-screen z-20 w-[71px] border-r border-zinc-800 shrink-0 hover:w-[270px] transition-all duration-300 ease-in-out">
             <div className="flex items-center px-5 border-b border-zinc-800 h-[70px]">
                 <img src="/algo-logo.png" alt="Main Logo" className="max-w-8 max-h-8" />
             </div>
             <div className="flex flex-col px-5 gap-5 py-10">
-                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "instances" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("instances"); router.push("/instances") }}>
+                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "instances" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("instances") }}>
                     <div className="flex-none">
                         <Activity className="w-4 h-4" />
                     </div>
@@ -27,7 +42,7 @@ export default function SideMenu() {
                         </span>
                     </div>
                 </div>
-                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "history" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => setActiveTab("history")}>
+                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "history" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("history") }}>
                     <div className="flex-none">
                         <History className="w-4 h-4" />
                     </div>
@@ -38,7 +53,7 @@ export default function SideMenu() {
                         </span>
                     </div>
                 </div>
-                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "backtest" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("backtest"); router.push("/backtest") }}>
+                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "backtest" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("backtest") }}>
                     <div className="flex-none">
                         <GalleryVerticalEnd className="w-4 h-4" />
                     </div>
@@ -49,7 +64,7 @@ export default function SideMenu() {
                         </span>
                     </div>
                 </div>
-                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "bot" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("bot"); router.push("/bot") }}>
+                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "bot" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("bot") }}>
                     <div className="flex-none">
                         <Fingerprint className="w-4 h-4" />
                     </div>
@@ -60,7 +75,7 @@ export default function SideMenu() {
                         </span>
                     </div>
                 </div>
-                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "plan" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("plan"); router.push("/plan") }}>
+                <div className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${activeTab === "plan" ? "border border-zinc-800 bg-zinc-900 text-white" : "text-secondary hover:!text-white"}`} onClick={() => { setActiveTab("plan") }}>
                     <div className="flex-none">
                         <Receipt className="w-4 h-4" />
                     </div>
