@@ -1,6 +1,9 @@
+"use client";
+
 import * as React from "react";
 import BoxWithHover from "./BoxWithHover";
 import { Brain, Bot, CloudDownload, History, Bitcoin, Cpu, BrainCircuit, BookOpenText, ChartLine } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export interface HeroBoardProps {
     className?: string;
@@ -9,6 +12,8 @@ export interface HeroBoardProps {
 }
 
 export default function HeroBoard({ className, style }: HeroBoardProps) {
+    const t = useTranslations("heroAnimation");
+
     return (
         <div
             className={[
@@ -335,12 +340,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             {/* Top box 1*/}
             <BoxWithHover
                 posClass="absolute left-[calc(50%-52px)] top-[284px]"
-                label="Data"
+                label={t("data.label")}
                 tooltip={
                     <div className="flex flex-col gap-2">
                         <CloudDownload />
-                        <span className="text-main">Fetch data</span>
-                        <span>We are fetching financial data from the yahoo finance. All indicators and algorithms are calculated inside the app.</span>
+                        <span className="text-main">{t("data.title")}</span>
+                        <span>{t("data.description")}</span>
                     </div>
                 }
                 side="top"
@@ -351,12 +356,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             {/* Top box 2*/}
             <BoxWithHover
                 posClass="absolute left-[calc(50%+60px)] top-[284px]"
-                label="Algorithm"
+                label={t("algorithm.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <Bot />
-                    <span className="text-main">Custom algorithms</span>
+                    <span className="text-main">{t("algorithm.title")}</span>
                     <span>
-                        We transformed +10 years of trading experience into algorithms.
+                        {t("algorithm.description")}
                     </span>
                 </div>}
                 side="top"
@@ -367,12 +372,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             {/* Top box 3*/}
             <BoxWithHover
                 posClass="absolute left-[calc(50%+172px)] top-[284px]"
-                label="Backtest"
+                label={t("backtest.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <History />
-                    <span className="text-main">Backtest algorithm</span>
+                    <span className="text-main">{t("backtest.title")}</span>
                     <span>
-                        Backtest Algorithms to see performance of every algorithm. And pick the best one.
+                        {t("backtest.description")}
                     </span>
                 </div>}
                 side="top"
@@ -383,12 +388,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             {/* Top box 4*/}
             <BoxWithHover
                 posClass="absolute left-[calc(50%+284px)] top-[284px]"
-                label="Decision"
+                label={t("decision.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <Brain />
-                    <span className="text-main">Do we trade?</span>
+                    <span className="text-main">{t("decision.title")}</span>
                     <span>
-                        Our machine learning model helps improve algorithm performance. And make decisions to trade or not.
+                        {t("decision.description")}
                     </span>
                 </div>}
                 side="top"
@@ -399,12 +404,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             {/* Crypto Exchange */}
             <BoxWithHover
                 posClass="absolute left-[calc(50%+394px)] top-[260px]"
-                label={"Crypto Exchange"}
+                label={t("cryptoExchange.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <Bitcoin />
-                    <span className="text-main">Crypto Exchange</span>
+                    <span className="text-main">{t("cryptoExchange.title")}</span>
                     <span>
-                        Trading bot opens and closes positions on crypto exchange automatically.
+                        {t("cryptoExchange.description")}
                     </span>
                 </div>}
                 side="top"
@@ -416,12 +421,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             {/* Train classifier */}
             <BoxWithHover
                 posClass="absolute left-[calc(50%+215px)] top-[576px]"
-                label={"Train classifier"}
+                label={t("trainClassifier.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <Cpu />
-                    <span className="text-main">Train classifier</span>
+                    <span className="text-main">{t("trainClassifier.title")}</span>
                     <span>
-                        We train our machine learning model to make better decisions.
+                        {t("trainClassifier.description")}
                     </span>
                 </div>}
                 side="top"
@@ -432,12 +437,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
 
             <BoxWithHover
                 posClass="absolute left-[calc(50%+402px)] top-[440px]"
-                label="ML Model"
+                label={t("mlModel.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <BrainCircuit />
-                    <span className="text-main">Trained model</span>
+                    <span className="text-main">{t("mlModel.title")}</span>
                     <span>
-                        The trained model is used to spot weak signals generated by the algorithms.
+                        {t("mlModel.description")}
                     </span>
                 </div>}
                 side="top"
@@ -447,12 +452,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
 
             <BoxWithHover
                 posClass="absolute left-[calc(50%+562px)] top-[440px]"
-                label="Trading Journal"
+                label={t("tradingJournal.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <BookOpenText />
-                    <span className="text-main">Trading Journal</span>
+                    <span className="text-main">{t("tradingJournal.title")}</span>
                     <span>
-                        We keep track of all our trades in a trading journal.
+                        {t("tradingJournal.description")}
                     </span>
                 </div>}
                 side="top"
@@ -462,12 +467,12 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
 
             <BoxWithHover
                 posClass="absolute left-[calc(50%+265px)] top-[785px]"
-                label="Backtest"
+                label={t("backtestModel.label")}
                 tooltip={<div className="flex flex-col gap-2">
                     <History />
-                    <span className="text-main">Backtest trained model</span>
+                    <span className="text-main">{t("backtestModel.title")}</span>
                     <span>
-                        Backtest the trained model to see how it performs with different parameters.
+                        {t("backtestModel.description")}
                     </span>
                 </div>}
                 side="top"
@@ -478,13 +483,13 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             {/* Stats badges */}
             <BoxWithHover
                 posClass="absolute left-[calc(50%+150px)] top-[435px]"
-                label={"Indicators"}
+                label={t("indicators.label")}
                 tooltip={
                     <div className="flex flex-col gap-2">
                         <ChartLine />
-                        <span className="text-main">Indicators</span>
+                        <span className="text-main">{t("indicators.title")}</span>
                         <span>
-                            We use indicators to train models and identify weak spots in algorithms.
+                            {t("indicators.description")}
                         </span>
                     </div>
                 }
@@ -497,13 +502,13 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
 
             <BoxWithHover
                 posClass="absolute left-[calc(50%+132px)] top-[485px]"
-                label={"Financial Data"}
+                label={t("financialData.label")}
                 tooltip={
                     <div className="flex flex-col gap-2">
                         <ChartLine />
-                        <span className="text-main">Financial Data</span>
+                        <span className="text-main">{t("financialData.title")}</span>
                         <span>
-                            We use financial data to train models and identify weak spots in algorithms.
+                            {t("financialData.description")}
                         </span>
                     </div>
                 }
@@ -523,7 +528,7 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                     className="group h-fit self-start text-fg3 hover:text-cyan-500 hover:underline"
                 >
                     <span className="flex gap-1 font-mono text-xs uppercase tracking-widest" style={{ opacity: 1 }}>
-                        Machine Learning step
+                        {t("mlStepLabel")}
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 text-fg3 group-hover:text-cyan-500">
                             <path d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
                         </svg>

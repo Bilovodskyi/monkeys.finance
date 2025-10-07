@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedContainer from "./AnimatedContainer";
 import StepProgressDot from "./StepProgressDot";
+import { useTranslations } from "next-intl";
 
 type Props = {
     className?: string;
@@ -14,6 +15,8 @@ type Props = {
 };
 
 const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
+    const t = useTranslations("howItWorks");
+
     const sectionOne = useRef<HTMLDivElement>(null);
     const sectionTwo = useRef<HTMLDivElement>(null);
     const sectionThree = useRef<HTMLDivElement>(null);
@@ -340,7 +343,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
         <div style={{ width: "100vw", ...style }} className={`relative ${className}`}>
             <div ref={sectionOne} className="w-full h-screen sticky top-0 z-30 overflow-hidden" style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
                 <div className="h-screen flex flex-col gap-4 justify-center pl-24 w-1/3">
-                    <h2 className='text-3xl text-white font-title pb-8'>How to <span className='text-highlight'>Start</span></h2>
+                    <h2 className='text-3xl text-white font-title pb-8'>{t("title")} <span className='text-highlight'>{t("titleHighlight")}</span></h2>
 
                     <ul className="space-y-8 text-secondary text-lg">
 
@@ -349,9 +352,9 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <div ref={line1} className="w-[1px] h-28 bg-highlight absolute left-4 top-14"></div>
                             <div className="flex flex-col gap-2">
 
-                                <h2 className={`${activeStep === 1 ? "text-white" : "text-secondary"} transition-colors`}>Log in or create an account to get started</h2>
+                                <h2 className={`${activeStep === 1 ? "text-white" : "text-secondary"} transition-colors`}>{t("step1.title")}</h2>
                                 <p className="text-secondary text-sm">
-                                    Create a secure account to unlock every tool. We protect your information with industry-standard encryption and strict access controls, so your data stays private while you work.
+                                    {t("step1.description")}
                                 </p>
                             </div>
                         </li>
@@ -361,9 +364,9 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
                             <div className="flex flex-col gap-2">
 
-                                <h2 className={`${activeStep === 2 ? "text-white" : "text-secondary"} transition-colors`}>Pick algorithm and cryptocurrency to trade</h2>
+                                <h2 className={`${activeStep === 2 ? "text-white" : "text-secondary"} transition-colors`}>{t("step2.title")}</h2>
                                 <p className="text-secondary text-sm">
-                                    Pick an algorithm, then a cryptocurrency, and backtest the pair. You’re free to explore as many combinations as you like to find the most profitable one.
+                                    {t("step2.description")}
                                 </p>
                             </div>
                         </li>
@@ -373,9 +376,9 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
                             <div className="flex flex-col gap-2">
 
-                                <h2 className={`${activeStep === 3 ? "text-white" : "text-secondary"} transition-colors`}>Connect to your crypto exchange</h2>
+                                <h2 className={`${activeStep === 3 ? "text-white" : "text-secondary"} transition-colors`}>{t("step3.title")}</h2>
                                 <p className="text-secondary text-sm">
-                                    We support the most popular crypto exchanges and are working on adding even more. You can also generate signals and trade on your own.
+                                    {t("step3.description")}
                                 </p>
                             </div>
                         </li>
@@ -383,9 +386,9 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <StepProgressDot triggerRef={sectionFour} label={4} size={28} endOffset={200} />
                             <div className="flex flex-col gap-2">
 
-                                <h2 className={`${activeStep === 4 ? "text-white" : "text-secondary"} transition-colors`}>Trading bot will trade for you automatically</h2>
+                                <h2 className={`${activeStep === 4 ? "text-white" : "text-secondary"} transition-colors`}>{t("step4.title")}</h2>
                                 <p className="text-secondary text-sm">
-                                    Our trading bot will trade for you automatically. You can set the parameters and let it trade for you. 24/7 without breaks and mistakes.
+                                    {t("step4.description")}
                                 </p>
                             </div>
                         </li>
@@ -393,7 +396,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                 </div>
                 <AnimatedContainer
                     ref={containerOne}
-                    title="Log in or create an account"
+                    title={t("step1.containerTitle")}
                     className="absolute right-[250px] bottom-[200px]"
                     showAnimatedClone={containerEffects.container1.showAnimatedClone}
                     showLightSweeps={containerEffects.container1.showLightSweeps}
@@ -401,7 +404,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
                 <AnimatedContainer
                     ref={containerTwo}
-                    title="Pick algorithm and instrument"
+                    title={t("step2.containerTitle")}
                     className="absolute right-[245px] bottom-[220px]"
                     showAnimatedClone={containerEffects.container2.showAnimatedClone}
                     showLightSweeps={containerEffects.container2.showLightSweeps}
@@ -409,7 +412,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
                 <AnimatedContainer
                     ref={containerThree}
-                    title="Connect to crypto exchange"
+                    title={t("step3.containerTitle")}
                     className="absolute right-[240px] bottom-[240px]"
                     showAnimatedClone={containerEffects.container3.showAnimatedClone}
                     showLightSweeps={containerEffects.container3.showLightSweeps}
@@ -417,7 +420,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
                 <AnimatedContainer
                     ref={containerFour}
-                    title="You all set! Now bot will trade for you"
+                    title={t("step4.containerTitle")}
                     className="absolute right-[235px] bottom-[260px]"
                     showAnimatedClone={containerEffects.container4.showAnimatedClone}
                     showLightSweeps={containerEffects.container4.showLightSweeps}

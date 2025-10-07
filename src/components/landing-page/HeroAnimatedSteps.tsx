@@ -1,12 +1,15 @@
 "use client";
 import React from "react";
 import { Bot, Cpu, History } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function HeroSteps() {
+    const t = useTranslations("hero.steps");
+
     const steps = [
-        { Icon: Bot, text: "Multiple custom algorithms" },
-        { Icon: Cpu, text: "Polished with machine learning" },
-        { Icon: History, text: "Backtest and pick the best one" },
+        { Icon: Bot, text: t("algorithms") },
+        { Icon: Cpu, text: t("ml") },
+        { Icon: History, text: t("backtest") },
     ];
 
     const [activeIndex, setActiveIndex] = React.useState(0);
@@ -22,7 +25,7 @@ export default function HeroSteps() {
         <div className="pt-32 flex flex-col gap-6">
             {steps.map(({ Icon, text }, index) => (
                 <div
-                    key={text}
+                    key={index}
                     className={[
                         "flex items-center gap-4",
                         "transition-colors duration-300",

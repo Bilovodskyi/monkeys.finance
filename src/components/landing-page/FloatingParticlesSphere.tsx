@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslations } from "next-intl";
 
 // ---------- Utilities
 function fibonacciSpherePoints(count = 5000, radius = 1) {
@@ -339,6 +340,8 @@ function Scene({ sectionOneRef, sectionTwoRef, sectionThreeRef, insideTextRef, s
 
 // ---------- Page Scaffolding  
 export default function ParticleSphereScroll() {
+    const t = useTranslations("sphere");
+
     // Refs for scroll sections
     const sectionOneRef = useRef<HTMLDivElement>(null);
     const sectionTwoRef = useRef<HTMLDivElement>(null);
@@ -364,10 +367,10 @@ export default function ParticleSphereScroll() {
                 <div ref={insideTextRef} className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0">
                     <div className="mx-auto max-w-2xl text-center px-6">
                         <h2 ref={sphereTitleRef} className="text-3xl md:text-5xl font-light tracking-tight opacity-0 translate-y-8 scale-95">
-                            Bring ML to your trading
+                            {t("title")}
                         </h2>
                         <p ref={sphereDescriptionRef} className="mt-4 text-white/70 opacity-0 translate-y-6 blur-sm">
-                            Our Machine Learning models are trained on thousands of trades to boost algorithm performance.
+                            {t("description")}
                         </p>
                     </div>
                 </div>

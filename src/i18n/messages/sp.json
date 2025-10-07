@@ -1,0 +1,241 @@
+{
+    "hero": {
+        "badge": "Rendimiento de algoritmo mejorado con ML",
+        "title": "El todo en uno de cripto",
+        "titleHighlight": "comercio",
+        "titleEnd": "Bot",
+        "description": "Comercio algorítmico, impulsado por aprendizaje automático — integrado con tu intercambio.",
+        "startTradingButton": "Comenzar a comerciar",
+        "documentationButton": "Documentación",
+        "supportedExchanges": "Intercambios compatibles:",
+        "supportedExchangesSubtext": "más próximamente",
+        "steps": {
+            "algorithms": "Múltiples algoritmos personalizados",
+            "ml": "Pulido con aprendizaje automático",
+            "backtest": "Prueba y elige el mejor"
+        }
+    },
+    "heroAnimation": {
+        "data": {
+            "label": "Datos",
+            "title": "Obtener datos",
+            "description": "Estamos obteniendo datos financieros de los intercambios de criptomonedas. Todos los indicadores y algoritmos se calculan dentro de la aplicación."
+        },
+        "algorithm": {
+            "label": "Algoritmo",
+            "title": "Algoritmos personalizados",
+            "description": "Transformamos +10 años de experiencia comercial en algoritmos."
+        },
+        "backtest": {
+            "label": "Backtesting",
+            "title": "Probar algoritmo",
+            "description": "Pruebe los algoritmos para ver el rendimiento de cada algoritmo. Y elija el mejor."
+        },
+        "decision": {
+            "label": "Decisión",
+            "title": "¿Comerciamos?",
+            "description": "Nuestro modelo de aprendizaje automático ayuda a mejorar el rendimiento del algoritmo. Y toma decisiones de comerciar o no."
+        },
+        "cryptoExchange": {
+            "label": "Intercambio de Cripto",
+            "title": "Intercambio de Cripto",
+            "description": "El bot de comercio abre y cierra posiciones en el intercambio de criptomonedas automáticamente."
+        },
+        "trainClassifier": {
+            "label": "Entrenar clasificador",
+            "title": "Entrenar clasificador",
+            "description": "Entrenamos nuestro modelo de aprendizaje automático para tomar mejores decisiones."
+        },
+        "mlModel": {
+            "label": "Modelo ML",
+            "title": "Modelo entrenado",
+            "description": "El modelo entrenado se utiliza para detectar señales débiles generadas por los algoritmos."
+        },
+        "tradingJournal": {
+            "label": "Diario de Comercio",
+            "title": "Diario de Comercio",
+            "description": "Mantenemos un registro de todas nuestras operaciones en un diario de comercio."
+        },
+        "backtestModel": {
+            "label": "Backtesting",
+            "title": "Probar modelo entrenado",
+            "description": "Pruebe el modelo entrenado para ver cómo funciona con diferentes parámetros."
+        },
+        "indicators": {
+            "label": "Indicadores",
+            "title": "Indicadores",
+            "description": "Usamos indicadores para entrenar modelos e identificar puntos débiles en los algoritmos."
+        },
+        "financialData": {
+            "label": "Datos Financieros",
+            "title": "Datos Financieros",
+            "description": "Usamos datos financieros para entrenar modelos e identificar puntos débiles en los algoritmos."
+        },
+        "mlStepLabel": "Paso de aprendizaje automático"
+    },
+    "sphere": {
+        "title": "Incorpora ML a tu trading",
+        "description": "Nuestros modelos de aprendizaje automático están entrenados en miles de operaciones para mejorar el rendimiento del algoritmo."
+    },
+    "howItWorks": {
+        "title": "Cómo",
+        "titleHighlight": "Comenzar",
+        "step1": {
+            "title": "Inicia sesión o crea una cuenta para comenzar",
+            "description": "Crea una cuenta segura para desbloquear todas las herramientas. Protegemos tu información mediante cifrado para que tus datos permanezcan privados mientras trabajas.",
+            "containerTitle": "Inicia sesión o crea una cuenta"
+        },
+        "step2": {
+            "title": "Elige el algoritmo y la criptomoneda para operar",
+            "description": "Elige un algoritmo, luego una criptomoneda y prueba el par. Eres libre de explorar tantas combinaciones como desees para encontrar la más rentable.",
+            "containerTitle": "Elige algoritmo e instrumento"
+        },
+        "step3": {
+            "title": "Conéctate a tu intercambio de criptomonedas",
+            "description": "Soportamos los intercambios de criptomonedas más populares y estamos trabajando en agregar aún más. También puedes generar señales y operar por tu cuenta.",
+            "containerTitle": "Conéctate al intercambio de cripto"
+        },
+        "step4": {
+            "title": "El bot de trading operará por ti automáticamente",
+            "description": "Nuestro bot de trading operará por ti automáticamente. Puedes configurar los parámetros y dejar que opere por ti. 24/7 sin descansos ni errores.",
+            "containerTitle": "¡Todo listo! Ahora el bot operará por ti"
+        }
+    },
+    "footer": {
+        "title": "Obtén 6 meses",
+        "titleHighlight": "Gratis",
+        "titleEnd": "de Prueba",
+        "description": "Obtén acceso a nuestros algoritmos de trading, backtesting y modelos de aprendizaje automático durante 6 meses gratis. No se requiere tarjeta de crédito.",
+        "startTradingButton": "Comenzar a Operar",
+        "contactButton": "Contáctanos",
+        "tagline": "Plataforma de trading para comercio automatizado de criptomonedas",
+        "products": {
+            "title": "Productos",
+            "aiInvestor": "AI Inversor",
+            "aiJournal": "Diario de Trading AI",
+            "competition": "Competencia de Trading"
+        },
+        "tools": {
+            "title": "Herramientas",
+            "algorithms": "Algoritmos",
+            "backtesting": "Backtesting",
+            "ml": "Aprendizaje Automático",
+            "bot": "Bot de Trading"
+        },
+        "socials": {
+            "title": "Redes Sociales",
+            "telegram": "Telegram",
+            "linkedin": "LinkedIn",
+            "github": "Github"
+        },
+        "company": {
+            "title": "Empresa",
+            "about": "Acerca de",
+            "careers": "Carreras",
+            "contact": "Contacto"
+        },
+        "copyright": "© 2025 Algo Squid. Todos los derechos reservados.",
+        "systemStatus": "Todos los sistemas operativos."
+    },
+    "reviews": {
+        "title": "Lo que nuestros",
+        "titleHighlight": "usuarios",
+        "titleEnd": "dicen",
+        "review1": {
+            "quote": "Con Algo Squid tengo mucho más tiempo libre.",
+            "description": "Con Algo Squid ya no necesito pasar horas monitoreando los mercados manualmente para abrir posiciones en el momento adecuado. Puedo enfocarme en otras cosas mientras el bot trabaja por mí.",
+            "name": "Pawel Kowalski",
+            "location": "Varsovia • Polonia"
+        },
+        "review2": {
+            "quote": "Estoy muy contento de haber encontrado Algo Squid. La precisión de los algoritmos y el bot es increíble.",
+            "name": "Omar El-Sayed",
+            "location": "Dubái • Emiratos Árabes Unidos"
+        },
+        "review3": {
+            "quote": "Ha transformado completamente mi trading.",
+            "description": "Desde generar señales de trading hasta rastrear el rendimiento de los algoritmos con el tiempo y abrir posiciones automáticamente.",
+            "name": "Alexey Kuznetsov",
+            "location": "Kiev • Ucrania"
+        },
+        "review4": {
+            "quote": "El Aprendizaje Automático llevó el rendimiento del algoritmo a un nivel que nunca creí posible.",
+            "description": "Tener aprendizaje automático para reducir el número de señales falsas es un cambio radical.",
+            "name": "Steve Smith",
+            "location": "Nueva York • Estados Unidos"
+        }
+    },
+    "sideMenu": {
+        "myInstances": "Mis Instancias",
+        "history": "Historial",
+        "backtest": "Backtesting",
+        "botAndNotifications": "Bot y Notificaciones",
+        "managePlan": "Gestionar Mi Plan",
+        "plan": "Plan",
+        "safety": "Seguridad",
+        "howItWorks": "¿Cómo funciona?"
+    },
+    "plan": {
+        "trialEndsMessage": "Tu período de prueba terminará el {date} a las {time}. Puedes actualizar al plan pro para continuar usando el bot.",
+        "monthly": "Mensual",
+        "yearly": "Anual",
+        "savePercent": "ahorra 20%",
+        "excVat": "sin IVA",
+        "including": "Incluye",
+        "monthlyShort": "mes",
+        "yearlyShort": "a",
+        "features": {
+            "algorithms": "2 algoritmos potentes",
+            "mlModels": "Modelos ML",
+            "tradingBot": "Bot de trading",
+            "unlimitedInstances": "Instancias ilimitadas",
+            "unlimitedBacktests": "Backtests ilimitados",
+            "unlimitedNotifications": "Notificaciones ilimitadas",
+            "supportProject": "Apoyar el proyecto"
+        },
+        "selectPlan": "Seleccionar plan"
+    },
+    "entitlements": {
+        "proPlanActive": "Plan Pro - activo",
+        "proInactive": "Pro (inactivo)",
+        "proTrialDaysLeft": "Prueba Pro – quedan {days} {daysWord}",
+        "proTrialOneDayLeft": "Prueba Pro – queda 1 día",
+        "proTrialEndsToday": "Prueba Pro – termina hoy",
+        "freeTrialEnded": "Gratis (prueba terminada)",
+        "day": "día",
+        "days": "días"
+    },
+    "header": {
+        "searchPlaceholder": "Buscar cualquier cosa..."
+    },
+    "instances": {
+        "addFirstInstance": "Agrega tu primera instancia",
+        "instanceDescription": "Una instancia es una función que se ejecutará en la nube 24/7 verificando constantemente nuevas señales. Una vez que se detecta una señal, la instancia abrirá una posición en el intercambio. Después, la instancia cerrará automáticamente la posición una vez que se detecte una señal opuesta.",
+        "addInstance": "Agregar instancia",
+        "visitDocumentation": "Visita la página de documentación para más información",
+        "instances": "Instancias",
+        "instanceCount": "Tienes {count} instancia(s).",
+        "createNewInstance": "Crear nueva instancia",
+        "configureDescription": "Configura la estrategia y el intercambio para esta instancia. Se ejecutará en la nube.",
+        "strategy": "Estrategia",
+        "instrument": "Instrumento",
+        "exchange": "Intercambio",
+        "apiKey": "Clave API",
+        "selectPlaceholder": "Seleccionar...",
+        "apiKeyProvided": "Has proporcionado una clave API",
+        "enterApiKey": "Ingresa clave API",
+        "yourInstance": "Tu instancia:",
+        "strategyLabel": "Estrategia:",
+        "instrumentLabel": "Instrumento:",
+        "exchangeLabel": "Intercambio:",
+        "signalLabel": "Señal:",
+        "create": "Crear",
+        "cancel": "Cancelar",
+        "clear": "Limpiar",
+        "createdSuccess": "¡Instancia creada con éxito!",
+        "errors": {
+            "required": "Este campo es obligatorio"
+        },
+        "createdError": "Error al crear instancia"
+    }
+}

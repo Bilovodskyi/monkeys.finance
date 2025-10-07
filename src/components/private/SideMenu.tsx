@@ -1,18 +1,22 @@
 "use client"
 
 import { Activity, Fingerprint, GalleryVerticalEnd, History, Pyramid, Receipt, Shield } from "lucide-react";
-import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 type SideMenuTab = "instances" | "history" | "backtest" | "bot" | "plan" | "how" | "safety";
 
 function tabFromPath(pathname: string): SideMenuTab {
-    if (pathname.startsWith("/history")) return "history";
-    if (pathname.startsWith("/backtest")) return "backtest";
-    if (pathname.startsWith("/bot")) return "bot";
-    if (pathname.startsWith("/plan")) return "plan";
-    if (pathname.startsWith("/how")) return "how";
-    if (pathname.startsWith("/safety")) return "safety";
+    // Remove locale prefix if present (e.g., "/en/history" -> "/history")
+    const pathWithoutLocale = pathname.split("/").slice(2).join("/") || "/";
+    const normalizedPath = `/${pathWithoutLocale}`;
+
+    if (normalizedPath.startsWith("/history")) return "history";
+    if (normalizedPath.startsWith("/backtest")) return "backtest";
+    if (normalizedPath.startsWith("/bot")) return "bot";
+    if (normalizedPath.startsWith("/plan")) return "plan";
+    if (normalizedPath.startsWith("/how")) return "how";
+    if (normalizedPath.startsWith("/safety")) return "safety";
     return "instances";
 }
 
@@ -20,9 +24,13 @@ export default function SideMenu() {
     const pathname = usePathname();
     const router = useRouter();
     const activeTab = tabFromPath(pathname);
+    const t = useTranslations("sideMenu");
+
+    // Extract current locale from pathname (e.g., "/en/about" -> "en")
+    const currentLocale = pathname.split("/")[1] || "en";
 
     const setActiveTab = (tab: SideMenuTab) => {
-        router.push(`/${tab}`);
+        router.push(`/${currentLocale}/${tab}`);
     }
     return (
         <div className="group/side-menu absolute left-0 bg-black h-screen z-20 w-[71px] border-r border-zinc-800 shrink-0 hover:w-[270px] transition-all duration-300 ease-in-out">
@@ -36,9 +44,9 @@ export default function SideMenu() {
                     </div>
                     <div className="relative overflow-hidden">
 
-                        <span className="invisible block text-sm whitespace-nowrap"> My Instances</span>
+                        <span className="invisible block text-sm whitespace-nowrap"> {t("myInstances")}</span>
                         <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
-                            My Instances
+                            {t("myInstances")}
                         </span>
                     </div>
                 </div>
@@ -47,9 +55,9 @@ export default function SideMenu() {
                         <History className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap"> History</span>
+                        <span className="invisible block text-sm whitespace-nowrap"> {t("history")}</span>
                         <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
-                            History
+                            {t("history")}
                         </span>
                     </div>
                 </div>
@@ -58,9 +66,9 @@ export default function SideMenu() {
                         <GalleryVerticalEnd className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap"> Backtest</span>
+                        <span className="invisible block text-sm whitespace-nowrap"> {t("backtest")}</span>
                         <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
-                            Backtest
+                            {t("backtest")}
                         </span>
                     </div>
                 </div>
@@ -69,9 +77,9 @@ export default function SideMenu() {
                         <Fingerprint className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap">Bot and Notifications</span>
+                        <span className="invisible block text-sm whitespace-nowrap">{t("botAndNotifications")}</span>
                         <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
-                            Bot and Notifications
+                            {t("botAndNotifications")}
                         </span>
                     </div>
                 </div>
@@ -80,9 +88,9 @@ export default function SideMenu() {
                         <Receipt className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap">Manage My Plan</span>
+                        <span className="invisible block text-sm whitespace-nowrap">{t("managePlan")}</span>
                         <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
-                            Plan
+                            {t("plan")}
                         </span>
                     </div>
                 </div>
@@ -91,9 +99,9 @@ export default function SideMenu() {
                         <Shield className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap">Safety</span>
+                        <span className="invisible block text-sm whitespace-nowrap">{t("safety")}</span>
                         <span className=" absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150" >
-                            Safety
+                            {t("safety")}
                         </span>
                     </div>
                 </div>
@@ -103,9 +111,9 @@ export default function SideMenu() {
                         <Pyramid className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap" >How it works?</span>
+                        <span className="invisible block text-sm whitespace-nowrap">{t("howItWorks")}</span>
                         <span className=" absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150" >
-                            How it works?
+                            {t("howItWorks")}
                         </span>
                     </div>
                 </div>

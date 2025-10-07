@@ -1,22 +1,20 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
+import { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
 
 type CustomButtonType = {
     isBlue: boolean;
     children: ReactNode;
     disabled?: boolean;
-} & DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
->;
+} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 export function CustomButton({
     isBlue,
     children,
     disabled,
+    ...rest
 }: CustomButtonType) {
     return (
         <div
-
+            {...rest}
             aria-disabled={disabled}
             className={`flex items-center justify-center shrink-0 px-4 md:px-12 py-2 rounded-md cursor-pointer h-9 ${isBlue
                 ? "relative group gap-2 overflow-hidden border text-sm font-semibold border-transparent bg-[#1fd5f9] shadow-[0_0_8px_rgba(31,213,249,0.25)] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-transparent hover:border-[#a5eefd] hover:shadow-[0_0_16px_rgba(31,213,249,0.25)]"
