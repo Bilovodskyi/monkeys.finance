@@ -33,7 +33,7 @@ export default function SideMenu() {
         router.push(`/${currentLocale}/${tab}`);
     }
     return (
-        <div className="group/side-menu absolute left-0 bg-black h-screen z-20 w-[71px] border-r border-zinc-800 shrink-0 hover:w-[270px] transition-all duration-300 ease-in-out">
+        <div className="group/side-menu absolute left-0 bg-background h-screen z-20 w-[71px] border-r border-zinc-800 shrink-0 hover:w-[270px] transition-all duration-300 ease-in-out">
             <div className="flex items-center px-5 border-b border-zinc-800 h-[70px]">
                 <img src="/algo-logo.png" alt="Main Logo" className="max-w-8 max-h-8" />
             </div>

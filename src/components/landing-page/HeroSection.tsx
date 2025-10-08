@@ -66,7 +66,7 @@ export async function HeroSection() {
             />
 
             {/* Supported Exchanges */}
-            <section className="absolute right-0 bottom-12 bg-black w-full border-y border-zinc-800 flex [&>div:not(:first-child)]:border-l [&>div]:border-zinc-800">
+            <section className="absolute right-0 bottom-12 bg-background w-full border-y border-zinc-800 flex [&>div:not(:first-child)]:border-l [&>div]:border-zinc-800">
                 <div className="flex-1 px-4 py-3"></div>
                 <div className="flex-1 px-4 py-3 flex flex-col justify-center">{t("supportedExchanges")} <br /> <span className="text-secondary text-sm">{t("supportedExchangesSubtext")}</span></div>
                 <div className="flex items-center justify-center flex-1 px-4 py-3">

@@ -34,7 +34,7 @@ export default function BoxWithHover({
                         <div
                             className={[
                                 "flex h-16 w-16 items-center justify-center rounded-md",
-                                "border border-zinc-700 bg-black",
+                                "border border-zinc-700 bg-background",
                                 "shadow-[-3px_3px_0px_0px_#3f3f46]",
                                 "px-3 py-3 text-xs text-center",
                                 "transition-transform duration-300 ease-out",

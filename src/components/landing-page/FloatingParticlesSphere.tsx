@@ -353,13 +353,10 @@ export default function ParticleSphereScroll() {
     const sphereDescriptionRef = useRef<HTMLParagraphElement>(null);
 
     return (
-        <div className="relative w-full bg-black text-white">
+        <div className="relative w-full bg-background text-white">
             {/* Scroll stage pinned during the animation */}
-            <section ref={sectionOneRef} className="bg-green-500 sticky top-0 h-screen w-full">
+            <section ref={sectionOneRef} className="sticky top-0 h-screen w-full">
                 <Canvas camera={{ fov: 60, near: 0.1, far: 100 }} gl={{ antialias: true, powerPreference: "high-performance" }}>
-                    <color attach="background" args={[0x000000]} />
-                    <fog attach="fog" args={[0x000000, 5, 50]} />
-
                     <Scene sectionOneRef={sectionOneRef} sectionTwoRef={sectionTwoRef} sectionThreeRef={sectionThreeRef} insideTextRef={insideTextRef} sphereTitleRef={sphereTitleRef} sphereDescriptionRef={sphereDescriptionRef} />
                 </Canvas>
 
@@ -377,8 +374,8 @@ export default function ParticleSphereScroll() {
             </section>
 
             {/* Hidden scroll sections for tracking scroll progress */}
-            <div ref={sectionTwoRef} className="h-screen bg-red-500"></div>
-            <div ref={sectionThreeRef} className="h-screen bg-blue-500"></div>
+            <div ref={sectionTwoRef} className="h-screen"></div>
+            <div ref={sectionThreeRef} className="h-screen"></div>
         </div>
     );
 }

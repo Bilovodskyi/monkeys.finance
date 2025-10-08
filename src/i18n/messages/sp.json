@@ -216,6 +216,7 @@
         "instances": "Instancias",
         "instanceCount": "Tienes {count} instancia(s).",
         "createNewInstance": "Crear nueva instancia",
+        "editInstance": "Editar instancia",
         "configureDescription": "Configura la estrategia y el intercambio para esta instancia. Se ejecutará en la nube.",
         "strategy": "Estrategia",
         "instrument": "Instrumento",
@@ -230,12 +231,27 @@
         "exchangeLabel": "Intercambio:",
         "signalLabel": "Señal:",
         "create": "Crear",
+        "save": "Guardar",
         "cancel": "Cancelar",
         "clear": "Limpiar",
         "createdSuccess": "¡Instancia creada con éxito!",
+        "updatedSuccess": "¡Instancia actualizada con éxito!",
         "errors": {
             "required": "Este campo es obligatorio"
         },
-        "createdError": "Error al crear instancia"
+        "createdError": "Error al crear instancia",
+        "updatedError": "Error al actualizar instancia",
+        "actionsMenu": {
+            "pauseActivate": {
+                "paused": "Instancia pausada",
+                "activated": "Instancia activada",
+                "failed": "Error al actualizar instancia"
+            },
+            "errors": {
+                "unauthorized": "No autorizado",
+                "invalidId": "ID de instancia inválido",
+                "notFound": "Instancia no encontrada o no accesible"
+            }
+        }
     }
 }

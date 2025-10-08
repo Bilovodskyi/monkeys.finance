@@ -520,7 +520,7 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             />
 
             {/* Panel with frame path */}
-            <div className="absolute left-[calc(50%-95px)] top-[399px] z-[5] flex h-[350px] w-[597px] border border-dashed border-zinc-700 px-3 py-2" style={{ opacity: 1, backgroundColor: "rgba(7, 7, 7, 0.8)" }}>
+            <div className="absolute left-[calc(50%-95px)] top-[399px] z-[5] flex h-[350px] w-[597px] border border-dashed border-zinc-700 px-3 py-2" style={{ opacity: 1, backgroundColor: "rgba(18, 18, 18, 0.8)" }}>
                 <a
                     href="/"
                     target="_blank"

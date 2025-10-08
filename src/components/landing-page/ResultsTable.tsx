@@ -42,7 +42,7 @@ export function ResultsTable() {
     const stats = useBacktestStats(statsInput);
 
     return (
-        <section className="bg-black px-24 mt-8">
+        <section className="px-24 mt-8">
 
             {error && (
                 <div className="mb-4 p-3 bg-red-900/20 border border-red-600 rounded text-red-400 text-sm">
@@ -67,7 +67,7 @@ export function ResultsTable() {
                         {pairs.map((pair, index) => (
                             <div
                                 key={index}
-                                className={`relative bg-black border-b first:border-t border-zinc-800 py-4 px-6`}
+                                className={`relative border-b first:border-t border-zinc-800 py-4 px-6`}
                             >
                                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
                                     {/* Position Types */}
@@ -230,7 +230,7 @@ export function ResultsTable() {
             </div>
             {showAllOpen && (
                 <div className="fixed inset-0 z-[100]">
-                    <div className="absolute inset-0 bg-black/60" onClick={() => setShowAllOpen(false)} />
+                    <div className="absolute inset-0" onClick={() => setShowAllOpen(false)} />
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vh] bg-[#0C0C0C] border border-zinc-800 rounded-lg px-4 py-6 overflow-y-auto">
                         <div className="flex items-center justify-between mb-4">
                             <div className='flex flex-col gap-2'>
@@ -255,14 +255,7 @@ export function ResultsTable() {
                                                     {pair.firstTrade.positionType}
                                                 </span>
                                             )}
-                                            {pair.secondTrade.positionType !== 'Unknown' && (
-                                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${pair.secondTrade.positionType.toLowerCase() === 'buy'
-                                                    ? 'bg-green-900/20 text-green-400 border border-green-600'
-                                                    : 'bg-red-900/20 text-red-400 border border-red-600'
-                                                    }`}>
-                                                    {pair.secondTrade.positionType}
-                                                </span>
-                                            )}
+
                                         </div>
                                         <div className="text-center md:text-left">
                                             <div className="text-sm text-secondary font-medium">{pair.firstTrade.date}</div>

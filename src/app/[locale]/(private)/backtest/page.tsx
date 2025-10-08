@@ -57,7 +57,7 @@ export default function BacktestPage() {
                 </div>
             </div>
 
-            <div className="flex-1 p-6 bg-black flex flex-col overflow-hidden">
+            <div className="flex-1 p-6 flex flex-col overflow-hidden">
                 {/* Sticky Header */}
                 <div className="grid grid-cols-7 border border-zinc-800 backdrop-blur-md">
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">Position Type</div>

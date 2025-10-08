@@ -216,6 +216,7 @@
         "instances": "Instances",
         "instanceCount": "You have {count} instance(s).",
         "createNewInstance": "Create new instance",
+        "editInstance": "Edit instance",
         "configureDescription": "Configure the strategy and exchange for this instance. It will run in the cloud.",
         "strategy": "Strategy",
         "instrument": "Instrument",
@@ -230,12 +231,27 @@
         "exchangeLabel": "Exchange:",
         "signalLabel": "Signal:",
         "create": "Create",
+        "save": "Save",
         "cancel": "Cancel",
         "clear": "Clear",
         "createdSuccess": "Instance created successfully!",
+        "updatedSuccess": "Instance updated successfully!",
         "errors": {
             "required": "This field is required"
         },
-        "createdError": "Failed to create instance"
+        "createdError": "Failed to create instance",
+        "updatedError": "Failed to update instance",
+        "actionsMenu": {
+            "pauseActivate": {
+                "paused": "Instance paused",
+                "activated": "Instance activated",
+                "failed": "Failed to update instance"
+            },
+            "errors": {
+                "unauthorized": "Unauthorized",
+                "invalidId": "Invalid instance id",
+                "notFound": "Instance not found or not accessible"
+            }
+        }
     }
 }
