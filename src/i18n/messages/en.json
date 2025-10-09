@@ -213,6 +213,19 @@
         "instanceDescription": "Instance is a function that will run on the cloud 24/7 constantly checking for new signals. Once signal is detected, the instance will open a position on the exchange. After instance automatically closes the position once opposite signal is detected.",
         "addInstance": "Add instance",
         "visitDocumentation": "Visit documentation page for more information",
+        "limitBanner": {
+            "line1": "You can only have up to 3 instances.",
+            "line2": "We are working on increasing this limit."
+        },
+        "tableHeaders": {
+            "status": "Status",
+            "name": "Name",
+            "strategy": "Strategy",
+            "instrument": "Instrument",
+            "exchange": "Exchange",
+            "createdAt": "Created At",
+            "actions": "Actions"
+        },
         "instances": "Instances",
         "instanceCount": "You have {count} instance(s).",
         "createNewInstance": "Create new instance",
@@ -247,10 +260,19 @@
                 "activated": "Instance activated",
                 "failed": "Failed to update instance"
             },
+            "delete": {
+                "deleted": "Instance deleted successfully",
+                "failed": "Failed to delete instance"
+            },
             "errors": {
                 "unauthorized": "Unauthorized",
                 "invalidId": "Invalid instance id",
                 "notFound": "Instance not found or not accessible"
+            },
+            "items": {
+                "edit": "Edit",
+                "pauseActivate": "Pause/Activate",
+                "delete": "Delete"
             }
         }
     }

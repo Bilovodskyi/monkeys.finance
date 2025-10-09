@@ -213,6 +213,19 @@
         "instanceDescription": "Una instancia es una función que se ejecutará en la nube 24/7 verificando constantemente nuevas señales. Una vez que se detecta una señal, la instancia abrirá una posición en el intercambio. Después, la instancia cerrará automáticamente la posición una vez que se detecte una señal opuesta.",
         "addInstance": "Agregar instancia",
         "visitDocumentation": "Visita la página de documentación para más información",
+        "limitBanner": {
+            "line1": "Sólo puedes tener hasta 3 instancias.",
+            "line2": "Estamos trabajando para aumentar este límite."
+        },
+        "tableHeaders": {
+            "status": "Estado",
+            "name": "Nombre",
+            "strategy": "Estrategia",
+            "instrument": "Instrumento",
+            "exchange": "Intercambio",
+            "createdAt": "Fecha de creación",
+            "actions": "Acciones"
+        },
         "instances": "Instancias",
         "instanceCount": "Tienes {count} instancia(s).",
         "createNewInstance": "Crear nueva instancia",
@@ -247,10 +260,19 @@
                 "activated": "Instancia activada",
                 "failed": "Error al actualizar instancia"
             },
+            "delete": {
+                "deleted": "Instancia eliminada con éxito",
+                "failed": "Error al eliminar instancia"
+            },
             "errors": {
                 "unauthorized": "No autorizado",
                 "invalidId": "ID de instancia inválido",
                 "notFound": "Instancia no encontrada o no accesible"
+            },
+            "items": {
+                "edit": "Editar",
+                "pauseActivate": "Pausar/Activar",
+                "delete": "Eliminar"
             }
         }
     }

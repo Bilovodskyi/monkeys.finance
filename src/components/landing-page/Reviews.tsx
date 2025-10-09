@@ -10,26 +10,26 @@ export const Reviews = async () => {
         <div className="flex justify-center gap-4 items-center">
             <div className="flex flex-col gap-2 w-[300px] border border-zinc-800 p-8 bg-neutral-900 rotate-[5deg] translate-x-[25px] hover:translate-y-[-20px] hover:z-30 transition-all duration-300 ease-in-out">
                 <h2 className="text-xl font-title">"{t("review1.quote")}"</h2>
-                <p className="text-sm text-secondary">{t("review1.description")}</p>
-                <p className="text-sm pt-2">{t("review1.name")}</p>
-                <p className="text-sm text-secondary">{t("review1.location")}</p>
+                <p className="text-secondary">{t("review1.description")}</p>
+                <p className="pt-2">{t("review1.name")}</p>
+                <p className="text-secondary">{t("review1.location")}</p>
             </div>
             <div className="flex flex-col gap-2 w-[300px] border border-zinc-800 p-8 bg-neutral-900 rotate-[-3deg] translate-x-[10px] translate-y-[-50px] hover:translate-y-[-70px] hover:z-30 transition-all duration-300 ease-in-out">
                 <h2 className="text-xl font-title">"{t("review2.quote")}"</h2>
-                <p className="text-sm pt-2">{t("review2.name")}</p>
-                <p className="text-sm text-secondary">{t("review2.location")}</p>
+                <p className="pt-2">{t("review2.name")}</p>
+                <p className="text-secondary">{t("review2.location")}</p>
             </div>
             <div className="flex flex-col gap-2 w-[300px] border border-zinc-800 p-8 bg-neutral-900 rotate-[3deg] translate-x-[-10px] hover:translate-y-[-20px] hover:z-30 transition-all duration-300 ease-in-out">
                 <h2 className="text-xl font-title">"{t("review3.quote")}"</h2>
-                <p className="text-sm text-secondary">{t("review3.description")}</p>
-                <p className="text-sm pt-2">{t("review3.name")}</p>
-                <p className="text-sm text-secondary">{t("review3.location")}</p>
+                <p className="text-secondary">{t("review3.description")}</p>
+                <p className="pt-2">{t("review3.name")}</p>
+                <p className="text-secondary">{t("review3.location")}</p>
             </div>
             <div className="flex flex-col gap-2 w-[300px] border border-zinc-800 p-8 bg-neutral-900 rotate-[-5deg] translate-x-[-30px] translate-y-[-20px] hover:translate-y-[-40px] hover:z-30 transition-all duration-300 ease-in-out">
                 <h2 className="text-xl font-title">"{t("review4.quote")}"</h2>
-                <p className="text-sm text-secondary">{t("review4.description")}</p>
-                <p className="text-sm pt-2">{t("review4.name")}</p>
-                <p className="text-sm text-secondary">{t("review4.location")}</p>
+                <p className="text-secondary">{t("review4.description")}</p>
+                <p className="pt-2">{t("review4.name")}</p>
+                <p className="text-secondary">{t("review4.location")}</p>
             </div>
 
         </div>

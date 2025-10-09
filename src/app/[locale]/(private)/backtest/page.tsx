@@ -41,45 +41,45 @@ export default function BacktestPage() {
             <div className="flex p-6 gap-6">
                 <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-xl font-title">{formatNumberWithCommas(stats.totalGain)} USD</h1>
-                    <h2 className="text-sm text-tertiary font-title">Total Money Earned</h2>
+                    <h2 className=" text-tertiary font-title">Total Money Earned</h2>
                 </div>
                 <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-xl font-title">{firstDate} - {lastDate}</h1>
-                    <h2 className="text-sm text-tertiary font-title">Backtest Period</h2>
+                    <h2 className=" text-tertiary font-title">Backtest Period</h2>
                 </div>
                 <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-xl font-title">{Math.round(stats.capitalChangePct)}%</h1>
-                    <h2 className="text-sm text-tertiary font-title">Capital Change</h2>
+                    <h2 className=" text-tertiary font-title">Capital Change</h2>
                 </div>
                 <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-xl font-title">{stats.numTrades} / {stats.winTradesCount} / {stats.lossTradesCount}</h1>
-                    <h2 className="text-sm text-tertiary font-title">Total Trades / Wins / Losses</h2>
+                    <h2 className=" text-tertiary font-title">Total Trades / Wins / Losses</h2>
                 </div>
             </div>
 
             <div className="flex-1 p-6 flex flex-col overflow-hidden">
                 {/* Sticky Header */}
                 <div className="grid grid-cols-7 border border-zinc-800 backdrop-blur-md">
-                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">Position Type</div>
-                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">Open Date</div>
-                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">Close Date</div>
-                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">P&L</div>
-                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">Equity Before</div>
-                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">Equity After</div>
-                    <div className="px-4 py-3 text-tertiary text-sm">Entry Price</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">Position Type</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">Open Date</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">Close Date</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">P&L</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">Equity Before</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">Equity After</div>
+                    <div className="px-4 py-3 text-tertiary ">Entry Price</div>
                 </div>
 
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto min-h-0">
                     {pairs.map((trade, index) => (
                         <div key={index} className="grid grid-cols-7 border border-zinc-800 border-t-0">
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">{trade.firstTrade.positionType}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">{trade.firstTrade.date}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">{trade.secondTrade.date}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">{trade.totalChange}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">{formatNumberWithCommas(trade.firstTrade.totalEquity)}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary text-sm">{formatNumberWithCommas(trade.secondTrade.totalEquity)}</div>
-                            <div className="px-4 py-3 text-tertiary text-sm">{formatNumberWithCommas(trade.firstTrade.entryPrice)}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{trade.firstTrade.positionType}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{trade.firstTrade.date}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{trade.secondTrade.date}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{trade.totalChange}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{formatNumberWithCommas(trade.firstTrade.totalEquity)}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{formatNumberWithCommas(trade.secondTrade.totalEquity)}</div>
+                            <div className="px-4 py-3">{formatNumberWithCommas(trade.firstTrade.entryPrice)}</div>
                         </div>
                     ))}
                 </div>

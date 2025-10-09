@@ -74,33 +74,15 @@ export const InstanceTable = pgTable("instance", {
     }));
 
 
-// Join table
-export const userInstances = pgTable(
-    "user_instances",
-    {
-        userId: uuid("user_id").notNull().references(() => UserTable.id, { onDelete: "cascade" }),
-        instanceId: uuid("instance_id").notNull().references(() => InstanceTable.id, { onDelete: "cascade" }),
-    },
-    (t) => ({
-        pk: primaryKey({ columns: [t.userId, t.instanceId] }), // or a separate id + unique index
-    })
-);
-
-
-// Users -> join rows
-export const usersRelations = relations(UserTable, ({ many }) => ({
-    userInstances: many(userInstances),
+export const userRelations = relations(UserTable, ({ many }) => ({
+    instances: many(InstanceTable),
 }));
 
-// Instances -> join rows
-export const instancesRelations = relations(InstanceTable, ({ many }) => ({
-    userInstances: many(userInstances),
-}));
-
-// Join row -> both parents
-export const userInstancesRelations = relations(userInstances, ({ one }) => ({
-    user: one(UserTable, { fields: [userInstances.userId], references: [UserTable.id] }),
-    instance: one(InstanceTable, { fields: [userInstances.instanceId], references: [InstanceTable.id] }),
+export const instanceRelations = relations(InstanceTable, ({ one }) => ({
+    user: one(UserTable, {
+        fields: [InstanceTable.userId],
+        references: [UserTable.id],
+    }),
 }));
 
 

@@ -45,7 +45,7 @@ export function ResultsTable() {
         <section className="px-24 mt-8">
 
             {error && (
-                <div className="mb-4 p-3 bg-red-900/20 border border-red-600 rounded text-red-400 text-sm">
+                <div className="mb-4 p-3 bg-red-900/20 border border-red-600 rounded text-red-400 ">
                     Warning: {error}. Showing sample data.
                 </div>
             )}
@@ -56,9 +56,9 @@ export function ResultsTable() {
                     <div className='w-full flex items-end justify-between'>
                         <div className='flex flex-col gap-2'>
                             <h2 className='text-3xl text-white font-title'>Strategies <span className='text-highlight'>Backtest</span> Results</h2>
-                            <h3 className='text-sm text-secondary'>Without Machine Learning</h3>
+                            <h3 className=' text-secondary'>Without Machine Learning</h3>
                         </div>
-                        <h2 className='text-sm text-secondary'>
+                        <h2 className=' text-secondary'>
                             Backtest Period: {firstDate} - {lastDate}
                         </h2>
                     </div>
@@ -82,8 +82,8 @@ export function ResultsTable() {
 
                                     {/* Dates */}
                                     <div className="text-center md:text-left">
-                                        <div className="text-sm text-secondary font-medium">{pair.firstTrade.date}</div>
-                                        <div className="text-sm text-secondary">{pair.secondTrade.date}</div>
+                                        <div className=" text-secondary font-medium">{pair.firstTrade.date}</div>
+                                        <div className=" text-secondary">{pair.secondTrade.date}</div>
                                     </div>
 
                                     {/* Capital Change */}
@@ -101,13 +101,13 @@ export function ResultsTable() {
                                     <div className="text-center">
                                         <div className="text-xs text-gray-400 mb-1">Total Equity</div>
                                         <div className="text-xs text-white">${pair.firstTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                                        <div className="text-sm text-white font-medium">→ ${pair.secondTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                        <div className=" text-white font-medium">→ ${pair.secondTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
                                     </div>
 
                                     {/* Entry Price */}
                                     <div className="text-center md:text-right">
                                         <div className="text-xs text-gray-400 mb-1">Entry Price</div>
-                                        <div className="text-sm text-white font-medium">${pair.firstTrade.entryPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                        <div className=" text-white font-medium">${pair.firstTrade.entryPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
                                     </div>
                                 </div>
 
@@ -129,7 +129,7 @@ export function ResultsTable() {
                                     {selectedInstrument === instrument && (
                                         <HoverEffectAroundCard offset={4} />
                                     )}
-                                    <div onClick={() => setSelectedInstrument(instrument)} className='hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-3 text-white text-center text-sm'>{instrument}</div>
+                                    <div onClick={() => setSelectedInstrument(instrument)} className='hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-3 text-white text-center '>{instrument}</div>
                                 </div>
                             ))}
 
@@ -149,7 +149,7 @@ export function ResultsTable() {
                                 <span className={`flex items-center justify-center h-4 w-4 rounded-full border ${sideFilter === 'buy' ? 'border-white' : 'border-zinc-600'}`}>
                                     {sideFilter === 'buy' && <span className='h-2 w-2 rounded-full bg-white' />}
                                 </span>
-                                <span className='text-sm text-white'>Only Buy</span>
+                                <span className=' text-white'>Only Buy</span>
                             </label>
                             <label className='flex items-center gap-2 cursor-pointer'>
                                 <input
@@ -163,7 +163,7 @@ export function ResultsTable() {
                                 <span className={`flex items-center justify-center h-4 w-4 rounded-full border ${sideFilter === 'sell' ? 'border-white' : 'border-zinc-600'}`}>
                                     {sideFilter === 'sell' && <span className='h-2 w-2 rounded-full bg-white' />}
                                 </span>
-                                <span className='text-sm text-white'>Only Sell</span>
+                                <span className=' text-white'>Only Sell</span>
                             </label>
                             <label className='flex items-center gap-2 cursor-pointer'>
                                 <input
@@ -177,7 +177,7 @@ export function ResultsTable() {
                                 <span className={`flex items-center justify-center h-4 w-4 rounded-full border ${sideFilter === 'all' ? 'border-white' : 'border-zinc-600'}`}>
                                     {sideFilter === 'all' && <span className='h-2 w-2 rounded-full bg-white' />}
                                 </span>
-                                <span className='text-sm text-white'>All</span>
+                                <span className=' text-white'>All</span>
                             </label>
                         </fieldset>
                     </div>
@@ -186,7 +186,7 @@ export function ResultsTable() {
                             <BacktestPie percentage={Math.round(stats.profitableTradesPct)} />
                             <div className='flex flex-col gap-1'>
                                 <span>{Math.round(stats.profitableTradesPct)}%</span>
-                                <span className='text-zinc-400 text-sm'>Profitable Trades</span>
+                                <span className='text-zinc-400 '>Profitable Trades</span>
                             </div>
                         </div>
 
@@ -194,14 +194,14 @@ export function ResultsTable() {
                             <BacktestPie percentage={Math.round(stats.capitalChangePct)} />
                             <div className='flex flex-col gap-1'>
                                 <span>{Math.round(stats.capitalChangePct)}%</span>
-                                <span className='text-zinc-400 text-sm'>Capital Change</span>
+                                <span className='text-zinc-400 '>Capital Change</span>
                             </div>
                         </div>
                     </div>
                     <div className='p-8'>
                         <div className='mb-2 flex items-center justify-between'>
-                            <span className='text-sm text-zinc-300'>Number of Trades</span>
-                            <span className='text-sm text-zinc-400'>{stats.numTrades}</span>
+                            <span className=' text-zinc-300'>Number of Trades</span>
+                            <span className=' text-zinc-400'>{stats.numTrades}</span>
                         </div>
                         <div className='h-1 w-full rounded-full bg-zinc-800 overflow-hidden'>
                             <div className='h-full bg-white rounded-full' style={{ width: '100%' }} />
@@ -209,8 +209,8 @@ export function ResultsTable() {
                     </div>
                     <div className='p-8'>
                         <div className='mb-2 flex items-center justify-between'>
-                            <span className='text-sm text-zinc-300'>Win Trades</span>
-                            <span className='text-sm text-zinc-400'>{stats.winTradesCount}</span>
+                            <span className=' text-zinc-300'>Win Trades</span>
+                            <span className=' text-zinc-400'>{stats.winTradesCount}</span>
                         </div>
                         <div className='h-1 w-full rounded-full bg-zinc-800 overflow-hidden'>
                             <div className='h-full bg-white rounded-full' style={{ width: `${Math.round(stats.winPct)}%` }} />
@@ -218,8 +218,8 @@ export function ResultsTable() {
                     </div>
                     <div className='p-8'>
                         <div className='mb-2 flex items-center justify-between'>
-                            <span className='text-sm text-zinc-300'>Loss Trades</span>
-                            <span className='text-sm text-zinc-400'>{stats.lossTradesCount}</span>
+                            <span className=' text-zinc-300'>Loss Trades</span>
+                            <span className=' text-zinc-400'>{stats.lossTradesCount}</span>
                         </div>
                         <div className='h-1 w-full rounded-full bg-zinc-800 overflow-hidden'>
                             <div className='h-full bg-white rounded-full' style={{ width: `${Math.round(stats.lossPct)}%` }} />
@@ -236,7 +236,7 @@ export function ResultsTable() {
                             <div className='flex flex-col gap-2'>
 
                                 <h3 className="text-lg font-title">Showing All becktested trades for <span className='text-highlight'>{selectedInstrument}</span></h3>
-                                <h3 className='text-sm font-title'>
+                                <h3 className=' font-title'>
                                     from {firstDate} to {lastDate}
                                 </h3>
                             </div>
@@ -258,8 +258,8 @@ export function ResultsTable() {
 
                                         </div>
                                         <div className="text-center md:text-left">
-                                            <div className="text-sm text-secondary font-medium">{pair.firstTrade.date}</div>
-                                            <div className="text-sm text-secondary">{pair.secondTrade.date}</div>
+                                            <div className=" text-secondary font-medium">{pair.firstTrade.date}</div>
+                                            <div className=" text-secondary">{pair.secondTrade.date}</div>
                                         </div>
                                         <div className="text-center">
                                             <div className="text-xs text-gray-400 mb-1">P&L</div>
@@ -270,11 +270,11 @@ export function ResultsTable() {
                                         <div className="text-center">
                                             <div className="text-xs text-gray-400 mb-1">Total Equity</div>
                                             <div className="text-xs text-white">${pair.firstTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                                            <div className="text-sm text-white font-medium">→ ${pair.secondTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                            <div className=" text-white font-medium">→ ${pair.secondTrade.totalEquity.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
                                         </div>
                                         <div className="text-center md:text-right">
                                             <div className="text-xs text-gray-400 mb-1">Entry Price</div>
-                                            <div className="text-sm text-white font-medium">${(pair.firstTrade.entryPrice ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                                            <div className=" text-white font-medium">${(pair.firstTrade.entryPrice ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
                                         </div>
                                     </div>
                                 </div>

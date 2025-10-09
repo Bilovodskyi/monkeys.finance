@@ -18,13 +18,13 @@ export default async function Plan() {
     return (
         <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
             <h1 className="text-lg font-bold">{heading}</h1>
-            <p className="text-center text-sm text-tertiary">{t("trialEndsMessage", { date: parseIsoToDateTime(data.trialEndsAt).date, time: parseIsoToDateTime(data.trialEndsAt).time })}</p>
+            <p className="text-center text-tertiary">{t("trialEndsMessage", { date: parseIsoToDateTime(data.trialEndsAt).date, time: parseIsoToDateTime(data.trialEndsAt).time })}</p>
             <div className="flex gap-4 mt-6">
                 <div className="border border-zinc-800 p-6 space-y-3 h-full w-[250px]">
                     <h2 className="text-lg font-bold">{t("monthly")}</h2>
                     <span className="text-2xl">29$ / {t("monthlyShort")} <span className="text-xs text-tertiary">{t("excVat")}</span></span>
                     <p className="text-secondary">{t("including")}</p>
-                    <ul className="list-disc list-inside text-sm space-y-1">
+                    <ul className="list-disc list-inside space-y-1">
                         <li className="flex items-center gap-2"><Check className="w-4 h-4" />{t("features.algorithms")}</li>
                         <li className="flex items-center gap-2"><Check className="w-4 h-4" />{t("features.mlModels")}</li>
                         <li className="flex items-center gap-2"><Check className="w-4 h-4" />{t("features.tradingBot")}</li>
@@ -46,7 +46,7 @@ export default async function Plan() {
                     </div>
                     <span className="text-2xl">279$ / {t("yearlyShort")} <span className="text-xs text-tertiary">{t("excVat")}</span></span>
                     <p className="text-secondary">{t("including")}</p>
-                    <ul className="list-disc list-inside text-sm space-y-1">
+                    <ul className="list-disc list-inside space-y-1">
                         <li className="flex items-center gap-2"><Check className="w-4 h-4" />{t("features.algorithms")}</li>
                         <li className="flex items-center gap-2"><Check className="w-4 h-4" />{t("features.mlModels")}</li>
                         <li className="flex items-center gap-2"><Check className="w-4 h-4" />{t("features.tradingBot")}</li>

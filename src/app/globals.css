@@ -39,9 +39,14 @@ body {
   background: var(--main-background);
   color: var(--main-text);
   font-family: var(--font-main);
+  font-size: 14px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  font-size: 14px;
 }
 
 /* Utility classes for text colors */

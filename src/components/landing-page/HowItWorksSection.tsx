@@ -353,7 +353,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <div className="flex flex-col gap-2">
 
                                 <h2 className={`${activeStep === 1 ? "text-white" : "text-secondary"} transition-colors`}>{t("step1.title")}</h2>
-                                <p className="text-secondary text-sm">
+                                <p className="text-secondary">
                                     {t("step1.description")}
                                 </p>
                             </div>
@@ -365,7 +365,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <div className="flex flex-col gap-2">
 
                                 <h2 className={`${activeStep === 2 ? "text-white" : "text-secondary"} transition-colors`}>{t("step2.title")}</h2>
-                                <p className="text-secondary text-sm">
+                                <p className="text-secondary">
                                     {t("step2.description")}
                                 </p>
                             </div>
@@ -377,7 +377,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <div className="flex flex-col gap-2">
 
                                 <h2 className={`${activeStep === 3 ? "text-white" : "text-secondary"} transition-colors`}>{t("step3.title")}</h2>
-                                <p className="text-secondary text-sm">
+                                <p className="text-secondary">
                                     {t("step3.description")}
                                 </p>
                             </div>
@@ -387,7 +387,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                             <div className="flex flex-col gap-2">
 
                                 <h2 className={`${activeStep === 4 ? "text-white" : "text-secondary"} transition-colors`}>{t("step4.title")}</h2>
-                                <p className="text-secondary text-sm">
+                                <p className="text-secondary">
                                     {t("step4.description")}
                                 </p>
                             </div>

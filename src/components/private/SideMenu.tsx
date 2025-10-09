@@ -44,8 +44,8 @@ export default function SideMenu() {
                     </div>
                     <div className="relative overflow-hidden">
 
-                        <span className="invisible block text-sm whitespace-nowrap"> {t("myInstances")}</span>
-                        <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                        <span className="invisible block whitespace-nowrap"> {t("myInstances")}</span>
+                        <span className="absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
                             {t("myInstances")}
                         </span>
                     </div>
@@ -55,8 +55,8 @@ export default function SideMenu() {
                         <History className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap"> {t("history")}</span>
-                        <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                        <span className="invisible block whitespace-nowrap"> {t("history")}</span>
+                        <span className="absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
                             {t("history")}
                         </span>
                     </div>
@@ -66,8 +66,8 @@ export default function SideMenu() {
                         <GalleryVerticalEnd className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap"> {t("backtest")}</span>
-                        <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                        <span className="invisible block whitespace-nowrap"> {t("backtest")}</span>
+                        <span className="absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
                             {t("backtest")}
                         </span>
                     </div>
@@ -77,8 +77,8 @@ export default function SideMenu() {
                         <Fingerprint className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap">{t("botAndNotifications")}</span>
-                        <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                        <span className="invisible block whitespace-nowrap">{t("botAndNotifications")}</span>
+                        <span className="absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
                             {t("botAndNotifications")}
                         </span>
                     </div>
@@ -88,8 +88,8 @@ export default function SideMenu() {
                         <Receipt className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap">{t("managePlan")}</span>
-                        <span className="absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                        <span className="invisible block whitespace-nowrap">{t("managePlan")}</span>
+                        <span className="absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
                             {t("plan")}
                         </span>
                     </div>
@@ -99,8 +99,8 @@ export default function SideMenu() {
                         <Shield className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap">{t("safety")}</span>
-                        <span className=" absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150" >
+                        <span className="invisible block whitespace-nowrap">{t("safety")}</span>
+                        <span className=" absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150" >
                             {t("safety")}
                         </span>
                     </div>
@@ -111,8 +111,8 @@ export default function SideMenu() {
                         <Pyramid className="w-4 h-4" />
                     </div>
                     <div className="relative overflow-hidden">
-                        <span className="invisible block text-sm whitespace-nowrap">{t("howItWorks")}</span>
-                        <span className=" absolute inset-0 block text-sm whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150" >
+                        <span className="invisible block whitespace-nowrap">{t("howItWorks")}</span>
+                        <span className=" absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150" >
                             {t("howItWorks")}
                         </span>
                     </div>

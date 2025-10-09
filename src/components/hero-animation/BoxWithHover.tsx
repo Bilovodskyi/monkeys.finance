@@ -62,7 +62,7 @@ export default function BoxWithHover({
                 align={align}
                 sideOffset={sideOffset}
                 collisionPadding={0}
-                className="w-72 text-sm"
+                className="w-72"
             >
                 {tooltip}
             </HoverCardContent>

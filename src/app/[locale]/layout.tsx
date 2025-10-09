@@ -42,7 +42,7 @@ export default async function LocaleLayout({
     return (
         <html lang={locale}>
             <body className="antialiased">
-                <ClerkProvider appearance={{ baseTheme: dark }} localization={CLERK_LOCALES[locale as keyof typeof CLERK_LOCALES]}>
+                <ClerkProvider appearance={{ baseTheme: dark, variables: { colorPrimary: "#1fd5f9", colorBackground: "rgb(18, 18, 18)" } }} localization={CLERK_LOCALES[locale as keyof typeof CLERK_LOCALES]}>
                     <NextIntlClientProvider messages={messages}>
                         <ReduxProvider>
                             {children}

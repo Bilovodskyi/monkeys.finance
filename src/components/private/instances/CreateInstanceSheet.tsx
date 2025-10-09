@@ -103,7 +103,7 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     <SheetTitle className="text-xl font-title">
                         {isEditMode ? translations("editInstance") : translations("createNewInstance")}
                     </SheetTitle>
-                    <SheetDescription className="text-sm text-tertiary mt-4">
+                    <SheetDescription className=" text-tertiary mt-4">
                         {translations("configureDescription")}
                     </SheetDescription>
                 </SheetHeader>
@@ -152,7 +152,7 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                 >
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className="text-sm">{translations("strategy")}</label>
+                            <label className=" text-tertiary">{translations("strategy")}</label>
                             {form.formState.errors.strategy && (
                                 <div className="text-xs text-red-500">{String(form.formState.errors.strategy.message)}</div>
                             )}
@@ -176,7 +176,7 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     </div>
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className="text-sm">{translations("instrument")}</label>
+                            <label className=" text-tertiary">{translations("instrument")}</label>
                             {form.formState.errors.instrument && (
                                 <div className="text-xs text-red-500">{String(form.formState.errors.instrument.message)}</div>
                             )}
@@ -200,7 +200,7 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     </div>
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className="text-sm">{translations("exchange")}</label>
+                            <label className=" text-tertiary">{translations("exchange")}</label>
                             {form.formState.errors.exchange && (
                                 <div className="text-xs text-red-500">{String(form.formState.errors.exchange.message)}</div>
                             )}
@@ -223,17 +223,17 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                         />
                     </div>
                     <div className="grid gap-2">
-                        <label className="text-sm">{translations("apiKey")}</label>
+                        <label className=" text-tertiary">{translations("apiKey")}</label>
                         {apiKey ? (
                             <div className="flex items-center gap-2">
                                 <Check className="w-4 h-4 text-green-500" />
-                                <span className="text-tertiary">{translations("apiKeyProvided")}</span>
+                                <span className="">{translations("apiKeyProvided")}</span>
                             </div>
                         ) : (
                             <input
                                 type="text"
                                 placeholder={translations("enterApiKey")}
-                                className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none"
+                                className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 bg-black px-3 py-2  text-white outline-none"
                             />
                         )}
                     </div>
@@ -241,20 +241,20 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     <div className="absolute bottom-0 right-0 left-0 pt-4 flex flex-col gap-8">
                         <div className="border border-zinc-800 p-4 space-y-4">
                             <div className="flex flex-col gap-2">
-                                <span className="text-tertiary text-sm mr-1 font-mein">{translations("yourInstance")}</span>
+                                <span className="text-tertiary mr-1 font-mein">{translations("yourInstance")}</span>
                                 <h1 className="font-title">{instanceName}</h1>
                             </div>
                             <div className="grid grid-cols-2 grid-rows-2 gap-2">
-                                <span className="text-tertiary text-sm mr-1 font-mein">
+                                <span className="text-tertiary mr-1 font-mein">
                                     {translations("strategyLabel")} <span className="text-white">{selectedStrategy || "-"}</span>
                                 </span>
-                                <span className="text-tertiary text-sm mr-1 font-mein">
+                                <span className="text-tertiary mr-1 font-mein">
                                     {translations("instrumentLabel")} <span className="text-white">{selectedInstrument || "-"}</span>
                                 </span>
-                                <span className="text-tertiary text-sm mr-1 font-mein">
+                                <span className="text-tertiary mr-1 font-mein">
                                     {translations("exchangeLabel")} <span className="text-white">{selectedExchange || "-"}</span>
                                 </span>
-                                <span className="text-tertiary text-sm mr-1 font-mein">
+                                <span className="text-tertiary mr-1 font-mein">
                                     {translations("signalLabel")} <span className="text-white">{selectedStrategy === "Squid Ribbon V2" ? "1H" : "4H"}</span>
                                 </span>
                             </div>

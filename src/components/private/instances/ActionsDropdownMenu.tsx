@@ -1,18 +1,31 @@
 "use client";
 
 import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Ellipsis } from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
+import { Activity, Ellipsis } from "lucide-react";
 import { pauseActivate } from "@/actions/instances/pauseActivate";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { CreateInstanceSheet } from "./CreateInstanceSheet";
 import type { InstanceRecord } from "@/types/instance";
+import { deleteInstance } from "@/actions/instances/delete";
+import { useState } from "react";
 
 export function ActionsDropdownMenu({ instance, apiKey }: { instance: InstanceRecord; apiKey: boolean }) {
 
     const router = useRouter();
     const t = useTranslations("instances.actionsMenu");
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     return (
         <DropdownMenu>
@@ -24,7 +37,7 @@ export function ActionsDropdownMenu({ instance, apiKey }: { instance: InstanceRe
             <DropdownMenuContent>
                 <DropdownMenuItem onSelect={(e) => e.stopPropagation()}>
                     <CreateInstanceSheet apiKey={apiKey} instance={instance}>
-                        <span onClick={(e) => e.stopPropagation()}>Edit</span>
+                        <span onClick={(e) => e.stopPropagation()}>{t("items.edit")}</span>
                     </CreateInstanceSheet>
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -43,12 +56,55 @@ export function ActionsDropdownMenu({ instance, apiKey }: { instance: InstanceRe
                         }
                     }}
                 >
-                    <span>Pause/Activate</span>
+                    <span>{t("items.pauseActivate")}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <span className="text-red-500">Delete</span>
+                <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); e.preventDefault() }} onClick={(e) => e.stopPropagation()}>
+                    <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+                        <DialogTrigger asChild>
+                            <span className="text-red-500 cursor-pointer">{t("items.delete")}</span>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Delete instance?</DialogTitle>
+                                <DialogDescription>
+
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="flex flex-col justify-center items-center py-4 gap-4">
+                                <div className="flex-none border border-zinc-800 rounded-md p-2">
+                                    <Activity className="w-6 h-6" />
+                                </div>
+                                <h1 className="text-xl">{instance.name}</h1>
+                                <p className=" text-secondary text-center">This action cannot be undone. <br /> This will permanently delete your instance.</p>
+                            </div>
+                            <DialogFooter className="w-full flex justify-center">
+                                <button
+                                    className="w-full border border-zinc-800 p-2 text-white duration-200 hover:bg-neutral-900 transition-all cursor-pointer"
+                                    onClick={async () => {
+                                        try {
+                                            const result = await deleteInstance(instance.id);
+                                            if (result.ok) {
+                                                toast.success(t("delete.deleted"));
+                                                setIsDeleteOpen(false);
+                                                router.refresh();
+                                            } else {
+                                                const key = result.error as any;
+                                                toast.error(t("delete.failed"));
+                                                console.error("Delete instance failed:", key);
+                                            }
+                                        } catch (error) {
+                                            console.error("Delete instance threw:", error);
+                                            toast.error(t("delete.failed"));
+                                        }
+                                    }}
+                                >
+                                    I want to delete this instance
+                                </button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                 </DropdownMenuItem>
             </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu >
     )
 }

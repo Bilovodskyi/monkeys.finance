@@ -18,7 +18,7 @@ export default function Bot() {
                     <div className="p-6">
 
                         <h1 className="text-lg font-bold">Binance API Key</h1>
-                        <p className="text-secondary text-sm">You can find your API key in the <a href="https://www.binance.com/en/my/settings/api-management" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">Binance API Management</a> page.</p>
+                        <p className="text-secondary">You can find your API key in the <a href="https://www.binance.com/en/my/settings/api-management" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">Binance API Management</a> page.</p>
                         <input type="text" className="border border-zinc-800 p-2 w-1/3 outline-none mt-4" />
                     </div>
                     <div className="h-[1px] w-full bg-zinc-800 mt-4" />
@@ -33,7 +33,7 @@ export default function Bot() {
                     <div className="p-6">
 
                         <h1 className="text-lg font-bold">Coinbase API Key</h1>
-                        <p className="text-secondary text-sm">You can find your API key in the <a href="https://www.coinbase.com/settings/api" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">Coinbase API Management</a> page.</p>
+                        <p className="text-secondary">You can find your API key in the <a href="https://www.coinbase.com/settings/api" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">Coinbase API Management</a> page.</p>
                         <input type="text" className="border border-zinc-800 p-2 w-1/3 outline-none mt-4" />
                     </div>
                     <div className="h-[1px] w-full bg-zinc-800 mt-4" />
@@ -48,7 +48,7 @@ export default function Bot() {
                     <div className="p-6">
 
                         <h1 className="text-lg font-bold">Kraken API Key</h1>
-                        <p className="text-secondary text-sm">You can find your API key in the <a href="https://www.kraken.com/en-us/account/api" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">Kraken API Management</a> page.</p>
+                        <p className="text-secondary">You can find your API key in the <a href="https://www.kraken.com/en-us/account/api" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">Kraken API Management</a> page.</p>
                         <input type="text" className="border border-zinc-800 p-2 w-1/3 outline-none mt-4" />
                     </div>
                     <div className="h-[1px] w-full bg-zinc-800 mt-4" />
@@ -63,7 +63,7 @@ export default function Bot() {
                     <div className="p-6">
 
                         <h1 className="text-lg font-bold">OKX API Key</h1>
-                        <p className="text-secondary text-sm">You can find your API key in the <a href="https://www.okx.com/account/settings/api" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">OKX API Management</a> page.</p>
+                        <p className="text-secondary">You can find your API key in the <a href="https://www.okx.com/account/settings/api" target="_blank" rel="noopener noreferrer" className="text-highlight hover:underline">OKX API Management</a> page.</p>
                         <input type="text" className="border border-zinc-800 p-2 w-1/3 outline-none mt-4" />
                     </div>
                     <div className="h-[1px] w-full bg-zinc-800 mt-4" />

@@ -17,7 +17,7 @@ export async function HeroSection() {
                 <img src="/main-logo.png" alt="Main Logo" className="w-32" />
                 <div className="flex items-center gap-8">
                     <LanguageSelector isPrivatePage={false} />
-                    <div className="flex items-center gap-2 text-secondary text-sm">
+                    <div className="flex items-center gap-2 text-secondary">
                         <Github className="w-3 h-3 shrink-0" />
                         <div className="flex items-center gap-1 hover:underline cursor-pointer hover:text-white z-50">
                             <p className="whitespace-nowrap font-semibold">github</p>
@@ -68,7 +68,7 @@ export async function HeroSection() {
             {/* Supported Exchanges */}
             <section className="absolute right-0 bottom-12 bg-background w-full border-y border-zinc-800 flex [&>div:not(:first-child)]:border-l [&>div]:border-zinc-800">
                 <div className="flex-1 px-4 py-3"></div>
-                <div className="flex-1 px-4 py-3 flex flex-col justify-center">{t("supportedExchanges")} <br /> <span className="text-secondary text-sm">{t("supportedExchangesSubtext")}</span></div>
+                <div className="flex-1 px-4 py-3 flex flex-col justify-center">{t("supportedExchanges")} <br /> <span className="text-secondary">{t("supportedExchangesSubtext")}</span></div>
                 <div className="flex items-center justify-center flex-1 px-4 py-3">
                     <Image src="/exchange-logo/binance.png" alt="Binance" width={100} height={100} className="grayscale" />
                 </div>

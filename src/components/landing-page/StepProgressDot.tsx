@@ -82,7 +82,7 @@ const StepProgressDot: React.FC<StepProgressDotProps> = ({
             {/* Inner dot */}
             <div className="flex items-center justify-center rounded-full border border-white bg-black z-20" style={{ width: size, height: size }}>
                 {label !== undefined ? (
-                    <span className="text-sm leading-none select-none">{label}</span>
+                    <span className="leading-none select-none">{label}</span>
                 ) : null}
             </div>
             {/* Surrounding progress ring built from two opposing arcs */}
