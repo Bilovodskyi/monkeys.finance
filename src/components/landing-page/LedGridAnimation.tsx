@@ -12,9 +12,11 @@ export default function LedGridFlickerWrapper({
     activeTarget = 50,
     holdSec = 4,
     cell = { w: 0.24, h: 0.24, gap: 0.12 },
-    baseColors = ["#000"],
-    dimColor = "#121314", // single dim color
-    brightColor = "#2e3033", // single bright color
+    baseColors = ["rgb(18, 18, 18)"],
+    dimColor = "rgb(10, 10, 10)", // single dim color
+    brightColor = "#656a73", // single bright color
+    superBrightColor = "#c1c2c6", // even brighter color (near-white)
+    fit = "contain",
     // dimColor = "#2e3033", // single dim color
     // brightColor = "#6e737a", // single bright color
 }: {
@@ -28,11 +30,13 @@ export default function LedGridFlickerWrapper({
     baseColors?: string[];
     dimColor?: string;
     brightColor?: string;
+    superBrightColor?: string;
+    fit?: "contain" | "width" | "height";
 }) {
     return (
         <div className={className} style={style}>
             <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-                <color attach="background" args={["#000"]} />
+                <color attach="background" args={["rgb(18, 18, 18)"]} />
                 <GridFlicker
                     rows={rows}
                     cols={cols}
@@ -42,6 +46,8 @@ export default function LedGridFlickerWrapper({
                     baseColors={baseColors}
                     dimColor={dimColor}
                     brightColor={brightColor}
+                    superBrightColor={superBrightColor}
+                    fit={fit}
                 />
             </Canvas>
         </div>
@@ -57,6 +63,8 @@ function GridFlicker({
     baseColors,
     dimColor,
     brightColor,
+    superBrightColor,
+    fit,
 }: any) {
     const count = rows * cols;
     const meshRef = useRef<THREE.InstancedMesh>(null!);
@@ -73,23 +81,34 @@ function GridFlicker({
         const totalW = cols * cell.w + (cols - 1) * cell.gap;
         const totalH = rows * cell.h + (rows - 1) * cell.gap;
 
-        const scale = Math.min(visibleW / totalW, visibleH / totalH) * 1.002; // slight overscan to avoid edge gaps
+        let scale: number;
+        if (fit === "width") {
+            scale = (visibleW / totalW) * 1.002; // fill width, allow height to grow
+        } else if (fit === "height") {
+            scale = (visibleH / totalH) * 1.002; // fill height, allow width to grow
+        } else {
+            scale = Math.min(visibleW / totalW, visibleH / totalH) * 1.002; // contain (default)
+        }
 
         return {
             w: cell.w * scale,
             h: cell.h * scale,
             gap: cell.gap * scale,
         };
-    }, [rows, cols, cell, size.width, size.height, (camera as any).fov, (camera as any).position.z]);
+    }, [rows, cols, cell, size.width, size.height, (camera as any).fov, (camera as any).position.z, fit]);
 
     // Per-cell timers and state (JS arrays for simplicity & speed)
     const activeUntil = useMemo(() => new Float32Array(count).fill(-1), [count]);
     const isActive = useMemo(() => new Uint8Array(count), [count]);
+    const isSuper = useMemo(() => new Uint8Array(count), [count]);
+    const isDimmerBright = useMemo(() => new Uint8Array(count), [count]);
 
     // Pre-pick colors to avoid GC in frame loop
     const basePalette = useMemo(() => baseColors.map((c: string) => new THREE.Color(c)), [baseColors]);
     const dimTone = useMemo(() => new THREE.Color(dimColor), [dimColor]);
     const brightTone = useMemo(() => new THREE.Color(brightColor), [brightColor]);
+    const superBrightTone = useMemo(() => new THREE.Color(superBrightColor), [superBrightColor]);
+    const dimmerBrightTone = useMemo(() => new THREE.Color(brightColor).multiplyScalar(0.2), [brightColor]);
 
     // Geometry/matrix setup once
     useEffect(() => {
@@ -137,20 +156,29 @@ function GridFlicker({
 
         // 1) Cool down any expired cells back to dim color
         let activeNow = 0;
+        let superActiveNow = 0;
+        let dimmerActiveNow = 0;
         for (let i = 0; i < count; i++) {
             if (isActive[i]) {
                 if (t >= activeUntil[i]) {
                     isActive[i] = 0;
+                    isSuper[i] = 0;
+                    isDimmerBright[i] = 0;
                     // Always cool back to dim tone (background remains filled)
                     meshRef.current.setColorAt(i, dimTone);
                 } else {
                     activeNow++;
+                    if (isSuper[i]) superActiveNow++;
+                    if (isDimmerBright[i]) dimmerActiveNow++;
                 }
             }
         }
 
         // 2) If we have fewer than the target, light up new random cells (bright color), else keep dim
         const need = Math.max(0, activeTarget - activeNow);
+        const superCap = Math.floor(activeTarget * 0.05); // ~5% of concurrently lit cells
+        const remainingCap = Math.max(0, activeTarget - superCap);
+        const dimmerCap = Math.floor(remainingCap * 0.5); // ~50% of non-super should be dimmer (30% darker)
         for (let n = 0; n < need; n++) {
             let i = Math.floor(Math.random() * count);
             // avoid flipping the same active cell; retry a few times
@@ -163,7 +191,35 @@ function GridFlicker({
             const dur = holdSec * (0.85 + Math.random() * 0.4);
             activeUntil[i] = t + dur;
 
-            meshRef.current.setColorAt(i, brightTone);
+            // Promote a subset (~5%) of active cells to super-bright
+            if (superActiveNow < superCap) {
+                isSuper[i] = 1;
+                meshRef.current.setColorAt(i, superBrightTone);
+                superActiveNow++;
+            } else {
+                isSuper[i] = 0;
+                // Enforce ~50/50 split between bright and 30% darker among non-super
+                const brightActiveNow = activeNow + n + 1 - superActiveNow - dimmerActiveNow; // include current allocation progress
+                const brightCap = Math.max(0, remainingCap - dimmerCap);
+
+                let useDimmer = false;
+                if (dimmerActiveNow < dimmerCap && brightActiveNow < brightCap) {
+                    useDimmer = Math.random() < 0.5;
+                } else if (dimmerActiveNow < dimmerCap) {
+                    useDimmer = true;
+                } else {
+                    useDimmer = false;
+                }
+
+                if (useDimmer) {
+                    isDimmerBright[i] = 1;
+                    meshRef.current.setColorAt(i, dimmerBrightTone);
+                    dimmerActiveNow++;
+                } else {
+                    isDimmerBright[i] = 0;
+                    meshRef.current.setColorAt(i, brightTone);
+                }
+            }
         }
 
         // 3) Ensure dim background persists on non-active cells

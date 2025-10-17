@@ -1,5 +1,5 @@
 import { HeroSection } from "@/components/landing-page/HeroSection";
-import { ResultsTable } from "@/components/landing-page/ResultsTable";
+import BacktestTable from "@/components/landing-page/BacktestTable";
 import HowItWorksSkewStack from "@/components/landing-page/HowItWorksSection";
 import ParticleSphereScroll from "@/components/landing-page/FloatingParticlesSphere";
 import { Reviews } from "@/components/landing-page/Reviews";
@@ -11,9 +11,9 @@ export default async function Home() {
   const { userId } = await auth();
   if (userId != null) redirect("/instances");
   return (
-    <main className="h-screen">
+    <main>
       <HeroSection />
-      <ResultsTable />
+      <BacktestTable />
       <ParticleSphereScroll />
       <HowItWorksSkewStack />
       <Reviews />

@@ -52,6 +52,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                 end: "bottom top",
                 onEnter: () => setActiveStep(1),
                 onEnterBack: () => setActiveStep(1),
+
             });
         }
         if (sectionTwo.current) {
@@ -61,6 +62,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                 end: "bottom top",
                 onEnter: () => setActiveStep(2),
                 onEnterBack: () => setActiveStep(2),
+
             });
         }
         if (sectionThree.current) {
@@ -70,6 +72,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                 end: "bottom top",
                 onEnter: () => setActiveStep(3),
                 onEnterBack: () => setActiveStep(3),
+
             });
         }
         if (sectionFour.current) {
@@ -79,6 +82,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                 end: "bottom top",
                 onEnter: () => setActiveStep(4),
                 onEnterBack: () => setActiveStep(4),
+
             });
         }
 
@@ -427,9 +431,10 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                 />
 
             </div>
-            <div ref={sectionTwo} className="h-screen "></div>
+            <div ref={sectionTwo} className="h-screen"></div>
             <div ref={sectionThree} className="h-screen"></div>
             <div ref={sectionFour} className="h-screen"></div>
+            <div className="h-screen"></div>
 
         </div>
     );

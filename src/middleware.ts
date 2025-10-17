@@ -14,6 +14,7 @@ const intlMiddleware = createIntlMiddleware({
 const isPublicRoute = createRouteMatcher([
     "/",
     "/:locale",                       // e.g. /en
+    "/:locale/about",                       // e.g. /en/about
     "/sign-in(.*)",
     "/sign-up(.*)",
     "/:locale/sign-in(.*)",
