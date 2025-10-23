@@ -6,6 +6,9 @@ import { Reviews } from "@/components/landing-page/Reviews";
 import Footer from "@/components/landing-page/Footer";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import ChartCompareToBitcoin from "@/components/landing-page/ChartCompareToBitcoin";
+import BluePixelAnimation from "@/components/landing-page/BluePixelAnimation";
+import StaticDitherBackground from "@/components/landing-page/StaticDitherBackground";
 
 export default async function Home() {
   const { userId } = await auth();
@@ -13,8 +16,11 @@ export default async function Home() {
   return (
     <main>
       <HeroSection />
-      <BacktestTable />
+      {/* <BluePixelAnimation /> */}
       <ParticleSphereScroll />
+      <ChartCompareToBitcoin />
+      <StaticDitherBackground />
+      <BacktestTable />
       <HowItWorksSkewStack />
       <Reviews />
       <Footer />

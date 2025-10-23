@@ -63,11 +63,13 @@ export function useExcelTradeData(
                     const rawDate = row[col.date];
                     let dateString = "";
                     if (typeof rawDate === "number") {
-                        // Convert Excel serial date → JS Date (handles 1900 base)
+                        // Convert Excel serial date → JS Date (handles 1900 base); preserve time by not truncating
                         const excelEpoch = (rawDate - 25569) * 86400 * 1000; // days → ms
-                        dateString = new Date(excelEpoch).toISOString().split("T")[0];
+                        dateString = new Date(excelEpoch).toISOString();
                     } else if (rawDate != null) {
-                        dateString = String(rawDate);
+                        const s = String(rawDate);
+                        const d = new Date(s);
+                        dateString = Number.isNaN(d.getTime()) ? s : d.toISOString();
                     }
 
                     const cashBalance = toNum(row[col.cashBalance]);

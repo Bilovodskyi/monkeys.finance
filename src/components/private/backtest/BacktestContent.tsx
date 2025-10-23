@@ -14,8 +14,8 @@ export default function BacktestContent({ compact = false }: { compact?: boolean
     const { data, loading, error } = useExcelTradeData("/data/BTC-USD_1h_20250817-204937.xlsx");
 
     const hasData = data.length > 0;
-    const firstDate = data.at(0)?.date ?? "—";
-    const lastDate = data.at(-1)?.date ?? "—";
+    const firstDate = new Date(data.at(0)?.date ?? "—").toLocaleDateString();
+    const lastDate = new Date(data.at(-1)?.date ?? "—").toLocaleDateString();
     const visibleTrades = hasData && data.length > 1 ? data.slice(1) : [];
     const statsInput = hasData && data.length > 1 ? data.slice(1) : [];
 
@@ -73,8 +73,8 @@ export default function BacktestContent({ compact = false }: { compact?: boolean
                     {pairs.map((trade, index) => (
                         <div key={index} className="grid grid-cols-7 border border-zinc-800 border-t-0">
                             <div className="border-r border-zinc-800 px-4 py-3">{trade.firstTrade.positionType}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3">{trade.firstTrade.date}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3">{trade.secondTrade.date}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{new Date(trade.firstTrade.date).toLocaleDateString()}</div>
+                            <div className="border-r border-zinc-800 px-4 py-3">{new Date(trade.secondTrade.date).toLocaleDateString()}</div>
                             <div className="border-r border-zinc-800 px-4 py-3">{trade.totalChange}</div>
                             <div className="border-r border-zinc-800 px-4 py-3">{formatNumberWithCommas(trade.firstTrade.totalEquity)}</div>
                             <div className="border-r border-zinc-800 px-4 py-3">{formatNumberWithCommas(trade.secondTrade.totalEquity)}</div>
