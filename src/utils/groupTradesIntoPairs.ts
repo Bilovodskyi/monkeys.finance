@@ -9,31 +9,60 @@ function isFiniteNumber(n: unknown): n is number {
 function isValidTrade(t: unknown): t is TradeData {
     if (!t || typeof t !== "object") return false;
     const anyT: any = t;
-    return typeof anyT.date === "string" && anyT.date.length > 0 && isFiniteNumber(anyT.totalEquity);
+    return (
+        typeof anyT.date === "string" &&
+        anyT.date.length > 0 &&
+        isFiniteNumber(anyT.totalEquity) &&
+        typeof anyT.positionType === "string"
+    );
 }
 
-
-const groupTradesIntoPairs = (trades: TradeData[] | undefined | null): TradePair[] => {
+/**
+ * Groups trades into pairs based on Buy logic
+ * - Only "Buy" trades have positionType field
+ * - The very next trade after a "Buy" is the closing trade (Sell or Hold)
+ * - Skips trades without positionType (already closed positions)
+ */
+const groupTradesIntoPairs = (
+    trades: TradeData[] | undefined | null
+): TradePair[] => {
     if (!Array.isArray(trades) || trades.length < 2) return [];
 
-    // Filter out malformed entries; keep order
+    // Filter out malformed entries
     const cleaned: TradeData[] = trades.filter(isValidTrade);
     if (cleaned.length < 2) return [];
 
     const pairs: TradePair[] = [];
+    let i = 0;
 
-    // Group every 2 consecutive valid trades
-    for (let i = 0; i < cleaned.length - 1; i += 2) {
-        const firstTrade = cleaned[i];
-        const secondTrade = cleaned[i + 1];
+    while (i < cleaned.length - 1) {
+        const currentTrade = cleaned[i];
 
-        if (!firstTrade || !secondTrade) continue; // odd tail safeguard
+        // Check if this is a Buy trade (has positionType with "buy")
+        if (
+            currentTrade.positionType &&
+            currentTrade.positionType.toLowerCase().includes("buy")
+        ) {
+            // The very next trade is the closing trade
+            const nextTrade = cleaned[i + 1];
 
-        const totalChange = secondTrade.totalEquity - firstTrade.totalEquity;
+            const totalChange =
+                nextTrade.totalEquity - currentTrade.totalEquity;
 
-        if (!Number.isFinite(totalChange)) continue; // skip if weird numbers slipped in
+            if (Number.isFinite(totalChange)) {
+                pairs.push({
+                    firstTrade: currentTrade,
+                    secondTrade: nextTrade,
+                    totalChange,
+                });
+            }
 
-        pairs.push({ firstTrade, secondTrade, totalChange });
+            // Move past both the Buy and its closing trade
+            i += 2;
+        } else {
+            // Not a Buy trade (no positionType or different type), skip it
+            i++;
+        }
     }
 
     return pairs;

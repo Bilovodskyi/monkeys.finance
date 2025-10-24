@@ -1,9 +1,12 @@
+import groupTradesIntoPairs from "@/utils/groupTradesIntoPairs";
+
 export type BacktestTrade = {
     date: string;
+    cashBalance: number;
     totalEquity: number;
     entryPrice: number;
     positionType: string;
-    capitalChange?: number | null;
+    capitalChange: number | null;
 };
 
 export type TradePair = {
@@ -38,12 +41,17 @@ export const EMPTY_BACKTEST_STATS: BacktestStats = {
     totalGain: 0,
 };
 
-const isFiniteNumber = (n: unknown): n is number => typeof n === "number" && Number.isFinite(n);
+const isFiniteNumber = (n: unknown): n is number =>
+    typeof n === "number" && Number.isFinite(n);
 
-export function useBacktestStats(tradesInput: ReadonlyArray<BacktestTrade> | null | undefined): BacktestStats {
+export function useBacktestStats(
+    tradesInput: ReadonlyArray<BacktestTrade> | null | undefined
+): BacktestStats {
     // Guard: tolerate undefined/null and filter out malformed rows
     const trades: BacktestTrade[] = Array.isArray(tradesInput)
-        ? tradesInput.filter((t): t is BacktestTrade => !!t && isFiniteNumber(t.totalEquity))
+        ? tradesInput.filter(
+              (t): t is BacktestTrade => !!t && isFiniteNumber(t.totalEquity)
+          )
         : [];
 
     // Early return if nothing to compute
@@ -51,15 +59,8 @@ export function useBacktestStats(tradesInput: ReadonlyArray<BacktestTrade> | nul
         return EMPTY_BACKTEST_STATS;
     }
 
-    // Group consecutive entries into trade pairs (open, close)
-    const pairs: TradePair[] = [];
-    for (let i = 0; i + 1 < trades.length; i += 2) {
-        const firstTrade = trades[i];
-        const secondTrade = trades[i + 1];
-        if (!firstTrade || !secondTrade) continue;
-        const totalChange = (secondTrade.totalEquity ?? 0) - (firstTrade.totalEquity ?? 0);
-        pairs.push({ firstTrade, secondTrade, totalChange });
-    }
+    // Use the shared groupTradesIntoPairs utility that handles Buy/Sell/Hold logic
+    const pairs = groupTradesIntoPairs(trades);
 
     // Pair-based win/loss/neutral counts
     let winTradesCount = 0;
@@ -102,5 +103,3 @@ export function useBacktestStats(tradesInput: ReadonlyArray<BacktestTrade> | nul
         totalGain,
     };
 }
-
-

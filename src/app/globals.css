@@ -1,126 +1,126 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap");
 @import "tw-animate-css";
 
 /* Custom title font */
 @font-face {
-  font-family: 'MainFont';
-  src: url('/font/main-font.woff2') format('woff2');
-  font-display: swap;
+    font-family: "MainFont";
+    src: url("/font/main-font.woff2") format("woff2");
+    font-display: swap;
 }
 
 :root {
-  /* Color system */
-  --main-text: #ffffff;
-  --secondary-text: rgba(204, 204, 204, 0.851);
-  --tertiary-text: rgba(204, 204, 204, 0.7);
-  --highlight-text: rgb(31, 213, 249);
-  --main-background: rgb(18, 18, 18);
-  --lk-color-cyan: rgb(6, 182, 212);
-  --green-color-for-chart: rgb(121, 208, 166);
-  --purple-color-for-chart: rgb(190, 109, 214);
+    /* Color system */
+    --main-text: #ffffff;
+    --secondary-text: rgba(204, 204, 204, 0.851);
+    --tertiary-text: rgba(204, 204, 204, 0.7);
+    --highlight-text: rgb(31, 213, 249);
+    --main-background: rgb(18, 18, 18);
+    --lk-color-cyan: rgb(6, 182, 212);
+    --green-color-for-chart: rgb(121, 208, 166);
+    --purple-color-for-chart: rgb(190, 109, 214);
+    --active-tab: rgb(22, 22, 22);
 
-
-
-  /* Font variables */
-  --font-title: 'MainFont', sans-serif;
-  --font-main: 'Public Sans', sans-serif;
+    /* Font variables */
+    --font-title: "MainFont", sans-serif;
+    --font-main: "Public Sans", sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--main-background);
-  --color-foreground: var(--main-text);
-  --color-secondary: var(--secondary-text);
-  --color-highlight: var(--highlight-text);
-  --color-tertiary: var(--tertiary-text);
-  --font-sans: var(--font-main);
-  --font-title: var(--font-title);
+    --color-background: var(--main-background);
+    --color-foreground: var(--main-text);
+    --color-secondary: var(--secondary-text);
+    --color-highlight: var(--highlight-text);
+    --color-tertiary: var(--tertiary-text);
+    --color-active-tab: var(--active-tab);
+    --font-sans: var(--font-main);
+    --font-title: var(--font-title);
 }
 
-
 body {
-  background: var(--main-background);
-  color: var(--main-text);
-  font-family: var(--font-main);
-  font-size: 14px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background: var(--main-background);
+    color: var(--main-text);
+    font-family: var(--font-main);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 p {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 /* Utility classes for text colors */
 .text-main {
-  color: var(--main-text);
+    color: var(--main-text);
 }
 
 .text-secondary {
-  color: var(--secondary-text);
+    color: var(--secondary-text);
 }
 
 .text-highlight {
-  color: var(--highlight-text);
+    color: var(--highlight-text);
 }
 
 /* Utility classes for fonts */
 .font-title {
-  font-family: var(--font-title);
+    font-family: var(--font-title);
 }
 
 .font-main {
-  font-family: var(--font-main);
+    font-family: var(--font-main);
 }
 
 /* HoverEffectAroundCard animation */
 @keyframes hoverEffectPulse {
-  0% {
-    opacity: 0;
-    transform: scale(1);
-  }
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
 
-  25% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
+    25% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
 
-  50% {
-    opacity: 0;
-    transform: scale(1.005);
-  }
+    50% {
+        opacity: 0;
+        transform: scale(1.005);
+    }
 
-  75% {
-    opacity: 1;
-    transform: scale(1.015);
-  }
+    75% {
+        opacity: 1;
+        transform: scale(1.015);
+    }
 
-  100% {
-    opacity: 0;
-    transform: scale(1.01);
-  }
+    100% {
+        opacity: 0;
+        transform: scale(1.01);
+    }
 }
 
 .hover-effect-pulse {
-  animation: hoverEffectPulse .5s cubic-bezier(.4, 0, .2, 1);
+    animation: hoverEffectPulse 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Rise and fade duplicate container animation */
 @keyframes riseFade {
+    /* Cancel parent's rotate(-30deg) and skewX(30deg), move up, then reapply */
+    0% {
+        opacity: 1;
+        transform: skewX(-30deg) rotate(30deg) translateY(0) rotate(-30deg)
+            skewX(30deg);
+    }
 
-  /* Cancel parent's rotate(-30deg) and skewX(30deg), move up, then reapply */
-  0% {
-    opacity: 1;
-    transform: skewX(-30deg) rotate(30deg) translateY(0) rotate(-30deg) skewX(30deg);
-  }
-
-  100% {
-    opacity: 0;
-    transform: skewX(-30deg) rotate(30deg) translateY(-50px) rotate(-30deg) skewX(30deg);
-  }
+    100% {
+        opacity: 0;
+        transform: skewX(-30deg) rotate(30deg) translateY(-50px) rotate(-30deg)
+            skewX(30deg);
+    }
 }
 
 .anim-rise-fade {
-  animation: riseFade 2.5s ease-out 0s infinite;
+    animation: riseFade 2.5s ease-out 0s infinite;
 }

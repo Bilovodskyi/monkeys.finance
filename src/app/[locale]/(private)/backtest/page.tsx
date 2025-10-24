@@ -1,5 +1,10 @@
-import BacktestContent from "@/components/private/backtest/BacktestContent";
+import { getAllXlsxFilesFromFolder } from "@/actions/backtest/get";
+import BacktestTable from "@/components/private/backtest/BacktestTable";
 
-export default function BacktestPage() {
-    return <BacktestContent />;
+export default async function BacktestPage() {
+    const processedData = await getAllXlsxFilesFromFolder("ml/supertrend");
+
+    console.log("Available instruments:", Object.keys(processedData));
+
+    return <BacktestTable data={processedData} />;
 }
