@@ -33,7 +33,7 @@ export default function BacktestTable({
     const statsInput =
         hasData && instrumentData.length > 1 ? instrumentData.slice(1) : [];
 
-    // useBacktestStats now handles grouping internally
+    console.log(statsInput);
     const stats = useBacktestStats(statsInput);
     const pairs = stats.pairs;
 
@@ -64,11 +64,16 @@ export default function BacktestTable({
             </div>
             <div className="flex p-6 gap-6">
                 <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
-                    <h1 className="text-xl font-title">
-                        {formatNumberWithCommas(stats.totalGain)} USD
-                    </h1>
+                    <div>
+                        <span className="text-xs text-tertiary">
+                            {formatNumberWithCommas(stats.startEquity)} USD
+                        </span>
+                        <h1 className="text-xl font-title">
+                            {formatNumberWithCommas(stats.endEquity)} USD
+                        </h1>
+                    </div>
                     <h2 className=" text-tertiary font-title">
-                        Total Money Earned
+                        Start capital / End capital
                     </h2>
                 </div>
                 <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">

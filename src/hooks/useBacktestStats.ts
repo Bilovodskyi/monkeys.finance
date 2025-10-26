@@ -26,6 +26,8 @@ export type BacktestStats = {
     winPct: number; // wins / pairs
     lossPct: number; // losses / pairs
     totalGain: number;
+    startEquity: number;
+    endEquity: number;
 };
 
 export const EMPTY_BACKTEST_STATS: BacktestStats = {
@@ -39,6 +41,8 @@ export const EMPTY_BACKTEST_STATS: BacktestStats = {
     winPct: 0,
     lossPct: 0,
     totalGain: 0,
+    startEquity: 0,
+    endEquity: 0,
 };
 
 const isFiniteNumber = (n: unknown): n is number =>
@@ -79,14 +83,12 @@ export function useBacktestStats(
     const lossPct = (lossTradesCount / Math.max(numTrades, 1)) * 100;
 
     // Capital change percentage based on equity growth from first to last entry
-    const startEquity = trades[0]?.totalEquity ?? 0;
-    const endEquity = trades[trades.length - 1]?.totalEquity ?? 0;
-    let growthPct = 0;
+    const startEquity = pairs[0]?.firstTrade.totalEquity ?? 0;
+    const endEquity = pairs[pairs.length - 1]?.secondTrade.totalEquity ?? 0;
+    let capitalChangePct = 0;
     if (startEquity > 0) {
-        growthPct = ((endEquity - startEquity) / startEquity) * 100;
+        capitalChangePct = ((endEquity - startEquity) / startEquity) * 100;
     }
-    // Clamp for UI pies to 0..100 (negative growth shows as 0 with red color in pie)
-    const capitalChangePct = Math.max(0, Math.min(100, growthPct));
 
     const totalGain = endEquity - startEquity;
 
@@ -101,5 +103,7 @@ export function useBacktestStats(
         winPct,
         lossPct,
         totalGain,
+        startEquity,
+        endEquity,
     };
 }

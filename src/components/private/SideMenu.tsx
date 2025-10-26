@@ -2,6 +2,7 @@
 
 import {
     Activity,
+    BellRing,
     Fingerprint,
     GalleryVerticalEnd,
     History,
@@ -17,6 +18,7 @@ type SideMenuTab =
     | "history"
     | "backtest"
     | "bot"
+    | "notifications"
     | "plan"
     | "how"
     | "safety";
@@ -29,6 +31,7 @@ function tabFromPath(pathname: string): SideMenuTab {
     if (normalizedPath.startsWith("/history")) return "history";
     if (normalizedPath.startsWith("/backtest")) return "backtest";
     if (normalizedPath.startsWith("/bot")) return "bot";
+    if (normalizedPath.startsWith("/notifications")) return "notifications";
     if (normalizedPath.startsWith("/plan")) return "plan";
     if (normalizedPath.startsWith("/how")) return "how";
     if (normalizedPath.startsWith("/safety")) return "safety";
@@ -144,6 +147,28 @@ export default function SideMenu() {
                         </span>
                     </div>
                 </div>
+                <div
+                    className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${
+                        activeTab === "notifications"
+                            ? "border border-zinc-800 bg-active-tab text-white"
+                            : "text-secondary hover:!text-white"
+                    }`}
+                    onClick={() => {
+                        setActiveTab("notifications");
+                    }}>
+                    <div className="flex-none">
+                        <BellRing className="w-4 h-4" />
+                    </div>
+                    <div className="relative overflow-hidden">
+                        <span className="invisible block whitespace-nowrap">
+                            {t("notifications")}
+                        </span>
+                        <span className="absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                            {t("notifications")}
+                        </span>
+                    </div>
+                </div>
+
                 <div
                     className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${
                         activeTab === "plan"
