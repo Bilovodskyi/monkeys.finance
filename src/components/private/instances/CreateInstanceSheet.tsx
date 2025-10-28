@@ -37,15 +37,19 @@ interface CreateInstanceSheetProps {
 }
 
 const INSTRUMENT_SHORT_NAMES = {
-    "Bitcoin": "BTC",
-    "Ethereum": "ETH",
-    "Solana": "SOL",
-    "XRP": "XRP",
-    "Dogecoin": "DOGE",
+    Bitcoin: "BTC",
+    Ethereum: "ETH",
+    Solana: "SOL",
+    XRP: "XRP",
+    Dogecoin: "DOGE",
     "Binance Coin": "BNB",
-}
+};
 
-export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstanceSheetProps) {
+export function CreateInstanceSheet({
+    apiKey,
+    children,
+    instance,
+}: CreateInstanceSheetProps) {
     const translations = useTranslations("instances");
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -83,11 +87,15 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
 
     // Build instance name dynamically
     const instanceName = [
-        INSTRUMENT_SHORT_NAMES[selectedInstrument as keyof typeof INSTRUMENT_SHORT_NAMES] || "-",
+        INSTRUMENT_SHORT_NAMES[
+            selectedInstrument as keyof typeof INSTRUMENT_SHORT_NAMES
+        ] || "-",
         selectedExchange || "-",
         selectedStrategy === "Squid Ribbon V2" ? "1H" : "4H",
-        selectedStrategy || "-"
-    ].join("-").toUpperCase();
+        selectedStrategy || "-",
+    ]
+        .join("-")
+        .toUpperCase();
 
     const clearForm = () => {
         form.reset({ strategy: "", instrument: "", exchange: "" });
@@ -95,13 +103,13 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-                {children}
-            </SheetTrigger>
+            <SheetTrigger asChild>{children}</SheetTrigger>
             <SheetContent className="flex flex-col">
                 <SheetHeader>
                     <SheetTitle className="text-xl font-title">
-                        {isEditMode ? translations("editInstance") : translations("createNewInstance")}
+                        {isEditMode
+                            ? translations("editInstance")
+                            : translations("createNewInstance")}
                     </SheetTitle>
                     <SheetDescription className=" text-tertiary mt-4">
                         {translations("configureDescription")}
@@ -113,11 +121,17 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     onSubmit={form.handleSubmit(async (values) => {
                         try {
                             const name = [
-                                INSTRUMENT_SHORT_NAMES[values.instrument as keyof typeof INSTRUMENT_SHORT_NAMES] || "-",
+                                INSTRUMENT_SHORT_NAMES[
+                                    values.instrument as keyof typeof INSTRUMENT_SHORT_NAMES
+                                ] || "-",
                                 values.exchange || "-",
-                                values.strategy === "Squid Ribbon V2" ? "1H" : "4H",
-                                values.strategy || "-"
-                            ].join("-").toUpperCase();
+                                values.strategy === "Squid Ribbon V2"
+                                    ? "1H"
+                                    : "4H",
+                                values.strategy || "-",
+                            ]
+                                .join("-")
+                                .toUpperCase();
 
                             if (isEditMode && instance) {
                                 const result = await updateInstance({
@@ -143,31 +157,55 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                             setOpen(false);
                             router.refresh();
                         } catch (error: any) {
-                            const message = error?.message || (isEditMode ? "Failed to update instance" : "Failed to create instance");
+                            const message =
+                                error?.message ||
+                                (isEditMode
+                                    ? "Failed to update instance"
+                                    : "Failed to create instance");
                             console.error(message);
-                            toast.error(isEditMode ? translations("updatedError") : translations("createdError"));
+                            toast.error(
+                                isEditMode
+                                    ? translations("updatedError")
+                                    : translations("createdError")
+                            );
                         }
                     })}
-                    ref={formRef}
-                >
+                    ref={formRef}>
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className=" text-tertiary">{translations("strategy")}</label>
+                            <label className=" text-tertiary">
+                                {translations("strategy")}
+                            </label>
                             {form.formState.errors.strategy && (
-                                <div className="text-xs text-red-500">{String(form.formState.errors.strategy.message)}</div>
+                                <div className="text-xs text-red-500">
+                                    {String(
+                                        form.formState.errors.strategy.message
+                                    )}
+                                </div>
                             )}
                         </div>
                         <Controller
                             control={form.control}
                             name="strategy"
                             render={({ field }) => (
-                                <Select value={field.value} onValueChange={field.onChange}>
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder={translations("selectPlaceholder")} className="text-tertiary" />
+                                        <SelectValue
+                                            placeholder={translations(
+                                                "selectPlaceholder"
+                                            )}
+                                            className="text-tertiary"
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {strategies.map((strategy) => (
-                                            <SelectItem key={strategy} value={strategy}>{strategy}</SelectItem>
+                                            <SelectItem
+                                                key={strategy}
+                                                value={strategy}>
+                                                {strategy}
+                                            </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
@@ -176,22 +214,39 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     </div>
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className=" text-tertiary">{translations("instrument")}</label>
+                            <label className=" text-tertiary">
+                                {translations("instrument")}
+                            </label>
                             {form.formState.errors.instrument && (
-                                <div className="text-xs text-red-500">{String(form.formState.errors.instrument.message)}</div>
+                                <div className="text-xs text-red-500">
+                                    {String(
+                                        form.formState.errors.instrument.message
+                                    )}
+                                </div>
                             )}
                         </div>
                         <Controller
                             control={form.control}
                             name="instrument"
                             render={({ field }) => (
-                                <Select value={field.value} onValueChange={field.onChange}>
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder={translations("selectPlaceholder")} className="text-tertiary" />
+                                        <SelectValue
+                                            placeholder={translations(
+                                                "selectPlaceholder"
+                                            )}
+                                            className="text-tertiary"
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {instruments.map((instrument) => (
-                                            <SelectItem key={instrument} value={instrument}>{instrument}</SelectItem>
+                                            <SelectItem
+                                                key={instrument}
+                                                value={instrument}>
+                                                {instrument}
+                                            </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
@@ -200,22 +255,39 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     </div>
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className=" text-tertiary">{translations("exchange")}</label>
+                            <label className=" text-tertiary">
+                                {translations("exchange")}
+                            </label>
                             {form.formState.errors.exchange && (
-                                <div className="text-xs text-red-500">{String(form.formState.errors.exchange.message)}</div>
+                                <div className="text-xs text-red-500">
+                                    {String(
+                                        form.formState.errors.exchange.message
+                                    )}
+                                </div>
                             )}
                         </div>
                         <Controller
                             control={form.control}
                             name="exchange"
                             render={({ field }) => (
-                                <Select value={field.value} onValueChange={field.onChange}>
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder={translations("selectPlaceholder")} className="text-tertiary" />
+                                        <SelectValue
+                                            placeholder={translations(
+                                                "selectPlaceholder"
+                                            )}
+                                            className="text-tertiary"
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {exchanges.map((exchange) => (
-                                            <SelectItem key={exchange} value={exchange}>{exchange}</SelectItem>
+                                            <SelectItem
+                                                key={exchange}
+                                                value={exchange}>
+                                                {exchange}
+                                            </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
@@ -223,11 +295,15 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                         />
                     </div>
                     <div className="grid gap-2">
-                        <label className=" text-tertiary">{translations("apiKey")}</label>
+                        <label className=" text-tertiary">
+                            {translations("apiKey")}
+                        </label>
                         {apiKey ? (
                             <div className="flex items-center gap-2">
                                 <Check className="w-4 h-4 text-green-500" />
-                                <span className="">{translations("apiKeyProvided")}</span>
+                                <span className="">
+                                    {translations("apiKeyProvided")}
+                                </span>
                             </div>
                         ) : (
                             <input
@@ -241,29 +317,61 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
                     <div className="absolute bottom-0 right-0 left-0 pt-4 flex flex-col gap-8">
                         <div className="border border-zinc-800 p-4 space-y-4">
                             <div className="flex flex-col gap-2">
-                                <span className="text-tertiary mr-1 font-mein">{translations("yourInstance")}</span>
+                                <span className="text-tertiary mr-1 font-mein">
+                                    {translations("yourInstance")}
+                                </span>
                                 <h1 className="font-title">{instanceName}</h1>
                             </div>
                             <div className="grid grid-cols-2 grid-rows-2 gap-2">
                                 <span className="text-tertiary mr-1 font-mein">
-                                    {translations("strategyLabel")} <span className="text-white">{selectedStrategy || "-"}</span>
+                                    {translations("strategyLabel")}{" "}
+                                    <span className="text-white">
+                                        {selectedStrategy || "-"}
+                                    </span>
                                 </span>
                                 <span className="text-tertiary mr-1 font-mein">
-                                    {translations("instrumentLabel")} <span className="text-white">{selectedInstrument || "-"}</span>
+                                    {translations("instrumentLabel")}{" "}
+                                    <span className="text-white">
+                                        {selectedInstrument || "-"}
+                                    </span>
                                 </span>
                                 <span className="text-tertiary mr-1 font-mein">
-                                    {translations("exchangeLabel")} <span className="text-white">{selectedExchange || "-"}</span>
+                                    {translations("exchangeLabel")}{" "}
+                                    <span className="text-white">
+                                        {selectedExchange || "-"}
+                                    </span>
                                 </span>
                                 <span className="text-tertiary mr-1 font-mein">
-                                    {translations("signalLabel")} <span className="text-white">{selectedStrategy === "Squid Ribbon V2" ? "1H" : "4H"}</span>
+                                    {translations("signalLabel")}{" "}
+                                    <span className="text-white">
+                                        {selectedStrategy === "Squid Ribbon V2"
+                                            ? "1H"
+                                            : "4H"}
+                                    </span>
                                 </span>
                             </div>
                         </div>
                         <div className="flex gap-2 justify-end ">
-                            <CustomButton isBlue={true} onClick={() => formRef.current?.requestSubmit()} role="button" tabIndex={0}>
-                                {isEditMode ? translations("save") : translations("create")}
+                            <CustomButton
+                                disabled={
+                                    !selectedStrategy ||
+                                    !selectedInstrument ||
+                                    !selectedExchange
+                                }
+                                isBlue={true}
+                                onClick={() => formRef.current?.requestSubmit()}
+                                role="button"
+                                tabIndex={0}>
+                                {isEditMode
+                                    ? translations("save")
+                                    : translations("create")}
                             </CustomButton>
-                            <CustomButton isBlue={false} onClick={(e) => { e.preventDefault(); clearForm(); }}>
+                            <CustomButton
+                                isBlue={false}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    clearForm();
+                                }}>
                                 {translations("clear")}
                             </CustomButton>
                         </div>
@@ -273,4 +381,3 @@ export function CreateInstanceSheet({ apiKey, children, instance }: CreateInstan
         </Sheet>
     );
 }
-

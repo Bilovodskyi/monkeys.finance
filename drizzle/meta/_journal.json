@@ -22,6 +22,20 @@
       "when": 1759618499286,
       "tag": "0002_talented_anita_blake",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1761531893850,
+      "tag": "0003_wet_stardust",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1761582381619,
+      "tag": "0004_shocking_inhumans",
+      "breakpoints": true
     }
   ]
 }

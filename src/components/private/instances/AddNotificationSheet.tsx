@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 
 interface AddNotificationSheetProps {
     children: ReactNode;
-    notification?: any; // TODO: Add proper notification type
+    notification?: any;
 }
 
 export function AddNotificationSheet({
@@ -35,6 +35,7 @@ export function AddNotificationSheet({
 }: AddNotificationSheetProps) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
+
     const isEditMode = !!notification;
 
     const FormSchema = z.object({
@@ -42,6 +43,7 @@ export function AddNotificationSheet({
         strategy: z.string().min(1, "This field is required"),
         instrument: z.string().min(1, "This field is required"),
     });
+
     type FormValues = z.infer<typeof FormSchema>;
     const formRef = useRef<HTMLFormElement>(null);
     const form = useForm<FormValues>({
@@ -52,6 +54,7 @@ export function AddNotificationSheet({
             instrument: notification?.instrument || "",
         },
     });
+
     const selectedProvider = form.watch("provider");
     const selectedStrategy = form.watch("strategy");
     const selectedInstrument = form.watch("instrument");
@@ -71,6 +74,73 @@ export function AddNotificationSheet({
         form.reset({ provider: "", strategy: "", instrument: "" });
     };
 
+    async function handleFormSubmit(values: FormValues) {
+        // Check if Telegram provider requires linking
+        if (values.provider === "Telegram") {
+            try {
+                // Check if Telegram account is linked in DB
+                const checkResponse = await fetch(
+                    "/api/telegram/notifications"
+                );
+
+                if (!checkResponse.ok) {
+                    toast.error(
+                        "Please link your Telegram account first. Open Telegram, search for @algo_squid_bot, and send /start"
+                    );
+                    return;
+                }
+
+                const checkData = await checkResponse.json();
+
+                if (!checkData) {
+                    toast.error(
+                        "Please link your Telegram account first. Open Telegram, search for @algo_squid_bot, and send /start"
+                    );
+                    return;
+                }
+
+                // If linked, update the preferences
+                toast.loading("Saving notification preferences...");
+
+                const updateResponse = await fetch(
+                    "/api/telegram/notifications",
+                    {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            instrument: values.instrument,
+                            strategy: values.strategy,
+                        }),
+                    }
+                );
+
+                const updateData = await updateResponse.json();
+                toast.dismiss();
+
+                if (updateResponse.ok) {
+                    toast.success("Notification preferences saved!");
+                    setOpen(false);
+                    clearForm();
+                    router.refresh();
+                } else {
+                    toast.error(
+                        updateData.error || "Failed to save preferences"
+                    );
+                }
+            } catch (error) {
+                toast.dismiss();
+                toast.error("Failed to save preferences. Please try again.");
+            }
+        } else {
+            // Handle other providers (non-Telegram)
+            toast.info("Other notification providers coming soon!");
+        }
+    }
+
+    const handleProviderChange = (value: string) => {
+        form.setValue("provider", value);
+    };
+
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>{children}</SheetTrigger>
@@ -87,31 +157,7 @@ export function AddNotificationSheet({
 
                 <form
                     className="mt-6 space-y-8 relative flex-1"
-                    onSubmit={form.handleSubmit(async (values) => {
-                        try {
-                            // TODO: Implement create/update notification logic
-                            console.log("Notification values:", values);
-                            toast.success(
-                                isEditMode
-                                    ? "Notification updated successfully!"
-                                    : "Notification created successfully!"
-                            );
-                            setOpen(false);
-                            router.refresh();
-                        } catch (error: any) {
-                            const message =
-                                error?.message ||
-                                (isEditMode
-                                    ? "Failed to update notification"
-                                    : "Failed to create notification");
-                            console.error(message);
-                            toast.error(
-                                isEditMode
-                                    ? "Failed to update notification"
-                                    : "Failed to create notification"
-                            );
-                        }
-                    })}
+                    onSubmit={form.handleSubmit(handleFormSubmit)}
                     ref={formRef}>
                     {/* Provider Field */}
                     <div className="grid gap-2">
@@ -131,7 +177,7 @@ export function AddNotificationSheet({
                             render={({ field }) => (
                                 <Select
                                     value={field.value}
-                                    onValueChange={field.onChange}>
+                                    onValueChange={handleProviderChange}>
                                     <SelectTrigger>
                                         <SelectValue
                                             placeholder="Select provider"
@@ -152,18 +198,31 @@ export function AddNotificationSheet({
                         />
                     </div>
 
-                    {/* Telegram Instruction */}
-                    <div className="border border-zinc-800 px-4 py-2 bg-zinc-950">
-                        <p className="text-sm text-tertiary">
-                            Send{" "}
-                            <span className="text-white font-mono">/start</span>{" "}
-                            to{" "}
-                            <span className="text-white font-mono">
-                                @algo_squid_bot
-                            </span>{" "}
-                            on Telegram
-                        </p>
-                    </div>
+                    {/* Show Telegram Instructions OR Preferences Form */}
+                    {selectedProvider === "Telegram" && (
+                        <div className="px-2 py-3 space-y-2">
+                            <p className="text-sm text-tertiary">
+                                Step 1. Open your Telegram app
+                            </p>
+                            <p className="text-sm text-tertiary">
+                                Step 2. Search for{" "}
+                                <span className="text-white font-mono">
+                                    @algo_squid_bot
+                                </span>{" "}
+                            </p>
+                            <p className="text-sm text-tertiary">
+                                Step 3. Send{" "}
+                                <span className="text-white font-mono">
+                                    /start
+                                </span>{" "}
+                            </p>
+                            <p className="text-sm text-tertiary">
+                                Step 4. You will receive unique link that
+                                connects your telegram account to our
+                                notification system.
+                            </p>
+                        </div>
+                    )}
 
                     {/* Strategy Field */}
                     <div className="grid gap-2">
@@ -247,6 +306,11 @@ export function AddNotificationSheet({
                     <div className="absolute bottom-0 right-0 left-0 pt-4 flex gap-2 justify-end">
                         <CustomButton
                             isBlue={true}
+                            disabled={
+                                !selectedProvider ||
+                                !selectedStrategy ||
+                                !selectedInstrument
+                            }
                             onClick={() => formRef.current?.requestSubmit()}
                             role="button"
                             tabIndex={0}>

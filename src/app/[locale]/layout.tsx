@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import ReduxProvider from "@/components/providers/ReduxProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -42,7 +41,17 @@ export default async function LocaleLayout({
     return (
         <html lang={locale}>
             <body className="antialiased">
-                <ClerkProvider appearance={{ baseTheme: dark, variables: { colorPrimary: "#1fd5f9", colorBackground: "rgb(18, 18, 18)" } }} localization={CLERK_LOCALES[locale as keyof typeof CLERK_LOCALES]}>
+                <ClerkProvider
+                    appearance={{
+                        baseTheme: dark,
+                        variables: {
+                            colorPrimary: "#1fd5f9",
+                            colorBackground: "rgb(18, 18, 18)",
+                        },
+                    }}
+                    localization={
+                        CLERK_LOCALES[locale as keyof typeof CLERK_LOCALES]
+                    }>
                     <NextIntlClientProvider messages={messages}>
                         {children}
                         <Toaster richColors position="top-right" />
@@ -52,4 +61,3 @@ export default async function LocaleLayout({
         </html>
     );
 }
-

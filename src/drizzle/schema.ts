@@ -169,8 +169,8 @@ export const UserTelegramNotificationSettingsTable = pgTable(
             .references(() => UserTable.id, { onDelete: "cascade" }),
         telegramChatId: text("telegram_chat_id"),
         telegramUsername: text("telegram_username"),
-        instrument: text("instrument").notNull(),
-        strategy: text("strategy").notNull(),
+        instrument: text("instrument"),
+        strategy: text("strategy"),
         createdAt: timestamp("created_at", { withTimezone: true })
             .defaultNow()
             .notNull(),
@@ -179,8 +179,14 @@ export const UserTelegramNotificationSettingsTable = pgTable(
             .notNull(),
     },
     (table) => ({
-        userIdIndex: index("user_id_index").on(table.userId),
-        instrumentIndex: index("instrument_index").on(table.instrument),
-        strategyIndex: index("strategy_index").on(table.strategy),
+        userIdIndex: index("telegram_notifications_user_id_idx").on(
+            table.userId
+        ),
+        instrumentIndex: index("telegram_notifications_instrument_idx").on(
+            table.instrument
+        ),
+        strategyIndex: index("telegram_notifications_strategy_idx").on(
+            table.strategy
+        ),
     })
 );

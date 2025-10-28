@@ -1,12 +1,8 @@
-import { CreateInstanceSheet } from "@/components/private/instances/CreateInstanceSheet";
-import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropdownMenu";
 import { CustomButton } from "@/components/CustomButton";
 import { Dot } from "lucide-react";
 import { AddNotificationSheet } from "@/components/private/instances/AddNotificationSheet";
 
 export default async function notifications() {
-    const apiKey = true;
-
     return (
         <>
             <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
