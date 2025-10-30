@@ -8,6 +8,7 @@ import {
     primaryKey,
     text,
     timestamp,
+    unique,
     uuid,
 } from "drizzle-orm/pg-core";
 
@@ -29,6 +30,10 @@ export const billingStatus = pgEnum("billing_status", [
     "active", // paying and current
     "past_due", // payment failed / grace
     "canceled", // canceled sub
+]);
+
+export const notificationProvider = pgEnum("notification_provider", [
+    "telegram",
 ]);
 
 export const UserTable = pgTable(
@@ -166,11 +171,33 @@ export const UserTelegramNotificationSettingsTable = pgTable(
         id: uuid("id").defaultRandom().primaryKey(),
         userId: uuid("user_id")
             .notNull()
+            .unique() // One Telegram account per user
             .references(() => UserTable.id, { onDelete: "cascade" }),
-        telegramChatId: text("telegram_chat_id"),
+        telegramChatId: text("telegram_chat_id").notNull(),
         telegramUsername: text("telegram_username"),
-        instrument: text("instrument"),
-        strategy: text("strategy"),
+        createdAt: timestamp("created_at", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+        updatedAt: timestamp("updated_at", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+    }
+);
+
+export const NotificationPreferencesTable = pgTable(
+    "notification_preferences",
+    {
+        id: uuid("id").defaultRandom().primaryKey(),
+        userId: uuid("user_id")
+            .references(() => UserTable.id, { onDelete: "cascade" })
+            .notNull(),
+        telegramAccountId: uuid("telegram_account_id").references(
+            () => UserTelegramNotificationSettingsTable.id,
+            { onDelete: "cascade" }
+        ),
+        provider: notificationProvider("provider").notNull(),
+        instrument: text("instrument").notNull(),
+        strategy: text("strategy").notNull(),
         createdAt: timestamp("created_at", { withTimezone: true })
             .defaultNow()
             .notNull(),
@@ -179,13 +206,16 @@ export const UserTelegramNotificationSettingsTable = pgTable(
             .notNull(),
     },
     (table) => ({
-        userIdIndex: index("telegram_notifications_user_id_idx").on(
-            table.userId
+        userIdIdx: index("notification_prefs_user_id_idx").on(table.userId),
+        telegramAccountIdx: index("notification_prefs_telegram_account_idx").on(
+            table.telegramAccountId
         ),
-        instrumentIndex: index("telegram_notifications_instrument_idx").on(
-            table.instrument
-        ),
-        strategyIndex: index("telegram_notifications_strategy_idx").on(
+
+        // Prevent duplicate notifications for same instrument+strategy+provider
+        uniqueNotification: unique().on(
+            table.userId,
+            table.provider,
+            table.instrument,
             table.strategy
         ),
     })

@@ -74,34 +74,24 @@ export async function POST(request: NextRequest) {
 
         const { chatId, username } = tokenData.Item;
 
-        // 5. Check if this user already has Telegram linked
-        const existingSettings =
-            await db.query.UserTelegramNotificationSettingsTable.findFirst({
-                where: eq(
-                    UserTelegramNotificationSettingsTable.userId,
-                    user.id
-                ),
+        // 5. Create or update Telegram account link
+        await db
+            .insert(UserTelegramNotificationSettingsTable)
+            .values({
+                userId: user.id, // Use database UUID, not Clerk ID
+                telegramChatId: chatId,
+                telegramUsername: username || null,
+            })
+            .onConflictDoUpdate({
+                target: UserTelegramNotificationSettingsTable.userId,
+                set: {
+                    telegramChatId: chatId,
+                    telegramUsername: username || null,
+                    updatedAt: new Date(),
+                },
             });
 
-        if (existingSettings) {
-            return NextResponse.json(
-                {
-                    error: "Your account already has Telegram linked.",
-                },
-                { status: 409 }
-            );
-        }
-
-        // 6. Create Telegram notification settings record
-        await db.insert(UserTelegramNotificationSettingsTable).values({
-            userId: user.id, // Use database UUID, not Clerk ID
-            telegramChatId: chatId,
-            telegramUsername: username || null,
-            instrument: null, // Default null, will be set later by user
-            strategy: null, // Default null, will be set later by user
-        });
-
-        // 7. Delete used token
+        // 6. Delete used token
         await dynamoDb.send(
             new DeleteCommand({
                 TableName: "TelegramLinkTokens",
@@ -109,7 +99,7 @@ export async function POST(request: NextRequest) {
             })
         );
 
-        // 8. Send confirmation message on Telegram
+        // 7. Send confirmation message on Telegram
         const botToken = process.env.TELEGRAM_BOT_TOKEN!;
         await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: "POST",

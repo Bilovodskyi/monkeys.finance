@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRef, useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { checkTelegramLinked } from "@/actions/telegram/status";
 
 interface AddNotificationSheetProps {
     children: ReactNode;
@@ -35,6 +36,8 @@ export function AddNotificationSheet({
 }: AddNotificationSheetProps) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
+    const [checkingTelegram, setCheckingTelegram] = useState(false);
+    const [isTelegramLinked, setIsTelegramLinked] = useState(false);
 
     const isEditMode = !!notification;
 
@@ -75,71 +78,43 @@ export function AddNotificationSheet({
     };
 
     async function handleFormSubmit(values: FormValues) {
-        // Check if Telegram provider requires linking
-        if (values.provider === "Telegram") {
-            try {
-                // Check if Telegram account is linked in DB
-                const checkResponse = await fetch(
-                    "/api/telegram/notifications"
-                );
+        try {
+            toast.loading("Creating notification...");
 
-                if (!checkResponse.ok) {
-                    toast.error(
-                        "Please link your Telegram account first. Open Telegram, search for @algo_squid_bot, and send /start"
-                    );
-                    return;
-                }
+            const { createNotification } = await import(
+                "@/actions/notifications"
+            );
 
-                const checkData = await checkResponse.json();
+            await createNotification({
+                provider: values.provider,
+                instrument: values.instrument,
+                strategy: values.strategy,
+            });
 
-                if (!checkData) {
-                    toast.error(
-                        "Please link your Telegram account first. Open Telegram, search for @algo_squid_bot, and send /start"
-                    );
-                    return;
-                }
-
-                // If linked, update the preferences
-                toast.loading("Saving notification preferences...");
-
-                const updateResponse = await fetch(
-                    "/api/telegram/notifications",
-                    {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            instrument: values.instrument,
-                            strategy: values.strategy,
-                        }),
-                    }
-                );
-
-                const updateData = await updateResponse.json();
-                toast.dismiss();
-
-                if (updateResponse.ok) {
-                    toast.success("Notification preferences saved!");
-                    setOpen(false);
-                    clearForm();
-                    router.refresh();
-                } else {
-                    toast.error(
-                        updateData.error || "Failed to save preferences"
-                    );
-                }
-            } catch (error) {
-                toast.dismiss();
-                toast.error("Failed to save preferences. Please try again.");
-            }
-        } else {
-            // Handle other providers (non-Telegram)
-            toast.info("Other notification providers coming soon!");
+            toast.dismiss();
+            toast.success("Notification created successfully!");
+            setOpen(false);
+            clearForm();
+            router.refresh();
+        } catch (error: any) {
+            toast.dismiss();
+            toast.error(error.message || "Failed to create notification");
         }
     }
 
     const handleProviderChange = (value: string) => {
         form.setValue("provider", value);
     };
+
+    // Check Telegram status when provider changes to Telegram
+    useEffect(() => {
+        if (selectedProvider === "Telegram" && open) {
+            setCheckingTelegram(true);
+            checkTelegramLinked()
+                .then(setIsTelegramLinked)
+                .finally(() => setCheckingTelegram(false));
+        }
+    }, [selectedProvider, open]);
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -199,27 +174,49 @@ export function AddNotificationSheet({
                     </div>
 
                     {/* Show Telegram Instructions OR Preferences Form */}
-                    {selectedProvider === "Telegram" && (
-                        <div className="px-2 py-3 space-y-2">
+                    {selectedProvider === "Telegram" &&
+                        !isTelegramLinked &&
+                        !checkingTelegram && (
+                            <div className="px-2 py-3 space-y-2">
+                                <p className="text-sm text-tertiary">
+                                    Step 1. Open your Telegram app
+                                </p>
+                                <p className="text-sm text-tertiary">
+                                    Step 2. Search for{" "}
+                                    <span className="text-white font-mono">
+                                        @algo_squid_bot
+                                    </span>{" "}
+                                </p>
+                                <p className="text-sm text-tertiary">
+                                    Step 3. Send{" "}
+                                    <span className="text-white font-mono">
+                                        /start
+                                    </span>{" "}
+                                </p>
+                                <p className="text-sm text-tertiary">
+                                    Step 4. You will receive unique link that
+                                    connects your telegram account to our
+                                    notification system.
+                                </p>
+                            </div>
+                        )}
+
+                    {/* Show linked status */}
+                    {selectedProvider === "Telegram" &&
+                        isTelegramLinked &&
+                        !checkingTelegram && (
+                            <div className="px-2 py-3">
+                                <p className="text-sm">
+                                    ✅ Telegram account linked
+                                </p>
+                            </div>
+                        )}
+
+                    {/* Loading state */}
+                    {selectedProvider === "Telegram" && checkingTelegram && (
+                        <div className="px-2 py-3">
                             <p className="text-sm text-tertiary">
-                                Step 1. Open your Telegram app
-                            </p>
-                            <p className="text-sm text-tertiary">
-                                Step 2. Search for{" "}
-                                <span className="text-white font-mono">
-                                    @algo_squid_bot
-                                </span>{" "}
-                            </p>
-                            <p className="text-sm text-tertiary">
-                                Step 3. Send{" "}
-                                <span className="text-white font-mono">
-                                    /start
-                                </span>{" "}
-                            </p>
-                            <p className="text-sm text-tertiary">
-                                Step 4. You will receive unique link that
-                                connects your telegram account to our
-                                notification system.
+                                Checking Telegram status...
                             </p>
                         </div>
                     )}
