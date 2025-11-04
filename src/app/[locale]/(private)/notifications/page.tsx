@@ -13,7 +13,7 @@ export default async function notifications() {
 
     return (
         <>
-            {data.length === 0 ? (
+            {data.length === 0 && !telegramAccount ? (
                 <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
                     <h1 className="text-lg font-bold">Add Notification</h1>
                     <p className="text-center text-tertiary">
@@ -36,9 +36,8 @@ export default async function notifications() {
             ) : (
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-6 pt-4">
-                        <h1 className="text-lg font-bold">
-                            Accounts {data.length}/3
-                        </h1>
+                        {/* TODO Account number hardcoded, with only Telegram provider, add functionality after adding more providers */}
+                        <h1 className="text-lg font-bold">Accounts 1/2</h1>
                         {data.length < 3 ? (
                             <AddNotificationSheet>
                                 <CustomButton isBlue={false}>
@@ -91,62 +90,66 @@ export default async function notifications() {
                             </div>
                         </div>
                     )}
-                    <div className="flex items-center justify-between px-6 pt-4">
-                        <h1 className="text-lg font-bold">
-                            Notifications {data.length}/3
-                        </h1>
-                    </div>
-                    <div className="p-6 flex flex-col overflow-hidden">
-                        {/* Sticky Header */}
-                        <div className="grid grid-cols-10 border border-zinc-800 backdrop-blur-md">
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                Provider
+                    {data.length > 0 && (
+                        <>
+                            <div className="flex items-center justify-between px-6 pt-4">
+                                <h1 className="text-lg font-bold">
+                                    Notifications {data.length}/3
+                                </h1>
                             </div>
-                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                Username
-                            </div>
-                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                Strategy
-                            </div>
-                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                Instrument
-                            </div>
-                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                Created At
-                            </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                Actions
-                            </div>
-                        </div>
-
-                        {/* Scrollable Content */}
-                        {data.map((notification, index) => (
-                            <div
-                                key={index}
-                                className="grid grid-cols-10 border border-zinc-800 border-t-0">
-                                <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                    <div className="bg-blue-400 py-1 px-3 rounded-full">
-                                        Telegram
+                            <div className="p-6 flex flex-col overflow-hidden">
+                                {/* Sticky Header */}
+                                <div className="grid grid-cols-10 border border-zinc-800 backdrop-blur-md">
+                                    <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                        Provider
+                                    </div>
+                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                        Username
+                                    </div>
+                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                        Strategy
+                                    </div>
+                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                        Instrument
+                                    </div>
+                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                        Created At
+                                    </div>
+                                    <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                        Actions
                                     </div>
                                 </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                    {notification.telegramUsername}
-                                </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                    {notification.strategy}
-                                </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                    {notification.instrument}
-                                </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                    {notification.createdAt.toLocaleDateString()}
-                                </div>
-                                <DeleteNotification
-                                    notificationId={notification.id}
-                                />
+
+                                {/* Scrollable Content */}
+                                {data.map((notification, index) => (
+                                    <div
+                                        key={index}
+                                        className="grid grid-cols-10 border border-zinc-800 border-t-0">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                            <div className="bg-blue-400 py-1 px-3 rounded-full">
+                                                Telegram
+                                            </div>
+                                        </div>
+                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                            {notification.telegramUsername}
+                                        </div>
+                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                            {notification.strategy}
+                                        </div>
+                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                            {notification.instrument}
+                                        </div>
+                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                            {notification.createdAt.toLocaleDateString()}
+                                        </div>
+                                        <DeleteNotification
+                                            notificationId={notification.id}
+                                        />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    )}
                 </div>
             )}
         </>

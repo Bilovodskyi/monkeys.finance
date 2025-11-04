@@ -57,6 +57,13 @@
       "when": 1761798637179,
       "tag": "0007_aberrant_lord_hawal",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1762110431893,
+      "tag": "0008_cool_hiroim",
+      "breakpoints": true
     }
   ]
 }

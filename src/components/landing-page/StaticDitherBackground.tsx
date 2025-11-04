@@ -79,14 +79,14 @@ const StaticDitherBackground = () => {
 
     return (
         <section className="h-[60vh] px-24 relative mb-12">
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center">
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 flex flex-col gap-4 items-center justify-center">
                 <h1 className="text-4xl font-title">
-                    Better returns -{" "}
-                    <span className="text-highlight">same</span> risk
+                    <span className="text-highlight">Better returns -</span>{" "}
+                    same risk
                 </h1>
                 <h2 className="text-secondary text-center text-xl text-balance max-w-xl">
-                    Our algorithm with machine learning outperforms bitcoin on
-                    the spot market. No futures trading, no extra risk
+                    Our machine learning algorithm outperforms bitcoin on the
+                    spot market. No futures trading, no extra risk
                 </h2>
             </div>
             <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex items-end justify-center gap-24">

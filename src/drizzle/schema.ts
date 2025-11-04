@@ -191,7 +191,7 @@ export const NotificationPreferencesTable = pgTable(
         userId: uuid("user_id")
             .references(() => UserTable.id, { onDelete: "cascade" })
             .notNull(),
-        telegramAccountId: uuid("telegram_account_id").references(
+        providerId: uuid("provider_id").references(
             () => UserTelegramNotificationSettingsTable.id,
             { onDelete: "cascade" }
         ),
@@ -207,8 +207,8 @@ export const NotificationPreferencesTable = pgTable(
     },
     (table) => ({
         userIdIdx: index("notification_prefs_user_id_idx").on(table.userId),
-        telegramAccountIdx: index("notification_prefs_telegram_account_idx").on(
-            table.telegramAccountId
+        providerIdIdx: index("notification_prefs_provider_id_idx").on(
+            table.providerId
         ),
 
         // Prevent duplicate notifications for same instrument+strategy+provider

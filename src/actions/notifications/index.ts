@@ -66,8 +66,8 @@ export async function createNotification(data: {
             .insert(NotificationPreferencesTable)
             .values({
                 userId: user.id,
-                telegramAccountId,
-                provider: normalizedProvider as "telegram",
+                provider: "telegram",
+                providerId: telegramAccountId,
                 instrument,
                 strategy,
             })

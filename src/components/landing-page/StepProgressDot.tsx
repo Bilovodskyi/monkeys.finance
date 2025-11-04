@@ -78,9 +78,14 @@ const StepProgressDot: React.FC<StepProgressDotProps> = ({
     const r = (svgSize - strokeWidth) / 2;
 
     return (
-        <div ref={wrapperRef} className={`relative inline-flex items-center justify-center shrink-0 ${className}`} style={{ width: svgSize, height: svgSize }}>
+        <div
+            ref={wrapperRef}
+            className={`relative inline-flex items-center justify-center shrink-0 ${className}`}
+            style={{ width: svgSize, height: svgSize }}>
             {/* Inner dot */}
-            <div className="flex items-center justify-center rounded-full border border-white bg-black z-20" style={{ width: size, height: size }}>
+            <div
+                className="flex items-center justify-center rounded-full border border-white bg-black z-20"
+                style={{ width: size, height: size }}>
                 {label !== undefined ? (
                     <span className="leading-none select-none">{label}</span>
                 ) : null}
@@ -92,15 +97,14 @@ const StepProgressDot: React.FC<StepProgressDotProps> = ({
                 height={svgSize}
                 viewBox={`0 0 ${svgSize} ${svgSize}`}
                 style={{ transform: "rotate(-90deg)" }}
-                aria-hidden="true"
-            >
+                aria-hidden="true">
                 <circle
                     ref={circleARef}
                     cx={svgSize / 2}
                     cy={svgSize / 2}
                     r={r}
                     fill="none"
-                    stroke="rgb(34,211,238)"
+                    stroke="var(--highlight-text)"
                     strokeWidth={strokeWidth}
                     strokeLinecap="round"
                 />
@@ -110,11 +114,13 @@ const StepProgressDot: React.FC<StepProgressDotProps> = ({
                     cy={svgSize / 2}
                     r={r}
                     fill="none"
-                    stroke="rgb(34,211,238)" /* cyan-400 */
+                    stroke="var(--highlight-text)"
                     strokeWidth={strokeWidth}
                     strokeLinecap="round"
                     transform={`scale(1 -1)`}
-                    style={{ transformOrigin: `${svgSize / 2}px ${svgSize / 2}px` }}
+                    style={{
+                        transformOrigin: `${svgSize / 2}px ${svgSize / 2}px`,
+                    }}
                 />
             </svg>
         </div>

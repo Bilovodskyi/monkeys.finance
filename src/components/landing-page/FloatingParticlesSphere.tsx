@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useMemo, useRef, useLayoutEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -21,7 +21,7 @@ function fibonacciSpherePoints(count = 5000, radius = 1) {
     const increment = Math.PI * (3 - Math.sqrt(5));
 
     for (let i = 0; i < count; i++) {
-        const y = ((i * offset) - 1) + (offset / 2);
+        const y = i * offset - 1 + offset / 2;
         const r = Math.sqrt(1 - y * y);
         const phi = i * increment;
 
@@ -50,18 +50,18 @@ function fibonacciSpherePoints(count = 5000, radius = 1) {
         if (rand < 0.25) {
             // #1f59f9 = 25% of particles
             colors[i * 3 + 0] = 0.122; // 31/255
-            colors[i * 3 + 1] = 0.349; // 89/255  
+            colors[i * 3 + 1] = 0.349; // 89/255
             colors[i * 3 + 2] = 0.976; // 249/255
         } else if (rand < 0.5) {
-            // #2bc491 = 25% of particles
-            colors[i * 3 + 0] = 0.169; // 43/255
-            colors[i * 3 + 1] = 0.769; // 196/255
-            colors[i * 3 + 2] = 0.569; // 145/255
-        } else {
             // rgb(31, 213, 249) = 50% of particles
             colors[i * 3 + 0] = 0.122; // 31/255
             colors[i * 3 + 1] = 0.835; // 213/255
             colors[i * 3 + 2] = 0.976; // 249/255
+        } else {
+            // #2bc491 = 25% of particles
+            colors[i * 3 + 0] = 0.169; // 43/255
+            colors[i * 3 + 1] = 0.769; // 196/255
+            colors[i * 3 + 2] = 0.569; // 145/255
         }
 
         // Assembly animation: initialize start positions biased toward camera side (positive Z)
@@ -172,9 +172,21 @@ const fragmentShader = `
 `;
 
 // ---------- Points Mesh
-function ParticleSphere({ count = 5000, baseRadius = 1, assembleProgressRef }: { count?: number; baseRadius?: number; assembleProgressRef?: React.MutableRefObject<number> }) {
+function ParticleSphere({
+    count = 5000,
+    baseRadius = 1,
+    assembleProgressRef,
+}: {
+    count?: number;
+    baseRadius?: number;
+    assembleProgressRef?: React.MutableRefObject<number>;
+}) {
     const materialRef = useRef<THREE.ShaderMaterial>(null);
-    const { pts, speeds, axes, colors, starts, assembleSpeed, assembleDelay } = useMemo(() => fibonacciSpherePoints(count, baseRadius), [count, baseRadius]);
+    const { pts, speeds, axes, colors, starts, assembleSpeed, assembleDelay } =
+        useMemo(
+            () => fibonacciSpherePoints(count, baseRadius),
+            [count, baseRadius]
+        );
 
     const geometry = useMemo(() => {
         const geo = new THREE.BufferGeometry();
@@ -183,18 +195,28 @@ function ParticleSphere({ count = 5000, baseRadius = 1, assembleProgressRef }: {
         geo.setAttribute("aAxis", new THREE.BufferAttribute(axes, 3));
         geo.setAttribute("aColor", new THREE.BufferAttribute(colors, 3));
         geo.setAttribute("aStart", new THREE.BufferAttribute(starts, 3));
-        geo.setAttribute("aAssembleSpeed", new THREE.BufferAttribute(assembleSpeed, 1));
-        geo.setAttribute("aAssembleDelay", new THREE.BufferAttribute(assembleDelay, 1));
+        geo.setAttribute(
+            "aAssembleSpeed",
+            new THREE.BufferAttribute(assembleSpeed, 1)
+        );
+        geo.setAttribute(
+            "aAssembleDelay",
+            new THREE.BufferAttribute(assembleDelay, 1)
+        );
         return geo;
     }, [pts, speeds, axes, colors, starts, assembleSpeed, assembleDelay]);
 
-    const uniforms = useMemo(() => ({ uTime: { value: 0 }, uAssemble: { value: 0 } }), []);
+    const uniforms = useMemo(
+        () => ({ uTime: { value: 0 }, uAssemble: { value: 0 } }),
+        []
+    );
 
     useFrame((_, dt) => {
         if (materialRef.current) {
             materialRef.current.uniforms.uTime.value += dt;
             if (assembleProgressRef) {
-                materialRef.current.uniforms.uAssemble.value = assembleProgressRef.current;
+                materialRef.current.uniforms.uAssemble.value =
+                    assembleProgressRef.current;
             }
         }
     });
@@ -202,7 +224,8 @@ function ParticleSphere({ count = 5000, baseRadius = 1, assembleProgressRef }: {
     return (
         <points geometry={geometry} frustumCulled>
             {/* @ts-ignore */}
-            <shaderMaterial ref={materialRef}
+            <shaderMaterial
+                ref={materialRef}
                 uniforms={uniforms}
                 vertexShader={vertexShader}
                 fragmentShader={fragmentShader}
@@ -223,7 +246,14 @@ interface SceneProps {
     sphereDescriptionRef: React.RefObject<HTMLParagraphElement | null>;
 }
 
-function Scene({ sectionOneRef, sectionTwoRef, sectionThreeRef, insideTextRef, sphereTitleRef, sphereDescriptionRef }: SceneProps) {
+function Scene({
+    sectionOneRef,
+    sectionTwoRef,
+    sectionThreeRef,
+    insideTextRef,
+    sphereTitleRef,
+    sphereDescriptionRef,
+}: SceneProps) {
     const group = useRef<THREE.Group>(null);
     const { camera } = useThree();
     const assembleProgress = useRef(0);
@@ -235,26 +265,42 @@ function Scene({ sectionOneRef, sectionTwoRef, sectionThreeRef, insideTextRef, s
         camera.position.set(0, 0, 6);
         camera.lookAt(0, 0, 0);
 
-        if (!sectionOneRef.current || !sectionTwoRef.current || !sectionThreeRef.current || !group.current ||
-            !insideTextRef.current || !sphereTitleRef.current || !sphereDescriptionRef.current) return;
+        if (
+            !sectionOneRef.current ||
+            !sectionTwoRef.current ||
+            !sectionThreeRef.current ||
+            !group.current ||
+            !insideTextRef.current ||
+            !sphereTitleRef.current ||
+            !sphereDescriptionRef.current
+        )
+            return;
 
         // 1) Sphere scale animation (only during Section 1)
-        gsap.fromTo(group.current.scale,
+        gsap.fromTo(
+            group.current.scale,
             { x: 0.8, y: 0.8, z: 0.8 },
             {
-                x: 8, y: 8, z: 8,
+                x: 8,
+                y: 8,
+                z: 8,
                 ease: "none",
                 scrollTrigger: {
                     trigger: sectionTwoRef.current,
                     start: "top top",
-                    end: () => `+=${sectionTwoRef.current!.offsetHeight + sectionThreeRef.current!.offsetHeight * 0.5}`,
+                    end: () =>
+                        `+=${
+                            sectionTwoRef.current!.offsetHeight +
+                            sectionThreeRef.current!.offsetHeight * 0.5
+                        }`,
                     scrub: 1,
-                }
+                },
             }
         );
 
         // 2) Camera zoom animation (start on Section 2, extend into half of Section 3)
-        gsap.fromTo(camera.position,
+        gsap.fromTo(
+            camera.position,
             { z: 6 },
             {
                 z: 0.5,
@@ -262,26 +308,35 @@ function Scene({ sectionOneRef, sectionTwoRef, sectionThreeRef, insideTextRef, s
                 scrollTrigger: {
                     trigger: sectionTwoRef.current,
                     start: "top bottom",
-                    end: () => `+=${sectionTwoRef.current!.offsetHeight + sectionThreeRef.current!.offsetHeight * 0.5}`,
+                    end: () =>
+                        `+=${
+                            sectionTwoRef.current!.offsetHeight +
+                            sectionThreeRef.current!.offsetHeight * 0.5
+                        }`,
                     scrub: 1,
-                }
+                },
             }
         );
 
         // 3) Assembly trigger: when half of section enters viewport, animate uAssemble 0->1
-        gsap.fromTo(assembleProgress, { current: 0 }, {
-            current: 1,
-            ease: "power2.out",
-            duration: 3.5,
-            scrollTrigger: {
-                trigger: sectionOneRef.current,
-                start: "50% bottom",
-                once: true,
+        gsap.fromTo(
+            assembleProgress,
+            { current: 0 },
+            {
+                current: 1,
+                ease: "power2.out",
+                duration: 3.5,
+                scrollTrigger: {
+                    trigger: sectionOneRef.current,
+                    start: "50% bottom",
+                    once: true,
+                },
             }
-        });
+        );
 
         // 4) Text container show (last half of Section 2)
-        gsap.fromTo(insideTextRef.current,
+        gsap.fromTo(
+            insideTextRef.current,
             { opacity: 0 },
             {
                 opacity: 1,
@@ -291,54 +346,70 @@ function Scene({ sectionOneRef, sectionTwoRef, sectionThreeRef, insideTextRef, s
                     start: "40% bottom",
                     end: "45% bottom",
                     scrub: 1,
-                }
+                },
             }
         );
 
         // 5) Title animation (last half of Section 2)
-        gsap.fromTo(sphereTitleRef.current,
+        gsap.fromTo(
+            sphereTitleRef.current,
             { opacity: 0, y: 32, scale: 0.95 },
             {
-                opacity: 1, y: 0, scale: 1,
+                opacity: 1,
+                y: 0,
+                scale: 1,
                 ease: "none",
                 scrollTrigger: {
                     trigger: sectionThreeRef.current,
                     start: "45% bottom",
                     end: "50% bottom",
                     scrub: 1,
-                }
+                },
             }
         );
 
         // 6) Description animation (last half of Section 2)
-        gsap.fromTo(sphereDescriptionRef.current,
+        gsap.fromTo(
+            sphereDescriptionRef.current,
             { opacity: 0, y: 24, filter: "blur(4px)" },
             {
-                opacity: 1, y: 0, filter: "blur(0px)",
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
                 ease: "none",
                 scrollTrigger: {
                     trigger: sectionThreeRef.current,
                     start: "50% bottom",
                     end: "55% bottom",
                     scrub: 1,
-                }
+                },
             }
         );
 
-
         return () => {
-            ScrollTrigger.getAll().forEach(t => t.kill());
+            ScrollTrigger.getAll().forEach((t) => t.kill());
         };
-    }, [camera, sectionOneRef, sectionTwoRef, insideTextRef, sphereTitleRef, sphereDescriptionRef]);
+    }, [
+        camera,
+        sectionOneRef,
+        sectionTwoRef,
+        insideTextRef,
+        sphereTitleRef,
+        sphereDescriptionRef,
+    ]);
 
     return (
         <group ref={group} scale={[0.8, 0.8, 0.8]}>
-            <ParticleSphere count={35000} baseRadius={1} assembleProgressRef={assembleProgress} />
+            <ParticleSphere
+                count={35000}
+                baseRadius={1}
+                assembleProgressRef={assembleProgress}
+            />
         </group>
     );
 }
 
-// ---------- Page Scaffolding  
+// ---------- Page Scaffolding
 export default function ParticleSphereScroll() {
     const t = useTranslations("sphere");
 
@@ -355,18 +426,38 @@ export default function ParticleSphereScroll() {
     return (
         <div className="relative w-full bg-background text-white">
             {/* Scroll stage pinned during the animation */}
-            <section ref={sectionOneRef} className="sticky top-0 h-screen w-full">
-                <Canvas camera={{ fov: 60, near: 0.1, far: 100 }} gl={{ antialias: true, powerPreference: "high-performance" }}>
-                    <Scene sectionOneRef={sectionOneRef} sectionTwoRef={sectionTwoRef} sectionThreeRef={sectionThreeRef} insideTextRef={insideTextRef} sphereTitleRef={sphereTitleRef} sphereDescriptionRef={sphereDescriptionRef} />
+            <section
+                ref={sectionOneRef}
+                className="sticky top-0 h-screen w-full">
+                <Canvas
+                    camera={{ fov: 60, near: 0.1, far: 100 }}
+                    gl={{
+                        antialias: true,
+                        powerPreference: "high-performance",
+                    }}>
+                    <Scene
+                        sectionOneRef={sectionOneRef}
+                        sectionTwoRef={sectionTwoRef}
+                        sectionThreeRef={sectionThreeRef}
+                        insideTextRef={insideTextRef}
+                        sphereTitleRef={sphereTitleRef}
+                        sphereDescriptionRef={sphereDescriptionRef}
+                    />
                 </Canvas>
 
                 {/* Inside-sphere CTA/Text */}
-                <div ref={insideTextRef} className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0">
+                <div
+                    ref={insideTextRef}
+                    className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0">
                     <div className="mx-auto max-w-2xl text-center px-6">
-                        <h2 ref={sphereTitleRef} className="text-3xl md:text-5xl font-light tracking-tight opacity-0 translate-y-8 scale-95">
+                        <h2
+                            ref={sphereTitleRef}
+                            className="text-3xl md:text-5xl font-light tracking-tight opacity-0 translate-y-8 scale-95">
                             {t("title")}
                         </h2>
-                        <p ref={sphereDescriptionRef} className="mt-4 text-white/70 opacity-0 translate-y-6 blur-sm">
+                        <p
+                            ref={sphereDescriptionRef}
+                            className="mt-4 text-white/70 opacity-0 translate-y-6 blur-sm">
                             {t("description")}
                         </p>
                     </div>

@@ -52,11 +52,13 @@ export default function MetaballsLoader() {
         []
     );
 
-    // Animated state
+    // Animated state - initialize at center to avoid flash at (0,0)
+    const cx = SIZE / 2;
+    const cy = SIZE / 2;
     const [pos, setPos] = useState([
-        { x: 0, y: 0 },
-        { x: 0, y: 0 },
-        { x: 0, y: 0 },
+        { x: cx + ORBIT_R * Math.cos(PHASE[0]), y: cy + ORBIT_R * Math.sin(PHASE[0]) },
+        { x: cx + ORBIT_R * Math.cos(PHASE[1]), y: cy + ORBIT_R * Math.sin(PHASE[1]) },
+        { x: cx + ORBIT_R * Math.cos(PHASE[2]), y: cy + ORBIT_R * Math.sin(PHASE[2]) },
     ]);
     const [scale, setScale] = useState<[number, number, number]>([1, 1, 1]);
 
@@ -123,7 +125,7 @@ export default function MetaballsLoader() {
     }, []);
 
     return (
-        <div className="w-full h-full grid place-items-center" style={{ background: BG, borderRadius: 12 }}>
+        <div className="w-full h-full min-h-[420px] grid place-items-center" style={{ background: BG, borderRadius: 12 }}>
             <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`}>
                 <defs>
                     <filter id={ids.goo}>

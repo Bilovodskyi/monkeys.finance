@@ -39,21 +39,28 @@ export async function getAllXlsxFilesFromFolder(
             return {};
         }
 
-        // Step 2: Filter to only .xlsx files and exclude "folder" entries
-        const xlsxFiles = listResponse.Contents.filter((item: _Object) => {
-            const key = item.Key || "";
-            return key.toLowerCase().endsWith(".xlsx") && !key.endsWith("/");
-        }).map((item: _Object) => item.Key as string);
-
-        console.log(`📊 Found ${xlsxFiles.length} xlsx file(s)`);
+        // Filter .xlsx files
+        const xlsxFiles = listResponse.Contents.filter(
+            (file) =>
+                file.Key &&
+                file.Key.toLowerCase().endsWith(".xlsx") &&
+                !file.Key.toLowerCase().includes("combined")
+        ).map((file) => file.Key!);
 
         if (xlsxFiles.length === 0) {
-            console.log(`⚠️  No .xlsx files found in: ${fullPrefix}`);
+            console.log("No .xlsx files found in folder:", folderPath);
             return {};
         }
 
-        // Step 3: Download all files in parallel
-        const filePromises = xlsxFiles.map(async (key) => {
+        // Get only the latest file per symbol
+        const latestFiles = getLatestFilePerSymbol(xlsxFiles);
+
+        console.log(
+            `📁 Found ${xlsxFiles.length} total files, using ${latestFiles.length} latest files`
+        );
+
+        // Step 3: Download only latest files in parallel
+        const filePromises = latestFiles.map(async (key) => {
             console.log(`⬇️  Downloading: ${key}`);
 
             const getCommand = new GetObjectCommand({
@@ -123,4 +130,37 @@ export async function getAllXlsxFilesFromFolder(
             }`
         );
     }
+}
+
+/**
+ * Filter to get only the latest file per symbol based on timestamp in filename
+ * Filename format: BTC-USD_4h_20251024-052833.xlsx
+ */
+function getLatestFilePerSymbol(files: string[]): string[] {
+    const latestBySymbol = new Map<
+        string,
+        { key: string; timestamp: string }
+    >();
+
+    for (const key of files) {
+        const filename = key.split("/").pop()!;
+
+        // Extract symbol (e.g., "BTC" from "BTC-USD_4h_20251024-052833.xlsx")
+        const symbolMatch = filename.match(/^([A-Z]{3})-USD/);
+        if (!symbolMatch) continue;
+
+        const symbol = symbolMatch[1];
+
+        // Extract timestamp (e.g., "20251024-052833" from filename)
+        const timestampMatch = filename.match(/(\d{8}-\d{6})/);
+        const timestamp = timestampMatch?.[1] || "00000000-000000";
+
+        // Keep the file with the latest timestamp
+        const existing = latestBySymbol.get(symbol);
+        if (!existing || timestamp > existing.timestamp) {
+            latestBySymbol.set(symbol, { key, timestamp });
+        }
+    }
+
+    return Array.from(latestBySymbol.values()).map((v) => v.key);
 }

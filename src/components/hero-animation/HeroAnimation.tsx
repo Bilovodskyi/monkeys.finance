@@ -2,7 +2,17 @@
 
 import * as React from "react";
 import BoxWithHover from "./BoxWithHover";
-import { Brain, Bot, CloudDownload, History, Bitcoin, Cpu, BrainCircuit, BookOpenText, ChartLine } from "lucide-react";
+import {
+    Brain,
+    Bot,
+    CloudDownload,
+    History,
+    Bitcoin,
+    Cpu,
+    BrainCircuit,
+    BookOpenText,
+    ChartLine,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export interface HeroBoardProps {
@@ -10,6 +20,8 @@ export interface HeroBoardProps {
     /** Optional: extra wrapper styles */
     style?: React.CSSProperties;
 }
+
+const LINE_COLOR = "var(--highlight-text)";
 
 export default function HeroBoard({ className, style }: HeroBoardProps) {
     const t = useTranslations("heroAnimation");
@@ -22,20 +34,42 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             ]
                 .filter(Boolean)
                 .join(" ")}
-            style={{ transform: "translateY(0px) rotate(-30deg) skewX(30deg)", ...style }}
-        >
-
+            style={{
+                transform: "translateY(0px) rotate(-30deg) skewX(30deg)",
+                ...style,
+            }}>
             {/* Lines & shimmers canvas */}
             <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-full w-full max-w-7xl -translate-x-1/2 -translate-y-1/2">
                 {/* Top line */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRmq" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(0.19488285223860277, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRmq"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(0.19488285223860277, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -62,14 +96,35 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 </svg>
 
                 {/* Short line Box 4 to Crypto Exchange */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRmq" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(0.19488285223860277, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRmq"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(0.19488285223860277, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -96,14 +151,35 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 </svg>
 
                 {/* Curve line Crypto Exchange to Trading Journal */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRmq" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(0.19488285223860277, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRmq"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(0.19488285223860277, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -130,14 +206,35 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 </svg>
 
                 {/* box 4 to indicators */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRms" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(139.22599817795847, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRms"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(139.22599817795847, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -164,14 +261,35 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 </svg>
 
                 {/* indicators to train classifier */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRmt" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(90, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRmt"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(90, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -198,14 +316,35 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 </svg>
 
                 {/* Line Train to Backtest #1 */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradTrainBacktest1" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(90, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradTrainBacktest1"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(90, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -232,14 +371,35 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 </svg>
 
                 {/* Train to Backtest #2 */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRmu" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(0.6510603802294862, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRmu"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(0.6510603802294862, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -265,16 +425,36 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                     />
                 </svg>
 
-
                 {/* train classifier to trained model */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRn0" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(-56.309932474020215, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRn0"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(-56.309932474020215, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -300,17 +480,36 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                     />
                 </svg>
 
-
-
                 {/* trained model to box 4 */}
-                <svg className="pointer-events-none absolute left-0 top-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                    xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="gradRn1" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(-144.24611274556327, 0.5, 0.5)">
-                            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="50%" stopColor="#1FD5F9" />
-                            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.4)" />
-                            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.4)" />
+                        <linearGradient
+                            id="gradRn1"
+                            gradientUnits="objectBoundingBox"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                            gradientTransform="rotate(-144.24611274556327, 0.5, 0.5)">
+                            <stop
+                                offset="0%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="20%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop offset="50%" stopColor={LINE_COLOR} />
+                            <stop
+                                offset="80%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="rgba(255, 255, 255, 0.4)"
+                            />
                             <animateTransform
                                 attributeName="gradientTransform"
                                 type="translate"
@@ -357,13 +556,15 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+60px)] top-[284px]"
                 label={t("algorithm.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <Bot />
-                    <span className="text-main">{t("algorithm.title")}</span>
-                    <span>
-                        {t("algorithm.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <Bot />
+                        <span className="text-main">
+                            {t("algorithm.title")}
+                        </span>
+                        <span>{t("algorithm.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -373,13 +574,13 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+172px)] top-[284px]"
                 label={t("backtest.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <History />
-                    <span className="text-main">{t("backtest.title")}</span>
-                    <span>
-                        {t("backtest.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <History />
+                        <span className="text-main">{t("backtest.title")}</span>
+                        <span>{t("backtest.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -389,13 +590,13 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+284px)] top-[284px]"
                 label={t("decision.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <Brain />
-                    <span className="text-main">{t("decision.title")}</span>
-                    <span>
-                        {t("decision.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <Brain />
+                        <span className="text-main">{t("decision.title")}</span>
+                        <span>{t("decision.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -405,13 +606,15 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+394px)] top-[260px]"
                 label={t("cryptoExchange.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <Bitcoin />
-                    <span className="text-main">{t("cryptoExchange.title")}</span>
-                    <span>
-                        {t("cryptoExchange.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <Bitcoin />
+                        <span className="text-main">
+                            {t("cryptoExchange.title")}
+                        </span>
+                        <span>{t("cryptoExchange.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -422,13 +625,15 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+215px)] top-[576px]"
                 label={t("trainClassifier.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <Cpu />
-                    <span className="text-main">{t("trainClassifier.title")}</span>
-                    <span>
-                        {t("trainClassifier.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <Cpu />
+                        <span className="text-main">
+                            {t("trainClassifier.title")}
+                        </span>
+                        <span>{t("trainClassifier.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -438,13 +643,13 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+402px)] top-[440px]"
                 label={t("mlModel.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <BrainCircuit />
-                    <span className="text-main">{t("mlModel.title")}</span>
-                    <span>
-                        {t("mlModel.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <BrainCircuit />
+                        <span className="text-main">{t("mlModel.title")}</span>
+                        <span>{t("mlModel.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -453,13 +658,15 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+562px)] top-[440px]"
                 label={t("tradingJournal.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <BookOpenText />
-                    <span className="text-main">{t("tradingJournal.title")}</span>
-                    <span>
-                        {t("tradingJournal.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <BookOpenText />
+                        <span className="text-main">
+                            {t("tradingJournal.title")}
+                        </span>
+                        <span>{t("tradingJournal.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -468,13 +675,15 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
             <BoxWithHover
                 posClass="absolute left-[calc(50%+265px)] top-[785px]"
                 label={t("backtestModel.label")}
-                tooltip={<div className="flex flex-col gap-2">
-                    <History />
-                    <span className="text-main">{t("backtestModel.title")}</span>
-                    <span>
-                        {t("backtestModel.description")}
-                    </span>
-                </div>}
+                tooltip={
+                    <div className="flex flex-col gap-2">
+                        <History />
+                        <span className="text-main">
+                            {t("backtestModel.title")}
+                        </span>
+                        <span>{t("backtestModel.description")}</span>
+                    </div>
+                }
                 side="top"
                 align="center"
                 sideOffset={12}
@@ -487,17 +696,16 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 tooltip={
                     <div className="flex flex-col gap-2">
                         <ChartLine />
-                        <span className="text-main">{t("indicators.title")}</span>
-                        <span>
-                            {t("indicators.description")}
+                        <span className="text-main">
+                            {t("indicators.title")}
                         </span>
+                        <span>{t("indicators.description")}</span>
                     </div>
                 }
                 side="top"
                 align="center"
                 sideOffset={12}
                 className="px-3 py-1.5 text-fg0 h-auto w-auto"
-
             />
 
             <BoxWithHover
@@ -506,36 +714,52 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                 tooltip={
                     <div className="flex flex-col gap-2">
                         <ChartLine />
-                        <span className="text-main">{t("financialData.title")}</span>
-                        <span>
-                            {t("financialData.description")}
+                        <span className="text-main">
+                            {t("financialData.title")}
                         </span>
+                        <span>{t("financialData.description")}</span>
                     </div>
                 }
                 side="top"
                 align="center"
                 sideOffset={12}
                 className="px-3 py-1.5 text-fg0 text-xs h-auto w-auto"
-
             />
 
             {/* Panel with frame path */}
-            <div className="absolute left-[calc(50%-95px)] top-[399px] z-[5] flex h-[350px] w-[597px] border border-dashed border-zinc-700 px-3 py-2" style={{ opacity: 1, backgroundColor: "rgba(18, 18, 18, 0.8)" }}>
+            <div
+                className="absolute left-[calc(50%-95px)] top-[399px] z-[5] flex h-[350px] w-[597px] border border-dashed border-zinc-700 px-3 py-2"
+                style={{
+                    opacity: 1,
+                    backgroundColor: "rgba(18, 18, 18, 0.8)",
+                }}>
                 <a
                     href="/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group h-fit self-start text-fg3 hover:text-cyan-500 hover:underline"
-                >
-                    <span className="flex gap-1 font-mono text-xs uppercase tracking-widest" style={{ opacity: 1 }}>
+                    className="group h-fit self-start text-fg3 hover:text-cyan-500 hover:underline">
+                    <span
+                        className="flex gap-1 font-mono text-xs uppercase tracking-widest"
+                        style={{ opacity: 1 }}>
                         {t("mlStepLabel")}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 text-fg3 group-hover:text-cyan-500">
-                            <path d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="presentation"
+                            className="h-4 w-4 text-fg3 group-hover:text-cyan-500">
+                            <path
+                                d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="square"
+                            />
                         </svg>
                     </span>
                 </a>
-
             </div>
-        </div >
+        </div>
     );
 }

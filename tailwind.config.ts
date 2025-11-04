@@ -11,7 +11,7 @@ const config: Config = {
             colors: {
                 main: "#ffffff",
                 secondary: "rgb(204, 204, 204)",
-                highlight: "rgb(31, 213, 249)",
+                highlight: "rgb(85, 253, 172)",
                 background: "#000000",
             },
             fontFamily: {
@@ -20,7 +20,7 @@ const config: Config = {
             },
         },
     },
-    plugins: []
+    plugins: [],
 };
 
 export default config;

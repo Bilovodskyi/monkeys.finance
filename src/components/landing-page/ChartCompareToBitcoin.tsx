@@ -1,13 +1,26 @@
-"use client"
+"use client";
 
-import React, { useMemo } from "react"
+import React, { useMemo } from "react";
 
-import { Activity, Fingerprint, GalleryVerticalEnd, History, Pyramid, Receipt, Search, Shield } from "lucide-react";
-import { Area, AreaChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
 import {
-    Card,
-    CardContent,
-} from "@/components/ui/card"
+    Activity,
+    Fingerprint,
+    GalleryVerticalEnd,
+    History,
+    Pyramid,
+    Receipt,
+    Search,
+    Shield,
+} from "lucide-react";
+import {
+    Area,
+    AreaChart,
+    CartesianGrid,
+    LabelList,
+    XAxis,
+    YAxis,
+} from "recharts";
+import { Card, CardContent } from "@/components/ui/card";
 import {
     ChartConfig,
     ChartContainer,
@@ -15,10 +28,9 @@ import {
     ChartLegendContent,
     ChartTooltip,
     ChartTooltipContent,
-} from "@/components/ui/chart"
-import { useEquitySeries } from "@/hooks/useEquitySeries"
-import { useBinanceSeries } from "@/hooks/useBinanceSeries"
-
+} from "@/components/ui/chart";
+import { useEquitySeries } from "@/hooks/useEquitySeries";
+import { useBinanceSeries } from "@/hooks/useBinanceSeries";
 
 // Build real chart data from ML/no-ML Excel files and Binance US BTC data
 const ML_FILE = "/data/chart/ml/BTC-USD_4h_20251020-204907.xlsx";
@@ -39,8 +51,8 @@ const chartConfig = {
     bitcoin: {
         label: "Bitcoin",
         color: "rgba(255, 255, 255, 0.5)",
-    }
-} satisfies ChartConfig
+    },
+} satisfies ChartConfig;
 
 export default function ChartCompareToBitcoin() {
     // Memoize dates to prevent re-fetching on every render
@@ -57,8 +69,12 @@ export default function ChartCompareToBitcoin() {
         [startDate]
     );
 
-    const { series: mlSeries } = useEquitySeries(ML_FILE, { valueField: "totalEquity" });
-    const { series: noMlSeries } = useEquitySeries(NO_ML_FILE, { valueField: "totalEquity" });
+    const { series: mlSeries } = useEquitySeries(ML_FILE, {
+        valueField: "totalEquity",
+    });
+    const { series: noMlSeries } = useEquitySeries(NO_ML_FILE, {
+        valueField: "totalEquity",
+    });
     const { series: btcSeries } = useBinanceSeries({
         symbol: "BTCUSDT",
         interval: "4h",
@@ -72,20 +88,34 @@ export default function ChartCompareToBitcoin() {
     });
 
     const chartData = useMemo(() => {
-        const dateToRow = new Map<string, { date: string; ml: number | null; noMl: number | null; bitcoin: number | null }>();
+        const dateToRow = new Map<
+            string,
+            {
+                date: string;
+                ml: number | null;
+                noMl: number | null;
+                bitcoin: number | null;
+            }
+        >();
 
         // Find the latest date across all series
         let latestDate = "";
         for (const point of mlSeries) {
-            const key = (point.date.includes("T") ? point.date.split("T")[0] : point.date);
+            const key = point.date.includes("T")
+                ? point.date.split("T")[0]
+                : point.date;
             if (key > latestDate) latestDate = key;
         }
         for (const point of noMlSeries) {
-            const key = (point.date.includes("T") ? point.date.split("T")[0] : point.date);
+            const key = point.date.includes("T")
+                ? point.date.split("T")[0]
+                : point.date;
             if (key > latestDate) latestDate = key;
         }
         for (const point of btcSeries) {
-            const key = (point.date.includes("T") ? point.date.split("T")[0] : point.date);
+            const key = point.date.includes("T")
+                ? point.date.split("T")[0]
+                : point.date;
             if (key > latestDate) latestDate = key;
         }
 
@@ -98,8 +128,15 @@ export default function ChartCompareToBitcoin() {
         let lastBitcoinDate = "";
 
         for (const point of mlSeries) {
-            const key = (point.date.includes("T") ? point.date.split("T")[0] : point.date);
-            const row = dateToRow.get(key) || { date: key, ml: null, noMl: null, bitcoin: null };
+            const key = point.date.includes("T")
+                ? point.date.split("T")[0]
+                : point.date;
+            const row = dateToRow.get(key) || {
+                date: key,
+                ml: null,
+                noMl: null,
+                bitcoin: null,
+            };
             row.ml = Number.isFinite(point.value) ? point.value : null;
             dateToRow.set(key, row);
             if (Number.isFinite(point.value) && key > lastMlDate) {
@@ -108,8 +145,15 @@ export default function ChartCompareToBitcoin() {
             }
         }
         for (const point of noMlSeries) {
-            const key = (point.date.includes("T") ? point.date.split("T")[0] : point.date);
-            const row = dateToRow.get(key) || { date: key, ml: null, noMl: null, bitcoin: null };
+            const key = point.date.includes("T")
+                ? point.date.split("T")[0]
+                : point.date;
+            const row = dateToRow.get(key) || {
+                date: key,
+                ml: null,
+                noMl: null,
+                bitcoin: null,
+            };
             row.noMl = Number.isFinite(point.value) ? point.value : null;
             dateToRow.set(key, row);
             if (Number.isFinite(point.value) && key > lastNoMlDate) {
@@ -118,8 +162,15 @@ export default function ChartCompareToBitcoin() {
             }
         }
         for (const point of btcSeries) {
-            const key = (point.date.includes("T") ? point.date.split("T")[0] : point.date);
-            const row = dateToRow.get(key) || { date: key, ml: null, noMl: null, bitcoin: null };
+            const key = point.date.includes("T")
+                ? point.date.split("T")[0]
+                : point.date;
+            const row = dateToRow.get(key) || {
+                date: key,
+                ml: null,
+                noMl: null,
+                bitcoin: null,
+            };
             row.bitcoin = Number.isFinite(point.value) ? point.value : null;
             dateToRow.set(key, row);
             if (Number.isFinite(point.value) && key > lastBitcoinDate) {
@@ -129,7 +180,9 @@ export default function ChartCompareToBitcoin() {
         }
 
         // Extend series to latest date with straight lines
-        const sorted = Array.from(dateToRow.values()).sort((a, b) => a.date.localeCompare(b.date));
+        const sorted = Array.from(dateToRow.values()).sort((a, b) =>
+            a.date.localeCompare(b.date)
+        );
 
         for (const row of sorted) {
             if (row.date > lastMlDate && lastMl !== null) {
@@ -146,12 +199,17 @@ export default function ChartCompareToBitcoin() {
         return sorted;
     }, [mlSeries, noMlSeries, btcSeries]);
 
-
     return (
         <>
             <div className="flex flex-col items-center justify-center gap-4 pt-32">
-                <h1 className="text-4xl font-title"><span className="text-highlight">Better</span> returns - <span className="text-highlight">same </span>risk</h1>
-                <h2 className="text-secondary text-center text-xl text-balance max-w-xl">Our algorithm with machine learning outperforms bitcoin on the spot market. No futures trading, no extra risk</h2>
+                <h1 className="text-4xl font-title">
+                    <span className="text-highlight">Performance</span>{" "}
+                    comparison over time
+                </h1>
+                <h2 className="text-secondary text-center text-xl text-balance max-w-xl">
+                    Historical data shows consistent outperformance with machine
+                    learning across identical market conditions
+                </h2>
             </div>
             <div className="w-full h-screen flex items-center justify-center relative">
                 <div
@@ -187,14 +245,21 @@ export default function ChartCompareToBitcoin() {
                     />
                 </div>
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-3/4 w-2/3 bg-background border border-zinc-700 flex">
-
                     <div className="absolute -top-14 left-2/4 -translate-x-2/4">
-                        <p className="text-tertiary text-center text-sm">The chart below shows how a $100,000 investment made on {displayDate}, performed in the algorithm, the machine-learning version, and Bitcoin.</p>
+                        <p className="text-tertiary text-center text-sm">
+                            The chart below shows how a $100,000 investment made
+                            on {displayDate}, performed in the algorithm, the
+                            machine-learning version, and Bitcoin.
+                        </p>
                     </div>
                     {/* Sidebar */}
                     <div className="w-[71px] border-r border-zinc-800 shrink-0">
                         <div className="flex items-center px-5 border-b border-zinc-800 h-[60px]">
-                            <img src="/algo-logo.png" alt="Main Logo" className="max-w-8 max-h-8" />
+                            <img
+                                src="/algo-logo.png"
+                                alt="Main Logo"
+                                className="max-w-8 max-h-8"
+                            />
                         </div>
                         <div className="flex flex-col px-5 gap-5 py-10">
                             <div className="flex min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 text-secondary">
@@ -243,18 +308,21 @@ export default function ChartCompareToBitcoin() {
 
                         {/* Content area */}
                         <div className="flex-1">
-
                             <Card className="pt-0 border-none h-full">
-                                <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 h-full" >
+                                <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 h-full">
                                     <ChartContainer
                                         config={chartConfig}
                                         className="aspect-auto h-full w-full overflow-visible
     [&_.recharts-wrapper]:overflow-visible
-    [&_.recharts-surface]:overflow-visible"
-                                    >
+    [&_.recharts-surface]:overflow-visible">
                                         <AreaChart data={chartData}>
                                             <defs>
-                                                <linearGradient id="fillMl" x1="0" y1="0" x2="0" y2="1">
+                                                <linearGradient
+                                                    id="fillMl"
+                                                    x1="0"
+                                                    y1="0"
+                                                    x2="0"
+                                                    y2="1">
                                                     <stop
                                                         offset="5%"
                                                         stopColor="var(--color-ml)"
@@ -266,7 +334,12 @@ export default function ChartCompareToBitcoin() {
                                                         stopOpacity={0.1}
                                                     />
                                                 </linearGradient>
-                                                <linearGradient id="fillNoMl" x1="0" y1="0" x2="0" y2="1">
+                                                <linearGradient
+                                                    id="fillNoMl"
+                                                    x1="0"
+                                                    y1="0"
+                                                    x2="0"
+                                                    y2="1">
                                                     <stop
                                                         offset="5%"
                                                         stopColor="var(--color-noMl)"
@@ -278,7 +351,12 @@ export default function ChartCompareToBitcoin() {
                                                         stopOpacity={0.1}
                                                     />
                                                 </linearGradient>
-                                                <linearGradient id="fillBitcoin" x1="0" y1="0" x2="0" y2="1">
+                                                <linearGradient
+                                                    id="fillBitcoin"
+                                                    x1="0"
+                                                    y1="0"
+                                                    x2="0"
+                                                    y2="1">
                                                     <stop
                                                         offset="5%"
                                                         stopColor="var(--color-bitcoin)"
@@ -291,7 +369,10 @@ export default function ChartCompareToBitcoin() {
                                                     />
                                                 </linearGradient>
                                             </defs>
-                                            <CartesianGrid vertical={false} stroke="rgb(35, 35, 35)" />
+                                            <CartesianGrid
+                                                vertical={false}
+                                                stroke="rgb(35, 35, 35)"
+                                            />
                                             <XAxis
                                                 dataKey="date"
                                                 tickLine={false}
@@ -299,46 +380,132 @@ export default function ChartCompareToBitcoin() {
                                                 tickMargin={8}
                                                 minTickGap={32}
                                                 tickFormatter={(value) => {
-                                                    const d = new Date(value)
-                                                    if (Number.isNaN(d.getTime())) {
+                                                    const d = new Date(value);
+                                                    if (
+                                                        Number.isNaN(
+                                                            d.getTime()
+                                                        )
+                                                    ) {
                                                         // Expect YYYY-MM-DD; format manually
-                                                        const s = String(value ?? "")
-                                                        const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/)
+                                                        const s = String(
+                                                            value ?? ""
+                                                        );
+                                                        const m = s.match(
+                                                            /^(\d{4})-(\d{2})-(\d{2})/
+                                                        );
                                                         if (m) {
-                                                            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-                                                            return `${months[Number(m[2]) - 1]} ${Number(m[3])}`
+                                                            const months = [
+                                                                "Jan",
+                                                                "Feb",
+                                                                "Mar",
+                                                                "Apr",
+                                                                "May",
+                                                                "Jun",
+                                                                "Jul",
+                                                                "Aug",
+                                                                "Sep",
+                                                                "Oct",
+                                                                "Nov",
+                                                                "Dec",
+                                                            ];
+                                                            return `${
+                                                                months[
+                                                                    Number(
+                                                                        m[2]
+                                                                    ) - 1
+                                                                ]
+                                                            } ${Number(m[3])}`;
                                                         }
-                                                        return String(value ?? "")
+                                                        return String(
+                                                            value ?? ""
+                                                        );
                                                     }
-                                                    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                                                    return d.toLocaleDateString(
+                                                        "en-US",
+                                                        {
+                                                            month: "short",
+                                                            day: "numeric",
+                                                        }
+                                                    );
                                                 }}
                                             />
                                             <YAxis
                                                 tickLine={false}
                                                 axisLine={false}
                                                 width={60}
-                                                domain={[100000, 'auto']}
-                                                tickFormatter={(val: number) => {
-                                                    if (typeof val !== "number" || !Number.isFinite(val)) return "";
-                                                    return `$${val.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+                                                domain={[100000, "auto"]}
+                                                tickFormatter={(
+                                                    val: number
+                                                ) => {
+                                                    if (
+                                                        typeof val !==
+                                                            "number" ||
+                                                        !Number.isFinite(val)
+                                                    )
+                                                        return "";
+                                                    return `$${val.toLocaleString(
+                                                        "en-US",
+                                                        {
+                                                            maximumFractionDigits: 0,
+                                                        }
+                                                    )}`;
                                                 }}
                                             />
                                             <ChartTooltip
                                                 cursor={false}
                                                 content={
                                                     <ChartTooltipContent
-                                                        labelFormatter={(value) => {
-                                                            const d = new Date(value as any)
-                                                            if (!Number.isNaN(d.getTime())) {
-                                                                return d.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                                                        labelFormatter={(
+                                                            value
+                                                        ) => {
+                                                            const d = new Date(
+                                                                value as any
+                                                            );
+                                                            if (
+                                                                !Number.isNaN(
+                                                                    d.getTime()
+                                                                )
+                                                            ) {
+                                                                return d.toLocaleDateString(
+                                                                    "en-US",
+                                                                    {
+                                                                        month: "short",
+                                                                        day: "numeric",
+                                                                    }
+                                                                );
                                                             }
-                                                            const s = String(value ?? "")
-                                                            const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/)
+                                                            const s = String(
+                                                                value ?? ""
+                                                            );
+                                                            const m = s.match(
+                                                                /^(\d{4})-(\d{2})-(\d{2})/
+                                                            );
                                                             if (m) {
-                                                                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-                                                                return `${months[Number(m[2]) - 1]} ${Number(m[3])}`
+                                                                const months = [
+                                                                    "Jan",
+                                                                    "Feb",
+                                                                    "Mar",
+                                                                    "Apr",
+                                                                    "May",
+                                                                    "Jun",
+                                                                    "Jul",
+                                                                    "Aug",
+                                                                    "Sep",
+                                                                    "Oct",
+                                                                    "Nov",
+                                                                    "Dec",
+                                                                ];
+                                                                return `${
+                                                                    months[
+                                                                        Number(
+                                                                            m[2]
+                                                                        ) - 1
+                                                                    ]
+                                                                } ${Number(
+                                                                    m[3]
+                                                                )}`;
                                                             }
-                                                            return s
+                                                            return s;
                                                         }}
                                                         indicator="dot"
                                                     />
@@ -349,8 +516,7 @@ export default function ChartCompareToBitcoin() {
                                                 type="monotone"
                                                 connectNulls
                                                 fill="url(#fillMl)"
-                                                stroke="var(--color-ml)"
-                                            >
+                                                stroke="var(--color-ml)">
                                                 <LabelList
                                                     dataKey="ml"
                                                     content={(props) => (
@@ -358,7 +524,9 @@ export default function ChartCompareToBitcoin() {
                                                             {...props}
                                                             label="With ML"
                                                             color="var(--color-ml)"
-                                                            chartData={chartData}
+                                                            chartData={
+                                                                chartData
+                                                            }
                                                         />
                                                     )}
                                                 />
@@ -368,8 +536,7 @@ export default function ChartCompareToBitcoin() {
                                                 type="monotone"
                                                 connectNulls
                                                 fill="url(#fillNoMl)"
-                                                stroke="var(--color-noMl)"
-                                            >
+                                                stroke="var(--color-noMl)">
                                                 <LabelList
                                                     dataKey="noMl"
                                                     content={(props) => (
@@ -377,7 +544,9 @@ export default function ChartCompareToBitcoin() {
                                                             {...props}
                                                             label="No ML"
                                                             color="var(--color-noMl)"
-                                                            chartData={chartData}
+                                                            chartData={
+                                                                chartData
+                                                            }
                                                         />
                                                     )}
                                                 />
@@ -388,8 +557,7 @@ export default function ChartCompareToBitcoin() {
                                                 connectNulls
                                                 fill="url(#fillBitcoin)"
                                                 stroke="var(--color-bitcoin)"
-                                                strokeDasharray="4 4"
-                                            >
+                                                strokeDasharray="4 4">
                                                 <LabelList
                                                     dataKey="bitcoin"
                                                     content={(props) => (
@@ -397,12 +565,16 @@ export default function ChartCompareToBitcoin() {
                                                             {...props}
                                                             label="Bitcoin"
                                                             color="var(--color-bitcoin)"
-                                                            chartData={chartData}
+                                                            chartData={
+                                                                chartData
+                                                            }
                                                         />
                                                     )}
                                                 />
                                             </Area>
-                                            <ChartLegend content={<ChartLegendContent />} />
+                                            <ChartLegend
+                                                content={<ChartLegendContent />}
+                                            />
                                         </AreaChart>
                                     </ChartContainer>
                                 </CardContent>
@@ -417,10 +589,6 @@ export default function ChartCompareToBitcoin() {
 
                 </div> */}
             </div>
-
-
-
-
         </>
     );
 }
@@ -434,12 +602,22 @@ const EndPointLabel = (props: any) => {
 
     return (
         <g>
-            <circle cx={x} cy={y} r={4} fill={color} stroke="white" strokeWidth={2} />
+            <circle
+                cx={x}
+                cy={y}
+                r={4}
+                fill={color}
+                stroke="white"
+                strokeWidth={2}
+            />
             <foreignObject x={x + 10} y={y - 20} width={160} height={50}>
                 <div className="bg-zinc-900 border border-zinc-700 rounded px-3 py-2 text-xs whitespace-nowrap shadow-lg">
                     <div className="text-tertiary text-[10px]">{label}</div>
                     <div className="text-white font-semibold">
-                        ${value.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                        $
+                        {value.toLocaleString("en-US", {
+                            maximumFractionDigits: 0,
+                        })}
                     </div>
                 </div>
             </foreignObject>
