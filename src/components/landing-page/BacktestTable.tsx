@@ -2,13 +2,16 @@ import LedGridFlickerWrapper from "./LedGridAnimation";
 import { Activity, Fingerprint, GalleryVerticalEnd, History, Pyramid, Receipt, Search, Shield } from "lucide-react";
 import BacktestContent from "@/components/private/backtest/BacktestContent";
 import SlidingTabs from "../SlidingTabs";
+import { useTranslations } from "next-intl";
 
 export default function BacktestTable() {
+    const t = useTranslations("backtestTable");
+    
     return (
         <>
             <div className="flex flex-col items-center justify-center gap-4 pt-32">
-                <h1 className="text-4xl font-title"><span className="text-highlight">Backtests</span> results for our strategies</h1>
-                <h2 className="text-secondary text-center text-xl text-balance max-w-xl">Machine learning improves algorithm performance. We train our model on thousands of trades to make better decisions.</h2>
+                <h1 className="text-4xl font-title"><span className="text-highlight">{t("titleHighlight")}</span> {t("titleEnd")}</h1>
+                <h2 className="text-secondary text-center text-xl text-balance max-w-xl">{t("description")}</h2>
             </div>
             <div className="w-full h-screen flex items-center justify-center relative">
                 <div
@@ -87,7 +90,7 @@ export default function BacktestTable() {
                             <div className="flex items-center justify-between w-[200px]">
                                 <div className="flex items-center gap-2 p-5 text-tertiary text-xs">
                                     <Search className="w-3 h-3" />
-                                    Search
+                                    {t("search")}
                                 </div>
                                 <div className="text-tertiary text-xs border border-zinc-800 px-1 bg-zinc-900">
                                     ⌘k
@@ -95,7 +98,7 @@ export default function BacktestTable() {
                             </div>
                             <div className="flex items-center justify-between gap-4">
                                 <div className="text-secondary text-xs bg-neutral-900 px-2 py-1 rounded-full border border-zinc-800 shrink-0">
-                                    Pro Plan
+                                    {t("proPlan")}
                                 </div>
                             </div>
                         </header>
@@ -106,7 +109,7 @@ export default function BacktestTable() {
                         </div>
                     </div>
                     <div className="absolute -bottom-26 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                        <span className="text-tertiary text-md">Uses data for backtesting from:</span>
+                        <span className="text-tertiary text-md">{t("dataSource")}</span>
 
                         <img src="/exchange-logo/binance.png" alt="Binance" className="w-32" />
 

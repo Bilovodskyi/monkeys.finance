@@ -222,10 +222,10 @@ export default function SideMenu() {
                     </div>
                     <div className="relative overflow-hidden">
                         <span className="invisible block whitespace-nowrap">
-                            {t("howItWorks")}
+                            {t("documentation")}
                         </span>
                         <span className=" absolute inset-0 block whitespace-nowrap opacity-0 group-hover/side-menu:opacity-100 transition-opacity duration-150">
-                            {t("howItWorks")}
+                            {t("documentation")}
                         </span>
                     </div>
                 </div>

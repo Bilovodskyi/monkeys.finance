@@ -6,7 +6,7 @@
         "titleEnd": "Bot",
         "description": "Comercio algorítmico, impulsado por aprendizaje automático — integrado con tu intercambio.",
         "startTradingButton": "Comenzar a comerciar",
-        "documentationButton": "Documentación",
+        "aboutButton": "Acerca de",
         "supportedExchanges": "Intercambios compatibles:",
         "supportedExchangesSubtext": "más próximamente",
         "steps": {
@@ -107,7 +107,7 @@
         "titleEnd": "de Prueba",
         "description": "Obtén acceso a nuestros algoritmos de trading, backtesting y modelos de aprendizaje automático durante 6 meses gratis. No se requiere tarjeta de crédito.",
         "startTradingButton": "Comenzar a Operar",
-        "contactButton": "Contáctanos",
+        "documentationButton": "Documentación",
         "tagline": "Plataforma de trading para comercio automatizado de criptomonedas",
         "products": {
             "title": "Productos",
@@ -174,7 +174,7 @@
         "managePlan": "Gestionar Mi Plan",
         "plan": "Plan",
         "safety": "Seguridad",
-        "howItWorks": "¿Cómo funciona?"
+        "documentation": "Documentación"
     },
     "plan": {
         "trialEndsMessage": "Tu período de prueba terminará el {date} a las {time}. Puedes actualizar al plan pro para continuar usando el bot.",
@@ -276,5 +276,49 @@
                 "delete": "Eliminar"
             }
         }
+    },
+    "about": {
+        "title": "Acerca de AlgoSquid",
+        "subtitle": "Estamos construyendo el futuro del",
+        "subtitleHighlight": "trading automatizado",
+        "intro": "Construimos AlgoSquid para ayudar a los traders de cripto a tomar decisiones más inteligentes sin monitorear gráficos las 24 horas. Nuestro sistema basado en la nube funciona 24/7, analizando continuamente los mercados de criptomonedas para identificar oportunidades de trading.",
+        "howItWorksTitle": "Cómo funciona:",
+        "howItWorksDescription": "Basado en el algoritmo que seleccionaste, nuestro sistema funciona continuamente en la nube, monitoreando señales de trading. Cuando se detecta una señal, se pasa a modelos de aprendizaje automático entrenados con años de datos históricos del mercado para verificación. Si la señal pasa nuestras rigurosas verificaciones de validación, el sistema ejecuta automáticamente operaciones en tu exchange o te envía una notificación a través de tu canal preferido.",
+        "differenceTitle": "Lo que nos hace diferentes:",
+        "differenceDescription": "AlgoSquid va más allá del trading algorítmico básico al incorporar modelos de aprendizaje automático entrenados con años de comportamiento del mercado. Cada señal generada por nuestros algoritmos se valida a través de nuestros modelos ML para garantizar calidad y confiabilidad. Ejecutamos backtests mensuales completos para verificar el rendimiento de la estrategia y te proporcionamos informes detallados. Además, reentrenamos continuamente nuestros modelos con los últimos datos del mercado para adaptarnos a las condiciones cambiantes del mercado.",
+        "whatsNextTitle": "Qué sigue:",
+        "whatsNextDescription": "Estamos expandiendo activamente el soporte para exchanges adicionales, proveedores de notificaciones, estrategias y características. Valoramos tu opinión: si tienes ideas o comentarios, contáctanos en GitHub o Telegram. Ayúdanos a construir la mejor plataforma de trading juntos.",
+        "ctaText": "¿Listo para automatizar tu trading?",
+        "ctaHighlight": "Continuar",
+        "startTradingButton": "Comenzar a Operar",
+        "documentationButton": "Documentación"
+    },
+    "backtestTable": {
+        "titleHighlight": "Resultados de backtests",
+        "titleEnd": "para nuestras estrategias",
+        "description": "El aprendizaje automático mejora el rendimiento del algoritmo. Entrenamos nuestro modelo con miles de operaciones para tomar mejores decisiones.",
+        "search": "Buscar",
+        "proPlan": "Plan Pro",
+        "dataSource": "Usa datos para backtesting de:"
+    },
+    "staticDitherBackground": {
+        "titleHighlight": "Mejores rendimientos -",
+        "titleEnd": "mismo riesgo",
+        "description": "Nuestro algoritmo de aprendizaje automático supera a bitcoin en el mercado spot. Sin trading de futuros, sin riesgo adicional",
+        "stat1": "retorno de inversión en Bitcoin (mercado spot)",
+        "stat2": "retorno de inversión con nuestro algoritmo y aprendizaje automático",
+        "stat3": "retorno de inversión en Bitcoin con nuestro algoritmo",
+        "disclaimer": "* basado en un backtest realizado en el período del 1 de enero de 2025 - 22 de octubre de 2025 en el mercado spot BTC-USD de Binance.us"
+    },
+    "chartCompareToBitcoin": {
+        "titleHighlight": "Comparación de rendimiento",
+        "titleEnd": "a lo largo del tiempo",
+        "description": "Los datos históricos muestran un rendimiento superior consistente con aprendizaje automático en condiciones de mercado idénticas",
+        "chartDescription": "El gráfico a continuación muestra cómo una inversión de $100,000 realizada el {date}, se desempeñó en el algoritmo, la versión con aprendizaje automático y Bitcoin.",
+        "search": "Buscar",
+        "proPlan": "Plan Pro",
+        "withML": "Con ML",
+        "noML": "Sin ML",
+        "bitcoin": "Bitcoin"
     }
 }

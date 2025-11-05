@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 import {
     Activity,
@@ -55,6 +56,8 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function ChartCompareToBitcoin() {
+    const t = useTranslations("chartCompareToBitcoin");
+    
     // Memoize dates to prevent re-fetching on every render
     const startDate = useMemo(() => new Date("2025-01-01T00:00:00Z"), []);
     const endDate = useMemo(() => new Date("2025-10-20T00:00:00Z"), []);
@@ -203,12 +206,11 @@ export default function ChartCompareToBitcoin() {
         <>
             <div className="flex flex-col items-center justify-center gap-4 pt-32">
                 <h1 className="text-4xl font-title">
-                    <span className="text-highlight">Performance</span>{" "}
-                    comparison over time
+                    <span className="text-highlight">{t("titleHighlight")}</span>{" "}
+                    {t("titleEnd")}
                 </h1>
                 <h2 className="text-secondary text-center text-xl text-balance max-w-xl">
-                    Historical data shows consistent outperformance with machine
-                    learning across identical market conditions
+                    {t("description")}
                 </h2>
             </div>
             <div className="w-full h-screen flex items-center justify-center relative">
@@ -247,9 +249,7 @@ export default function ChartCompareToBitcoin() {
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-3/4 w-2/3 bg-background border border-zinc-700 flex">
                     <div className="absolute -top-14 left-2/4 -translate-x-2/4">
                         <p className="text-tertiary text-center text-sm">
-                            The chart below shows how a $100,000 investment made
-                            on {displayDate}, performed in the algorithm, the
-                            machine-learning version, and Bitcoin.
+                            {t("chartDescription", { date: displayDate })}
                         </p>
                     </div>
                     {/* Sidebar */}
@@ -293,7 +293,7 @@ export default function ChartCompareToBitcoin() {
                             <div className="flex items-center justify-between w-[200px]">
                                 <div className="flex items-center gap-2 p-5 text-tertiary text-xs">
                                     <Search className="w-3 h-3" />
-                                    Search
+                                    {t("search")}
                                 </div>
                                 <div className="text-tertiary text-xs border border-zinc-800 px-1 bg-zinc-900">
                                     ⌘k
@@ -301,7 +301,7 @@ export default function ChartCompareToBitcoin() {
                             </div>
                             <div className="flex items-center justify-between gap-4">
                                 <div className="text-secondary text-xs bg-neutral-900 px-2 py-1 rounded-full border border-zinc-800 shrink-0">
-                                    Pro Plan
+                                    {t("proPlan")}
                                 </div>
                             </div>
                         </header>
@@ -522,7 +522,7 @@ export default function ChartCompareToBitcoin() {
                                                     content={(props) => (
                                                         <EndPointLabel
                                                             {...props}
-                                                            label="With ML"
+                                                            label={t("withML")}
                                                             color="var(--color-ml)"
                                                             chartData={
                                                                 chartData
@@ -542,7 +542,7 @@ export default function ChartCompareToBitcoin() {
                                                     content={(props) => (
                                                         <EndPointLabel
                                                             {...props}
-                                                            label="No ML"
+                                                            label={t("noML")}
                                                             color="var(--color-noMl)"
                                                             chartData={
                                                                 chartData
@@ -563,7 +563,7 @@ export default function ChartCompareToBitcoin() {
                                                     content={(props) => (
                                                         <EndPointLabel
                                                             {...props}
-                                                            label="Bitcoin"
+                                                            label={t("bitcoin")}
                                                             color="var(--color-bitcoin)"
                                                             chartData={
                                                                 chartData

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { SignUpButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
 import { LanguageSelector } from "./LanguageSelector";
+import Link from "next/link";
 
 export async function HeroSection() {
     const t = await getTranslations("hero");
@@ -20,14 +21,17 @@ export async function HeroSection() {
                     <div className="flex items-center gap-2 text-secondary">
                         <Github className="w-3 h-3 shrink-0" />
                         <div className="flex items-center gap-1 hover:underline cursor-pointer hover:text-white z-50">
-                            <p className="whitespace-nowrap font-semibold">github</p>
+                            <p className="whitespace-nowrap font-semibold">
+                                github
+                            </p>
                             /
-                            <p className="whitespace-nowrap font-semibold">ml-crypto-bot</p>
+                            <p className="whitespace-nowrap font-semibold">
+                                ml-crypto-bot
+                            </p>
                             <Star className="w-3 h-3" />
                         </div>
                     </div>
                 </div>
-
             </section>
 
             {/* Hero Content */}
@@ -36,18 +40,24 @@ export async function HeroSection() {
                     {t("badge")}
                 </div>
                 <h1 className="text-5xl font-title mb-6">
-                    {t("title")} <span className="text-highlight">{t("titleHighlight")}</span> {t("titleEnd")}
+                    {t("title")}{" "}
+                    <span className="text-highlight">
+                        {t("titleHighlight")}
+                    </span>{" "}
+                    {t("titleEnd")}
                 </h1>
-                <p className="text-secondary mb-8">
-                    {t("description")}
-                </p>
+                <p className="text-secondary mb-8">{t("description")}</p>
                 <div className="flex gap-4 items-center">
                     <SignUpButton>
                         <CustomButton isBlue={true}>
                             {t("startTradingButton")}
                         </CustomButton>
                     </SignUpButton>
-                    <CustomButton isBlue={false}>{t("documentationButton")}</CustomButton>
+                    <Link href="/about">
+                        <CustomButton isBlue={false}>
+                            {t("aboutButton")}
+                        </CustomButton>
+                    </Link>
                 </div>
                 <HeroSteps />
             </section>
@@ -68,18 +78,46 @@ export async function HeroSection() {
             {/* Supported Exchanges */}
             <section className="absolute right-0 bottom-12 bg-background w-full border-y border-zinc-800 flex [&>div:not(:first-child)]:border-l [&>div]:border-zinc-800">
                 <div className="flex-1 px-4 py-3"></div>
-                <div className="flex-1 px-4 py-3 flex flex-col justify-center">{t("supportedExchanges")} <br /> <span className="text-secondary">{t("supportedExchangesSubtext")}</span></div>
-                <div className="flex items-center justify-center flex-1 px-4 py-3">
-                    <Image src="/exchange-logo/binance.png" alt="Binance" width={100} height={100} className="grayscale" />
+                <div className="flex-1 px-4 py-3 flex flex-col justify-center">
+                    {t("supportedExchanges")} <br />{" "}
+                    <span className="text-secondary">
+                        {t("supportedExchangesSubtext")}
+                    </span>
                 </div>
                 <div className="flex items-center justify-center flex-1 px-4 py-3">
-                    <Image src="/exchange-logo/kraken.webp" alt="Kraken" width={100} height={100} className="brightness-0 invert" />
+                    <Image
+                        src="/exchange-logo/binance.png"
+                        alt="Binance"
+                        width={100}
+                        height={100}
+                        className="grayscale"
+                    />
                 </div>
                 <div className="flex items-center justify-center flex-1 px-4 py-3">
-                    <Image src="/exchange-logo/okx.png" alt="OKX" width={100} height={100} />
+                    <Image
+                        src="/exchange-logo/kraken.webp"
+                        alt="Kraken"
+                        width={100}
+                        height={100}
+                        className="brightness-0 invert"
+                    />
                 </div>
                 <div className="flex items-center justify-center flex-1 px-4 py-3">
-                    <Image src="/exchange-logo/coinbase.png" alt="Coinbase" width={100} height={100} className="brightness-0 invert" />
+                    <Image
+                        src="/exchange-logo/okx.png"
+                        alt="OKX"
+                        width={100}
+                        height={100}
+                    />
+                </div>
+                <div className="flex items-center justify-center flex-1 px-4 py-3">
+                    <Image
+                        src="/exchange-logo/coinbase.png"
+                        alt="Coinbase"
+                        width={100}
+                        height={100}
+                        className="brightness-0 invert"
+                    />
                 </div>
                 <div className="flex-1 px-4 py-3"></div>
             </section>

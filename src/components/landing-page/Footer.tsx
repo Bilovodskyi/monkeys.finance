@@ -16,7 +16,7 @@ export default async function Footer() {
                 </p>
                 <div className="flex gap-4 items-center">
                     <SignUpButton><CustomButton isBlue={true}>{t("startTradingButton")}</CustomButton></SignUpButton>
-                    <CustomButton isBlue={false}>{t("contactButton")}</CustomButton>
+                    <CustomButton isBlue={false}>{t("documentationButton")}</CustomButton>
                 </div>
             </div>
             <div className="flex items-center justify-between w-full border-t border-zinc-800 py-2">
