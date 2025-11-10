@@ -13,8 +13,6 @@ import {
 } from "drizzle-orm/pg-core";
 
 // --- Enums ---
-export const userRole = pgEnum("user_role", ["user", "admin"]);
-export const plan = pgEnum("plan", ["free", "pro"]);
 export const exchange = pgEnum("exchange", [
     "binance",
     "binanceus",
@@ -24,12 +22,13 @@ export const exchange = pgEnum("exchange", [
     "coinbase",
 ]);
 export const status = pgEnum("status", ["active", "paused"]);
-export const billingStatus = pgEnum("billing_status", [
-    "none", // no Stripe linkage yet
-    "trialing", // in free trial window
-    "active", // paying and current
-    "past_due", // payment failed / grace
-    "canceled", // canceled sub
+
+export const subscriptionStatus = pgEnum("subscription_status", [
+    "trialing", // Trial
+    "active", // Paying subscription
+    "past_due", // Payment failed
+    "canceled", // Canceled subscription
+    "unpaid", // Payment failed
 ]);
 
 export const notificationProvider = pgEnum("notification_provider", [
@@ -54,30 +53,26 @@ export const UserTable = pgTable(
         email: text("email").notNull().unique(),
         name: text("name").notNull(),
 
-        // Ops / analytics
-        numberOfInstances: integer("number_of_instances").default(0),
+        country: text("country"), // optional country code
 
-        // App entitlements
-        plan: plan("plan").default("free").notNull(), // feature tier
-        billingStatus: billingStatus("billing_status")
+        // Stripe linkage
+        stripeCustomerId: text("stripe_customer_id").unique(),
+        stripeSubscriptionId: text("stripe_subscription_id").unique(),
+
+        billingStatus: subscriptionStatus("subscription_status")
             .default("trialing")
             .notNull(), // billing state
-        trialEndsAt: timestamp("trial_ends_at", { withTimezone: true }), // set on create: createdAt + 6 months
+        subscriptionEndsAt: timestamp("subscription_ends_at", {
+            withTimezone: true,
+        }).notNull(), // Either trial end or billing period end
 
-        // Stripe linkage (later)
-        subscriptionId: text("subscription_id"), // Stripe subscription id (nullable until they pay)
-
-        // Misc prefs
-        notifyEmail: text("notify_email"), // you chose text
-        timezone: text("timezone").default("UTC").notNull(),
-
-        // Account state inside app
-        status: status("status").default("active").notNull(),
+        // Did they cancel but still have access until period end?
+        cancelAtPeriodEnd: boolean("cancel_at_period_end").default(false),
     },
     (t) => ({
         // helpful indexes
         byClerk: index("user_by_clerk_idx").on(t.clerkId),
-        byTrialEnd: index("user_trial_end_idx").on(t.trialEndsAt),
+        byTrialEnd: index("user_trial_end_idx").on(t.subscriptionEndsAt),
         byBillingStatus: index("user_billing_status_idx").on(t.billingStatus),
     })
 );

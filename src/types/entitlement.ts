@@ -1,20 +1,17 @@
-export type Plan = "free" | "pro";
-
 export type BillingStatus =
-    | "none"
     | "trialing"
     | "active"
     | "past_due"
-    | "canceled";
+    | "canceled"
+    | "unpaid";
 
 /**
  * Shape returned by GET /api/me/entitlement
- * Note: Dates are serialized in JSON, so `trialEndsAt` is a string (ISO) or null.
+ * Note: Dates are serialized in JSON, so `subscriptionEndsAt` is a string (ISO) or null.
  */
 export interface EntitlementResponse {
-    plan: Plan;
     billingStatus: BillingStatus;
-    trialEndsAt: string | null; // e.g. "2026-04-10T00:00:00.000Z"
-    daysLeft: number;           // non-negative integer
-    allowed: boolean;           // true if user can access gated features
+    subscriptionEndsAt: string | null; // e.g. "2026-04-10T00:00:00.000Z"
+    daysLeft: number; // non-negative integer
+    allowed: boolean; // true if user can access gated features
 }

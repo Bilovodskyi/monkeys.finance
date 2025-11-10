@@ -5,6 +5,7 @@ import { Webhook } from "svix";
 import { db } from "@/drizzle/db";
 import { UserTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { detectCountryFromIP } from "@/lib/geo-detection";
 
 const SECRET = process.env.CLERK_WEBHOOK_SECRET!;
 
@@ -38,7 +39,9 @@ export async function POST(req: Request) {
     const SKIP_VERIFY = process.env.CLERK_WEBHOOK_SKIP_VERIFY === "1";
 
     if (SKIP_VERIFY) {
-        console.warn("[clerk-webhook] ⚠️  SKIP_VERIFY enabled - use only for local dev");
+        console.warn(
+            "[clerk-webhook] ⚠️  SKIP_VERIFY enabled - use only for local dev"
+        );
     }
 
     let evt: ClerkWebhookEvent;
@@ -56,7 +59,11 @@ export async function POST(req: Request) {
         const svixTs = req.headers.get("svix-timestamp");
         const svixSig = req.headers.get("svix-signature");
 
-        console.log("[clerk-webhook] Svix headers:", { svixId, svixTs, svixSig });
+        console.log("[clerk-webhook] Svix headers:", {
+            svixId,
+            svixTs,
+            svixSig,
+        });
 
         // Skip verification in local dev mode
         if (SKIP_VERIFY && !svixId && !svixTs && !svixSig) {
@@ -91,6 +98,29 @@ export async function POST(req: Request) {
         const { data } = evt;
         const clerkId = data.id;
         const email = data.email_addresses?.[0]?.email_address;
+        let country: string | null = null;
+
+        try {
+            const clientIP =
+                req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+                req.headers.get("x-real-ip") ||
+                "0.0.0.0";
+
+            // Skip for local IPs
+            if (
+                clientIP !== "0.0.0.0" &&
+                clientIP !== "127.0.0.1" &&
+                !clientIP.startsWith("192.168.")
+            ) {
+                const geoData = await detectCountryFromIP(clientIP);
+                country = geoData.country_code;
+                console.log(
+                    `[clerk-webhook] Detected country: ${country} for IP: ${clientIP}`
+                );
+            }
+        } catch (e) {
+            console.warn("[clerk-webhook] Failed to detect country:", e);
+        }
 
         // Validate required fields
         if (!email) {
@@ -117,7 +147,11 @@ export async function POST(req: Request) {
             }
 
             // Insert new user
-            console.log("[clerk-webhook] Creating user:", { clerkId, email, name });
+            console.log("[clerk-webhook] Creating user:", {
+                clerkId,
+                email,
+                name,
+            });
 
             function addMonths(date: Date, months: number) {
                 const d = new Date(date);
@@ -129,11 +163,10 @@ export async function POST(req: Request) {
                 clerkId,
                 email,
                 name,
-                trialEndsAt: addMonths(new Date(), 6),
-                plan: "free",
+                subscriptionEndsAt: addMonths(new Date(), 6),
                 billingStatus: "trialing",
-                // Optional: set default timezone based on user data if available
-                // timezone: data.timezone || "UTC",
+                country: country,
+                cancelAtPeriodEnd: false, // Not canceled
             });
 
             console.log("[clerk-webhook] ✅ User created successfully");
@@ -142,15 +175,19 @@ export async function POST(req: Request) {
             console.error("[clerk-webhook] Database error:", e);
 
             // Handle duplicate email error gracefully
-            if (e.code === "23505" || e.message?.includes("unique constraint")) {
-                console.log("[clerk-webhook] User already exists (unique constraint)");
+            if (
+                e.code === "23505" ||
+                e.message?.includes("unique constraint")
+            ) {
+                console.log(
+                    "[clerk-webhook] User already exists (unique constraint)"
+                );
                 return new Response("User already exists", { status: 200 });
             }
 
             return new Response("Database error", { status: 500 });
         }
     }
-
 
     return new Response("Event processed", { status: 200 });
 }

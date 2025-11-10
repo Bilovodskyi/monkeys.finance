@@ -1,4 +1,4 @@
-import { EntitlementResponse, getEntitlementForUser } from "@/services/entitlements";
+import { getEntitlementForUser } from "@/services/entitlements";
 import { formatEntitlementHeading } from "@/lib/entitlements";
 import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
@@ -6,12 +6,15 @@ import { Search } from "lucide-react";
 import { LanguageSelector } from "../landing-page/LanguageSelector";
 import { getTranslations } from "next-intl/server";
 import { dark } from "@clerk/themes";
+import { EntitlementResponse } from "@/types/entitlement";
 
 export default async function Header() {
     const { userId } = await auth();
     if (!userId) return null;
 
-    const data: EntitlementResponse | null = await getEntitlementForUser(userId);
+    const data: EntitlementResponse | null = await getEntitlementForUser(
+        userId
+    );
     if (!data) return null;
 
     const t = await getTranslations("header");
@@ -25,38 +28,41 @@ export default async function Header() {
                     {t("searchPlaceholder")}
                 </div>
                 <div className="text-tertiary text-xs border border-zinc-800 px-1 bg-zinc-900 group-hover/search:!text-white transition-all duration-150">
-                    ⌘
-                    k
+                    ⌘ k
                 </div>
             </div>
             <div className="flex items-center justify-between gap-4">
                 <LanguageSelector isPrivatePage={true} />
-                <div className="text-secondary text-xs bg-neutral-900 px-2 py-1 rounded-full border border-zinc-800 shrink-0">{heading}</div>
-                <UserButton appearance={{
-                    baseTheme: dark,
-                    variables: {
-                        colorPrimary: "#1fd5f9",
-                        colorBackground: "rgb(18, 18, 18)",
-                        colorText: "#e5e5e5",
-                        colorInputBackground: "rgb(24,24,27)",
-                        borderRadius: "0rem",
-                        fontSize: "14px",
-                    },
-
-                }} userProfileProps={{
-                    appearance: {
+                <div className="text-secondary text-xs bg-neutral-900 px-2 py-1 rounded-full border border-zinc-800 shrink-0">
+                    {heading}
+                </div>
+                <UserButton
+                    appearance={{
                         baseTheme: dark,
                         variables: {
-                            colorPrimary: "white",
+                            colorPrimary: "#1fd5f9",
                             colorBackground: "rgb(18, 18, 18)",
                             colorText: "#e5e5e5",
                             colorInputBackground: "rgb(24,24,27)",
                             borderRadius: "0rem",
                             fontSize: "14px",
                         },
-                    },
-                }} />
+                    }}
+                    userProfileProps={{
+                        appearance: {
+                            baseTheme: dark,
+                            variables: {
+                                colorPrimary: "white",
+                                colorBackground: "rgb(18, 18, 18)",
+                                colorText: "#e5e5e5",
+                                colorInputBackground: "rgb(24,24,27)",
+                                borderRadius: "0rem",
+                                fontSize: "14px",
+                            },
+                        },
+                    }}
+                />
             </div>
         </header>
-    )
+    );
 }

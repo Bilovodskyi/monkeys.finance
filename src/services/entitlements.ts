@@ -2,40 +2,38 @@ import "server-only";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
 import { hasEntitlement } from "@/lib/entitlements";
+import type { EntitlementResponse } from "@/types/entitlement";
 
-export type Plan = "free" | "pro";
-export type BillingStatus = "none" | "trialing" | "active" | "past_due" | "canceled";
-
-export interface EntitlementResponse {
-    plan: Plan;
-    billingStatus: BillingStatus;
-    trialEndsAt: string | null;
-    daysLeft: number;
-    allowed: boolean;
-}
-
-function computeDaysLeft(trialEndsAt: Date | null) {
-    if (!trialEndsAt) return 0;
+function computeDaysLeft(subscriptionEndsAt: Date | null) {
+    if (!subscriptionEndsAt) return 0;
     const MS_PER_DAY = 86_400_000;
-    return Math.max(0, Math.ceil((trialEndsAt.getTime() - Date.now()) / MS_PER_DAY));
+    return Math.max(
+        0,
+        Math.ceil((subscriptionEndsAt.getTime() - Date.now()) / MS_PER_DAY)
+    );
 }
 
-export async function getEntitlementForUser(clerkId: string): Promise<EntitlementResponse | null> {
+export async function getEntitlementForUser(
+    clerkId: string
+): Promise<EntitlementResponse | null> {
     const user = await db.query.UserTable.findFirst({
         where: (userTable) => eq(userTable.clerkId, clerkId),
-        columns: { plan: true, billingStatus: true, trialEndsAt: true },
+        columns: {
+            billingStatus: true,
+            subscriptionEndsAt: true,
+            cancelAtPeriodEnd: true,
+        },
     });
     if (!user) return null;
 
     return {
-        plan: user.plan,
         billingStatus: user.billingStatus,
-        trialEndsAt: user.trialEndsAt?.toISOString() ?? null,
-        daysLeft: computeDaysLeft(user.trialEndsAt),
+        subscriptionEndsAt: user.subscriptionEndsAt?.toISOString() ?? null,
+        daysLeft: computeDaysLeft(user.subscriptionEndsAt),
         allowed: hasEntitlement({
-            plan: user.plan,
             billingStatus: user.billingStatus,
-            trialEndsAt: user.trialEndsAt,
+            subscriptionEndsAt: user.subscriptionEndsAt,
+            cancelAtPeriodEnd: user.cancelAtPeriodEnd ?? false,
         }),
     };
 }

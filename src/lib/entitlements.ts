@@ -3,42 +3,76 @@ import { EntitlementResponse } from "@/types/entitlement";
 import { getTranslations } from "next-intl/server";
 
 export type UserRow = {
-    plan: "free" | "pro";
-    billingStatus: "none" | "trialing" | "active" | "past_due" | "canceled";
-    trialEndsAt: Date | null;
+    billingStatus: "trialing" | "active" | "past_due" | "canceled" | "unpaid";
+    subscriptionEndsAt: Date;
+    cancelAtPeriodEnd: boolean;
 };
 
-export function hasEntitlement(u: UserRow, now = new Date()): boolean {
-    if (u.plan === "pro" && (u.billingStatus === "active" || u.billingStatus === "trialing")) return true;
-    if (u.plan === "free") {
-        if (u.billingStatus === "trialing" && u.trialEndsAt && now < u.trialEndsAt) return true;
-        return false;
+export function hasEntitlement(user: UserRow, now = new Date()): boolean {
+    // Case 1: Active subscription that hasn't expired yet
+    if (
+        user.billingStatus === "active" &&
+        user.subscriptionEndsAt &&
+        user.subscriptionEndsAt > now
+    ) {
+        return true;
     }
+
+    // Case 2: In trial period that hasn't expired
+    if (
+        user.billingStatus === "trialing" &&
+        user.subscriptionEndsAt &&
+        user.subscriptionEndsAt > now
+    ) {
+        return true;
+    }
+
+    // Case 3: Canceled but still in paid period (they paid until end date)
+    if (
+        user.billingStatus === "canceled" &&
+        user.cancelAtPeriodEnd &&
+        user.subscriptionEndsAt &&
+        user.subscriptionEndsAt > now
+    ) {
+        return true;
+    }
+
+    // Default: No access
     return false;
 }
 
-export async function formatEntitlementHeading(data: EntitlementResponse): Promise<string> {
-    const { plan, billingStatus, daysLeft } = data;
+export async function formatEntitlementHeading(
+    data: EntitlementResponse
+): Promise<string> {
+    const { billingStatus, daysLeft } = data;
     const t = await getTranslations("entitlements");
 
-    // Pro + active billing → just "Pro"
-    if (plan === "pro" && billingStatus === "active") return t("proPlanActive");
+    // Active paid subscription
+    if (billingStatus === "active") return t("proPlanActive");
 
-    // Pro but not active (edge) → show state
-    if (plan === "pro" && billingStatus !== "active") {
-        return t("proInactive");
+    // Canceled but still has access until period end
+    if (billingStatus === "canceled" && daysLeft > 0) {
+        const daysWord = daysLeft === 1 ? t("day") : t("days");
+        return t("proTrialDaysLeft", { days: daysLeft, daysWord });
     }
 
-    // Free plan during trial
-    if (plan === "free" && billingStatus === "trialing") {
+    // Trial period with time remaining
+    if (billingStatus === "trialing") {
         if (daysLeft > 1) {
-            const daysWord = daysLeft === 1 ? t("day") : t("days");
+            const daysWord = t("days");
             return t("proTrialDaysLeft", { days: daysLeft, daysWord });
         }
         if (daysLeft === 1) return t("proTrialOneDayLeft");
-        return t("proTrialEndsToday");
+        if (daysLeft === 0) return t("proTrialEndsToday");
+        // If somehow daysLeft < 0, trial expired (shouldn't happen due to Math.max in calculation)
+        return t("freeTrialEnded");
     }
 
-    // Free plan, not trialing anymore
+    // Payment issues - subscription exists but payment failed
+    if (billingStatus === "past_due" || billingStatus === "unpaid") {
+        return t("proInactive");
+    }
+
+    // Trial/subscription ended
     return t("freeTrialEnded");
 }
