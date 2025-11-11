@@ -177,7 +177,12 @@
         "documentation": "Documentación"
     },
     "plan": {
-        "trialEndsMessage": "Tu período de prueba terminará el {date} a las {time}. Puedes actualizar al plan pro para continuar usando el bot.",
+        "planEndsMessage": "Tu plan terminará el {date} a las {time}.",
+        "planEndsTomorrowMessage": "Tu plan terminará mañana, {date} a las {time}.",
+        "planEndsTodayMessage": "Tu plan terminará hoy a las {time}.",
+        "planExpiredMessage": "Tu plan expiró el {date} a las {time}.",
+        "trialEndsMessage": "Tu plan terminará el {date} a las {time}.",
+        "loading": "Cargando...",
         "monthly": "Mensual",
         "yearly": "Anual",
         "savePercent": "ahorra 20%",
@@ -202,7 +207,7 @@
         "proTrialDaysLeft": "Prueba Pro – quedan {days} {daysWord}",
         "proTrialOneDayLeft": "Prueba Pro – queda 1 día",
         "proTrialEndsToday": "Prueba Pro – termina hoy",
-        "freeTrialEnded": "Gratis (prueba terminada)",
+        "freeTrialEnded": "Gratis prueba terminada",
         "day": "día",
         "days": "días"
     },

@@ -177,7 +177,12 @@
         "documentation": "Documentation"
     },
     "plan": {
-        "trialEndsMessage": "Your trial will end on {date} at {time}. You can upgrade to pro plan to continue using the bot.",
+        "planEndsMessage": "Your plan will end on {date} at {time}.",
+        "planEndsTomorrowMessage": "Your plan will end tomorrow, {date} at {time}.",
+        "planEndsTodayMessage": "Your plan will end today at {time}.",
+        "planExpiredMessage": "Your plan expired on {date} at {time}.",
+        "trialEndsMessage": "Your plan will end on {date} at {time}.",
+        "loading": "Loading...",
         "monthly": "Monthly",
         "yearly": "Yearly",
         "savePercent": "save 20%",
@@ -202,7 +207,7 @@
         "proTrialDaysLeft": "Pro Trial – {days} {daysWord} left",
         "proTrialOneDayLeft": "Pro Trial – 1 day left",
         "proTrialEndsToday": "Pro Trial – ends today",
-        "freeTrialEnded": "Free (trial ended)",
+        "freeTrialEnded": "Free trial ended",
         "day": "day",
         "days": "days"
     },

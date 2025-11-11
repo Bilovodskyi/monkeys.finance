@@ -6,11 +6,12 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { CustomButton } from "@/components/CustomButton";
 import { parseIsoToDateTime } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface PlanClientProps {
     heading: string;
     subscriptionEndsAt: string;
+    daysLeft: number;
     countryCode: string;
     monthlyPrice: number;
     yearlyPrice: number;
@@ -21,6 +22,7 @@ interface PlanClientProps {
 export function PlanClient({
     heading,
     subscriptionEndsAt,
+    daysLeft,
     countryCode,
     monthlyPrice,
     yearlyPrice,
@@ -28,6 +30,7 @@ export function PlanClient({
     plan,
 }: PlanClientProps) {
     const t = useTranslations("plan");
+    const locale = useLocale(); // Get current locale: "en", "sp", "uk", or "ru"
     const [loadingMonthly, setLoadingMonthly] = useState(false);
     const [loadingYearly, setLoadingYearly] = useState(false);
     const [loadingPortal, setLoadingPortal] = useState(false);
@@ -73,7 +76,8 @@ export function PlanClient({
             const data = await response.json();
 
             if (data.url) {
-                window.location.href = data.url;
+                window.open(data.url, "_blank", "noopener,noreferrer");
+                setLoadingPortal(false);
             } else {
                 throw new Error(data.error || "Failed to open portal");
             }
@@ -84,13 +88,33 @@ export function PlanClient({
         }
     };
 
-    const { date, time } = parseIsoToDateTime(subscriptionEndsAt);
+    const { date, time } = parseIsoToDateTime(
+        subscriptionEndsAt,
+        locale,
+        countryCode
+    );
+
+    // Use the daysLeft already calculated on the server
+    // Determine the appropriate message key and parameters
+    let messageKey = "planEndsMessage";
+    let messageParams: Record<string, string> = { date, time };
+
+    if (daysLeft < 0) {
+        // Plan expired
+        messageKey = "planExpiredMessage";
+    } else if (daysLeft === 0) {
+        // Plan expires today
+        messageKey = "planEndsTodayMessage";
+    } else if (daysLeft === 1) {
+        // Plan expires tomorrow
+        messageKey = "planEndsTomorrowMessage";
+    }
 
     return (
         <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
             <h1 className="text-lg font-bold">{heading}</h1>
             <p className="text-center text-tertiary">
-                {t("trialEndsMessage", { date, time })}
+                {t(messageKey, messageParams)}
             </p>
             {plan === "active" && (
                 <div className="flex items-center gap-3 mt-2">

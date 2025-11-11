@@ -11,9 +11,12 @@ export async function getInstances(): Promise<InstanceRecord[]> {
     if (!clerkId) throw new Error("Unauthorized");
 
     const user = await db.query.UserTable.findFirst({
-        where: (t, { eq }) => eq(t.clerkId, clerkId)
+        where: (t, { eq }) => eq(t.clerkId, clerkId),
     });
-    if (!user) throw new Error("User not found");
+    if (!user) {
+        console.log("[getInstances] User not found for clerkId:", clerkId);
+        return [];
+    }
 
     const rows = await db
         .select({
@@ -31,5 +34,3 @@ export async function getInstances(): Promise<InstanceRecord[]> {
 
     return rows;
 }
-
-

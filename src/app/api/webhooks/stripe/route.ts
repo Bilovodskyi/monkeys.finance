@@ -197,8 +197,9 @@ async function handleSubscriptionDeleted(subscription: any) {
         .set({
             billingStatus: "canceled",
             subscriptionEndsAt: new Date(currentPeriodEnd * 1000),
-            stripeSubscriptionId: null,
-            cancelAtPeriodEnd: false,
+            // Keep stripeSubscriptionId for audit trail - it's set to null
+            // Keep stripeCustomerId (not updated here, stays forever)
+            cancelAtPeriodEnd: false, // No longer canceling, already canceled
             updatedAt: new Date(),
         })
         .where(eq(UserTable.stripeCustomerId, customerId));

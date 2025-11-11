@@ -45,6 +45,7 @@ export default async function PlanPage() {
         <PlanClient
             heading={heading}
             subscriptionEndsAt={data.subscriptionEndsAt}
+            daysLeft={data.daysLeft}
             countryCode={countryCode}
             monthlyPrice={tierInfo.monthly}
             yearlyPrice={tierInfo.yearly}

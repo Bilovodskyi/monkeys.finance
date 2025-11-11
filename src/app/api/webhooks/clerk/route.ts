@@ -2,17 +2,22 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { Webhook } from "svix";
+import { clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
 import { UserTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { detectCountryFromIP } from "@/lib/geo-detection";
+import Stripe from "stripe";
 
 const SECRET = process.env.CLERK_WEBHOOK_SECRET!;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2025-10-29.clover",
+});
 
 type ClerkWebhookEvent = {
     type: string;
     data: {
         id: string;
+        user_id?: string;
         email_addresses?: Array<{
             email_address: string;
             id: string;
@@ -21,6 +26,12 @@ type ClerkWebhookEvent = {
         last_name?: string;
         username?: string;
         image_url?: string;
+    };
+    event_attributes?: {
+        http_request?: {
+            client_ip?: string;
+            user_agent?: string;
+        };
     };
 };
 
@@ -90,37 +101,18 @@ export async function POST(req: Request) {
 
     console.log("[clerk-webhook] Event received:", {
         type: evt.type,
-        userId: evt.data.id,
+        userId: evt.data.id || evt.data.user_id,
     });
 
-    // Handle user.created event
+    // ========================================
+    // HANDLE USER CREATION
+    // ========================================
     if (evt.type === "user.created") {
         const { data } = evt;
         const clerkId = data.id;
         const email = data.email_addresses?.[0]?.email_address;
-        let country: string | null = null;
 
-        try {
-            const clientIP =
-                req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
-                req.headers.get("x-real-ip") ||
-                "0.0.0.0";
-
-            // Skip for local IPs
-            if (
-                clientIP !== "0.0.0.0" &&
-                clientIP !== "127.0.0.1" &&
-                !clientIP.startsWith("192.168.")
-            ) {
-                const geoData = await detectCountryFromIP(clientIP);
-                country = geoData.country_code;
-                console.log(
-                    `[clerk-webhook] Detected country: ${country} for IP: ${clientIP}`
-                );
-            }
-        } catch (e) {
-            console.warn("[clerk-webhook] Failed to detect country:", e);
-        }
+        console.log("[clerk-webhook] Processing user.created event");
 
         // Validate required fields
         if (!email) {
@@ -136,22 +128,37 @@ export async function POST(req: Request) {
             "User";
 
         try {
-            // Check if user already exists
+            // Check if user already exists by clerkId OR email (prevent abuse)
             const existing = await db.query.UserTable.findFirst({
-                where: eq(UserTable.clerkId, clerkId),
+                where: (table, { eq, or }) =>
+                    or(eq(table.clerkId, clerkId), eq(table.email, email)),
             });
 
             if (existing) {
-                console.log("[clerk-webhook] User already exists:", clerkId);
+                console.log("[clerk-webhook] User already exists:", email);
+
+                // Update clerkId if it changed
+                if (existing.clerkId !== clerkId) {
+                    console.log(
+                        `[clerk-webhook] Updating clerkId to ${clerkId}`
+                    );
+                    await db
+                        .update(UserTable)
+                        .set({
+                            clerkId,
+                            name,
+                            updatedAt: new Date(),
+                        })
+                        .where(eq(UserTable.email, email));
+                }
+
                 return new Response("User already exists", { status: 200 });
             }
 
-            // Insert new user
-            console.log("[clerk-webhook] Creating user:", {
-                clerkId,
-                email,
-                name,
-            });
+            // ========================================
+            // STEP 1: CREATE USER IMMEDIATELY
+            // ========================================
+            console.log("[clerk-webhook] 📝 Creating user immediately...");
 
             function addMonths(date: Date, months: number) {
                 const d = new Date(date);
@@ -159,17 +166,40 @@ export async function POST(req: Request) {
                 return d;
             }
 
-            await db.insert(UserTable).values({
-                clerkId,
-                email,
-                name,
-                subscriptionEndsAt: addMonths(new Date(), 6),
-                billingStatus: "trialing",
-                country: country,
-                cancelAtPeriodEnd: false, // Not canceled
+            const [createdUser] = await db
+                .insert(UserTable)
+                .values({
+                    clerkId,
+                    email,
+                    name,
+                    subscriptionEndsAt: addMonths(new Date(), 1), // 1 month trial
+                    billingStatus: "trialing",
+                    country: "US", // Default - will be updated below
+                    cancelAtPeriodEnd: false,
+                })
+                .returning();
+
+            console.log("[clerk-webhook] ✅ User created immediately:", {
+                id: createdUser.id,
+                email: createdUser.email,
+                country: "US (default)",
             });
 
-            console.log("[clerk-webhook] ✅ User created successfully");
+            // ========================================
+            // STEP 2: UPDATE COUNTRY IN BACKGROUND (non-blocking)
+            // ========================================
+            // Don't await - let this run in background
+            updateUserCountry(clerkId).catch((error) => {
+                console.error(
+                    "[clerk-webhook] ⚠️  Background country update failed:",
+                    error
+                );
+                // Non-critical - user is already created
+            });
+
+            console.log(
+                "[clerk-webhook] 🔄 Country detection running in background..."
+            );
             return new Response("User created", { status: 201 });
         } catch (e: any) {
             console.error("[clerk-webhook] Database error:", e);
@@ -189,5 +219,155 @@ export async function POST(req: Request) {
         }
     }
 
+    // ========================================
+    // HANDLE USER DELETION
+    // ========================================
+    if (evt.type === "user.deleted") {
+        const { data } = evt;
+        const clerkId = data.id;
+
+        console.log("[clerk-webhook] Processing user.deleted event:", clerkId);
+
+        try {
+            // Find user in database
+            const user = await db.query.UserTable.findFirst({
+                where: (table, { eq }) => eq(table.clerkId, clerkId),
+            });
+
+            if (!user) {
+                console.log("[clerk-webhook] User not found in DB:", clerkId);
+                return new Response("User not found", { status: 404 });
+            }
+
+            console.log("[clerk-webhook] Found user:", {
+                email: user.email,
+                stripeSubscriptionId: user.stripeSubscriptionId,
+                billingStatus: user.billingStatus,
+            });
+
+            // ========================================
+            // CANCEL STRIPE SUBSCRIPTION (if exists)
+            // ========================================
+            if (user.stripeSubscriptionId) {
+                try {
+                    console.log(
+                        "[clerk-webhook] Canceling Stripe subscription:",
+                        user.stripeSubscriptionId
+                    );
+
+                    // Cancel subscription immediately
+                    const canceledSubscription =
+                        await stripe.subscriptions.cancel(
+                            user.stripeSubscriptionId
+                        );
+
+                    console.log(
+                        "[clerk-webhook] ✅ Stripe subscription canceled:",
+                        canceledSubscription.id
+                    );
+                } catch (stripeError: any) {
+                    console.error(
+                        "[clerk-webhook] ⚠️  Failed to cancel Stripe subscription:",
+                        stripeError.message
+                    );
+                    // Continue anyway - we still want to mark user as deleted
+                }
+            } else {
+                console.log(
+                    "[clerk-webhook] No subscription to cancel (trial user)"
+                );
+            }
+
+            // ========================================
+            // UPDATE USER IN DATABASE (keep for abuse prevention)
+            // ========================================
+            await db
+                .update(UserTable)
+                .set({
+                    billingStatus: "canceled",
+                    name: "Deleted User",
+                    updatedAt: new Date(),
+                })
+                .where(eq(UserTable.clerkId, clerkId));
+
+            console.log(
+                "[clerk-webhook] ✅ User marked as deleted:",
+                user.email
+            );
+            console.log("[clerk-webhook] Record kept for abuse prevention");
+
+            return new Response("User deleted and subscription canceled", {
+                status: 200,
+            });
+        } catch (e: any) {
+            console.error("[clerk-webhook] Error processing deletion:", e);
+            return new Response("Failed to process deletion", {
+                status: 500,
+            });
+        }
+    }
+
     return new Response("Event processed", { status: 200 });
+}
+
+// ========================================
+// BACKGROUND FUNCTION: Update User Country
+// ========================================
+async function updateUserCountry(clerkId: string): Promise<void> {
+    console.log(`[updateUserCountry] Starting for user: ${clerkId}`);
+
+    try {
+        const clerk = await clerkClient();
+
+        // Wait a moment for session to be fully created
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // Fetch sessions from Clerk API
+        const sessions = await clerk.sessions.getSessionList({
+            userId: clerkId,
+        });
+
+        if (!sessions || !sessions.data || sessions.data.length === 0) {
+            console.log(
+                `[updateUserCountry] No sessions found for user: ${clerkId}`
+            );
+            return;
+        }
+
+        // Get country from most recent session
+        const latestSession = sessions.data[0];
+        const country = latestSession.latestActivity?.country;
+
+        if (!country) {
+            console.log(`[updateUserCountry] No country data in session`);
+            return;
+        }
+
+        // Only update if country is different from default
+        if (country === "US") {
+            console.log(
+                `[updateUserCountry] Country is US (default), skipping update`
+            );
+            return;
+        }
+
+        // Update user's country in database
+        await db
+            .update(UserTable)
+            .set({
+                country: country,
+                updatedAt: new Date(),
+            })
+            .where(eq(UserTable.clerkId, clerkId));
+
+        console.log(
+            `[updateUserCountry] ✅ Country updated to: ${country} for user: ${clerkId}`
+        );
+    } catch (error: any) {
+        console.error(
+            `[updateUserCountry] Failed for user ${clerkId}:`,
+            error.message
+        );
+        // Don't throw - this is background work, failure is non-critical
+    }
 }

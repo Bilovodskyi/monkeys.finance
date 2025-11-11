@@ -1,30 +1,45 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs));
 }
 
 export function formatNumberWithCommas(value: number): string {
-  return value.toLocaleString("en-US");
+    return value.toLocaleString("en-US");
 }
 
-export function parseIsoToDateTime(isoString: string): { date: string; time: string } {
-  const dateObj = new Date(isoString);
+export function parseIsoToDateTime(
+    isoString: string,
+    locale: string,
+    countryCode: string
+): { date: string; time: string } {
+    const dateObj = new Date(isoString);
 
-  // Format date: YYYY Mon DD
-  const date = dateObj.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short", // Dec
-    day: "2-digit",
-  });
+    // Map locale codes to proper BCP 47 language tags
+    const localeMap: Record<string, string> = {
+        en: "en-US",
+        sp: "es-ES", // Spanish
+        uk: "uk-UA", // Ukrainian
+        ru: "ru-RU", // Russian
+    };
 
-  // Format time: HH:MM (24h or 12h)
-  const time = dateObj.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false, // set to true if you want AM/PM
-  });
+    const browserLocale = localeMap[locale] || locale || "en-US";
 
-  return { date, time };
+    // Format date: YYYY Mon DD
+    const date = dateObj.toLocaleDateString(browserLocale, {
+        year: "numeric",
+        month: "short", // Dec
+        day: "2-digit",
+    });
+
+    // Format time: HH:MM (24h or 12h)
+    const time = dateObj.toLocaleTimeString(browserLocale, {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12:
+            locale === "en" && (countryCode === "US" || countryCode === "CA"), // show AM/PM for US and CA countries saved in user profile only if locale is English
+    });
+
+    return { date, time };
 }

@@ -110,20 +110,20 @@ export const TIER_PRICE_IDS: Record<
 // Display information for each tier
 export const TIER_PRICING: Record<PricingTier, TierPricing> = {
     tier1: {
-        monthly: 29.99,
-        yearly: 287.9, // $29.99 × 12 × 0.8 (20% discount)
+        monthly: 39.99,
+        yearly: 383.9, // $39.99 × 12 × 0.8 (20% discount)
         currency: "USD",
         symbol: "$",
     },
     tier2: {
-        monthly: 12.99,
-        yearly: 186.91, // $12.99 × 12 × 0.8 (20% discount)
+        monthly: 19.99,
+        yearly: 191.9, // $19.99 × 12 × 0.8 (20% discount)
         currency: "USD",
         symbol: "$",
     },
     tier3: {
-        monthly: 4.99,
-        yearly: 47.9, // $4.99 × 12 × 0.8 (20% discount)
+        monthly: 9.99,
+        yearly: 95.9, // $9.99 × 12 × 0.8 (20% discount)
         currency: "USD",
         symbol: "$",
     },

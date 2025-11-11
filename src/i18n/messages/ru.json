@@ -177,7 +177,12 @@
         "documentation": "Документация"
     },
     "plan": {
-        "trialEndsMessage": "Ваш пробный период закончится {date} в {time}. Вы можете обновиться до про-плана, чтобы продолжить использование бота.",
+        "planEndsMessage": "Ваш план закончится {date} в {time}.",
+        "planEndsTomorrowMessage": "Ваш план закончится завтра, {date} в {time}.",
+        "planEndsTodayMessage": "Ваш план закончится сегодня в {time}.",
+        "planExpiredMessage": "Ваш план закончился {date} в {time}.",
+        "trialEndsMessage": "Ваш план закончится {date} в {time}.",
+        "loading": "Загрузка...",
         "monthly": "Ежемесячно",
         "yearly": "Ежегодно",
         "savePercent": "экономия 20%",
@@ -202,7 +207,7 @@
         "proTrialDaysLeft": "Про-пробный период – осталось {days} {daysWord}",
         "proTrialOneDayLeft": "Про-пробный период – остался 1 день",
         "proTrialEndsToday": "Про-пробный период – заканчивается сегодня",
-        "freeTrialEnded": "Бесплатный (пробный период закончился)",
+        "freeTrialEnded": "Бесплатный пробный период закончился",
         "day": "день",
         "days": "дней"
     },
