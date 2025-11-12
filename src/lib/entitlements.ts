@@ -44,17 +44,17 @@ export function hasEntitlement(user: UserRow, now = new Date()): boolean {
 export async function formatEntitlementHeading(
     data: EntitlementResponse
 ): Promise<string> {
-    const { billingStatus, daysLeft } = data;
+    const { billingStatus, daysLeft, cancelAtPeriodEnd } = data;
     const t = await getTranslations("entitlements");
 
-    // Active paid subscription
-    if (billingStatus === "active") return t("proPlanActive");
-
-    // Canceled but still has access until period end
-    if (billingStatus === "canceled" && daysLeft > 0) {
-        const daysWord = daysLeft === 1 ? t("day") : t("days");
-        return t("proTrialDaysLeft", { days: daysLeft, daysWord });
+    // Active paid subscription - check if canceled
+    if (billingStatus === "active") {
+        if (cancelAtPeriodEnd) {
+            return t("proPlanCanceled");
+        }
+        return t("proPlanActive");
     }
+
 
     // Trial period with time remaining
     if (billingStatus === "trialing") {
@@ -69,7 +69,7 @@ export async function formatEntitlementHeading(
     }
 
     // Payment issues - subscription exists but payment failed
-    if (billingStatus === "past_due" || billingStatus === "unpaid") {
+    if (billingStatus === "past_due" || billingStatus === "unpaid" || billingStatus === "canceled") {
         return t("proInactive");
     }
 

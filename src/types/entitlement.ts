@@ -14,4 +14,5 @@ export interface EntitlementResponse {
     subscriptionEndsAt: string | null; // e.g. "2026-04-10T00:00:00.000Z"
     daysLeft: number; // non-negative integer
     allowed: boolean; // true if user can access gated features
+    cancelAtPeriodEnd: boolean; // true if user canceled but still has access until period end
 }

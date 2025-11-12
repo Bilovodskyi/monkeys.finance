@@ -203,6 +203,7 @@
     },
     "entitlements": {
         "proPlanActive": "Pro plan - active",
+        "proPlanCanceled": "Pro plan - canceled",
         "proInactive": "Pro (inactive)",
         "proTrialDaysLeft": "Pro Trial – {days} {daysWord} left",
         "proTrialOneDayLeft": "Pro Trial – 1 day left",

@@ -16,9 +16,7 @@ export default async function PlanPage() {
     if (!userId) return null;
 
     // Fetch user entitlement
-    const data: EntitlementResponse | null = await getEntitlementForUser(
-        userId
-    );
+    const data: EntitlementResponse | null = await getEntitlementForUser();
     if (!data || !data.subscriptionEndsAt) return null;
 
     // Get translations

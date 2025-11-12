@@ -1,19 +1,13 @@
-import { formatEntitlementHeading } from "@/lib/entitlements";
 import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
-import { Search } from "lucide-react";
-import { LanguageSelector } from "../landing-page/LanguageSelector";
+import { ChevronDown, Globe, Search } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { dark } from "@clerk/themes";
-import { getEntitlementForUser } from "@/services/entitlements";
 
 export default async function Header() {
     const { userId } = await auth();
     if (!userId) return null;
-    const data = await getEntitlementForUser();
-
     const t = await getTranslations("header");
-    const heading = data ? await formatEntitlementHeading(data) : "Error occurred";
 
     return (
         <header className="border-b border-zinc-800 flex justify-between items-center px-6 h-[70px] shrink-0">
@@ -27,10 +21,13 @@ export default async function Header() {
                 </div>
             </div>
             <div className="flex items-center justify-between gap-4">
-                <LanguageSelector isPrivatePage={true} />
+                <div className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-tertiary" />
+                    <ChevronDown className="h-4 w-4 opacity-50" />
+                </div>
 
                 <div className="text-secondary text-xs bg-neutral-900 px-2 py-1 rounded-full border border-zinc-800 shrink-0">
-                    {heading}
+                    Loading...
                 </div>
 
                 <UserButton

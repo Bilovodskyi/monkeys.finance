@@ -53,7 +53,8 @@ export function PlanClient({
             const data = await response.json();
 
             if (data.url) {
-                window.location.href = data.url;
+                window.open(data.url, "_blank", "noopener,noreferrer");
+                setLoading(false);
             } else {
                 throw new Error(data.error || "Failed to create checkout");
             }

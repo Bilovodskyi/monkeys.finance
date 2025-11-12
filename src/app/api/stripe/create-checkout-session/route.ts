@@ -118,8 +118,8 @@ export async function POST(req: NextRequest) {
             ],
             mode: "subscription",
             billing_address_collection: "required", // Important: verify billing address
-            success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}&success=true`,
-            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan?canceled=true`,
+            success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan`,
+            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan`,
             metadata: {
                 userId: user.id,
                 clerkId: userId,

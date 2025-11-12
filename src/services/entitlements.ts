@@ -3,6 +3,7 @@ import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
 import { hasEntitlement } from "@/lib/entitlements";
 import type { EntitlementResponse } from "@/types/entitlement";
+import { auth } from "@clerk/nextjs/server";
 
 function computeDaysLeft(subscriptionEndsAt: Date | null) {
     if (!subscriptionEndsAt) return 0;
@@ -36,11 +37,15 @@ function computeDaysLeft(subscriptionEndsAt: Date | null) {
     return diffDays;
 }
 
-export async function getEntitlementForUser(
-    clerkId: string
-): Promise<EntitlementResponse | null> {
+export async function getEntitlementForUser(): Promise<EntitlementResponse | null> {
+    const { userId } = await auth();
+
+    if (!userId) {
+        throw new Error("Unauthorized");
+    }
+
     const user = await db.query.UserTable.findFirst({
-        where: (userTable) => eq(userTable.clerkId, clerkId),
+        where: (userTable) => eq(userTable.clerkId, userId),
         columns: {
             billingStatus: true,
             subscriptionEndsAt: true,
@@ -52,6 +57,7 @@ export async function getEntitlementForUser(
     return {
         billingStatus: user.billingStatus,
         subscriptionEndsAt: user.subscriptionEndsAt?.toISOString() ?? null,
+        cancelAtPeriodEnd: user.cancelAtPeriodEnd ?? false,
         daysLeft: computeDaysLeft(user.subscriptionEndsAt),
         allowed: hasEntitlement({
             billingStatus: user.billingStatus,

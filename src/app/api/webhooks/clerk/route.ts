@@ -4,9 +4,15 @@ export const dynamic = "force-dynamic";
 import { Webhook } from "svix";
 import { clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
-import { UserTable } from "@/drizzle/schema";
+import {
+    UserTable,
+    InstanceTable,
+    UserTelegramNotificationSettingsTable,
+    NotificationPreferencesTable,
+} from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import Stripe from "stripe";
+import { revalidatePath } from "next/cache";
 
 const SECRET = process.env.CLERK_WEBHOOK_SECRET!;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -178,7 +184,6 @@ export async function POST(req: Request) {
                     cancelAtPeriodEnd: false,
                 })
                 .returning();
-
             console.log("[clerk-webhook] ✅ User created immediately:", {
                 id: createdUser.id,
                 email: createdUser.email,
@@ -246,6 +251,70 @@ export async function POST(req: Request) {
             });
 
             // ========================================
+            // DELETE ALL USER INSTANCES
+            // ========================================
+            try {
+                const deletedInstances = await db
+                    .delete(InstanceTable)
+                    .where(eq(InstanceTable.userId, user.id))
+                    .returning();
+
+                console.log(
+                    `[clerk-webhook] ✅ Deleted ${deletedInstances.length} instances for user`
+                );
+            } catch (instanceError: any) {
+                console.error(
+                    "[clerk-webhook] ⚠️  Failed to delete instances:",
+                    instanceError.message
+                );
+            }
+
+            // ========================================
+            // DELETE PROVIDER
+            // ========================================
+            try {
+                const deletedProvider = await db
+                    .delete(UserTelegramNotificationSettingsTable)
+                    .where(
+                        eq(
+                            UserTelegramNotificationSettingsTable.userId,
+                            user.id
+                        )
+                    )
+                    .returning();
+
+                console.log(
+                    `[clerk-webhook] ✅ Deleted ${deletedProvider} for user`
+                );
+            } catch (instanceError: any) {
+                console.error(
+                    "[clerk-webhook] ⚠️  Failed to delete instances:",
+                    instanceError.message
+                );
+                // Continue anyway - we still want to process deletion
+            }
+
+            // ========================================
+            // DELETE NOTIFICATIONS SETTINGS
+            // ========================================
+            try {
+                const deletedNotificationsSettings = await db
+                    .delete(NotificationPreferencesTable)
+                    .where(eq(NotificationPreferencesTable.userId, user.id))
+                    .returning();
+
+                console.log(
+                    `[clerk-webhook] ✅ Deleted ${deletedNotificationsSettings.length} notification settings for user`
+                );
+            } catch (instanceError: any) {
+                console.error(
+                    "[clerk-webhook] ⚠️  Failed to delete instances:",
+                    instanceError.message
+                );
+                // Continue anyway - we still want to process deletion
+            }
+
+            // ========================================
             // CANCEL STRIPE SUBSCRIPTION (if exists)
             // ========================================
             if (user.stripeSubscriptionId) {
@@ -255,10 +324,13 @@ export async function POST(req: Request) {
                         user.stripeSubscriptionId
                     );
 
-                    // Cancel subscription immediately
+                    // Cancel subscription at period end
                     const canceledSubscription =
-                        await stripe.subscriptions.cancel(
-                            user.stripeSubscriptionId
+                        await stripe.subscriptions.update(
+                            user.stripeSubscriptionId,
+                            {
+                                cancel_at_period_end: true,
+                            }
                         );
 
                     console.log(
@@ -278,22 +350,6 @@ export async function POST(req: Request) {
                 );
             }
 
-            // ========================================
-            // UPDATE USER IN DATABASE (keep for abuse prevention)
-            // ========================================
-            await db
-                .update(UserTable)
-                .set({
-                    billingStatus: "canceled",
-                    name: "Deleted User",
-                    updatedAt: new Date(),
-                })
-                .where(eq(UserTable.clerkId, clerkId));
-
-            console.log(
-                "[clerk-webhook] ✅ User marked as deleted:",
-                user.email
-            );
             console.log("[clerk-webhook] Record kept for abuse prevention");
 
             return new Response("User deleted and subscription canceled", {

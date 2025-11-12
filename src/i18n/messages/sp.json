@@ -203,6 +203,7 @@
     },
     "entitlements": {
         "proPlanActive": "Plan Pro - activo",
+        "proPlanCanceled": "Plan Pro - cancelado",
         "proInactive": "Pro (inactivo)",
         "proTrialDaysLeft": "Prueba Pro – quedan {days} {daysWord}",
         "proTrialOneDayLeft": "Prueba Pro – queda 1 día",

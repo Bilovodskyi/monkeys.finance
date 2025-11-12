@@ -203,6 +203,7 @@
     },
     "entitlements": {
         "proPlanActive": "Про-план - активний",
+        "proPlanCanceled": "Про-план - скасовано",
         "proInactive": "Про (неактивний)",
         "proTrialDaysLeft": "Про-пробний період – залишилось {days} {daysWord}",
         "proTrialOneDayLeft": "Про-пробний період – залишився 1 день",
