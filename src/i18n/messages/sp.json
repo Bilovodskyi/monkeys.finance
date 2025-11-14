@@ -257,10 +257,17 @@
         "createdSuccess": "¡Instancia creada con éxito!",
         "updatedSuccess": "¡Instancia actualizada con éxito!",
         "errors": {
-            "required": "Este campo es obligatorio"
+            "required": "Este campo es obligatorio",
+            "unauthorized": "No estás autorizado para realizar esta acción",
+            "invalidInput": "Datos de entrada inválidos. Por favor revisa todos los campos",
+            "userNotFound": "Cuenta de usuario no encontrada",
+            "notFound": "Instancia no encontrada o no accesible",
+            "unsupportedExchange": "El exchange seleccionado no es compatible",
+            "unexpected": "Ocurrió un error inesperado. Por favor intenta de nuevo"
         },
         "createdError": "Error al crear instancia",
         "updatedError": "Error al actualizar instancia",
+        "subscriptionEnded": "Tu suscripción ha finalizado. Actualiza para continuar.",
         "actionsMenu": {
             "pauseActivate": {
                 "paused": "Instancia pausada",
@@ -281,6 +288,21 @@
                 "pauseActivate": "Pausar/Activar",
                 "delete": "Eliminar"
             }
+        }
+    },
+    "notifications": {
+        "creating": "Creando notificación...",
+        "createdSuccess": "¡Notificación creada con éxito!",
+        "errors": {
+            "required": "Este campo es obligatorio",
+            "unauthorized": "No estás autorizado para realizar esta acción",
+            "invalidInput": "Datos inválidos. Revisa todos los campos",
+            "userNotFound": "Cuenta de usuario no encontrada",
+            "subscriptionEnded": "Tu suscripción ha finalizado. Actualiza para continuar.",
+            "unsupportedProvider": "Este proveedor aún no está soportado",
+            "telegramNotLinked": "Vincula tu cuenta de Telegram primero",
+            "duplicatePreference": "Ya tienes una notificación para esta combinación",
+            "unexpected": "Ocurrió un error inesperado. Inténtalo de nuevo"
         }
     },
     "about": {

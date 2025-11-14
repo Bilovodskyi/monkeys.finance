@@ -1,5 +1,5 @@
 import { CustomButton } from "@/components/CustomButton";
-import { AddNotificationSheet } from "@/components/private/instances/AddNotificationSheet";
+import { AddNotificationSheet } from "@/components/private/notifications/AddNotificationSheet";
 import { getNotifications } from "@/actions/notifications";
 import { DeleteNotification } from "@/components/private/notifications/DeleteNotification";
 import { UnlinkTelegramAccount } from "@/components/private/notifications/UnlinkTelegramAccount";

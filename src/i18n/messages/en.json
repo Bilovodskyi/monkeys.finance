@@ -257,10 +257,17 @@
         "createdSuccess": "Instance created successfully!",
         "updatedSuccess": "Instance updated successfully!",
         "errors": {
-            "required": "This field is required"
+            "required": "This field is required",
+            "unauthorized": "You are not authorized to perform this action",
+            "invalidInput": "Invalid input data. Please check all fields",
+            "userNotFound": "User account not found",
+            "notFound": "Instance not found or not accessible",
+            "unsupportedExchange": "The selected exchange is not supported",
+            "unexpected": "An unexpected error occurred. Please try again"
         },
         "createdError": "Failed to create instance",
         "updatedError": "Failed to update instance",
+        "subscriptionEnded": "Your subscription has ended. Please upgrade to continue.",
         "actionsMenu": {
             "pauseActivate": {
                 "paused": "Instance paused",
@@ -281,6 +288,21 @@
                 "pauseActivate": "Pause/Activate",
                 "delete": "Delete"
             }
+        }
+    },
+    "notifications": {
+        "creating": "Creating notification...",
+        "createdSuccess": "Notification created successfully!",
+        "errors": {
+            "required": "This field is required",
+            "unauthorized": "You are not authorized to perform this action",
+            "invalidInput": "Invalid input data. Please check all fields",
+            "userNotFound": "User account not found",
+            "subscriptionEnded": "Your subscription has ended. Please upgrade to continue.",
+            "unsupportedProvider": "This provider is not supported yet",
+            "telegramNotLinked": "Please link your Telegram account first",
+            "duplicatePreference": "You already have a notification for this combination",
+            "unexpected": "An unexpected error occurred. Please try again"
         }
     },
     "about": {

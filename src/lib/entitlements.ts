@@ -5,10 +5,16 @@ import { getTranslations } from "next-intl/server";
 export type UserRow = {
     billingStatus: "trialing" | "active" | "past_due" | "canceled" | "unpaid";
     subscriptionEndsAt: Date;
-    cancelAtPeriodEnd: boolean;
+    cancelAtPeriodEnd: boolean | null;
 };
 
-export function hasEntitlement(user: UserRow, now = new Date()): boolean {
+export function hasEntitlement(
+    user: Pick<
+        UserRow,
+        "billingStatus" | "subscriptionEndsAt" | "cancelAtPeriodEnd"
+    >,
+    now = new Date()
+): boolean {
     // Case 1: Active subscription that hasn't expired yet
     if (
         user.billingStatus === "active" &&
@@ -29,7 +35,7 @@ export function hasEntitlement(user: UserRow, now = new Date()): boolean {
 
     // Case 3: Canceled but still in paid period (they paid until end date)
     if (
-        user.billingStatus === "canceled" &&
+        user.billingStatus === "active" &&
         user.cancelAtPeriodEnd &&
         user.subscriptionEndsAt &&
         user.subscriptionEndsAt > now
@@ -49,12 +55,11 @@ export async function formatEntitlementHeading(
 
     // Active paid subscription - check if canceled
     if (billingStatus === "active") {
-        if (cancelAtPeriodEnd) {
+        if (cancelAtPeriodEnd && daysLeft >= 0) {
             return t("proPlanCanceled");
         }
         return t("proPlanActive");
     }
-
 
     // Trial period with time remaining
     if (billingStatus === "trialing") {
@@ -69,7 +74,11 @@ export async function formatEntitlementHeading(
     }
 
     // Payment issues - subscription exists but payment failed
-    if (billingStatus === "past_due" || billingStatus === "unpaid" || billingStatus === "canceled") {
+    if (
+        billingStatus === "past_due" ||
+        billingStatus === "unpaid" ||
+        billingStatus === "canceled"
+    ) {
         return t("proInactive");
     }
 

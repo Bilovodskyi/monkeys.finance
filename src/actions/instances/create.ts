@@ -3,58 +3,79 @@
 import { z } from "zod";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
-import { InstanceTable, UserTable } from "@/drizzle/schema";
+import { InstanceTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { hasEntitlement } from "@/lib/entitlements";
 
 const inputSchema = z.object({
     strategy: z.string().min(1),
     instrument: z.string().min(1),
-    exchangeLabel: z.string().min(1),
-    name: z.string().min(1)
+    exchangeLabel: z
+        .string()
+        .min(1)
+        .transform((val) => val.toLowerCase())
+        .pipe(
+            z.enum([
+                "binance",
+                "kraken",
+                "coinbase",
+                "okx",
+                "binanceus",
+                "bybit",
+            ])
+        ),
+    name: z.string().min(1),
 });
 
-function mapExchangeLabelToEnum(label: string): typeof InstanceTable.$inferInsert["exchange"] {
-    const normalized = label.trim().toLowerCase();
-    switch (normalized) {
-        case "binance":
-            return "binance";
-        case "kraken":
-            return "kraken";
-        case "coinbase":
-            return "coinbase";
-        case "okx":
-            return "okx";
-        case "binanceus":
-            return "binanceus";
-        case "bybit":
-            return "bybit";
-        default:
-            throw new Error("Unsupported exchange");
+type CreateResult =
+    | { ok: true; id: string }
+    | {
+          ok: false;
+          error:
+              | "unauthorized"
+              | "invalidInput"
+              | "userNotFound"
+              | "subscriptionEnded"
+              | "failedToCreate"
+              | "unexpected";
+      };
+
+export async function createInstance(input: unknown): Promise<CreateResult> {
+    try {
+        const { userId: clerkId } = await auth();
+        if (!clerkId) return { ok: false, error: "unauthorized" };
+
+        const parseResult = inputSchema.safeParse(input);
+        if (!parseResult.success) return { ok: false, error: "invalidInput" };
+        const data = parseResult.data;
+
+        const user = await db.query.UserTable.findFirst({
+            where: (userTable) => eq(userTable.clerkId, clerkId),
+        });
+        if (!user) return { ok: false, error: "userNotFound" };
+
+        if (!hasEntitlement(user)) {
+            return { ok: false, error: "subscriptionEnded" };
+        }
+
+        const [inserted] = await db
+            .insert(InstanceTable)
+            .values({
+                userId: user.id,
+                name: data.name,
+                exchange: data.exchangeLabel,
+                instrument: data.instrument,
+                strategy: data.strategy,
+            })
+            .returning({ id: InstanceTable.id });
+
+        if (!inserted) {
+            return { ok: false, error: "failedToCreate" };
+        }
+
+        return { ok: true, id: inserted.id };
+    } catch (error: unknown) {
+        console.error("[createInstance] Unexpected error:", error);
+        return { ok: false, error: "unexpected" };
     }
 }
-
-export async function createInstance(input: unknown) {
-    const { userId: clerkId } = await auth();
-    if (!clerkId) throw new Error("Unauthorized");
-
-    const data = inputSchema.parse(input);
-
-    const user = await db.query.UserTable.findFirst({
-        where: (userTable) => eq(userTable.clerkId, clerkId)
-    });
-    if (!user) throw new Error("User not found");
-
-    const exchange = mapExchangeLabelToEnum(data.exchangeLabel);
-
-    const [inserted] = await db.insert(InstanceTable).values({
-        userId: user.id,
-        name: data.name,
-        exchange,
-        instrument: data.instrument,
-        strategy: data.strategy,
-    }).returning({ id: InstanceTable.id });
-
-    return { id: inserted.id };
-}
-
-

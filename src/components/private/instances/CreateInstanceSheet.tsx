@@ -101,6 +101,87 @@ export function CreateInstanceSheet({
         form.reset({ strategy: "", instrument: "", exchange: "" });
     };
 
+    const handleSubmit = async (values: FormValues) => {
+        try {
+            const name = [
+                INSTRUMENT_SHORT_NAMES[
+                    values.instrument as keyof typeof INSTRUMENT_SHORT_NAMES
+                ] || "-",
+                values.exchange || "-",
+                values.strategy === "Squid Ribbon V2" ? "1H" : "4H",
+                values.strategy || "-",
+            ]
+                .join("-")
+                .toUpperCase();
+
+            if (isEditMode && instance) {
+                const result = await updateInstance({
+                    id: instance.id,
+                    strategy: values.strategy,
+                    instrument: values.instrument,
+                    exchangeLabel: values.exchange,
+                    name,
+                });
+                if (!result.ok) {
+                    console.log(
+                        "[CreateInstanceSheet] Failed to update instance:",
+                        result.error
+                    );
+
+                    // Map error codes to translation keys
+                    const errorKey = {
+                        unauthorized: "errors.unauthorized",
+                        invalidInput: "errors.invalidInput",
+                        notFound: "errors.notFound",
+                        unsupportedExchange: "errors.unsupportedExchange",
+                        subscriptionEnded: "subscriptionEnded",
+                    }[result.error];
+
+                    toast.error(translations(errorKey));
+                    setOpen(false);
+                    return;
+                }
+                toast.success(translations("updatedSuccess"));
+            } else {
+                const result = await createInstance({
+                    strategy: values.strategy,
+                    instrument: values.instrument,
+                    exchangeLabel: values.exchange,
+                    name,
+                });
+                if (!result.ok) {
+                    console.log(
+                        "[CreateInstanceSheet] Failed to create instance:",
+                        result.error
+                    );
+
+                    // Map error codes to translation keys
+                    const errorKey = {
+                        unauthorized: "errors.unauthorized",
+                        invalidInput: "errors.invalidInput",
+                        userNotFound: "errors.userNotFound",
+                        subscriptionEnded: "subscriptionEnded",
+                        failedToCreate: "createdError",
+                        unexpected: "errors.unexpected",
+                    }[result.error];
+
+                    toast.error(translations(errorKey));
+                    setOpen(false);
+                    return;
+                }
+                toast.success(translations("createdSuccess"));
+            }
+            setOpen(false);
+            router.refresh();
+        } catch (error: unknown) {
+            // This should never happen since createInstance catches all errors,
+            // but keep as a safety net for unexpected issues
+            console.error("[CreateInstanceSheet] Unexpected error:", error);
+            toast.error(translations("createdError"));
+            setOpen(false);
+        }
+    };
+
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>{children}</SheetTrigger>
@@ -118,58 +199,7 @@ export function CreateInstanceSheet({
 
                 <form
                     className="mt-6 space-y-8 relative flex-1"
-                    onSubmit={form.handleSubmit(async (values) => {
-                        try {
-                            const name = [
-                                INSTRUMENT_SHORT_NAMES[
-                                    values.instrument as keyof typeof INSTRUMENT_SHORT_NAMES
-                                ] || "-",
-                                values.exchange || "-",
-                                values.strategy === "Squid Ribbon V2"
-                                    ? "1H"
-                                    : "4H",
-                                values.strategy || "-",
-                            ]
-                                .join("-")
-                                .toUpperCase();
-
-                            if (isEditMode && instance) {
-                                const result = await updateInstance({
-                                    id: instance.id,
-                                    strategy: values.strategy,
-                                    instrument: values.instrument,
-                                    exchangeLabel: values.exchange,
-                                    name,
-                                });
-                                if (!result.ok) {
-                                    throw new Error(result.error);
-                                }
-                                toast.success(translations("updatedSuccess"));
-                            } else {
-                                await createInstance({
-                                    strategy: values.strategy,
-                                    instrument: values.instrument,
-                                    exchangeLabel: values.exchange,
-                                    name,
-                                });
-                                toast.success(translations("createdSuccess"));
-                            }
-                            setOpen(false);
-                            router.refresh();
-                        } catch (error: any) {
-                            const message =
-                                error?.message ||
-                                (isEditMode
-                                    ? "Failed to update instance"
-                                    : "Failed to create instance");
-                            console.error(message);
-                            toast.error(
-                                isEditMode
-                                    ? translations("updatedError")
-                                    : translations("createdError")
-                            );
-                        }
-                    })}
+                    onSubmit={form.handleSubmit(handleSubmit)}
                     ref={formRef}>
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
