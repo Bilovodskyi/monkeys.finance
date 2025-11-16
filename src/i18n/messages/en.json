@@ -220,6 +220,11 @@
         "instanceDescription": "Instance is a function that will run on the cloud 24/7 constantly checking for new signals. Once signal is detected, the instance will open a position on the exchange. After instance automatically closes the position once opposite signal is detected.",
         "addInstance": "Add instance",
         "visitDocumentation": "Visit documentation page for more information",
+        "subscriptionExpired": "Your subscription has expired",
+        "subscriptionExpiredDescription": "Please renew your subscription to create and manage instances.",
+        "manageSubscription": "Manage Subscription",
+        "statusActive": "Active",
+        "statusPaused": "Paused",
         "limitBanner": {
             "line1": "You can only have up to 3 instances.",
             "line2": "We are working on increasing this limit."
@@ -276,7 +281,11 @@
             },
             "delete": {
                 "deleted": "Instance deleted successfully",
-                "failed": "Failed to delete instance"
+                "failed": "Failed to delete instance",
+                "dialogTitle": "Delete instance?",
+                "warningLine1": "This action cannot be undone.",
+                "warningLine2": "This will permanently delete your instance.",
+                "confirmButton": "I want to delete this instance"
             },
             "errors": {
                 "unauthorized": "Unauthorized",
@@ -304,6 +313,82 @@
             "duplicatePreference": "You already have a notification for this combination",
             "unexpected": "An unexpected error occurred. Please try again"
         }
+    },
+    "notificationsPage": {
+        "errorTitle": "Error fetching your data",
+        "errorDescription": "Please try again. If the problem persists, contact support.",
+        "emptyTitle": "Add Notification",
+        "emptyDescription": "Connect your notification provider to receive real-time notifications about your trading bot's activities, including trade executions, performance updates, and important alerts.",
+        "emptyButton": "Add Notification",
+        "visitDocumentation": "Visit Documentation",
+        "subscriptionExpiredTitle": "Your subscription has expired",
+        "subscriptionExpiredDescription": "Please renew your subscription to create and manage instances.",
+        "manageSubscription": "Manage Subscription",
+        "accountsTitle": "Accounts 1/2",
+        "notificationsCount": "Notifications {count}/3",
+        "limitReached": "Limit reached",
+        "tableHeaders": {
+            "provider": "Provider",
+            "username": "Username",
+            "strategy": "Strategy",
+            "instrument": "Instrument",
+            "createdAt": "Created At",
+            "actions": "Actions"
+        }
+    },
+    "addNotificationSheet": {
+        "titleAdd": "Add Notification",
+        "titleEdit": "Edit Notification",
+        "description": "Configure your notification settings to receive trading signals.",
+        "provider": "Provider",
+        "selectProvider": "Select provider",
+        "strategy": "Strategy",
+        "selectStrategy": "Select strategy",
+        "instrument": "Instrument",
+        "selectInstrument": "Select instrument",
+        "requiredField": "This field is required",
+        "telegramStep1": "Step 1. Open your Telegram app",
+        "telegramStep2": "Step 2. Search for {botName}",
+        "telegramStep3": "Step 3. Send {command}",
+        "telegramStep4": "Step 4. You will receive unique link that connects your telegram account to our notification system.",
+        "telegramLinked": "✅ Telegram account linked",
+        "checkingTelegram": "Checking Telegram status...",
+        "buttonCreate": "Create",
+        "buttonSave": "Save",
+        "buttonClear": "Clear",
+        "toastCreating": "Creating notification...",
+        "toastSuccess": "Notification created successfully!",
+        "toastError": "Failed to create notification",
+        "errors": {
+            "unauthorized": "You are not authorized to perform this action",
+            "invalidInput": "Invalid input. Please check all fields",
+            "userNotFound": "User account not found",
+            "subscriptionEnded": "Your subscription has ended. Please upgrade to continue.",
+            "telegramNotLinked": "Please link your Telegram account first",
+            "duplicatePreference": "You already have a notification for this combination",
+            "failedToCreate": "Failed to create notification",
+            "unexpected": "An unexpected error occurred. Please try again"
+        }
+    },
+    "unlinkTelegramAccount": {
+        "buttonLabel": "Unlink",
+        "dialogTitle": "Unlink Telegram account?",
+        "warningLine1": "This action cannot be undone.",
+        "warningLine2": "Unlinking your Telegram account will permanently delete all notification preferences associated with this account.",
+        "confirmButton": "I want to unlink this account",
+        "unlinkingButton": "Unlinking...",
+        "successToast": "Telegram account unlinked successfully",
+        "errorToast": "Failed to unlink account"
+    },
+    "deleteNotification": {
+        "buttonLabel": "Delete",
+        "dialogTitle": "Delete notification?",
+        "warningLine1": "This action cannot be undone.",
+        "warningLine2": "This will permanently delete your notification.",
+        "confirmButton": "I want to delete this notification",
+        "deletingButton": "Deleting...",
+        "successToast": "Notification deleted successfully",
+        "errorToast": "Failed to delete notification"
     },
     "about": {
         "title": "About AlgoSquid",

@@ -1,6 +1,9 @@
 import "server-only"; // throws at build if a client import sneaks in
 import { EntitlementResponse } from "@/types/entitlement";
 import { getTranslations } from "next-intl/server";
+import { auth } from "@clerk/nextjs/server";
+import { db } from "@/drizzle/db";
+import { eq } from "drizzle-orm";
 
 export type UserRow = {
     billingStatus: "trialing" | "active" | "past_due" | "canceled" | "unpaid";
@@ -84,4 +87,21 @@ export async function formatEntitlementHeading(
 
     // Trial/subscription ended
     return t("freeTrialEnded");
+}
+
+export async function getActiveSubscriptionStatusForUI() {
+    const { userId: clerkId } = await auth();
+
+    if (!clerkId) {
+        return { user: false, hasActiveSubscription: false };
+    }
+
+    const user = await db.query.UserTable.findFirst({
+        where: (UserTable) => eq(UserTable.clerkId, clerkId),
+    });
+
+    return {
+        user: true,
+        hasActiveSubscription: user ? hasEntitlement(user) : false,
+    };
 }

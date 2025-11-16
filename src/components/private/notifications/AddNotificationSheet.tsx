@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { useRef, useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { checkTelegramLinked } from "@/actions/telegram/status";
+import { useTranslations } from "next-intl";
 
 interface AddNotificationSheetProps {
     children: ReactNode;
@@ -34,6 +35,7 @@ export function AddNotificationSheet({
     children,
     notification,
 }: AddNotificationSheetProps) {
+    const t = useTranslations("addNotificationSheet");
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [checkingTelegram, setCheckingTelegram] = useState(false);
@@ -42,9 +44,9 @@ export function AddNotificationSheet({
     const isEditMode = !!notification;
 
     const FormSchema = z.object({
-        provider: z.string().min(1, "This field is required"),
-        strategy: z.string().min(1, "This field is required"),
-        instrument: z.string().min(1, "This field is required"),
+        provider: z.string().min(1, t("requiredField")),
+        strategy: z.string().min(1, t("requiredField")),
+        instrument: z.string().min(1, t("requiredField")),
     });
 
     type FormValues = z.infer<typeof FormSchema>;
@@ -79,26 +81,52 @@ export function AddNotificationSheet({
 
     async function handleFormSubmit(values: FormValues) {
         try {
-            toast.loading("Creating notification...");
+            toast.loading(t("toastCreating"));
 
             const { createNotification } = await import(
                 "@/actions/notifications"
             );
 
-            await createNotification({
+            const result = await createNotification({
                 provider: values.provider,
                 instrument: values.instrument,
                 strategy: values.strategy,
             });
 
             toast.dismiss();
-            toast.success("Notification created successfully!");
+
+            if (!result.ok) {
+                console.log(
+                    "[AddNotificationSheet] Failed to create notification:",
+                    result.error
+                );
+
+                // Map error codes to translation keys
+                const errorKey = {
+                    unauthorized: "errors.unauthorized",
+                    invalidInput: "errors.invalidInput",
+                    userNotFound: "errors.userNotFound",
+                    subscriptionEnded: "errors.subscriptionEnded",
+                    telegramNotLinked: "errors.telegramNotLinked",
+                    duplicatePreference: "errors.duplicatePreference",
+                    failedToCreate: "errors.failedToCreate",
+                    unexpected: "errors.unexpected",
+                }[result.error];
+
+                toast.error(t(errorKey));
+                setOpen(false);
+                return;
+            }
+
+            toast.success(t("toastSuccess"));
             setOpen(false);
             clearForm();
             router.refresh();
-        } catch (error: any) {
+        } catch (error: unknown) {
+            console.error("[AddNotificationSheet] Unexpected error:", error);
             toast.dismiss();
-            toast.error(error.message || "Failed to create notification");
+            toast.error(t("errors.unexpected"));
+            setOpen(false);
         }
     }
 
@@ -122,11 +150,10 @@ export function AddNotificationSheet({
             <SheetContent className="flex flex-col">
                 <SheetHeader>
                     <SheetTitle className="text-xl font-title">
-                        {isEditMode ? "Edit Notification" : "Add Notification"}
+                        {isEditMode ? t("titleEdit") : t("titleAdd")}
                     </SheetTitle>
                     <SheetDescription className=" text-tertiary mt-4">
-                        Configure your notification settings to receive trading
-                        signals.
+                        {t("description")}
                     </SheetDescription>
                 </SheetHeader>
 
@@ -137,7 +164,9 @@ export function AddNotificationSheet({
                     {/* Provider Field */}
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className=" text-tertiary">Provider</label>
+                            <label className=" text-tertiary">
+                                {t("provider")}
+                            </label>
                             {form.formState.errors.provider && (
                                 <div className="text-xs text-red-500">
                                     {String(
@@ -155,7 +184,7 @@ export function AddNotificationSheet({
                                     onValueChange={handleProviderChange}>
                                     <SelectTrigger>
                                         <SelectValue
-                                            placeholder="Select provider"
+                                            placeholder={t("selectProvider")}
                                             className="text-tertiary"
                                         />
                                     </SelectTrigger>
@@ -179,24 +208,18 @@ export function AddNotificationSheet({
                         !checkingTelegram && (
                             <div className="px-2 py-3 space-y-2">
                                 <p className="text-sm text-tertiary">
-                                    Step 1. Open your Telegram app
+                                    {t("telegramStep1")}
                                 </p>
                                 <p className="text-sm text-tertiary">
-                                    Step 2. Search for{" "}
-                                    <span className="text-white font-mono">
-                                        @algo_squid_bot
-                                    </span>{" "}
+                                    {t("telegramStep2", {
+                                        botName: "@algo_squid_bot",
+                                    })}
                                 </p>
                                 <p className="text-sm text-tertiary">
-                                    Step 3. Send{" "}
-                                    <span className="text-white font-mono">
-                                        /start
-                                    </span>{" "}
+                                    {t("telegramStep3", { command: "/start" })}
                                 </p>
                                 <p className="text-sm text-tertiary">
-                                    Step 4. You will receive unique link that
-                                    connects your telegram account to our
-                                    notification system.
+                                    {t("telegramStep4")}
                                 </p>
                             </div>
                         )}
@@ -206,9 +229,7 @@ export function AddNotificationSheet({
                         isTelegramLinked &&
                         !checkingTelegram && (
                             <div className="px-2 py-3">
-                                <p className="text-sm">
-                                    ✅ Telegram account linked
-                                </p>
+                                <p className="text-sm">{t("telegramLinked")}</p>
                             </div>
                         )}
 
@@ -216,7 +237,7 @@ export function AddNotificationSheet({
                     {selectedProvider === "Telegram" && checkingTelegram && (
                         <div className="px-2 py-3">
                             <p className="text-sm text-tertiary">
-                                Checking Telegram status...
+                                {t("checkingTelegram")}
                             </p>
                         </div>
                     )}
@@ -224,7 +245,9 @@ export function AddNotificationSheet({
                     {/* Strategy Field */}
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className=" text-tertiary">Strategy</label>
+                            <label className=" text-tertiary">
+                                {t("strategy")}
+                            </label>
                             {form.formState.errors.strategy && (
                                 <div className="text-xs text-red-500">
                                     {String(
@@ -242,7 +265,7 @@ export function AddNotificationSheet({
                                     onValueChange={field.onChange}>
                                     <SelectTrigger>
                                         <SelectValue
-                                            placeholder="Select strategy"
+                                            placeholder={t("selectStrategy")}
                                             className="text-tertiary"
                                         />
                                     </SelectTrigger>
@@ -263,7 +286,9 @@ export function AddNotificationSheet({
                     {/* Instrument Field */}
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className=" text-tertiary">Instrument</label>
+                            <label className=" text-tertiary">
+                                {t("instrument")}
+                            </label>
                             {form.formState.errors.instrument && (
                                 <div className="text-xs text-red-500">
                                     {String(
@@ -281,7 +306,7 @@ export function AddNotificationSheet({
                                     onValueChange={field.onChange}>
                                     <SelectTrigger>
                                         <SelectValue
-                                            placeholder="Select instrument"
+                                            placeholder={t("selectInstrument")}
                                             className="text-tertiary"
                                         />
                                     </SelectTrigger>
@@ -311,7 +336,7 @@ export function AddNotificationSheet({
                             onClick={() => formRef.current?.requestSubmit()}
                             role="button"
                             tabIndex={0}>
-                            {isEditMode ? "Save" : "Create"}
+                            {isEditMode ? t("buttonSave") : t("buttonCreate")}
                         </CustomButton>
                         <CustomButton
                             isBlue={false}
@@ -319,7 +344,7 @@ export function AddNotificationSheet({
                                 e.preventDefault();
                                 clearForm();
                             }}>
-                            Clear
+                            {t("buttonClear")}
                         </CustomButton>
                     </div>
                 </form>

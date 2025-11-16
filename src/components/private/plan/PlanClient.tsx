@@ -30,7 +30,7 @@ export function PlanClient({
     plan,
 }: PlanClientProps) {
     const t = useTranslations("plan");
-    const locale = useLocale(); // Get current locale: "en", "sp", "uk", or "ru"
+    const locale = useLocale(); // Get current locale: "en", "es", "uk", or "ru"
     const [loadingMonthly, setLoadingMonthly] = useState(false);
     const [loadingYearly, setLoadingYearly] = useState(false);
     const [loadingPortal, setLoadingPortal] = useState(false);
@@ -46,7 +46,7 @@ export function PlanClient({
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ interval }), // Pass monthly or yearly
+                    body: JSON.stringify({ interval, locale }), // Pass monthly/yearly and locale
                 }
             );
 
@@ -72,6 +72,7 @@ export function PlanClient({
             const response = await fetch("/api/stripe/create-portal-session", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ locale }), // Pass locale
             });
 
             const data = await response.json();

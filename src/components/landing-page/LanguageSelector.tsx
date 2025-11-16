@@ -1,10 +1,20 @@
 "use client";
 
 import { Globe } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../ui/select";
 import { useRouter, usePathname } from "next/navigation";
 
-export function LanguageSelector({ isPrivatePage }: { isPrivatePage: boolean }) {
+export function LanguageSelector({
+    isPrivatePage,
+}: {
+    isPrivatePage: boolean;
+}) {
     const router = useRouter();
     const pathname = usePathname();
 
@@ -14,7 +24,9 @@ export function LanguageSelector({ isPrivatePage }: { isPrivatePage: boolean }) 
     const handleLocaleChange = (newLocale: string) => {
         // Replace the locale in the current pathname
         const pathWithoutLocale = pathname.split("/").slice(2).join("/");
-        const newPath = `/${newLocale}${pathWithoutLocale ? `/${pathWithoutLocale}` : ""}`;
+        const newPath = `/${newLocale}${
+            pathWithoutLocale ? `/${pathWithoutLocale}` : ""
+        }`;
         router.push(newPath);
     };
 
@@ -30,8 +42,8 @@ export function LanguageSelector({ isPrivatePage }: { isPrivatePage: boolean }) 
                 <SelectItem value="en">English</SelectItem>
                 <SelectItem value="uk">Ukrainian</SelectItem>
                 <SelectItem value="ru">Russian</SelectItem>
-                <SelectItem value="sp">Spanish</SelectItem>
+                <SelectItem value="es">Spanish</SelectItem>
             </SelectContent>
         </Select>
-    )
+    );
 }

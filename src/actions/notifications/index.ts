@@ -9,59 +9,81 @@ import {
 } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { hasEntitlement } from "@/lib/entitlements";
+import { z } from "zod";
 
-export async function createNotification(data: {
-    provider: string;
-    instrument: string;
-    strategy: string;
-}) {
-    const { userId: clerkUserId } = await auth();
+// Input validation schema
+const createNotificationSchema = z.object({
+    provider: z.string().min(1).toLowerCase(),
+    instrument: z.string().min(1),
+    strategy: z.string().min(1),
+});
 
-    if (!clerkUserId) {
-        throw new Error("Unauthorized: No user ID found");
-    }
+// Result type for type safety
+type CreateNotificationResult =
+    | { ok: true; preference: typeof NotificationPreferencesTable.$inferSelect }
+    | {
+          ok: false;
+          error:
+              | "unauthorized"
+              | "invalidInput"
+              | "userNotFound"
+              | "subscriptionEnded"
+              | "telegramNotLinked"
+              | "duplicatePreference"
+              | "failedToCreate"
+              | "unexpected";
+      };
 
-    // Look up user's database UUID
-    const user = await db.query.UserTable.findFirst({
-        where: eq(UserTable.clerkId, clerkUserId),
-    });
-
-    if (!user) {
-        throw new Error("User not found in database");
-    }
-
-    const { provider, instrument, strategy } = data;
-
-    // Validate input
-    if (!provider || !instrument || !strategy) {
-        throw new Error("Provider, instrument, and strategy are required");
-    }
-
-    // Normalize provider to lowercase
-    const normalizedProvider = provider.toLowerCase();
-
-    // If provider is Telegram, verify account is linked and get account ID
-    let telegramAccountId: string | undefined;
-    if (normalizedProvider === "telegram") {
-        const telegramAccount =
-            await db.query.UserTelegramNotificationSettingsTable.findFirst({
-                where: eq(
-                    UserTelegramNotificationSettingsTable.userId,
-                    user.id
-                ),
-            });
-
-        if (!telegramAccount) {
-            throw new Error(
-                "Please link your Telegram account first. Open Telegram, search for @algo_squid_bot, and send /start"
-            );
+export async function createNotification(
+    data: unknown
+): Promise<CreateNotificationResult> {
+    try {
+        // 1. Auth check
+        const { userId: clerkUserId } = await auth();
+        if (!clerkUserId) {
+            return { ok: false, error: "unauthorized" };
         }
 
-        telegramAccountId = telegramAccount.id;
-    }
+        // 2. Input validation
+        const parseResult = createNotificationSchema.safeParse(data);
+        if (!parseResult.success) {
+            return { ok: false, error: "invalidInput" };
+        }
+        const { provider, instrument, strategy } = parseResult.data;
 
-    try {
-        // Create notification preference
+        // 3. Get user
+        const user = await db.query.UserTable.findFirst({
+            where: eq(UserTable.clerkId, clerkUserId),
+        });
+        if (!user) {
+            return { ok: false, error: "userNotFound" };
+        }
+
+        // 4. Check entitlement
+        if (!hasEntitlement(user)) {
+            return { ok: false, error: "subscriptionEnded" };
+        }
+
+        // 5. Provider-specific validation (Telegram)
+        let telegramAccountId: string | undefined;
+        if (provider === "telegram") {
+            const telegramAccount =
+                await db.query.UserTelegramNotificationSettingsTable.findFirst({
+                    where: eq(
+                        UserTelegramNotificationSettingsTable.userId,
+                        user.id
+                    ),
+                });
+
+            if (!telegramAccount) {
+                return { ok: false, error: "telegramNotLinked" };
+            }
+
+            telegramAccountId = telegramAccount.id;
+        }
+
+        // 6. Create notification preference
         const [newPreference] = await db
             .insert(NotificationPreferencesTable)
             .values({
@@ -73,101 +95,151 @@ export async function createNotification(data: {
             })
             .returning();
 
+        if (!newPreference) {
+            return { ok: false, error: "failedToCreate" };
+        }
+
         revalidatePath("/notifications");
 
         return {
-            success: true,
-            message: "Notification preference created successfully!",
+            ok: true,
             preference: newPreference,
         };
-    } catch (error: any) {
+    } catch (error: unknown) {
         // Handle unique constraint violation
-        if (error?.code === "23505") {
-            throw new Error(
-                "You already have a notification set up for this combination"
-            );
+        if (
+            typeof error === "object" &&
+            error !== null &&
+            "code" in error &&
+            error.code === "23505"
+        ) {
+            return { ok: false, error: "duplicatePreference" };
         }
-        throw new Error("Failed to create preference");
+
+        console.error("[createNotification] Unexpected error:", error);
+        return { ok: false, error: "unexpected" };
     }
 }
 
-export async function deleteNotification(preferenceId: string) {
-    const { userId: clerkUserId } = await auth();
+// Delete notification - keep mostly the same but improve error handling
+type DeleteNotificationResult =
+    | { ok: true }
+    | {
+          ok: false;
+          error:
+              | "unauthorized"
+              | "invalidInput"
+              | "userNotFound"
+              | "notFound"
+              | "notOwner"
+              | "unexpected";
+      };
 
-    if (!clerkUserId) {
-        throw new Error("Unauthorized: No user ID found");
+export async function deleteNotification(
+    preferenceId: unknown
+): Promise<DeleteNotificationResult> {
+    try {
+        // 1. Auth check
+        const { userId: clerkUserId } = await auth();
+        if (!clerkUserId) {
+            return { ok: false, error: "unauthorized" };
+        }
+
+        // 2. Input validation
+        if (typeof preferenceId !== "string" || !preferenceId) {
+            return { ok: false, error: "invalidInput" };
+        }
+
+        // 3. Get user
+        const user = await db.query.UserTable.findFirst({
+            where: eq(UserTable.clerkId, clerkUserId),
+        });
+        if (!user) {
+            return { ok: false, error: "userNotFound" };
+        }
+
+        // 4. Verify preference exists and belongs to user
+        const preference =
+            await db.query.NotificationPreferencesTable.findFirst({
+                where: eq(NotificationPreferencesTable.id, preferenceId),
+            });
+
+        if (!preference) {
+            return { ok: false, error: "notFound" };
+        }
+
+        if (preference.userId !== user.id) {
+            return { ok: false, error: "notOwner" };
+        }
+
+        // 5. Delete the preference
+        await db
+            .delete(NotificationPreferencesTable)
+            .where(eq(NotificationPreferencesTable.id, preferenceId));
+
+        revalidatePath("/notifications");
+
+        return { ok: true };
+    } catch (error: unknown) {
+        console.error("[deleteNotification] Unexpected error:", error);
+        return { ok: false, error: "unexpected" };
     }
-
-    // Look up user's database UUID
-    const user = await db.query.UserTable.findFirst({
-        where: eq(UserTable.clerkId, clerkUserId),
-    });
-
-    if (!user) {
-        throw new Error("User not found in database");
-    }
-
-    if (!preferenceId) {
-        throw new Error("Preference ID required");
-    }
-
-    // Verify the preference belongs to the user before deleting
-    const preference = await db.query.NotificationPreferencesTable.findFirst({
-        where: eq(NotificationPreferencesTable.id, preferenceId),
-    });
-
-    if (!preference) {
-        throw new Error("Notification preference not found");
-    }
-
-    if (preference.userId !== user.id) {
-        throw new Error("Unauthorized: This preference does not belong to you");
-    }
-
-    // Delete the preference
-    await db
-        .delete(NotificationPreferencesTable)
-        .where(eq(NotificationPreferencesTable.id, preferenceId));
-
-    revalidatePath("/notifications");
-
-    return {
-        success: true,
-        message: "Notification preference deleted successfully!",
-    };
 }
 
-export async function getNotifications() {
-    const { userId: clerkUserId } = await auth();
+// Get notifications - add error handling
+type GetNotificationsResult =
+    | {
+          ok: true;
+          notifications: Array<
+              typeof NotificationPreferencesTable.$inferSelect & {
+                  telegramUsername: string | null;
+              }
+          >;
+      }
+    | {
+          ok: false;
+          error: "unauthorized" | "userNotFound" | "unexpected";
+      };
 
-    if (!clerkUserId) {
-        throw new Error("Unauthorized: No user ID found");
-    }
+export async function getNotifications(): Promise<GetNotificationsResult> {
+    try {
+        const { userId: clerkUserId } = await auth();
+        if (!clerkUserId) {
+            return { ok: false, error: "unauthorized" };
+        }
 
-    // Get user's database UUID from Clerk ID
-    const user = await db.query.UserTable.findFirst({
-        where: eq(UserTable.clerkId, clerkUserId),
-    });
-
-    if (!user) {
-        throw new Error("User not found in database");
-    }
-
-    // Get all notification preferences
-    const preferences = await db
-        .select()
-        .from(NotificationPreferencesTable)
-        .where(eq(NotificationPreferencesTable.userId, user.id));
-
-    // Get Telegram account info if exists
-    const telegramAccount =
-        await db.query.UserTelegramNotificationSettingsTable.findFirst({
-            where: eq(UserTelegramNotificationSettingsTable.userId, user.id),
+        const user = await db.query.UserTable.findFirst({
+            where: eq(UserTable.clerkId, clerkUserId),
         });
 
-    // Return preferences with Telegram username added for display
-    return preferences.map((pref) => ({
-        ...pref,
-        telegramUsername: telegramAccount?.telegramUsername || null,
-    }));
+        if (!user) {
+            return { ok: false, error: "userNotFound" };
+        }
+
+        const preferences = await db
+            .select()
+            .from(NotificationPreferencesTable)
+            .where(eq(NotificationPreferencesTable.userId, user.id));
+
+        const telegramAccount =
+            await db.query.UserTelegramNotificationSettingsTable.findFirst({
+                where: eq(
+                    UserTelegramNotificationSettingsTable.userId,
+                    user.id
+                ),
+            });
+
+        const notifications = preferences.map((pref) => ({
+            ...pref,
+            telegramUsername: telegramAccount?.telegramUsername || null,
+        }));
+
+        return {
+            ok: true,
+            notifications,
+        };
+    } catch (error: unknown) {
+        console.error("[getNotifications] Unexpected error:", error);
+        return { ok: false, error: "unexpected" };
+    }
 }

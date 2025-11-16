@@ -4,49 +4,94 @@ import { getNotifications } from "@/actions/notifications";
 import { DeleteNotification } from "@/components/private/notifications/DeleteNotification";
 import { UnlinkTelegramAccount } from "@/components/private/notifications/UnlinkTelegramAccount";
 import { getTelegramAccount } from "@/actions/telegram/status";
+import { getActiveSubscriptionStatusForUI } from "@/lib/entitlements";
+import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 export default async function notifications() {
-    const data = await getNotifications();
+    const t = await getTranslations("notificationsPage");
+    const result = await getNotifications();
     const telegramAccount = await getTelegramAccount();
 
-    console.log(data);
+    if (!result.ok) {
+        return (
+            <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                <h1 className="text-lg font-bold">{t("errorTitle")}</h1>
+                <p className="text-center text-tertiary">
+                    {t("errorDescription")}
+                </p>
+            </div>
+        );
+    }
+
+    const { notifications: data } = result;
+
+    const { hasActiveSubscription } = await getActiveSubscriptionStatusForUI();
 
     return (
         <>
             {data.length === 0 && !telegramAccount ? (
-                <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
-                    <h1 className="text-lg font-bold">Add Notification</h1>
-                    <p className="text-center text-tertiary">
-                        Connect your Notification provider to receive real-time
-                        notifications about your trading bot's activities,
-                        including trade executions, performance updates, and
-                        important alerts.
-                    </p>
-                    <div className="flex gap-2 mt-6">
-                        <AddNotificationSheet>
-                            <CustomButton isBlue={false}>
-                                Add Notification
-                            </CustomButton>
-                        </AddNotificationSheet>
+                hasActiveSubscription ? (
+                    <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                        <h1 className="text-lg font-bold">{t("emptyTitle")}</h1>
+                        <p className="text-center text-tertiary">
+                            {t("emptyDescription")}
+                        </p>
+                        <div className="flex gap-2 mt-6">
+                            <AddNotificationSheet>
+                                <CustomButton isBlue={false}>
+                                    {t("emptyButton")}
+                                </CustomButton>
+                            </AddNotificationSheet>
+                        </div>
+                        <p className="text-xs text-tertiary text-center mt-6">
+                            {t("visitDocumentation")}
+                        </p>
                     </div>
-                    <p className="text-xs text-tertiary text-center mt-6">
-                        Visit Documentation
-                    </p>
-                </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                        <h1 className="text-lg font-bold">
+                            {t("subscriptionExpiredTitle")}
+                        </h1>
+                        <p className="text-center text-tertiary">
+                            {t("subscriptionExpiredDescription")}
+                        </p>
+                        <div className="flex gap-2 mt-6">
+                            <Link href="/plan">
+                                <CustomButton isBlue={false}>
+                                    {t("manageSubscription")}
+                                </CustomButton>
+                            </Link>
+                        </div>
+                    </div>
+                )
             ) : (
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-6 pt-4">
                         {/* TODO Account number hardcoded, with only Telegram provider, add functionality after adding more providers */}
-                        <h1 className="text-lg font-bold">Accounts 1/2</h1>
+                        <h1 className="text-lg font-bold">
+                            {t("accountsTitle")}
+                        </h1>
                         {data.length < 3 ? (
-                            <AddNotificationSheet>
-                                <CustomButton isBlue={false}>
-                                    Add Notificaton
-                                </CustomButton>
-                            </AddNotificationSheet>
+                            hasActiveSubscription ? (
+                                <AddNotificationSheet>
+                                    <CustomButton isBlue={false}>
+                                        {t("emptyButton")}
+                                    </CustomButton>
+                                </AddNotificationSheet>
+                            ) : (
+                                <div>
+                                    <h1>{t("subscriptionExpiredTitle")}</h1>
+                                    <Link
+                                        href="/plan"
+                                        className="text-highlight underline">
+                                        {t("manageSubscription")}
+                                    </Link>
+                                </div>
+                            )
                         ) : (
                             <h2 className=" text-tertiary text-center">
-                                Limit reached
+                                {t("limitReached")}
                             </h2>
                         )}
                     </div>
@@ -55,16 +100,16 @@ export default async function notifications() {
                             {/* Sticky Header */}
                             <div className="grid grid-cols-6 border border-zinc-800 backdrop-blur-md">
                                 <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                    Provider
+                                    {t("tableHeaders.provider")}
                                 </div>
                                 <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                    Username
+                                    {t("tableHeaders.username")}
                                 </div>
                                 <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                    Created At
+                                    {t("tableHeaders.createdAt")}
                                 </div>
                                 <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                    Actions
+                                    {t("tableHeaders.actions")}
                                 </div>
                             </div>
 
@@ -94,29 +139,31 @@ export default async function notifications() {
                         <>
                             <div className="flex items-center justify-between px-6 pt-4">
                                 <h1 className="text-lg font-bold">
-                                    Notifications {data.length}/3
+                                    {t("notificationsCount", {
+                                        count: data.length,
+                                    })}
                                 </h1>
                             </div>
                             <div className="p-6 flex flex-col overflow-hidden">
                                 {/* Sticky Header */}
                                 <div className="grid grid-cols-10 border border-zinc-800 backdrop-blur-md">
                                     <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                        Provider
+                                        {t("tableHeaders.provider")}
                                     </div>
                                     <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                        Username
+                                        {t("tableHeaders.username")}
                                     </div>
                                     <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                        Strategy
+                                        {t("tableHeaders.strategy")}
                                     </div>
                                     <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                        Instrument
+                                        {t("tableHeaders.instrument")}
                                     </div>
                                     <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                        Created At
+                                        {t("tableHeaders.createdAt")}
                                     </div>
                                     <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                        Actions
+                                        {t("tableHeaders.actions")}
                                     </div>
                                 </div>
 
@@ -127,7 +174,7 @@ export default async function notifications() {
                                         className="grid grid-cols-10 border border-zinc-800 border-t-0">
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             <div className="bg-blue-400 py-1 px-3 rounded-full">
-                                                Telegram
+                                                {notification.provider}
                                             </div>
                                         </div>
                                         <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">

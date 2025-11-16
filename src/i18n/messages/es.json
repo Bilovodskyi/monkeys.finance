@@ -220,6 +220,11 @@
         "instanceDescription": "Una instancia es una función que se ejecutará en la nube 24/7 verificando constantemente nuevas señales. Una vez que se detecta una señal, la instancia abrirá una posición en el intercambio. Después, la instancia cerrará automáticamente la posición una vez que se detecte una señal opuesta.",
         "addInstance": "Agregar instancia",
         "visitDocumentation": "Visita la página de documentación para más información",
+        "subscriptionExpired": "Tu suscripción ha expirado",
+        "subscriptionExpiredDescription": "Por favor renueva tu suscripción para crear y administrar instancias.",
+        "manageSubscription": "Administrar suscripción",
+        "statusActive": "Activa",
+        "statusPaused": "Pausada",
         "limitBanner": {
             "line1": "Sólo puedes tener hasta 3 instancias.",
             "line2": "Estamos trabajando para aumentar este límite."
@@ -276,7 +281,11 @@
             },
             "delete": {
                 "deleted": "Instancia eliminada con éxito",
-                "failed": "Error al eliminar instancia"
+                "failed": "Error al eliminar instancia",
+                "dialogTitle": "¿Eliminar instancia?",
+                "warningLine1": "Esta acción no se puede deshacer.",
+                "warningLine2": "Esto eliminará permanentemente tu instancia.",
+                "confirmButton": "Quiero eliminar esta instancia"
             },
             "errors": {
                 "unauthorized": "No autorizado",
@@ -304,6 +313,82 @@
             "duplicatePreference": "Ya tienes una notificación para esta combinación",
             "unexpected": "Ocurrió un error inesperado. Inténtalo de nuevo"
         }
+    },
+    "notificationsPage": {
+        "errorTitle": "Error al obtener tus datos",
+        "errorDescription": "Inténtalo de nuevo. Si el problema continúa, contacta al soporte.",
+        "emptyTitle": "Agregar notificación",
+        "emptyDescription": "Conecta tu proveedor de notificaciones para recibir avisos en tiempo real sobre las actividades de tu bot de trading, incluidas ejecuciones, rendimiento y alertas importantes.",
+        "emptyButton": "Agregar notificación",
+        "visitDocumentation": "Visitar documentación",
+        "subscriptionExpiredTitle": "Tu suscripción ha expirado",
+        "subscriptionExpiredDescription": "Renueva tu suscripción para crear y administrar instancias.",
+        "manageSubscription": "Administrar suscripción",
+        "accountsTitle": "Cuentas 1/2",
+        "notificationsCount": "Notificaciones {count}/3",
+        "limitReached": "Límite alcanzado",
+        "tableHeaders": {
+            "provider": "Proveedor",
+            "username": "Usuario",
+            "strategy": "Estrategia",
+            "instrument": "Instrumento",
+            "createdAt": "Creada el",
+            "actions": "Acciones"
+        }
+    },
+    "addNotificationSheet": {
+        "titleAdd": "Agregar notificación",
+        "titleEdit": "Editar notificación",
+        "description": "Configura tus ajustes de notificación para recibir señales de trading.",
+        "provider": "Proveedor",
+        "selectProvider": "Seleccionar proveedor",
+        "strategy": "Estrategia",
+        "selectStrategy": "Seleccionar estrategia",
+        "instrument": "Instrumento",
+        "selectInstrument": "Seleccionar instrumento",
+        "requiredField": "Este campo es obligatorio",
+        "telegramStep1": "Paso 1. Abre tu aplicación de Telegram",
+        "telegramStep2": "Paso 2. Busca {botName}",
+        "telegramStep3": "Paso 3. Envía {command}",
+        "telegramStep4": "Paso 4. Recibirás un enlace único que conecta tu cuenta de telegram a nuestro sistema de notificaciones.",
+        "telegramLinked": "✅ Cuenta de Telegram vinculada",
+        "checkingTelegram": "Verificando estado de Telegram...",
+        "buttonCreate": "Crear",
+        "buttonSave": "Guardar",
+        "buttonClear": "Limpiar",
+        "toastCreating": "Creando notificación...",
+        "toastSuccess": "¡Notificación creada con éxito!",
+        "toastError": "Error al crear notificación",
+        "errors": {
+            "unauthorized": "No estás autorizado para realizar esta acción",
+            "invalidInput": "Datos inválidos. Revisa todos los campos",
+            "userNotFound": "Cuenta de usuario no encontrada",
+            "subscriptionEnded": "Tu suscripción ha finalizado. Actualiza para continuar.",
+            "telegramNotLinked": "Vincula tu cuenta de Telegram primero",
+            "duplicatePreference": "Ya tienes una notificación para esta combinación",
+            "failedToCreate": "Error al crear notificación",
+            "unexpected": "Ocurrió un error inesperado. Inténtalo de nuevo"
+        }
+    },
+    "unlinkTelegramAccount": {
+        "buttonLabel": "Desvincular",
+        "dialogTitle": "¿Desvincular cuenta de Telegram?",
+        "warningLine1": "Esta acción no se puede deshacer.",
+        "warningLine2": "Desvincular tu cuenta de Telegram eliminará permanentemente todas las preferencias de notificación asociadas con esta cuenta.",
+        "confirmButton": "Quiero desvincular esta cuenta",
+        "unlinkingButton": "Desvinculando...",
+        "successToast": "Cuenta de Telegram desvinculada con éxito",
+        "errorToast": "Error al desvincular la cuenta"
+    },
+    "deleteNotification": {
+        "buttonLabel": "Eliminar",
+        "dialogTitle": "¿Eliminar notificación?",
+        "warningLine1": "Esta acción no se puede deshacer.",
+        "warningLine2": "Esto eliminará permanentemente tu notificación.",
+        "confirmButton": "Quiero eliminar esta notificación",
+        "deletingButton": "Eliminando...",
+        "successToast": "Notificación eliminada con éxito",
+        "errorToast": "Error al eliminar notificación"
     },
     "about": {
         "title": "Acerca de AlgoSquid",

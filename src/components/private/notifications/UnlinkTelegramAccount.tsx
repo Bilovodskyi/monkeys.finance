@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/dialog";
 import { Unlink } from "lucide-react";
 import { unlinkTelegramAccount } from "@/actions/telegram/unlink";
+import { useTranslations } from "next-intl";
 
 export function UnlinkTelegramAccount({ username }: { username: string }) {
+    const t = useTranslations("unlinkTelegramAccount");
     const [isUnlinkOpen, setIsUnlinkOpen] = useState(false);
     const [unlinking, setUnlinking] = useState(false);
 
@@ -22,10 +24,10 @@ export function UnlinkTelegramAccount({ username }: { username: string }) {
         try {
             setUnlinking(true);
             await unlinkTelegramAccount();
-            toast.success("Telegram account unlinked successfully");
+            toast.success(t("successToast"));
             setIsUnlinkOpen(false);
         } catch (error: any) {
-            toast.error(error.message || "Failed to unlink account");
+            toast.error(t("errorToast"));
             console.error("Unlink Telegram account failed:", error);
         } finally {
             setUnlinking(false);
@@ -38,12 +40,12 @@ export function UnlinkTelegramAccount({ username }: { username: string }) {
                 <button
                     className="col-span-1 border-r border-zinc-800 text-red-500 hover:text-red-400 duration-150 transition-colors ease-in-out cursor-pointer px-2 py-1 flex items-center justify-center"
                     aria-label="Unlink Telegram account">
-                    Unlink
+                    {t("buttonLabel")}
                 </button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Unlink Telegram account?</DialogTitle>
+                    <DialogTitle>{t("dialogTitle")}</DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col justify-center items-center py-4 gap-4">
@@ -52,10 +54,8 @@ export function UnlinkTelegramAccount({ username }: { username: string }) {
                     </div>
                     <h1 className="text-xl">@{username}</h1>
                     <p className="text-secondary text-center">
-                        This action cannot be undone. <br />
-                        Unlinking your Telegram account will permanently delete
-                        all notification preferences associated with this
-                        account.
+                        {t("warningLine1")} <br />
+                        {t("warningLine2")}
                     </p>
                 </div>
                 <DialogFooter className="w-full flex justify-center">
@@ -64,9 +64,7 @@ export function UnlinkTelegramAccount({ username }: { username: string }) {
                         onClick={handleUnlink}
                         disabled={unlinking}
                         aria-label="Confirm unlink">
-                        {unlinking
-                            ? "Unlinking..."
-                            : "I want to unlink this account"}
+                        {unlinking ? t("unlinkingButton") : t("confirmButton")}
                     </button>
                 </DialogFooter>
             </DialogContent>

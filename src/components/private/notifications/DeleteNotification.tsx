@@ -13,12 +13,14 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Bell } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function DeleteNotification({
     notificationId,
 }: {
     notificationId: string;
 }) {
+    const t = useTranslations("deleteNotification");
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
@@ -26,10 +28,10 @@ export function DeleteNotification({
         try {
             setDeleting(true);
             await deleteNotification(notificationId);
-            toast.success("Notification deleted successfully");
+            toast.success(t("successToast"));
             setIsDeleteOpen(false);
         } catch (error: any) {
-            toast.error(error.message || "Failed to delete notification");
+            toast.error(t("errorToast"));
             console.error("Delete notification failed:", error);
         } finally {
             setDeleting(false);
@@ -42,12 +44,12 @@ export function DeleteNotification({
                 <button
                     className="col-span-1 border-r border-zinc-800 text-red-500 hover:text-red-400 duration-150 transition-colors ease-in-out cursor-pointer px-2 py-1 flex items-center justify-center"
                     aria-label="Delete notification">
-                    Delete
+                    {t("buttonLabel")}
                 </button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Delete notification?</DialogTitle>
+                    <DialogTitle>{t("dialogTitle")}</DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col justify-center items-center py-4 gap-4">
@@ -55,8 +57,7 @@ export function DeleteNotification({
                         <Bell className="w-6 h-6" />
                     </div>
                     <p className="text-secondary text-center">
-                        This action cannot be undone. <br /> This will
-                        permanently delete your notification.
+                        {t("warningLine1")} <br /> {t("warningLine2")}
                     </p>
                 </div>
                 <DialogFooter className="w-full flex justify-center">
@@ -65,9 +66,7 @@ export function DeleteNotification({
                         onClick={handleDelete}
                         disabled={deleting}
                         aria-label="Confirm deletion">
-                        {deleting
-                            ? "Deleting..."
-                            : "I want to delete this notification"}
+                        {deleting ? t("deletingButton") : t("confirmButton")}
                     </button>
                 </DialogFooter>
             </DialogContent>

@@ -30,7 +30,10 @@ export async function POST(req: NextRequest) {
 
         // 2. Parse request body for billing interval
         const body = await req.json();
-        const { interval = "monthly" } = body as { interval?: BillingInterval };
+        const { interval = "monthly", locale = "en" } = body as {
+            interval?: BillingInterval;
+            locale?: string;
+        };
 
         // Validate interval
         if (interval !== "monthly" && interval !== "yearly") {
@@ -39,6 +42,16 @@ export async function POST(req: NextRequest) {
                 { status: 400 }
             );
         }
+
+                // Parse and validate locale
+        const validLocales = ["en", "es", "ru", "uk"];
+        const normalizedLocale = validLocales.includes(locale)
+            ? locale
+            : "en";
+
+        // Use locale directly (now aligned with Stripe's format)
+        const checkoutLocale = normalizedLocale;
+        const stripeLocale = normalizedLocale;
 
         // 3. Get user from database
         const user = await db.query.UserTable.findFirst({
@@ -118,6 +131,7 @@ export async function POST(req: NextRequest) {
             ],
             mode: "subscription",
             billing_address_collection: "required", // Important: verify billing address
+            locale: checkoutLocale as any, // Set the locale for Stripe checkout
             success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan`,
             cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan`,
             metadata: {
@@ -126,6 +140,7 @@ export async function POST(req: NextRequest) {
                 detectedCountry: countryCode,
                 tier: tier,
                 interval: interval,
+                locale: stripeLocale,
             },
         });
 

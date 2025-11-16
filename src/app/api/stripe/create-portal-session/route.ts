@@ -22,6 +22,14 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        // Parse request body for locale
+        const body = await req.json();
+        const { locale = "en" } = body;
+
+        // Validate locale
+        const validLocales = ["en", "es", "ru", "uk"];
+        const normalizedLocale = validLocales.includes(locale) ? locale : "en";
+
         // Get user from database
         const [user] = await db
             .select()
@@ -40,6 +48,7 @@ export async function POST(req: NextRequest) {
         const portalSession = await stripe.billingPortal.sessions.create({
             customer: user.stripeCustomerId,
             return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan`,
+            locale: normalizedLocale, // Set the locale for the portal
         });
 
         return NextResponse.json({ url: portalSession.url });

@@ -19,7 +19,7 @@ export function parseIsoToDateTime(
     // Map locale codes to proper BCP 47 language tags
     const localeMap: Record<string, string> = {
         en: "en-US",
-        sp: "es-ES", // Spanish
+        es: "es-ES", // Spanish
         uk: "uk-UA", // Ukrainian
         ru: "ru-RU", // Russian
     };
