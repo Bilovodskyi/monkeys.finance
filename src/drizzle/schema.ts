@@ -1,11 +1,11 @@
 import { relations } from "drizzle-orm";
 import {
     boolean,
+    decimal,
     index,
     integer,
     pgEnum,
     pgTable,
-    primaryKey,
     text,
     timestamp,
     unique,
@@ -33,6 +33,11 @@ export const subscriptionStatus = pgEnum("subscription_status", [
 
 export const notificationProvider = pgEnum("notification_provider", [
     "telegram",
+]);
+
+export const positionStatus = pgEnum("position_status", [
+    "filled",
+    "failed",
 ]);
 
 export const UserTable = pgTable(
@@ -96,6 +101,8 @@ export const InstanceTable = pgTable(
         exchange: exchange("exchange").notNull(),
         instrument: text("instrument").notNull(),
         strategy: text("strategy").notNull(),
+        positionSize: text("position_size").notNull(),
+        isTestnet: boolean("is_testnet").default(false).notNull(),
 
         status: status("status").default("active").notNull(),
     },
@@ -145,20 +152,6 @@ export const userCredentials = pgTable("user_credentials", {
 export const usersCredentialsRelations = relations(UserTable, ({ many }) => ({
     credentials: many(userCredentials),
 }));
-
-interface UserNotificationSettings {
-    userId: string; // FK to users table
-    telegramChatId?: string;
-    telegramUsername?: string;
-    enabled: boolean;
-    preferences: {
-        instrument1: boolean;
-        instrument2: boolean;
-        instrument3: boolean;
-    };
-    createdAt: Date;
-    updatedAt: Date;
-}
 
 export const UserTelegramNotificationSettingsTable = pgTable(
     "user_telegram_notification_settings",
@@ -212,6 +205,102 @@ export const NotificationPreferencesTable = pgTable(
             table.provider,
             table.instrument,
             table.strategy
+        ),
+    })
+);
+
+export const PositionHistoryTable = pgTable(
+    "position_history",
+    {
+        id: uuid("id").defaultRandom().primaryKey(),
+        instanceId: uuid("instance_id")
+            .notNull()
+            .references(() => InstanceTable.id, { onDelete: "cascade" }),
+        userId: uuid("user_id")
+            .notNull()
+            .references(() => UserTable.id, { onDelete: "cascade" }),
+        exchange: exchange("exchange").notNull(),
+        instrument: text("instrument").notNull(),
+        strategyName: text("strategy_name").notNull(),
+
+        createdAt: timestamp("created_at", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+        updatedAt: timestamp("updated_at", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+
+        exchangeOrderId: text("exchange_order_id"),
+        quantity: decimal("quantity", { precision: 30, scale: 10 }),
+        entryPrice: decimal("entry_price", { precision: 30, scale: 10 }),
+        exitPrice: decimal("exit_price", { precision: 30, scale: 10 }),
+        realizedPnl: decimal("realized_pnl", { precision: 30, scale: 10 }),
+
+        commission: decimal("commission", { precision: 20, scale: 8 }), // Trading fee amount
+        commissionAsset: text("commission_asset"), // "BNB", "USDT", etc.
+
+        signalTime: timestamp("signal_time", { withTimezone: true }).notNull(),
+        orderPlacedAt: timestamp("order_placed_at", { withTimezone: true }),
+        orderFilledAt: timestamp("order_filled_at", { withTimezone: true }),
+        positionClosedAt: timestamp("position_closed_at", {
+            withTimezone: true,
+        }),
+
+        status: positionStatus("status").notNull(),
+        errorMessage: text("error_message"),
+    },
+    (table) => ({
+        userIdIdx: index("position_history_user_id_idx").on(table.userId),
+        instanceIdIdx: index("position_history_instance_id_idx").on(
+            table.instanceId
+        ),
+        statusIdx: index("position_history_status_idx").on(table.status),
+        instrumentIdx: index("position_history_instrument_idx").on(
+            table.instrument
+        ),
+        signalTimeIdx: index("position_history_signal_time_idx").on(
+            table.signalTime
+        ),
+    })
+);
+
+export const PositionTrackingTable = pgTable(
+    "position_tracking",
+    {
+        id: uuid("id").defaultRandom().primaryKey(),
+        userId: uuid("user_id")
+            .notNull()
+            .references(() => UserTable.id, { onDelete: "cascade" }),
+        instanceId: uuid("instance_id")
+            .notNull()
+            .references(() => InstanceTable.id, { onDelete: "cascade" }),
+
+        status: text("status").notNull(), // "open", "closed"
+
+        // Buy side
+        buyOrderId: text("buy_order_id"),
+        buyPrice: decimal("buy_price", { precision: 30, scale: 10 }),
+        buyQuantity: decimal("buy_quantity", { precision: 30, scale: 10 }),
+        buyTime: timestamp("buy_time", { withTimezone: true }),
+
+        // Sell side
+        sellOrderId: text("sell_order_id"),
+        sellPrice: decimal("sell_price", { precision: 30, scale: 10 }),
+        sellTime: timestamp("sell_time", { withTimezone: true }),
+
+        realizedPnl: decimal("realized_pnl", { precision: 30, scale: 10 }),
+
+        createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+        updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+    },
+    (table) => ({
+        instanceIdIdx: index("position_tracking_instance_id_idx").on(
+            table.instanceId
+        ),
+        userIdIdx: index("position_tracking_user_id_idx").on(table.userId),
+        statusIdx: index("position_tracking_status_idx").on(table.status),
+        createdAtIdx: index("position_tracking_created_at_idx").on(
+            table.createdAt
         ),
     })
 );
