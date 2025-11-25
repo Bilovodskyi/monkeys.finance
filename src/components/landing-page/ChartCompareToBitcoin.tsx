@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 
 import {
@@ -57,6 +57,17 @@ const chartConfig = {
 
 export default function ChartCompareToBitcoin() {
     const t = useTranslations("chartCompareToBitcoin");
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
     
     // Memoize dates to prevent re-fetching on every render
     const startDate = useMemo(() => new Date("2025-01-01T00:00:00Z"), []);
@@ -204,19 +215,19 @@ export default function ChartCompareToBitcoin() {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center gap-4 pt-32">
-                <h1 className="text-4xl font-title">
+            <div className="flex flex-col items-center justify-center gap-4 pt-16 md:pt-32 px-6 md:px-0">
+                <h1 className="text-2xl md:text-4xl text-center md:text-left font-title">
                     <span className="text-highlight">{t("titleHighlight")}</span>{" "}
                     {t("titleEnd")}
                 </h1>
-                <h2 className="text-secondary text-center text-xl text-balance max-w-xl">
+                <h2 className="text-secondary text-center text-lg md:text-xl text-balance max-w-xl">
                     {t("description")}
                 </h2>
             </div>
-            <div className="w-full h-screen flex items-center justify-center relative">
+            <div className="w-full h-[340px] md:h-screen flex items-center justify-center relative">
                 <div
                     className="
-    pointer-events-none absolute -bottom-12 -top-48 right-3/4 -translate-x-2/3 w-px z-20
+    hidden md:block pointer-events-none absolute -bottom-12 -top-48 right-3/4 -translate-x-2/3 w-px z-20
     text-zinc-700
     bg-[repeating-linear-gradient(to_bottom,currentColor_0_3px,transparent_3px_6px)]
     [mask-image:linear-gradient(to_bottom,transparent_0%_5%,#000_15%_85%,transparent_95%_100%)]
@@ -224,13 +235,13 @@ export default function ChartCompareToBitcoin() {
                 />
                 <div
                     className="
-    pointer-events-none absolute -bottom-12 -top-48 left-3/4 -translate-x-2/3 w-px z-20
+    hidden md:block pointer-events-none absolute -bottom-12 -top-48 left-3/4 -translate-x-2/3 w-px z-20
     text-zinc-700
     bg-[repeating-linear-gradient(to_bottom,currentColor_0_3px,transparent_3px_6px)]
     [mask-image:linear-gradient(to_bottom,transparent_0%_5%,#000_15%_85%,transparent_95%_100%)]
   "
                 />
-                <div className="h-[600px] w-full relative">
+                <div className="hidden md:block h-[600px] w-full relative">
                     <div
                         className="pointer-events-none absolute inset-x-0 top-0 h-px z-20 text-zinc-700"
                         style={{
@@ -246,8 +257,8 @@ export default function ChartCompareToBitcoin() {
                         }}
                     />
                 </div>
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-3/4 w-2/3 bg-background border border-zinc-700 flex">
-                    <div className="absolute -top-14 left-2/4 -translate-x-2/4">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-[500px] lg:h-3/4 w-[800px] lg:w-2/3 bg-background border border-zinc-700 flex origin-center scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-100">
+                    <div className="hidden md:block absolute -top-14 left-2/4 -translate-x-2/4">
                         <p className="text-tertiary text-center text-sm">
                             {t("chartDescription", { date: displayDate })}
                         </p>
@@ -527,6 +538,7 @@ export default function ChartCompareToBitcoin() {
                                                             chartData={
                                                                 chartData
                                                             }
+                                                            isMobile={isMobile}
                                                         />
                                                     )}
                                                 />
@@ -547,6 +559,7 @@ export default function ChartCompareToBitcoin() {
                                                             chartData={
                                                                 chartData
                                                             }
+                                                            isMobile={isMobile}
                                                         />
                                                     )}
                                                 />
@@ -568,6 +581,7 @@ export default function ChartCompareToBitcoin() {
                                                             chartData={
                                                                 chartData
                                                             }
+                                                            isMobile={isMobile}
                                                         />
                                                     )}
                                                 />
@@ -595,7 +609,7 @@ export default function ChartCompareToBitcoin() {
 
 // Custom label component for end points
 const EndPointLabel = (props: any) => {
-    const { x, y, value, index, label, color, chartData } = props;
+    const { x, y, value, index, label, color, chartData, isMobile } = props;
 
     // Only show label for the last data point
     if (index !== chartData.length - 1 || !value) return null;
@@ -610,7 +624,7 @@ const EndPointLabel = (props: any) => {
                 stroke="white"
                 strokeWidth={2}
             />
-            <foreignObject x={x + 10} y={y - 20} width={160} height={50}>
+            <foreignObject x={isMobile ? x - 170 : x + 10} y={y - 20} width={160} height={50}>
                 <div className="bg-zinc-900 border border-zinc-700 rounded px-3 py-2 text-xs whitespace-nowrap shadow-lg">
                     <div className="text-tertiary text-[10px]">{label}</div>
                     <div className="text-white font-semibold">

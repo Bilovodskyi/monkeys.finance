@@ -8,7 +8,7 @@ export default function BacktestTable() {
     const t = useTranslations("backtestTable");
     
     return (
-        <>
+        <div className="hidden md:block">
             <div className="flex flex-col items-center justify-center gap-4 pt-32">
                 <h1 className="text-4xl font-title"><span className="text-highlight">{t("titleHighlight")}</span> {t("titleEnd")}</h1>
                 <h2 className="text-secondary text-center text-xl text-balance max-w-xl">{t("description")}</h2>
@@ -119,6 +119,6 @@ export default function BacktestTable() {
 
 
             </div>
-        </>
+        </div>
     );
 }

@@ -22,7 +22,7 @@ export default function HeroSteps() {
     }, [steps.length]);
 
     return (
-        <div className="pt-32 flex flex-col gap-6">
+        <div className="pt-8 lg:pt-10 2xl:pt-32 flex flex-col gap-4 lg:gap-6">
             {steps.map(({ Icon, text }, index) => (
                 <div
                     key={index}

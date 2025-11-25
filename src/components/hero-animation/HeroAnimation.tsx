@@ -29,7 +29,7 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
     return (
         <div
             className={[
-                "absolute left-[-400px] top-[120px] h-[800px] w-[1280px]",
+                "absolute left-[-480px] 2xl:left-[-400px] -bottom-[60px] 2xl:bottom-[40px] h-[800px] w-[1280px]",
                 className,
             ]
                 .filter(Boolean)

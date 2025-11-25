@@ -452,7 +452,7 @@ export default function ParticleSphereScroll() {
                     <div className="mx-auto max-w-2xl text-center px-6">
                         <h2
                             ref={sphereTitleRef}
-                            className="text-3xl md:text-5xl font-light tracking-tight opacity-0 translate-y-8 scale-95">
+                            className="text-2xl md:text-5xl font-light tracking-tight opacity-0 translate-y-8 scale-95">
                             {t("title")}
                         </h2>
                         <p

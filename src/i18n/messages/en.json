@@ -4,15 +4,15 @@
         "title": "The All in One Crypto",
         "titleHighlight": "Trading",
         "titleEnd": "Bot",
-        "description": "Algorithmic trading, boosted by ML—integrated with your exchange.",
+        "description": "Algorithmic trading, boosted by Machine Learning—integrated with your crypto exchange.",
         "startTradingButton": "Start Trading",
         "aboutButton": "About",
         "supportedExchanges": "Supported exchanges:",
         "supportedExchangesSubtext": "more coming soon",
         "steps": {
-            "algorithms": "Multiple custom algorithms",
-            "ml": "Polished with machine learning",
-            "backtest": "Backtest and pick the best one"
+            "algorithms": "Powerful custom trading algorithms",
+            "ml": "Polished with machine learning models",
+            "backtest": "Backtest and pick one that works best"
         }
     },
     "heroAnimation": {
