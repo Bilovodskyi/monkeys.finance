@@ -2,10 +2,13 @@ type Exchange = "binance" | "binanceus" | "kraken" | "coinbase" | "okx" | "bybit
 
 export type InstanceRecord = {
     id: string;
+    userId: string;
     name: string;
-    exchange: Exchange;
+    exchange: string;
     instrument: string;
     strategy: string;
-    status: "active" | "paused";
-    createdAt: Date | null;
+    positionSizeUSDT: string;
+    isTestnet: boolean;
+    status: string;
+    createdAt: Date;
 };

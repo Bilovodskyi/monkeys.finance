@@ -19,6 +19,7 @@ import {
 import { exchanges, instruments, strategies } from "@/data/constants";
 import { createInstance } from "@/actions/instances/create";
 import { updateInstance } from "@/actions/instances/update";
+import { saveCredentials } from "@/actions/credentials/save";
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
@@ -29,9 +30,10 @@ import { useRef, useState, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { mapExchangeEnumToLabel } from "@/utils/exchange";
 import type { InstanceRecord } from "@/types/instance";
+import type { CredentialsStatus } from "@/actions/credentials/check";
 
 interface CreateInstanceSheetProps {
-    apiKey: boolean;
+    credentialsStatus: CredentialsStatus;
     children: ReactNode;
     instance?: InstanceRecord;
 }
@@ -46,7 +48,7 @@ const INSTRUMENT_SHORT_NAMES = {
 };
 
 export function CreateInstanceSheet({
-    apiKey,
+    credentialsStatus,
     children,
     instance,
 }: CreateInstanceSheetProps) {
@@ -55,11 +57,50 @@ export function CreateInstanceSheet({
     const [open, setOpen] = useState(false);
     const isEditMode = !!instance;
 
-    const FormSchema = z.object({
-        strategy: z.string().min(1, translations("errors.required")),
-        instrument: z.string().min(1, translations("errors.required")),
-        exchange: z.string().min(1, translations("errors.required")),
-    });
+    const FormSchema = z
+        .object({
+            strategy: z.string().min(1, translations("errors.required")),
+            instrument: z.string().min(1, translations("errors.required")),
+            exchange: z.string().min(1, translations("errors.required")),
+            positionSizeUSDT: z
+                .string()
+                .min(1, translations("errors.required"))
+                .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+                    message: "Must be a valid positive number",
+                })
+                .refine((val) => Number(val) >= 10, {
+                    message: "Minimum position size is $10 USDT",
+                }),
+            apiKey: z.string().optional(),
+            apiSecret: z.string().optional(),
+        })
+        .refine(
+            (data) => {
+                // Only validate credentials if they're missing for selected exchange
+                const exchangeKey = data.exchange.toLowerCase();
+                const hasApiKey = credentialsStatus[exchangeKey]?.apiKey;
+                const hasApiSecret = credentialsStatus[exchangeKey]?.apiSecret;
+
+                // If both credentials exist, no validation needed
+                if (hasApiKey && hasApiSecret) {
+                    return true;
+                }
+
+                // If either credential is missing, BOTH must be provided
+                if (!hasApiKey || !hasApiSecret) {
+                    // User must provide both
+                    if (!data.apiKey || !data.apiSecret) {
+                        return false;
+                    }
+                }
+
+                return true;
+            },
+            {
+                message: translations("errors.credentialsRequired"),
+                path: ["apiKey"], // Show error on apiKey field
+            }
+        );
     type FormValues = z.infer<typeof FormSchema>;
     const formRef = useRef<HTMLFormElement>(null);
     const form = useForm<FormValues>({
@@ -68,22 +109,64 @@ export function CreateInstanceSheet({
             strategy: instance?.strategy || "",
             instrument: instance?.instrument || "",
             exchange: mapExchangeEnumToLabel(instance?.exchange),
+            positionSizeUSDT: instance?.positionSizeUSDT || "",
+            apiKey: "",
+            apiSecret: "",
         },
     });
     const selectedStrategy = form.watch("strategy");
     const selectedInstrument = form.watch("instrument");
     const selectedExchange = form.watch("exchange");
+    const selectedPositionSizeUSDT = form.watch("positionSizeUSDT");
 
-    // Reset form when instance changes
+    const selectedApiKey = form.watch("apiKey");
+    const selectedApiSecret = form.watch("apiSecret");
+
+    const validateCredentials = () => {
+        if (!selectedExchange) return false;
+        
+        const exchangeKey = selectedExchange.toLowerCase();
+        const hasApiKey = credentialsStatus[exchangeKey]?.apiKey;
+        const hasApiSecret = credentialsStatus[exchangeKey]?.apiSecret;
+
+        // If we have both in DB, we're good
+        if (hasApiKey && hasApiSecret) {
+            return true;
+        }
+
+        // If missing in DB, user must provide them
+        if (!hasApiKey || !hasApiSecret) {
+            if (!selectedApiKey || !selectedApiSecret) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    // Reset form when instance changes or when opening sheet
     useEffect(() => {
         if (instance) {
             form.reset({
                 strategy: instance.strategy,
                 instrument: instance.instrument,
                 exchange: mapExchangeEnumToLabel(instance.exchange),
+                positionSizeUSDT: instance.positionSizeUSDT,
+                apiKey: "",
+                apiSecret: "",
+            });
+        } else {
+            // Clear form when opening for new instance
+            form.reset({
+                strategy: "",
+                instrument: "",
+                exchange: "",
+                positionSizeUSDT: "",
+                apiKey: "",
+                apiSecret: "",
             });
         }
-    }, [instance, form]);
+    }, [instance, form, open]);
 
     // Build instance name dynamically
     const instanceName = [
@@ -103,6 +186,36 @@ export function CreateInstanceSheet({
 
     const handleSubmit = async (values: FormValues) => {
         try {
+            // 1. Save credentials if provided
+            if (values.apiKey || values.apiSecret) {
+                const credResult = await saveCredentials({
+                    exchange: values.exchange,
+                    apiKey: values.apiKey,
+                    apiSecret: values.apiSecret,
+                });
+
+                if (!credResult.ok) {
+                    console.log(
+                        "[CreateInstanceSheet] Failed to save credentials:",
+                        credResult.error
+                    );
+
+                    const credErrorKey = {
+                        unauthorized: "errors.unauthorized",
+                        userNotFound: "errors.userNotFound",
+                        invalidInput: "errors.invalidInput",
+                        encryptionFailed: "errors.encryptionFailed",
+                        saveFailed: "errors.saveFailed",
+                        unexpected: "errors.unexpected",
+                    }[credResult.error];
+
+                    toast.error(translations(credErrorKey || "errors.unexpected"));
+                    setOpen(false);
+                    return;
+                }
+            }
+
+            // 2. Create/update instance
             const name = [
                 INSTRUMENT_SHORT_NAMES[
                     values.instrument as keyof typeof INSTRUMENT_SHORT_NAMES
@@ -121,6 +234,7 @@ export function CreateInstanceSheet({
                     instrument: values.instrument,
                     exchangeLabel: values.exchange,
                     name,
+                    positionSizeUSDT: values.positionSizeUSDT,
                 });
                 if (!result.ok) {
                     console.log(
@@ -148,6 +262,7 @@ export function CreateInstanceSheet({
                     instrument: values.instrument,
                     exchangeLabel: values.exchange,
                     name,
+                    positionSizeUSDT: values.positionSizeUSDT,
                 });
                 if (!result.ok) {
                     console.log(
@@ -192,13 +307,13 @@ export function CreateInstanceSheet({
                             ? translations("editInstance")
                             : translations("createNewInstance")}
                     </SheetTitle>
-                    <SheetDescription className=" text-tertiary mt-4">
+                    <SheetDescription className=" text-tertiary mt-2">
                         {translations("configureDescription")}
                     </SheetDescription>
                 </SheetHeader>
 
                 <form
-                    className="mt-6 space-y-8 relative flex-1"
+                    className="mt-2 space-y-6 relative flex-1"
                     onSubmit={form.handleSubmit(handleSubmit)}
                     ref={formRef}>
                     <div className="grid gap-2">
@@ -320,15 +435,44 @@ export function CreateInstanceSheet({
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
-                                </Select>
+                        </Select>
                             )}
                         />
                     </div>
+                    
+                    {/* Position Size USDT Field */}
+                    <div className="grid gap-2">
+                        <label className="text-tertiary">
+                            {translations("positionSize")}
+                        </label>
+                        <Controller
+                            control={form.control}
+                            name="positionSizeUSDT"
+                            render={({ field }) => (
+                                <div className="space-y-1">
+                                    <input
+                                        {...field}
+                                        value={field.value || ""}
+                                        type="text"
+                                        placeholder={translations("enterPositionSize")}
+                                        className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
+                                    />
+                                    {form.formState.errors.positionSizeUSDT && (
+                                        <p className="text-xs text-red-500">
+                                            {form.formState.errors.positionSizeUSDT.message}
+                                        </p>
+                                    )}
+                                </div>
+                            )}
+                        />
+                    </div>
+                    
+                    {/* API Key Field */}
                     <div className="grid gap-2">
                         <label className=" text-tertiary">
                             {translations("apiKey")}
                         </label>
-                        {apiKey ? (
+                        {selectedExchange && credentialsStatus[selectedExchange.toLowerCase()]?.apiKey ? (
                             <div className="flex items-center gap-2">
                                 <Check className="w-4 h-4 text-green-500" />
                                 <span className="">
@@ -336,16 +480,53 @@ export function CreateInstanceSheet({
                                 </span>
                             </div>
                         ) : (
-                            <input
-                                type="text"
-                                placeholder={translations("enterApiKey")}
-                                className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 bg-black px-3 py-2  text-white outline-none"
+                            <Controller
+                                control={form.control}
+                                name="apiKey"
+                                render={({ field }) => (
+                                    <input
+                                        {...field}
+                                        value={field.value || ""}
+                                        type="text"
+                                        placeholder={translations("enterApiKey")}
+                                        className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
+                                    />
+                                )}
+                            />
+                        )}
+                    </div>
+
+                    {/* API Secret Field */}
+                    <div className="grid gap-2">
+                        <label className=" text-tertiary">
+                            {translations("apiSecret")}
+                        </label>
+                        {selectedExchange && credentialsStatus[selectedExchange.toLowerCase()]?.apiSecret ? (
+                            <div className="flex items-center gap-2">
+                                <Check className="w-4 h-4 text-green-500" />
+                                <span className="">
+                                    {translations("apiSecretProvided")}
+                                </span>
+                            </div>
+                        ) : (
+                            <Controller
+                                control={form.control}
+                                name="apiSecret"
+                                render={({ field }) => (
+                                    <input
+                                        {...field}
+                                        value={field.value || ""}
+                                        type="text"
+                                        placeholder={translations("enterApiSecret")}
+                                        className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
+                                    />
+                                )}
                             />
                         )}
                     </div>
 
                     <div className="absolute bottom-0 right-0 left-0 pt-4 flex flex-col gap-8">
-                        <div className="border border-zinc-800 p-4 space-y-4">
+                        {/* <div className="border border-zinc-800 p-4 space-y-4">
                             <div className="flex flex-col gap-2">
                                 <span className="text-tertiary mr-1 font-mein">
                                     {translations("yourInstance")}
@@ -380,13 +561,15 @@ export function CreateInstanceSheet({
                                     </span>
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="flex gap-2 justify-end ">
                             <CustomButton
                                 disabled={
                                     !selectedStrategy ||
                                     !selectedInstrument ||
-                                    !selectedExchange
+                                    !selectedExchange ||
+                                    !selectedPositionSizeUSDT ||
+                                    !validateCredentials()
                                 }
                                 isBlue={true}
                                 onClick={() => formRef.current?.requestSubmit()}

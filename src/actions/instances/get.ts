@@ -21,10 +21,13 @@ export async function getInstances(): Promise<InstanceRecord[]> {
     const rows = await db
         .select({
             id: InstanceTable.id,
+            userId: InstanceTable.userId,
             name: InstanceTable.name,
             exchange: InstanceTable.exchange,
             instrument: InstanceTable.instrument,
             strategy: InstanceTable.strategy,
+            positionSizeUSDT: InstanceTable.positionSizeUSDT,
+            isTestnet: InstanceTable.isTestnet,
             status: InstanceTable.status,
             createdAt: InstanceTable.createdAt,
         })

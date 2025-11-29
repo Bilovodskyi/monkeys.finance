@@ -257,7 +257,7 @@ export default function ChartCompareToBitcoin() {
                         }}
                     />
                 </div>
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-[500px] lg:h-3/4 w-[800px] lg:w-2/3 bg-background border border-zinc-700 flex origin-center scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-100">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-[500px] lg:h-3/4 w-[800px] lg:w-[960px] 2xl:w-2/3 bg-background border border-zinc-700 flex origin-center scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-100">
                     <div className="hidden md:block absolute -top-14 left-2/4 -translate-x-2/4">
                         <p className="text-tertiary text-center text-sm">
                             {t("chartDescription", { date: displayDate })}

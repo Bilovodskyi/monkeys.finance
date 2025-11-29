@@ -23,15 +23,16 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { CreateInstanceSheet } from "./CreateInstanceSheet";
 import type { InstanceRecord } from "@/types/instance";
+import type { CredentialsStatus } from "@/actions/credentials/check";
 import { deleteInstance } from "@/actions/instances/delete";
 import { useState } from "react";
 
 export function ActionsDropdownMenu({
     instance,
-    apiKey,
+    credentialsStatus,
 }: {
     instance: InstanceRecord;
-    apiKey: boolean;
+    credentialsStatus: CredentialsStatus;
 }) {
     const router = useRouter();
     const t = useTranslations("instances.actionsMenu");
@@ -48,7 +49,7 @@ export function ActionsDropdownMenu({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem onSelect={(e) => e.stopPropagation()}>
-                    <CreateInstanceSheet apiKey={apiKey} instance={instance}>
+                    <CreateInstanceSheet credentialsStatus={credentialsStatus} instance={instance}>
                         <span onClick={(e) => e.stopPropagation()}>
                             {t("items.edit")}
                         </span>

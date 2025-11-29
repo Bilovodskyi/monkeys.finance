@@ -234,6 +234,7 @@
             "name": "Name",
             "strategy": "Strategy",
             "instrument": "Instrument",
+            "positionSizeUSDT": "Position Size",
             "exchange": "Exchange",
             "createdAt": "Created At",
             "actions": "Actions"
@@ -247,6 +248,11 @@
         "instrument": "Instrument",
         "exchange": "Exchange",
         "apiKey": "API Key",
+        "apiSecret": "API Secret",
+        "apiSecretProvided": "API Secret Provided",
+        "enterApiSecret": "Enter API Secret",
+        "positionSize": "Position Size (USDT)",
+        "enterPositionSize": "Enter amount in USDT (min. $10)",
         "selectPlaceholder": "Select...",
         "apiKeyProvided": "You have provided API key",
         "enterApiKey": "Enter API key",
@@ -268,7 +274,10 @@
             "userNotFound": "User account not found",
             "notFound": "Instance not found or not accessible",
             "unsupportedExchange": "The selected exchange is not supported",
-            "unexpected": "An unexpected error occurred. Please try again"
+            "unexpected": "An unexpected error occurred. Please try again",
+            "credentialsRequired": "Please provide both API key and secret for this exchange",
+            "encryptionFailed": "Failed to encrypt credentials. Please try again",
+            "saveFailed": "Failed to save credentials. Please try again"
         },
         "createdError": "Failed to create instance",
         "updatedError": "Failed to update instance",

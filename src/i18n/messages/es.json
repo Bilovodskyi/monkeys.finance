@@ -234,6 +234,7 @@
             "name": "Nombre",
             "strategy": "Estrategia",
             "instrument": "Instrumento",
+            "positionSizeUSDT": "Tamaño de posición",
             "exchange": "Intercambio",
             "createdAt": "Fecha de creación",
             "actions": "Acciones"
@@ -247,6 +248,11 @@
         "instrument": "Instrumento",
         "exchange": "Intercambio",
         "apiKey": "Clave API",
+        "apiSecret": "Secreto API",
+        "apiSecretProvided": "Secreto API proporcionado",
+        "enterApiSecret": "Ingresa secreto API",
+        "positionSize": "Tamaño de posición (USDT)",
+        "enterPositionSize": "Ingresa cantidad en USDT (mín. $10)",
         "selectPlaceholder": "Seleccionar...",
         "apiKeyProvided": "Has proporcionado una clave API",
         "enterApiKey": "Ingresa clave API",
@@ -268,7 +274,10 @@
             "userNotFound": "Cuenta de usuario no encontrada",
             "notFound": "Instancia no encontrada o no accesible",
             "unsupportedExchange": "El exchange seleccionado no es compatible",
-            "unexpected": "Ocurrió un error inesperado. Por favor intenta de nuevo"
+            "unexpected": "Ocurrió un error inesperado. Por favor intenta de nuevo",
+            "credentialsRequired": "Por favor proporciona la clave API y el secreto para este exchange",
+            "encryptionFailed": "Error al cifrar las credenciales. Inténtalo de nuevo",
+            "saveFailed": "Error al guardar las credenciales. Inténtalo de nuevo"
         },
         "createdError": "Error al crear instancia",
         "updatedError": "Error al actualizar instancia",

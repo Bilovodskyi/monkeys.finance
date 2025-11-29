@@ -25,6 +25,7 @@ const inputSchema = z.object({
             ])
         ),
     name: z.string().min(1),
+    positionSizeUSDT: z.string().min(1),
 });
 
 type CreateResult =
@@ -66,6 +67,7 @@ export async function createInstance(input: unknown): Promise<CreateResult> {
                 exchange: data.exchangeLabel,
                 instrument: data.instrument,
                 strategy: data.strategy,
+                positionSizeUSDT: data.positionSizeUSDT,
             })
             .returning({ id: InstanceTable.id });
 

@@ -310,6 +310,7 @@
             "name": "Назва",
             "strategy": "Стратегія",
             "instrument": "Інструмент",
+            "positionSizeUSDT": "Розмір позиції",
             "exchange": "Біржа",
             "createdAt": "Дата створення",
             "actions": "Дії"
@@ -323,6 +324,11 @@
         "instrument": "Інструмент",
         "exchange": "Біржа",
         "apiKey": "API ключ",
+        "apiSecret": "API секрет",
+        "apiSecretProvided": "API секрет надано",
+        "enterApiSecret": "Введіть API секрет",
+        "positionSize": "Розмір позиції (USDT)",
+        "enterPositionSize": "Введіть суму в USDT (мін. $10)",
         "selectPlaceholder": "Вибрати...",
         "apiKeyProvided": "Ви надали API ключ",
         "enterApiKey": "Введіть API ключ",
@@ -344,7 +350,10 @@
             "userNotFound": "Обліковий запис користувача не знайдено",
             "notFound": "Екземпляр не знайдено або недоступний",
             "unsupportedExchange": "Обрана біржа не підтримується",
-            "unexpected": "Сталася непередбачена помилка. Будь ласка, спробуйте ще раз"
+            "unexpected": "Сталася непередбачена помилка. Будь ласка, спробуйте ще раз",
+            "credentialsRequired": "Будь ласка, надайте API ключ та секрет для цієї біржі",
+            "encryptionFailed": "Не вдалося зашифрувати облікові дані. Спробуйте ще раз",
+            "saveFailed": "Не вдалося зберегти облікові дані. Спробуйте ще раз"
         },
         "createdError": "Не вдалося створити екземпляр",
         "updatedError": "Не вдалося оновити екземпляр",

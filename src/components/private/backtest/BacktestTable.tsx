@@ -63,37 +63,37 @@ export default function BacktestTable({
                 </div>
             </div>
             <div className="flex p-6 gap-6">
-                <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
                     <div>
                         <span className="text-xs text-tertiary">
                             {formatNumberWithCommas(stats.startEquity)} USD
                         </span>
-                        <h1 className="text-xl font-title">
+                        <h1 className="text-lg 2xl:text-xl font-title">
                             {formatNumberWithCommas(stats.endEquity)} USD
                         </h1>
                     </div>
-                    <h2 className=" text-tertiary font-title">
+                    <h2 className="text-tertiary font-title">
                         Start capital / End capital
                     </h2>
                 </div>
-                <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
-                    <h1 className="text-xl font-title">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                    <h1 className="text-lg 2xl:text-xl font-title">
                         {firstDate} - {lastDate}
                     </h1>
                     <h2 className=" text-tertiary font-title">
                         Backtest Period
                     </h2>
                 </div>
-                <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
-                    <h1 className="text-xl font-title">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                    <h1 className="text-lg 2xl:text-xl font-title">
                         {Math.round(stats.capitalChangePct)}%
                     </h1>
                     <h2 className=" text-tertiary font-title">
                         Capital Change
                     </h2>
                 </div>
-                <div className="h-[130px] flex-1 border border-zinc-800 p-6 flex flex-col justify-between gap-4">
-                    <h1 className="text-xl font-title">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                    <h1 className="text-lg 2xl:text-xl font-title">
                         {stats.numTrades} / {stats.winTradesCount} /{" "}
                         {stats.lossTradesCount}
                     </h1>

@@ -48,7 +48,7 @@ export default function BacktestTable() {
 
                     <LedGridFlickerWrapper dimColor="rgb(18, 18, 18)" className="w-full h-full" fit="width" rows={120} cols={240} activeTarget={2600} cell={{ w: 1, h: 1, gap: 0.5 }} />
                 </div>
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-3/4 w-2/3 bg-background border border-zinc-700 flex">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-3/4 lg:w-[960px] w-2/3 bg-background border border-zinc-700 flex">
                     <div className="absolute -top-14 left-1/2 -translate-x-1/2">
                         <SlidingTabs />
                     </div>

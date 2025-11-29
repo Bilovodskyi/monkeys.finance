@@ -101,7 +101,8 @@ export const InstanceTable = pgTable(
         exchange: exchange("exchange").notNull(),
         instrument: text("instrument").notNull(),
         strategy: text("strategy").notNull(),
-        positionSize: text("position_size").notNull(),
+        positionSizeUSDT: text("position_size_usdt").notNull(),
+        
         isTestnet: boolean("is_testnet").default(false).notNull(),
 
         status: status("status").default("active").notNull(),

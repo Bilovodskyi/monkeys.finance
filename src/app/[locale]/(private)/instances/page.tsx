@@ -4,12 +4,13 @@ import { CreateInstanceSheet } from "@/components/private/instances/CreateInstan
 import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropdownMenu";
 import { CustomButton } from "@/components/CustomButton";
 import { getActiveSubscriptionStatusForUI } from "@/lib/entitlements";
+import { getCredentialsStatus } from "@/actions/credentials/check";
 import Link from "next/link";
 
 export default async function Instances() {
     const t = await getTranslations("instances");
     const instances = await getInstances();
-    const apiKey = true; // TODO: replace with real check when available
+    const credentialsStatus = await getCredentialsStatus();
 
     const { hasActiveSubscription } = await getActiveSubscriptionStatusForUI();
 
@@ -25,7 +26,7 @@ export default async function Instances() {
                             {t("instanceDescription")}
                         </p>
                         <div className="flex gap-2 mt-6">
-                            <CreateInstanceSheet apiKey={apiKey}>
+                            <CreateInstanceSheet credentialsStatus={credentialsStatus}>
                                 <CustomButton isBlue={false}>
                                     {t("addInstance")}
                                 </CustomButton>
@@ -60,7 +61,7 @@ export default async function Instances() {
                         </h1>
                         {instances.length < 3 ? (
                             hasActiveSubscription ? (
-                                <CreateInstanceSheet apiKey={apiKey}>
+                                <CreateInstanceSheet credentialsStatus={credentialsStatus}>
                                     <CustomButton isBlue={false}>
                                         {t("addInstance")}
                                     </CustomButton>
@@ -94,8 +95,11 @@ export default async function Instances() {
                             <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                 {t("tableHeaders.strategy")}
                             </div>
-                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                 {t("tableHeaders.instrument")}
+                            </div>
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                {t("tableHeaders.positionSizeUSDT")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                 {t("tableHeaders.exchange")}
@@ -113,7 +117,7 @@ export default async function Instances() {
                             {instances.map((instance, index) => (
                                 <CreateInstanceSheet
                                     key={index}
-                                    apiKey={apiKey}
+                                    credentialsStatus={credentialsStatus}
                                     instance={instance}>
                                     <div className="grid grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary flex items-center">
@@ -133,8 +137,11 @@ export default async function Instances() {
                                         <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {instance.strategy}
                                         </div>
-                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {instance.instrument}
+                                        </div>
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                            {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDT</span>
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center capitalize">
                                             {instance.exchange}
@@ -145,7 +152,7 @@ export default async function Instances() {
                                         <div className="group/actions col-span-1 border-r border-zinc-800 px-2 py-1 flex items-center justify-center">
                                             <ActionsDropdownMenu
                                                 instance={instance}
-                                                apiKey={apiKey}
+                                                credentialsStatus={credentialsStatus}
                                             />
                                         </div>
                                     </div>

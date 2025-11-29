@@ -13,6 +13,7 @@ const inputSchema = z.object({
     instrument: z.string().min(1),
     exchangeLabel: z.string().min(1),
     name: z.string().min(1),
+    positionSizeUSDT: z.string().min(1),
 });
 
 type UpdateResult =
@@ -80,6 +81,7 @@ export async function updateInstance(input: unknown): Promise<UpdateResult> {
             instrument: data.instrument,
             exchange,
             name: data.name,
+            positionSizeUSDT: data.positionSizeUSDT,
         })
         .where(and(eq(InstanceTable.id, data.id)))
         .returning({ id: InstanceTable.id });
