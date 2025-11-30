@@ -27,7 +27,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
         return (
             <div
                 ref={ref}
-                className={`z-10 flex h-[350px] w-[597px] border rounded-lg border-dashed border-zinc-700 shadow-[-10px_10px_0px_0px_#3f3f46] px-3 py-2 ${className}`}
+                className={`z-10 lg:h-[280px] 2xl:h-[350px] lg:w-[460px] 2xl:w-[597px] border rounded-lg border-dashed border-zinc-700 shadow-[-10px_10px_0px_0px_#3f3f46] px-3 py-2 ${className}`}
                 style={{
                     transform: "rotate(-30deg) skewX(30deg)",
                     opacity: 1,
@@ -35,11 +35,11 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     ...style
                 }}
             >
-                <LedGridFlicker rows={117} cols={200} activeTarget={800} className="absolute left-0 top-0 z-20 h-[350px] w-[597px]" />
+                <LedGridFlicker rows={117} cols={200} activeTarget={800} className="absolute left-0 top-0 z-20 lg:h-[280px] 2xl:h-[350px] lg:w-[460px] 2xl:w-[597px]" />
                 {/* Animated container clone */}
                 {showAnimatedClone && (
                     <div
-                        className="absolute rounded-lg left-0 top-0 z-20 h-[350px] w-[597px] border border-dashed border-zinc-200 pointer-events-none anim-rise-fade"
+                        className="absolute rounded-lg left-0 top-0 z-20 lg:h-[280px] 2xl:h-[350px] lg:w-[460px] 2xl:w-[597px] border border-dashed border-zinc-200 pointer-events-none anim-rise-fade"
                         style={{
                             backgroundColor: "transparent",
                             opacity: 1,
@@ -105,7 +105,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group h-fit self-start hover:text-cyan-500 hover:underline z-30"
+                    className="relative group h-fit self-start hover:text-cyan-500 hover:underline z-50"
                 >
                     <span className="flex gap-1 font-mono text-xs uppercase tracking-widest" style={{ opacity: 1 }}>
                         {title}

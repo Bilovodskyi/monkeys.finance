@@ -21,9 +21,9 @@ export default async function Home() {
       <ChartCompareToBitcoin />
       <StaticDitherBackground />
       <BacktestTable />
-      {/* <HowItWorksSkewStack /> */}
-      {/* <Reviews /> */}
-      {/* <Footer /> */}
+      <HowItWorksSkewStack />
+      <Reviews />
+      <Footer />
     </main>
   );
 }

@@ -5,13 +5,13 @@ const StaticDitherBackground = () => {
     const t = useTranslations("staticDitherBackground");
     
     return (
-        <section className="h-screen md:h-[60vh] px-6 md:px-24 relative mb-12 pt-8 md:pt-0">
-            <div className="md:absolute md:top-8 md:left-1/2 md:-translate-x-1/2 flex flex-col gap-4 items-center justify-center">
-                <h1 className="text-2xl md:text-4xl font-title text-center md:text-left">
+        <section className="h-screen md:h-[60vh] px-6 md:px-24 relative mb-38 lg:mb-12 pt-8 md:pt-0">
+            <div className="md:absolute md:top-8 md:left-1/2 md:-translate-x-1/2 flex flex-col gap-4 md:items-center justify-center">
+                <h1 className="text-2xl md:text-4xl font-title">
                     <span className="text-highlight">{t("titleHighlight")}</span>{" "}
                     {t("titleEnd")}
                 </h1>
-                <h2 className="text-secondary text-center text-lg md:text-xl md:text-balance md:max-w-xl">
+                <h2 className="text-secondary md:text-center text-lg md:text-xl md:text-balance md:max-w-xl">
                     {t("description")}
                 </h2>
             </div>

@@ -31,26 +31,3 @@ export async function checkTelegramLinked(): Promise<boolean> {
 
     return !!telegramAccount;
 }
-
-export async function getTelegramAccount() {
-    const { userId: clerkUserId } = await auth();
-
-    if (!clerkUserId) {
-        return null;
-    }
-
-    const user = await db.query.UserTable.findFirst({
-        where: eq(UserTable.clerkId, clerkUserId),
-    });
-
-    if (!user) {
-        return null;
-    }
-
-    const telegramAccount =
-        await db.query.UserTelegramNotificationSettingsTable.findFirst({
-            where: eq(UserTelegramNotificationSettingsTable.userId, user.id),
-        });
-
-    return telegramAccount;
-}

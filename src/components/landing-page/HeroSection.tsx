@@ -35,7 +35,7 @@ export async function HeroSection() {
             </section>
 
             {/* Hero Content */}
-            <section className="flex flex-col items-center lg:items-start w-full xl:w-1/3 px-6 xl:px-16 2xl:px-24 pt-20 xl:pt-28 2xl:pt-32">
+            <section className="flex flex-col items-center xl:items-start w-full xl:w-1/3 px-6 xl:px-16 2xl:px-24 pt-20 xl:pt-28 2xl:pt-32">
                 <div className="border border-zinc-800 rounded-full px-5 py-2 mb-6 text-[12px] font-semibold w-fit">
                     {t("badge")}
                 </div>

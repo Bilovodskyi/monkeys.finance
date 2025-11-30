@@ -1,4 +1,7 @@
-import { getInstances } from "@/actions/instances/get";
+import { auth } from "@clerk/nextjs/server";
+import { db } from "@/drizzle/db";
+import { InstanceTable } from "@/drizzle/schema";
+import { eq, desc } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { CreateInstanceSheet } from "@/components/private/instances/CreateInstanceSheet";
 import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropdownMenu";
@@ -9,7 +12,33 @@ import Link from "next/link";
 
 export default async function Instances() {
     const t = await getTranslations("instances");
-    const instances = await getInstances();
+    
+    const { userId: clerkId } = await auth();
+    if (!clerkId) throw new Error("Unauthorized");
+
+    const user = await db.query.UserTable.findFirst({
+        where: (t, { eq }) => eq(t.clerkId, clerkId),
+    });
+
+    const instances = user
+        ? await db
+            .select({
+                id: InstanceTable.id,
+                userId: InstanceTable.userId,
+                name: InstanceTable.name,
+                exchange: InstanceTable.exchange,
+                instrument: InstanceTable.instrument,
+                strategy: InstanceTable.strategy,
+                positionSizeUSDT: InstanceTable.positionSizeUSDT,
+                isTestnet: InstanceTable.isTestnet,
+                status: InstanceTable.status,
+                createdAt: InstanceTable.createdAt,
+            })
+            .from(InstanceTable)
+            .where(eq(InstanceTable.userId, user.id))
+            .orderBy(desc(InstanceTable.createdAt))
+        : [];
+    
     const credentialsStatus = await getCredentialsStatus();
 
     const { hasActiveSubscription } = await getActiveSubscriptionStatusForUI();

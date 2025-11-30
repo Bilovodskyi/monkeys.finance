@@ -1,19 +1,26 @@
+import { auth } from "@clerk/nextjs/server";
+import { db } from "@/drizzle/db";
+import { NotificationPreferencesTable, UserTelegramNotificationSettingsTable } from "@/drizzle/schema";
+import { eq } from "drizzle-orm";
 import { CustomButton } from "@/components/CustomButton";
 import { AddNotificationSheet } from "@/components/private/notifications/AddNotificationSheet";
-import { getNotifications } from "@/actions/notifications";
 import { DeleteNotification } from "@/components/private/notifications/DeleteNotification";
 import { UnlinkTelegramAccount } from "@/components/private/notifications/UnlinkTelegramAccount";
-import { getTelegramAccount } from "@/actions/telegram/status";
 import { getActiveSubscriptionStatusForUI } from "@/lib/entitlements";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
 export default async function notifications() {
     const t = await getTranslations("notificationsPage");
-    const result = await getNotifications();
-    const telegramAccount = await getTelegramAccount();
+    
+    const { userId: clerkId } = await auth();
+    if (!clerkId) throw new Error("Unauthorized");
 
-    if (!result.ok) {
+    const user = await db.query.UserTable.findFirst({
+        where: (t, { eq }) => eq(t.clerkId, clerkId),
+    });
+
+    if (!user) {
         return (
             <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
                 <h1 className="text-lg font-bold">{t("errorTitle")}</h1>
@@ -24,7 +31,23 @@ export default async function notifications() {
         );
     }
 
-    const { notifications: data } = result;
+    const preferences = await db
+        .select()
+        .from(NotificationPreferencesTable)
+        .where(eq(NotificationPreferencesTable.userId, user.id));
+
+    const telegramAccount =
+        await db.query.UserTelegramNotificationSettingsTable.findFirst({
+            where: eq(
+                UserTelegramNotificationSettingsTable.userId,
+                user.id
+            ),
+        });
+
+    const data = preferences.map((pref) => ({
+        ...pref,
+        telegramUsername: telegramAccount?.telegramUsername || null,
+    }));
 
     const { hasActiveSubscription } = await getActiveSubscriptionStatusForUI();
 
