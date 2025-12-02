@@ -133,32 +133,60 @@ export async function getAllXlsxFilesFromFolder(
 }
 
 /**
- * Filter to get only the latest file per symbol based on timestamp in filename
- * Filename format: BTC-USD_4h_20251024-052833.xlsx
+ * Filter to get only the latest file per symbol based on year and month in filename
+ * Old format: BTC-USD_4h_20251024-052833.xlsx
+ * New format: BTC-USD_4h_2025dec.xlsx
  */
 function getLatestFilePerSymbol(files: string[]): string[] {
+    const monthMap: Record<string, number> = {
+        jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
+        jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12
+    };
+
     const latestBySymbol = new Map<
         string,
-        { key: string; timestamp: string }
+        { key: string; year: number; month: number }
     >();
 
     for (const key of files) {
         const filename = key.split("/").pop()!;
 
-        // Extract symbol (e.g., "BTC" from "BTC-USD_4h_20251024-052833.xlsx")
+        // Extract symbol (e.g., "BTC" from "BTC-USD_4h_2025dec.xlsx")
         const symbolMatch = filename.match(/^([A-Z]{3})-USD/);
         if (!symbolMatch) continue;
 
         const symbol = symbolMatch[1];
 
-        // Extract timestamp (e.g., "20251024-052833" from filename)
-        const timestampMatch = filename.match(/(\d{8}-\d{6})/);
-        const timestamp = timestampMatch?.[1] || "00000000-000000";
+        // Extract year and month (e.g., "2025dec" from filename)
+        // Format: BTC-USD_4h_2025dec.xlsx
+        const yearMonthMatch = filename.match(/(\d{4})(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i);
+        
+        if (!yearMonthMatch) {
+            // Fallback: try old timestamp format for backwards compatibility
+            const oldTimestampMatch = filename.match(/(\d{8})-\d{6}/);
+            if (oldTimestampMatch) {
+                const timestamp = oldTimestampMatch[1]; // e.g., "20251024"
+                const year = parseInt(timestamp.substring(0, 4));
+                const month = parseInt(timestamp.substring(4, 6));
+                
+                const existing = latestBySymbol.get(symbol);
+                if (!existing || year > existing.year || (year === existing.year && month > existing.month)) {
+                    latestBySymbol.set(symbol, { key, year, month });
+                }
+            }
+            continue;
+        }
 
-        // Keep the file with the latest timestamp
+        const year = parseInt(yearMonthMatch[1]);
+        const monthStr = yearMonthMatch[2].toLowerCase();
+        const month = monthMap[monthStr];
+
+        if (!month) continue;
+
+        // Keep the file with the latest year/month
         const existing = latestBySymbol.get(symbol);
-        if (!existing || timestamp > existing.timestamp) {
-            latestBySymbol.set(symbol, { key, timestamp });
+        if (!existing || year > existing.year || (year === existing.year && month > existing.month)) {
+            latestBySymbol.set(symbol, { key, year, month });
         }
     }
 

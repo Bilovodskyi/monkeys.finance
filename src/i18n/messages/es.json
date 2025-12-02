@@ -213,10 +213,19 @@
         "days": "días"
     },
     "header": {
-        "searchPlaceholder": "Buscar cualquier cosa..."
+        "searchPlaceholder": "Buscar cualquier cosa...",
+        "settingUpAccount": "Configurando tu cuenta...",
+        "errorOccurred": "Ocurrió un error"
     },
     "instances": {
+        "loadingTitle": "Cargando tu cuenta",
+        "loadingDescription": "Obteniendo tus datos, por favor espera un momento...",
+        "errorTitle": "Error al cargar la cuenta",
+        "errorDescription": "No pudimos cargar los datos de tu cuenta. Por favor intenta de nuevo.",
+        "retry": "Reintentar",
         "addFirstInstance": "Agrega tu primera instancia",
+        "settingUpTitle": "Configurando tu cuenta",
+        "settingUpDescription": "Estamos preparando tu cuenta. Solo tomará un momento...",
         "instanceDescription": "Una instancia es una función que se ejecutará en la nube 24/7 verificando constantemente nuevas señales. Una vez que se detecta una señal, la instancia abrirá una posición en el intercambio. Después, la instancia cerrará automáticamente la posición una vez que se detecte una señal opuesta.",
         "addInstance": "Agregar instancia",
         "visitDocumentation": "Visita la página de documentación para más información",
@@ -277,7 +286,10 @@
             "unexpected": "Ocurrió un error inesperado. Por favor intenta de nuevo",
             "credentialsRequired": "Por favor proporciona la clave API y el secreto para este exchange",
             "encryptionFailed": "Error al cifrar las credenciales. Inténtalo de nuevo",
-            "saveFailed": "Error al guardar las credenciales. Inténtalo de nuevo"
+            "saveFailed": "Error al guardar las credenciales. Inténtalo de nuevo",
+            "leverageWarning": "Por favor, configure manualmente el apalancamiento en su exchange a x1. Todas las pruebas retrospectivas se realizaron con apalancamiento x1.",
+            "validPositiveNumber": "Debe ser un número positivo válido",
+            "minimumPositionSize": "El tamaño mínimo de la posición es de $20 USDT"
         },
         "createdError": "Error al crear instancia",
         "updatedError": "Error al actualizar instancia",
@@ -442,5 +454,30 @@
         "withML": "Con ML",
         "noML": "Sin ML",
         "bitcoin": "Bitcoin"
+    },
+    "history": {
+        "emptyTitle": "No tienes historial",
+        "emptyDescription": "Después de que el bot complete una operación, aparecerá aquí.",
+        "stats": {
+            "totalSuccessfulFailed": "Total / Exitosas / Fallidas",
+            "winLossBreakEven": "Ganancia / Pérdida / Punto de equilibrio",
+            "totalPnL": "PnL Total"
+        },
+        "tableHeaders": {
+            "status": "Estado",
+            "openDate": "Fecha de apertura",
+            "closeDate": "Fecha de cierre",
+            "exchange": "Intercambio",
+            "instrument": "Instrumento",
+            "strategy": "Estrategia",
+            "quantity": "Cantidad",
+            "entryPrice": "Precio de entrada",
+            "exitPrice": "Precio de salida",
+            "pnl": "P&L"
+        },
+        "status": {
+            "filled": "Completada",
+            "failed": "Fallida"
+        }
     }
 }

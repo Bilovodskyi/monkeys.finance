@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
 import { InstanceTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { hasEntitlement } from "@/lib/entitlements";
+import { hasEntitlement } from "@/lib/has-entitelment-client";
 
 const inputSchema = z.object({
     strategy: z.string().min(1),

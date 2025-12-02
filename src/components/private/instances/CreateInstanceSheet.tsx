@@ -20,7 +20,7 @@ import { exchanges, instruments, strategies } from "@/data/constants";
 import { createInstance } from "@/actions/instances/create";
 import { updateInstance } from "@/actions/instances/update";
 import { saveCredentials } from "@/actions/credentials/save";
-import { Check } from "lucide-react";
+import { Check, AlertTriangle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -66,10 +66,10 @@ export function CreateInstanceSheet({
                 .string()
                 .min(1, translations("errors.required"))
                 .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-                    message: "Must be a valid positive number",
+                    message: translations("errors.validPositiveNumber"),
                 })
-                .refine((val) => Number(val) >= 10, {
-                    message: "Minimum position size is $10 USDT",
+                .refine((val) => Number(val) >= 20, {
+                    message: translations("errors.minimumPositionSize"),
                 }),
             apiKey: z.string().optional(),
             apiSecret: z.string().optional(),
@@ -316,6 +316,12 @@ export function CreateInstanceSheet({
                     className="mt-2 space-y-6 relative flex-1"
                     onSubmit={form.handleSubmit(handleSubmit)}
                     ref={formRef}>
+                    <div className="flex items-start gap-3 p-3 rounded-md bg-yellow-500/10 border border-yellow-500/20 text-yellow-500">
+                        <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">
+                            {translations("errors.leverageWarning")}
+                        </span>
+                    </div>
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
                             <label className=" text-tertiary">

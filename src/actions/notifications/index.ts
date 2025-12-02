@@ -9,8 +9,8 @@ import {
 } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { hasEntitlement } from "@/lib/entitlements";
 import { z } from "zod";
+import { hasEntitlement } from "@/lib/has-entitelment-client";
 
 // Input validation schema
 const createNotificationSchema = z.object({

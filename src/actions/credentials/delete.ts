@@ -2,15 +2,16 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
-import { userCredentials } from "@/drizzle/schema";
+import { userCredentials, InstanceTable } from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export type DeleteCredentialsInput = {
     exchange: string;
 };
 
 export type DeleteCredentialsResult =
-    | { ok: true }
+    | { ok: true; deletedInstancesCount: number }
     | {
           ok: false;
           error:
@@ -24,6 +25,7 @@ export type DeleteCredentialsResult =
 
 /**
  * Delete encrypted API credentials for a user's exchange.
+ * Also deletes all instances that use this exchange.
  */
 export async function deleteCredentials(
     input: DeleteCredentialsInput
@@ -63,8 +65,19 @@ export async function deleteCredentials(
             return { ok: false, error: "notFound" };
         }
 
-        // 6. Delete credentials
+        // 6. Delete all instances with this exchange first
         try {
+            const deletedInstances = await db
+                .delete(InstanceTable)
+                .where(
+                    and(
+                        eq(InstanceTable.userId, user.id),
+                        eq(InstanceTable.exchange, exchangeEnum)
+                    )
+                )
+                .returning();
+
+            // 7. Delete credentials
             await db
                 .delete(userCredentials)
                 .where(
@@ -74,7 +87,11 @@ export async function deleteCredentials(
                     )
                 );
 
-            return { ok: true };
+            // Revalidate paths to refresh the UI
+            revalidatePath("/bot");
+            revalidatePath("/instances");
+
+            return { ok: true, deletedInstancesCount: deletedInstances.length };
         } catch (error) {
             console.error("[deleteCredentials] Database delete failed:", error);
             return { ok: false, error: "deleteFailed" };

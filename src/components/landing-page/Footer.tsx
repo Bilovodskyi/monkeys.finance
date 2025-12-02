@@ -24,7 +24,7 @@ export default async function Footer() {
                     <img src="/main-logo.png" alt="Main Logo" className="w-24" />
                     <p className="text-secondary ">{t("tagline")}</p>
                 </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 items-start justify-items-end gap-12 lg:gap-24 py-12 w-full lg:w-1/2">
+                <div className="grid grid-cols-2 lg:grid-cols-4 items-start md:justify-items-end gap-12 lg:gap-24 py-12 w-full lg:w-1/2">
 
                     <ul className="col-span-1 flex flex-col items-start gap-4">
                         <li><a href="/" className="text-secondary ">{t("products.title")}</a></li>

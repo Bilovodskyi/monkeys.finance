@@ -1,19 +1,16 @@
-import { formatEntitlementHeading } from "@/lib/entitlements";
 import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { Search } from "lucide-react";
 import { LanguageSelector } from "../landing-page/LanguageSelector";
 import { getTranslations } from "next-intl/server";
 import { dark } from "@clerk/themes";
-import { getEntitlementForUser } from "@/services/entitlements";
+import EntitlementBadge from "./EntitlementBadge";
 
 export default async function Header() {
     const { userId } = await auth();
     if (!userId) return null;
-    const data = await getEntitlementForUser();
 
     const t = await getTranslations("header");
-    const heading = data ? await formatEntitlementHeading(data) : "Error occurred";
 
     return (
         <header className="border-b border-zinc-800 flex justify-between items-center px-6 h-[70px] shrink-0">
@@ -29,9 +26,7 @@ export default async function Header() {
             <div className="flex items-center justify-between gap-4">
                 <LanguageSelector isPrivatePage={true} />
 
-                <div className="text-secondary text-xs bg-neutral-900 px-2 py-1 rounded-full border border-zinc-800 shrink-0">
-                    {heading}
-                </div>
+                <EntitlementBadge />
 
                 <UserButton
                     appearance={{

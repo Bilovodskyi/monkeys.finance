@@ -1,54 +1,10 @@
 import "server-only"; // throws at build if a client import sneaks in
-import { EntitlementResponse } from "@/types/entitlement";
-import { getTranslations } from "next-intl/server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
-
-export type UserRow = {
-    billingStatus: "trialing" | "active" | "past_due" | "canceled" | "unpaid";
-    subscriptionEndsAt: Date;
-    cancelAtPeriodEnd: boolean | null;
-};
-
-export function hasEntitlement(
-    user: Pick<
-        UserRow,
-        "billingStatus" | "subscriptionEndsAt" | "cancelAtPeriodEnd"
-    >,
-    now = new Date()
-): boolean {
-    // Case 1: Active subscription that hasn't expired yet
-    if (
-        user.billingStatus === "active" &&
-        user.subscriptionEndsAt &&
-        user.subscriptionEndsAt > now
-    ) {
-        return true;
-    }
-
-    // Case 2: In trial period that hasn't expired
-    if (
-        user.billingStatus === "trialing" &&
-        user.subscriptionEndsAt &&
-        user.subscriptionEndsAt > now
-    ) {
-        return true;
-    }
-
-    // Case 3: Canceled but still in paid period (they paid until end date)
-    if (
-        user.billingStatus === "active" &&
-        user.cancelAtPeriodEnd &&
-        user.subscriptionEndsAt &&
-        user.subscriptionEndsAt > now
-    ) {
-        return true;
-    }
-
-    // Default: No access
-    return false;
-}
+import { hasEntitlement } from "./has-entitelment-client";
+import { EntitlementResponse } from "@/types/entitlement";
+import { getTranslations } from "next-intl/server";
 
 export async function formatEntitlementHeading(
     data: EntitlementResponse

@@ -1,48 +1,57 @@
-import { auth } from "@clerk/nextjs/server";
-import { db } from "@/drizzle/db";
-import { InstanceTable } from "@/drizzle/schema";
-import { eq, desc } from "drizzle-orm";
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useInstancesData } from "@/hooks/useInstancesData";
+import { useTranslations } from "next-intl";
 import { CreateInstanceSheet } from "@/components/private/instances/CreateInstanceSheet";
 import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropdownMenu";
 import { CustomButton } from "@/components/CustomButton";
-import { getActiveSubscriptionStatusForUI } from "@/lib/entitlements";
-import { getCredentialsStatus } from "@/actions/credentials/check";
 import Link from "next/link";
 
-export default async function Instances() {
-    const t = await getTranslations("instances");
+export default function Instances() {
+    const t = useTranslations("instances");
     
-    const { userId: clerkId } = await auth();
-    if (!clerkId) throw new Error("Unauthorized");
+    // Custom hook handles all data fetching logic
+    const { 
+        user, 
+        instances, 
+        credentialsStatus, 
+        hasActiveSubscription, 
+        isLoading, 
+        error 
+    } = useInstancesData();
 
-    const user = await db.query.UserTable.findFirst({
-        where: (t, { eq }) => eq(t.clerkId, clerkId),
-    });
+    // Loading state
+    if (isLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                <h1 className="text-lg font-bold">
+                    {t("loadingTitle")}
+                </h1>
+                <p className="text-center text-tertiary">
+                    {t("loadingDescription")}
+                </p>
+            </div>
+        );
+    }
 
-    const instances = user
-        ? await db
-            .select({
-                id: InstanceTable.id,
-                userId: InstanceTable.userId,
-                name: InstanceTable.name,
-                exchange: InstanceTable.exchange,
-                instrument: InstanceTable.instrument,
-                strategy: InstanceTable.strategy,
-                positionSizeUSDT: InstanceTable.positionSizeUSDT,
-                isTestnet: InstanceTable.isTestnet,
-                status: InstanceTable.status,
-                createdAt: InstanceTable.createdAt,
-            })
-            .from(InstanceTable)
-            .where(eq(InstanceTable.userId, user.id))
-            .orderBy(desc(InstanceTable.createdAt))
-        : [];
-    
-    const credentialsStatus = await getCredentialsStatus();
+    // Error state
+    if (error || !user || !credentialsStatus) {
+        return (
+            <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                <h1 className="text-lg font-bold text-red-500">
+                    {t("errorTitle")}
+                </h1>
+                <p className="text-center text-tertiary">
+                    {t("errorDescription")}
+                </p>
+                <CustomButton isBlue={false} onClick={() => window.location.reload()}>
+                    {t("retry")}
+                </CustomButton>
+            </div>
+        );
+    }
 
-    const { hasActiveSubscription } = await getActiveSubscriptionStatusForUI();
-
+    // Main content
     return (
         <>
             {instances.length === 0 ? (
@@ -149,13 +158,13 @@ export default async function Instances() {
                                     credentialsStatus={credentialsStatus}
                                     instance={instance}>
                                     <div className="grid grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center text-xs">
                                             {instance.status === "active" ? (
-                                                <span className="bg-green-500/30 px-2 py-1 rounded-full">
+                                                <span className="bg-green-500/10 text-green-500 px-2.5 py-0.5 rounded-full">
                                                     {t("statusActive")}
                                                 </span>
                                             ) : (
-                                                <span className="bg-yellow-500/30 px-2 py-1 rounded-full">
+                                                <span className="bg-yellow-500/10 text-yellow-500 px-2.5 py-0.5 rounded-full">
                                                     {t("statusPaused")}
                                                 </span>
                                             )}
@@ -176,7 +185,7 @@ export default async function Instances() {
                                             {instance.exchange}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                            {instance?.createdAt?.toLocaleDateString()}
+                                            {instance.createdAt.toLocaleDateString()}
                                         </div>
                                         <div className="group/actions col-span-1 border-r border-zinc-800 px-2 py-1 flex items-center justify-center">
                                             <ActionsDropdownMenu

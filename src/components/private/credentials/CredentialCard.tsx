@@ -3,6 +3,7 @@
 import { CustomButton } from "@/components/CustomButton";
 import { ManageCredentialsSheet } from "@/components/private/credentials/ManageCredentialsSheet";
 import { deleteCredentials } from "@/actions/credentials/delete";
+import { getInstanceCountByExchange } from "@/actions/credentials/count-instances";
 import {
     Dialog,
     DialogContent,
@@ -16,7 +17,7 @@ import { ArrowUpRight, Key } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ExchangeCredentialStatus } from "@/actions/credentials/check";
 
 interface CredentialCardProps {
@@ -27,6 +28,22 @@ interface CredentialCardProps {
 export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps) {
     const router = useRouter();
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [instanceCount, setInstanceCount] = useState<number>(0);
+    const [isLoadingCount, setIsLoadingCount] = useState(false);
+
+    // Fetch instance count when dialog opens
+    useEffect(() => {
+        if (isDeleteOpen) {
+            setIsLoadingCount(true);
+            getInstanceCountByExchange(exchangeKey)
+                .then(setInstanceCount)
+                .finally(() => setIsLoadingCount(false));
+        } else {
+            // Reset states when dialog closes
+            setInstanceCount(0);
+            setIsLoadingCount(false);
+        }
+    }, [isDeleteOpen, exchangeKey]);
 
     const handleDelete = async () => {
         try {
@@ -46,7 +63,11 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
                 return;
             }
 
-            toast.success("Credentials deleted successfully");
+            const message = result.deletedInstancesCount > 0
+                ? `Credentials and ${result.deletedInstancesCount} instance${result.deletedInstancesCount > 1 ? 's' : ''} deleted successfully`
+                : "Credentials deleted successfully";
+            
+            toast.success(message);
             setIsDeleteOpen(false);
             router.refresh();
         } catch (error) {
@@ -114,14 +135,24 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
                             </div>
                             <h1 className="text-xl">{exchangeKey.toUpperCase()}</h1>
                             <p className="text-secondary text-center">
-                                Are you sure you want to delete these credentials? <br /> This action cannot be undone.
+                                Are you sure you want to delete these credentials?
+                            </p>
+                            {isLoadingCount ? (
+                                <p className="text-tertiary text-sm">Loading instances...</p>
+                            ) : instanceCount > 0 ? (
+                                <p className="text-secondary text-center">
+                                    ⚠️ This will also delete <strong>{instanceCount}</strong> active instance{instanceCount > 1 ? 's' : ''}
+                                </p>
+                            ) : null}
+                            <p className="text-tertiary text-sm text-center">
+                                This action cannot be undone.
                             </p>
                         </div>
                         <DialogFooter className="w-full flex justify-center">
                             <button
                                 className="w-full border border-zinc-800 p-2 text-white duration-200 hover:bg-neutral-900 transition-all cursor-pointer"
                                 onClick={handleDelete}>
-                                Delete Credentials
+                                Delete {instanceCount > 0 ? `Credentials & ${instanceCount} Instance${instanceCount > 1 ? 's' : ''}` : 'Credentials'}
                             </button>
                         </DialogFooter>
                     </DialogContent>

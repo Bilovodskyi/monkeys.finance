@@ -213,10 +213,19 @@
         "days": "days"
     },
     "header": {
-        "searchPlaceholder": "Find anything..."
+        "searchPlaceholder": "Find anything...",
+        "settingUpAccount": "Setting up your account...",
+        "errorOccurred": "An error occurred"
     },
     "instances": {
+        "loadingTitle": "Loading your account",
+        "loadingDescription": "Fetching your data, please wait a moment...",
+        "errorTitle": "Failed to load account",
+        "errorDescription": "We couldn't load your account data. Please try again.",
+        "retry": "Retry",
         "addFirstInstance": "Add your first instance",
+        "settingUpTitle": "Setting up your account",
+        "settingUpDescription": "We're preparing your account. This will only take a moment...",
         "instanceDescription": "Instance is a function that will run on the cloud 24/7 constantly checking for new signals. Once signal is detected, the instance will open a position on the exchange. After instance automatically closes the position once opposite signal is detected.",
         "addInstance": "Add instance",
         "visitDocumentation": "Visit documentation page for more information",
@@ -277,7 +286,10 @@
             "unexpected": "An unexpected error occurred. Please try again",
             "credentialsRequired": "Please provide both API key and secret for this exchange",
             "encryptionFailed": "Failed to encrypt credentials. Please try again",
-            "saveFailed": "Failed to save credentials. Please try again"
+            "saveFailed": "Failed to save credentials. Please try again",
+            "leverageWarning": "Please manually set leverage on your exchange to x1. All backtests were performed with x1 leverage.",
+            "validPositiveNumber": "Must be a valid positive number",
+            "minimumPositionSize": "Minimum position size is $20 USDT"
         },
         "createdError": "Failed to create instance",
         "updatedError": "Failed to update instance",
@@ -442,5 +454,30 @@
         "withML": "With ML",
         "noML": "No ML",
         "bitcoin": "Bitcoin"
+    },
+    "history": {
+        "emptyTitle": "You don't have any history",
+        "emptyDescription": "After bot completes a trade, it will appear here.",
+        "stats": {
+            "totalSuccessfulFailed": "Total / Successful / Failed",
+            "winLossBreakEven": "Win / Loss / Break Even",
+            "totalPnL": "Total PnL"
+        },
+        "tableHeaders": {
+            "status": "Status",
+            "openDate": "Open Date",
+            "closeDate": "Close Date",
+            "exchange": "Exchange",
+            "instrument": "Instrument",
+            "strategy": "Strategy",
+            "quantity": "Quantity",
+            "entryPrice": "Entry Price",
+            "exitPrice": "Exit Price",
+            "pnl": "P&L"
+        },
+        "status": {
+            "filled": "Filled",
+            "failed": "Failed"
+        }
     }
 }
