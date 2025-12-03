@@ -26,6 +26,7 @@ const inputSchema = z.object({
         ),
     name: z.string().min(1),
     positionSizeUSDT: z.string().min(1),
+    isTestnet: z.boolean().optional(),
 });
 
 type CreateResult =
@@ -68,6 +69,7 @@ export async function createInstance(input: unknown): Promise<CreateResult> {
                 instrument: data.instrument,
                 strategy: data.strategy,
                 positionSizeUSDT: data.positionSizeUSDT,
+                isTestnet: data.isTestnet ?? false,
             })
             .returning({ id: InstanceTable.id });
 

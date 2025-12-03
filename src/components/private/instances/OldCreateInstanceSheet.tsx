@@ -48,7 +48,7 @@ const INSTRUMENT_SHORT_NAMES = {
     "Binance Coin": "BNB",
 };
 
-export function CreateInstanceSheet({
+export function OldCreateInstanceSheet({
     credentialsStatus,
     children,
     instance,
@@ -320,26 +320,25 @@ export function CreateInstanceSheet({
                 </SheetHeader>
 
                 <form
-                    className="mt-6 space-y-6 relative flex-1"
+                    className="mt-2 space-y-6 relative flex-1"
                     onSubmit={form.handleSubmit(handleSubmit)}
                     ref={formRef}>
-                    
                     <div className="flex items-start gap-3 p-3 rounded-md bg-yellow-500/10 border border-yellow-500/20 text-yellow-500">
                         <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
                         <span className="text-sm">
                             {translations("errors.leverageWarning")}
                         </span>
                     </div>
-
-                    {/* Strategy - Full Width */}
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
-                            <label className="text-tertiary font-medium">
+                            <label className=" text-tertiary">
                                 {translations("strategy")}
                             </label>
                             {form.formState.errors.strategy && (
                                 <div className="text-xs text-red-500">
-                                    {String(form.formState.errors.strategy.message)}
+                                    {String(
+                                        form.formState.errors.strategy.message
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -350,15 +349,19 @@ export function CreateInstanceSheet({
                                 <Select
                                     value={field.value}
                                     onValueChange={field.onChange}>
-                                    <SelectTrigger className="h-11 bg-zinc-900/50 border-zinc-800 focus:ring-zinc-700">
+                                    <SelectTrigger>
                                         <SelectValue
-                                            placeholder={translations("selectPlaceholder")}
+                                            placeholder={translations(
+                                                "selectPlaceholder"
+                                            )}
                                             className="text-tertiary"
                                         />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {strategies.map((strategy) => (
-                                            <SelectItem key={strategy} value={strategy}>
+                                            <SelectItem
+                                                key={strategy}
+                                                value={strategy}>
                                                 {strategy}
                                             </SelectItem>
                                         ))}
@@ -367,193 +370,189 @@ export function CreateInstanceSheet({
                             )}
                         />
                     </div>
-
-                    {/* Instrument & Exchange - Two Columns */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="grid gap-2">
-                            <div className="flex items-center justify-between">
-                                <label className="text-tertiary font-medium">
-                                    {translations("instrument")}
-                                </label>
-                                {form.formState.errors.instrument && (
-                                    <div className="text-xs text-red-500">
-                                        {String(form.formState.errors.instrument.message)}
-                                    </div>
-                                )}
-                            </div>
-                            <Controller
-                                control={form.control}
-                                name="instrument"
-                                render={({ field }) => (
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}>
-                                        <SelectTrigger className="h-11 bg-zinc-900/50 border-zinc-800 focus:ring-zinc-700">
-                                            <SelectValue
-                                                placeholder={translations("selectPlaceholder")}
-                                                className="text-tertiary"
-                                            />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {instruments.map((instrument) => (
-                                                <SelectItem key={instrument} value={instrument}>
-                                                    {instrument}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                )}
-                            />
+                    <div className="grid gap-2">
+                        <div className="flex items-center justify-between">
+                            <label className=" text-tertiary">
+                                {translations("instrument")}
+                            </label>
+                            {form.formState.errors.instrument && (
+                                <div className="text-xs text-red-500">
+                                    {String(
+                                        form.formState.errors.instrument.message
+                                    )}
+                                </div>
+                            )}
                         </div>
-
-                        <div className="grid gap-2">
-                            <div className="flex items-center justify-between">
-                                <label className="text-tertiary font-medium">
-                                    {translations("exchange")}
-                                </label>
-                                {form.formState.errors.exchange && (
-                                    <div className="text-xs text-red-500">
-                                        {String(form.formState.errors.exchange.message)}
-                                    </div>
-                                )}
-                            </div>
-                            <Controller
-                                control={form.control}
-                                name="exchange"
-                                render={({ field }) => (
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}>
-                                        <SelectTrigger className="h-11 bg-zinc-900/50 border-zinc-800 focus:ring-zinc-700">
-                                            <SelectValue
-                                                placeholder={translations("selectPlaceholder")}
-                                                className="text-tertiary"
-                                            />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {exchanges.map((exchange) => (
-                                                <SelectItem key={exchange} value={exchange}>
-                                                    {exchange}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                )}
-                            />
+                        <Controller
+                            control={form.control}
+                            name="instrument"
+                            render={({ field }) => (
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translations(
+                                                "selectPlaceholder"
+                                            )}
+                                            className="text-tertiary"
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {instruments.map((instrument) => (
+                                            <SelectItem
+                                                key={instrument}
+                                                value={instrument}>
+                                                {instrument}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <div className="flex items-center justify-between">
+                            <label className=" text-tertiary">
+                                {translations("exchange")}
+                            </label>
+                            {form.formState.errors.exchange && (
+                                <div className="text-xs text-red-500">
+                                    {String(
+                                        form.formState.errors.exchange.message
+                                    )}
+                                </div>
+                            )}
                         </div>
+                        <Controller
+                            control={form.control}
+                            name="exchange"
+                            render={({ field }) => (
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={translations(
+                                                "selectPlaceholder"
+                                            )}
+                                            className="text-tertiary"
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {exchanges.map((exchange) => (
+                                            <SelectItem
+                                                key={exchange}
+                                                value={exchange}>
+                                                {exchange}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                        </Select>
+                            )}
+                        />
                     </div>
                     
-                    {/* Position Size & Testnet - Two Columns */}
-                    <div className="grid grid-cols-2 gap-4 items-start">
-                        <div className="grid gap-2">
-                            <label className="text-tertiary font-medium">
-                                {translations("positionSize")}
-                            </label>
+                    {/* Position Size USDT Field */}
+                    <div className="grid gap-2">
+                        <label className="text-tertiary">
+                            {translations("positionSize")}
+                        </label>
+                        <Controller
+                            control={form.control}
+                            name="positionSizeUSDT"
+                            render={({ field }) => (
+                                <div className="space-y-1">
+                                    <input
+                                        {...field}
+                                        value={field.value || ""}
+                                        type="text"
+                                        placeholder={translations("enterPositionSize")}
+                                        className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
+                                    />
+                                    {form.formState.errors.positionSizeUSDT && (
+                                        <p className="text-xs text-red-500">
+                                            {form.formState.errors.positionSizeUSDT.message}
+                                        </p>
+                                    )}
+                                </div>
+                            )}
+                        />
+                    </div>
+                    
+                    {/* API Key Field */}
+                    <div className="grid gap-2">
+                        <label className=" text-tertiary">
+                            {translations("apiKey")}
+                        </label>
+                        {selectedExchange && credentialsStatus[selectedExchange.toLowerCase()]?.apiKey ? (
+                            <div className="flex items-center gap-2">
+                                <Check className="w-4 h-4 text-green-500" />
+                                <span className="">
+                                    {translations("apiKeyProvided")}
+                                </span>
+                            </div>
+                        ) : (
                             <Controller
                                 control={form.control}
-                                name="positionSizeUSDT"
+                                name="apiKey"
                                 render={({ field }) => (
-                                    <div className="space-y-1">
-                                        <div className="relative">
-                                            <input
-                                                {...field}
-                                                value={field.value || ""}
-                                                type="text"
-                                                placeholder="0.00"
-                                                className="h-11 w-full bg-zinc-900/50 border border-zinc-800 px-3 py-2 text-white outline-none focus:border-zinc-600 transition-colors rounded-md"
-                                            />
-                                            <span className="absolute right-3 top-3 text-tertiary text-sm">USDT</span>
-                                        </div>
-                                        {form.formState.errors.positionSizeUSDT && (
-                                            <p className="text-xs text-red-500">
-                                                {form.formState.errors.positionSizeUSDT.message}
-                                            </p>
-                                        )}
-                                    </div>
-                                )}
-                            />
-                        </div>
-
-                        {/* Use Demo Account Checkbox - Aligned with input */}
-                        <div className="flex items-center gap-3 h-11 mt-7 px-1">
-                            <Controller
-                                control={form.control}
-                                name="isTestnet"
-                                render={({ field }) => (
-                                    <Checkbox
-                                        checked={field.value || false}
-                                        onCheckedChange={field.onChange}
-                                        className="w-5 h-5"
+                                    <input
+                                        {...field}
+                                        value={field.value || ""}
+                                        type="text"
+                                        placeholder={translations("enterApiKey")}
+                                        className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
                                     />
                                 )}
                             />
-                            <label className="text-sm text-tertiary cursor-pointer select-none font-medium">
-                                Use demo account
-                            </label>
-                        </div>
+                        )}
                     </div>
-                    
-                    {/* API Credentials Section */}
-                    <div className="pt-4 border-t border-zinc-800/50 space-y-4">
-                        <h3 className="text-sm font-medium text-white mb-2">Exchange Credentials</h3>
-                        
-                        {/* API Key Field */}
-                        <div className="grid gap-2">
-                            <label className="text-tertiary text-xs uppercase tracking-wider">
-                                {translations("apiKey")}
-                            </label>
-                            {selectedExchange && credentialsStatus[selectedExchange.toLowerCase()]?.apiKey ? (
-                                <div className="flex items-center gap-2 p-3 bg-green-500/5 border border-green-500/20 rounded-md">
-                                    <Check className="w-4 h-4 text-green-500" />
-                                    <span className="text-sm text-green-500">
-                                        {translations("apiKeyProvided")}
-                                    </span>
-                                </div>
-                            ) : (
-                                <Controller
-                                    control={form.control}
-                                    name="apiKey"
-                                    render={({ field }) => (
-                                        <input
-                                            {...field}
-                                            value={field.value || ""}
-                                            type="text"
-                                            placeholder={translations("enterApiKey")}
-                                            className="h-10 w-full bg-zinc-900/30 border border-zinc-800 px-3 py-2 text-white outline-none focus:border-zinc-600 transition-colors rounded-md font-mono text-sm"
-                                        />
-                                    )}
-                                />
-                            )}
-                        </div>
 
-                        {/* API Secret Field */}
-                        <div className="grid gap-2">
-                            <label className="text-tertiary text-xs uppercase tracking-wider">
-                                {translations("apiSecret")}
-                            </label>
-                            {selectedExchange && credentialsStatus[selectedExchange.toLowerCase()]?.apiSecret ? (
-                                <div className="flex items-center gap-2 p-3 bg-green-500/5 border border-green-500/20 rounded-md">
-                                    <Check className="w-4 h-4 text-green-500" />
-                                    <span className="text-sm text-green-500">
-                                        {translations("apiSecretProvided")}
-                                    </span>
-                                </div>
-                            ) : (
-                                <Controller
-                                    control={form.control}
-                                    name="apiSecret"
-                                    render={({ field }) => (
-                                        <input
-                                            {...field}
-                                            value={field.value || ""}
-                                            type="text"
-                                            placeholder={translations("enterApiSecret")}
-                                            className="h-10 w-full bg-zinc-900/30 border border-zinc-800 px-3 py-2 text-white outline-none focus:border-zinc-600 transition-colors rounded-md font-mono text-sm"
-                                        />
-                                    )}
+                    {/* API Secret Field */}
+                    <div className="grid gap-2">
+                        <label className=" text-tertiary">
+                            {translations("apiSecret")}
+                        </label>
+                        {selectedExchange && credentialsStatus[selectedExchange.toLowerCase()]?.apiSecret ? (
+                            <div className="flex items-center gap-2">
+                                <Check className="w-4 h-4 text-green-500" />
+                                <span className="">
+                                    {translations("apiSecretProvided")}
+                                </span>
+                            </div>
+                        ) : (
+                            <Controller
+                                control={form.control}
+                                name="apiSecret"
+                                render={({ field }) => (
+                                    <input
+                                        {...field}
+                                        value={field.value || ""}
+                                        type="text"
+                                        placeholder={translations("enterApiSecret")}
+                                        className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
+                                    />
+                                )}
+                            />
+                        )}
+                    </div>
+
+                    {/* Use Demo Account Checkbox */}
+                    <div className="flex items-center gap-2">
+                        <Controller
+                            control={form.control}
+                            name="isTestnet"
+                            render={({ field }) => (
+                                <Checkbox
+                                    checked={field.value || false}
+                                    onCheckedChange={field.onChange}
                                 />
                             )}
-                        </div>
+                        />
+                        <label className="text-sm text-tertiary cursor-pointer">
+                            Use demo account
+                        </label>
                     </div>
 
                     <div className="absolute bottom-0 right-0 left-0 pt-4 flex flex-col gap-8">

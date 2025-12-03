@@ -14,6 +14,7 @@ const inputSchema = z.object({
     exchangeLabel: z.string().min(1),
     name: z.string().min(1),
     positionSizeUSDT: z.string().min(1),
+    isTestnet: z.boolean().optional(),
 });
 
 type UpdateResult =
@@ -82,6 +83,7 @@ export async function updateInstance(input: unknown): Promise<UpdateResult> {
             exchange,
             name: data.name,
             positionSizeUSDT: data.positionSizeUSDT,
+            isTestnet: data.isTestnet ?? false,
         })
         .where(and(eq(InstanceTable.id, data.id)))
         .returning({ id: InstanceTable.id });

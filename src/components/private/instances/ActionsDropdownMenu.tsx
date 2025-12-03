@@ -21,7 +21,7 @@ import { pauseActivate } from "@/actions/instances/pauseActivate";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { CreateInstanceSheet } from "./CreateInstanceSheet";
+import { CreateInstanceSheet } from "./OldCreateInstanceSheet";
 import type { InstanceRecord } from "@/types/instance";
 import type { CredentialsStatus } from "@/actions/credentials/check";
 import { deleteInstance } from "@/actions/instances/delete";

@@ -130,8 +130,11 @@ export default function Instances() {
                             <div className="col-span-3 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                 {t("tableHeaders.name")}
                             </div>
-                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                 {t("tableHeaders.strategy")}
+                            </div>
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                Account
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                 {t("tableHeaders.instrument")}
@@ -172,8 +175,11 @@ export default function Instances() {
                                         <div className="col-span-3 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {instance.name}
                                         </div>
-                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {instance.strategy}
+                                        </div>
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                            {instance.isTestnet ? "Demo" : "Real"}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {instance.instrument}

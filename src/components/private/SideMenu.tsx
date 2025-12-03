@@ -216,7 +216,7 @@ export default function SideMenu() {
                             ? "border border-zinc-800 bg-active-tab text-white"
                             : "text-secondary hover:!text-white"
                     }`}
-                    onClick={() => setActiveTab("how")}>
+                    >
                     <div className="flex-none">
                         <Pyramid className="w-4 h-4" />
                     </div>
