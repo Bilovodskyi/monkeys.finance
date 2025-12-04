@@ -246,7 +246,8 @@
             "positionSizeUSDT": "Tamaño de posición",
             "exchange": "Intercambio",
             "createdAt": "Fecha de creación",
-            "actions": "Acciones"
+            "actions": "Acciones",
+            "account": "Cuenta"
         },
         "instances": "Instancias",
         "instanceCount": "Tienes {count} instancia(s).",
@@ -260,6 +261,10 @@
         "apiSecret": "Secreto API",
         "apiSecretProvided": "Secreto API proporcionado",
         "enterApiSecret": "Ingresa secreto API",
+        "exchangeCredentials": "Credenciales del intercambio",
+        "useDemoAccount": "Usar cuenta de demostración",
+        "accountTypeDemo": "Demo",
+        "accountTypeReal": "Real",
         "positionSize": "Tamaño de posición (USDT)",
         "enterPositionSize": "Ingresa cantidad en USDT (mín. $10)",
         "selectPlaceholder": "Seleccionar...",
@@ -478,6 +483,58 @@
         "status": {
             "filled": "Completada",
             "failed": "Fallida"
+        }
+    },
+    "backtest": {
+        "stats": {
+            "startEndCapital": "Capital inicial / Capital final",
+            "backtestPeriod": "Período de backtesting",
+            "capitalChange": "Cambio de capital",
+            "totalTradesWinsLosses": "Total de operaciones / Ganancias / Pérdidas"
+        },
+        "tableHeaders": {
+            "positionType": "Tipo de posición",
+            "openDate": "Fecha de apertura",
+            "closeDate": "Fecha de cierre",
+            "pnl": "P&L",
+            "equityBefore": "Capital antes",
+            "equityAfter": "Capital después",
+            "entryPrice": "Precio de entrada"
+        }
+    },
+    "safety": {
+        "header": {
+            "title": "Tu",
+            "titleHighlight": "Seguridad",
+            "titleEnd": "es Nuestra Prioridad",
+            "description": "Utilizamos estándares de la industria para protegerte a ti y a tus datos. Nuestra principal prioridad es garantizar una experiencia de trading segura.",
+            "weAreUsing": "Estamos usando:"
+        },
+        "features": {
+            "cloud": {
+                "title": "Nube",
+                "description": "Tus datos se procesan en la infraestructura de AWS. Nada se almacena ni procesa en tu navegador, eliminando vulnerabilidades del lado del cliente",
+                "point1": "Seguridad AWS de nivel empresarial",
+                "point2": "Cero exposición de datos del navegador"
+            },
+            "auth": {
+                "title": "Autenticación",
+                "description": "Autenticación multifactor impulsada por Clerk. Tus credenciales son gestionadas por expertos en seguridad, no almacenadas en nuestra base de datos.",
+                "point1": "Autenticación multifactor (MFA)",
+                "point2": "Sin responsabilidad de almacenamiento de contraseñas"
+            },
+            "database": {
+                "title": "Base de datos",
+                "description": "Los datos de tu cuenta están protegidos por la misma infraestructura de base de datos utilizada por empresas Fortune 500. Las copias de seguridad automáticas garantizan que nunca perderás datos",
+                "point1": "Protección de datos de nivel empresarial",
+                "point2": "Copias de seguridad automáticas continuas"
+            },
+            "encryption": {
+                "title": "Encriptación",
+                "description": "Encriptamos tus claves API con encriptación de grado militar antes de almacenarlas, agregando una capa de seguridad adicional sobre la encriptación de la base de datos.",
+                "point1": "Claves ilegibles incluso para nosotros",
+                "point2": "Protección de encriptación de doble capa"
+            }
         }
     }
 }

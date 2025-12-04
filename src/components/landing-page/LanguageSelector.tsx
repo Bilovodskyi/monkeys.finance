@@ -32,7 +32,7 @@ export function LanguageSelector({
 
     return (
         <Select value={currentLocale} onValueChange={handleLocaleChange}>
-            <SelectTrigger className="z-50 border-none">
+            <SelectTrigger className="z-20 border-none">
                 <div className="flex items-center gap-2">
                     <Globe className="w-4 h-4 text-tertiary" />
                     {!isPrivatePage && <SelectValue className="gap-2" />}

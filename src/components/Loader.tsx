@@ -15,12 +15,12 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
  *  - Still **no reflection**; only subtle ambient shadow.
  */
 
-const SIZE = 420;                 // SVG viewport
-const BASE_R = 30;                // base radius for the largest drop
+const SIZE = 260;                 // SVG viewport
+const BASE_R = 20;                // base radius for the largest drop
 const BASES = [BASE_R, BASE_R * 0.86, BASE_R * 0.80] as const; // A, B, C
 const ORBIT_R = SIZE * 0.26;      // orbit radius
 const BG = "rgb(18, 18, 18)";
-const FILL = "rgb(31, 213, 249)";
+const FILL = "#3bbd7a";
 
 // Goo filter strength
 const BLUR = 18;
@@ -29,7 +29,7 @@ const GOO_OFF = -10;
 
 // Speeds (radians/second). 4× faster than a 360°/cycle baseline.
 // Slow completes 4 turns in 30s, mid in 15s, fast in 7.5s.
-const SLOW_DUR = 30; // seconds
+const SLOW_DUR = 25; // seconds
 const wSlow = (4 * 2 * Math.PI) / SLOW_DUR; // 4 rev per 30s
 const wMid = wSlow * 2;                      // 2×
 const wFast = wSlow * 4;                     // 4×
@@ -43,7 +43,7 @@ const MERGE_EXPAND_3 = 2.0;  // scale when all three connect
 const APPROACH_K = 0.12;     // easing factor for radius changes (0..1)
 const MERGE_PAD = 1.10;      // how early we consider them "touching" (blur buffer)
 
-export default function MetaballsLoader() {
+export default function MetaballsLoader({ className }: { className?: string }) {
     const ids = useMemo(
         () => ({
             goo: `goo-${Math.random().toString(36).slice(2)}`,
@@ -125,7 +125,7 @@ export default function MetaballsLoader() {
     }, []);
 
     return (
-        <div className="w-full h-full min-h-[420px] grid place-items-center" style={{ background: BG, borderRadius: 12 }}>
+        <div className={`grid place-items-center ${className}`} style={{ background: BG, borderRadius: 12 }}>
             <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`}>
                 <defs>
                     <filter id={ids.goo}>

@@ -121,32 +121,32 @@ export default async function notifications() {
                     {telegramAccount && (
                         <div className="p-6 flex flex-col overflow-hidden">
                             {/* Sticky Header */}
-                            <div className="grid grid-cols-6 border border-zinc-800 backdrop-blur-md">
+                            <div className="grid grid-cols-3 lg:grid-cols-6 border border-zinc-800 backdrop-blur-md">
                                 <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                     {t("tableHeaders.provider")}
                                 </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                     {t("tableHeaders.username")}
                                 </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                     {t("tableHeaders.createdAt")}
                                 </div>
                                 <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                     {t("tableHeaders.actions")}
                                 </div>
-                            </div>
+                            </div>  
 
                             {/* Telegram Account Row */}
-                            <div className="grid grid-cols-6 border border-zinc-800 border-t-0">
+                            <div className="grid grid-cols-3 lg:grid-cols-6 border border-zinc-800 border-t-0">
                                 <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
                                     <div className="bg-blue-400 py-1 px-3 rounded-full">
                                         Telegram
                                     </div>
                                 </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center">
                                     @{telegramAccount.telegramUsername}
                                 </div>
-                                <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
                                     {telegramAccount.createdAt.toLocaleDateString()}
                                 </div>
                                 <UnlinkTelegramAccount
@@ -169,20 +169,20 @@ export default async function notifications() {
                             </div>
                             <div className="p-6 flex flex-col overflow-hidden">
                                 {/* Sticky Header */}
-                                <div className="grid grid-cols-10 border border-zinc-800 backdrop-blur-md">
+                                <div className="grid grid-cols-3 lg:grid-cols-10 border border-zinc-800 backdrop-blur-md">
                                     <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                         {t("tableHeaders.provider")}
                                     </div>
-                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                         {t("tableHeaders.username")}
                                     </div>
-                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                         {t("tableHeaders.strategy")}
                                     </div>
-                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                         {t("tableHeaders.instrument")}
                                     </div>
-                                    <div className="col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
                                         {t("tableHeaders.createdAt")}
                                     </div>
                                     <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
@@ -194,22 +194,22 @@ export default async function notifications() {
                                 {data.map((notification, index) => (
                                     <div
                                         key={index}
-                                        className="grid grid-cols-10 border border-zinc-800 border-t-0">
+                                        className="grid grid-cols-3 lg:grid-cols-10 border border-zinc-800 border-t-0">
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             <div className="bg-blue-400 py-1 px-3 rounded-full">
                                                 {notification.provider}
                                             </div>
                                         </div>
-                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {notification.telegramUsername}
                                         </div>
-                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {notification.strategy}
                                         </div>
-                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {notification.instrument}
                                         </div>
-                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {notification.createdAt.toLocaleDateString()}
                                         </div>
                                         <DeleteNotification

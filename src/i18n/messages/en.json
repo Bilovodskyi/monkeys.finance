@@ -246,7 +246,8 @@
             "positionSizeUSDT": "Position Size",
             "exchange": "Exchange",
             "createdAt": "Created At",
-            "actions": "Actions"
+            "actions": "Actions",
+            "account": "Account"
         },
         "instances": "Instances",
         "instanceCount": "You have {count} instance(s).",
@@ -260,6 +261,10 @@
         "apiSecret": "API Secret",
         "apiSecretProvided": "API Secret Provided",
         "enterApiSecret": "Enter API Secret",
+        "exchangeCredentials": "Exchange Credentials",
+        "useDemoAccount": "Use demo account",
+        "accountTypeDemo": "Demo",
+        "accountTypeReal": "Real",
         "positionSize": "Position Size (USDT)",
         "enterPositionSize": "Enter amount in USDT (min. $10)",
         "selectPlaceholder": "Select...",
@@ -478,6 +483,58 @@
         "status": {
             "filled": "Filled",
             "failed": "Failed"
+        }
+    },
+    "backtest": {
+        "stats": {
+            "startEndCapital": "Start capital / End capital",
+            "backtestPeriod": "Backtest Period",
+            "capitalChange": "Capital Change",
+            "totalTradesWinsLosses": "Total Trades / Wins / Losses"
+        },
+        "tableHeaders": {
+            "positionType": "Position Type",
+            "openDate": "Open Date",
+            "closeDate": "Close Date",
+            "pnl": "P&L",
+            "equityBefore": "Equity Before",
+            "equityAfter": "Equity After",
+            "entryPrice": "Entry Price"
+        }
+    },
+    "safety": {
+        "header": {
+            "title": "Your",
+            "titleHighlight": "Security",
+            "titleEnd": "is Our Priority",
+            "description": "We use industry standards to protect you and your data. Our main priority is to ensure a safe trading experience.",
+            "weAreUsing": "We are using:"
+        },
+        "features": {
+            "cloud": {
+                "title": "Cloud",
+                "description": "Your data is processed on AWS infrastructure. Nothing is stored or processed in your browser, eliminating client-side vulnerabilities",
+                "point1": "Enterprise-grade AWS security",
+                "point2": "Zero browser data exposure"
+            },
+            "auth": {
+                "title": "Auth",
+                "description": "Multi-factor authentication powered by Clerk. Your credentials are managed by security experts, not stored in our database.",
+                "point1": "Multi-factor authentication (MFA)",
+                "point2": "No password storage liability"
+            },
+            "database": {
+                "title": "Database",
+                "description": "Your account data is protected by the same database infrastructure used by Fortune 500 companies. Automatic backups ensure you'll never lose data",
+                "point1": "Enterprise-level data protection",
+                "point2": "Continuous automatic backups"
+            },
+            "encryption": {
+                "title": "Encryption",
+                "description": "We encrypt your API keys with military-grade encryption before storing them—adding an extra security layer on top of database encryption.",
+                "point1": "Keys unreadable even to us",
+                "point2": "Double-layer encryption protection"
+            }
         }
     }
 }

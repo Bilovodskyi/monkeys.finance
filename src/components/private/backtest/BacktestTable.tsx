@@ -7,6 +7,7 @@ import HoverEffectAroundCard from "@/components/hero-animation/HoverEffectAround
 import type { Instrument } from "@/data/constants";
 import { instruments } from "@/data/constants";
 import { TradeData } from "@/types/global";
+import { useTranslations } from "next-intl";
 
 interface BacktestTableProps {
     data: Record<string, TradeData[]>;
@@ -17,6 +18,7 @@ export default function BacktestTable({
     data,
     compact = false,
 }: BacktestTableProps) {
+    const t = useTranslations("backtest");
     const [selectedInstrument, setSelectedInstrument] =
         useState<Instrument>("Bitcoin");
 
@@ -41,7 +43,7 @@ export default function BacktestTable({
         <div className="flex flex-col h-full">
             <div className="px-6 pt-6">
                 <div
-                    className={`flex flex-wrap gap-4 ${
+                    className={`flex max-md:w-full max-md:justify-between md:flex-wrap md:gap-4 ${
                         compact ? "" : "w-1/2"
                     }`}>
                     {instruments.map((instrument) => (
@@ -53,7 +55,7 @@ export default function BacktestTable({
                                 onClick={() =>
                                     setSelectedInstrument(instrument)
                                 }
-                                className={`hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-3 text-white text-center text-sm ${
+                                className={`hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-1 lg:px-3 text-white text-center text-sm ${
                                     compact ? "min-w-[80px]" : "min-w-[100px]"
                                 }`}>
                                 {instrument}
@@ -62,7 +64,7 @@ export default function BacktestTable({
                     ))}
                 </div>
             </div>
-            <div className="flex p-6 gap-6">
+            <div className="flex flex-col md:flex-row p-6 gap-6">
                 <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
                     <div>
                         <span className="text-xs text-tertiary">
@@ -73,7 +75,7 @@ export default function BacktestTable({
                         </h1>
                     </div>
                     <h2 className="text-tertiary font-title">
-                        Start capital / End capital
+                        {t("stats.startEndCapital")}
                     </h2>
                 </div>
                 <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
@@ -81,7 +83,7 @@ export default function BacktestTable({
                         {firstDate} - {lastDate}
                     </h1>
                     <h2 className=" text-tertiary font-title">
-                        Backtest Period
+                        {t("stats.backtestPeriod")}
                     </h2>
                 </div>
                 <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
@@ -89,7 +91,7 @@ export default function BacktestTable({
                         {Math.round(stats.capitalChangePct)}%
                     </h1>
                     <h2 className=" text-tertiary font-title">
-                        Capital Change
+                        {t("stats.capitalChange")}
                     </h2>
                 </div>
                 <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
@@ -98,33 +100,33 @@ export default function BacktestTable({
                         {stats.lossTradesCount}
                     </h1>
                     <h2 className=" text-tertiary font-title">
-                        Total Trades / Wins / Losses
+                        {t("stats.totalTradesWinsLosses")}
                     </h2>
                 </div>
             </div>
 
-            <div className="flex-1 p-6 flex flex-col overflow-hidden">
+            <div className="flex-1 p-6 hidden md:flex flex-col overflow-hidden">
                 {/* Sticky Header */}
                 <div className="grid grid-cols-7 border border-zinc-800 backdrop-blur-md">
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
-                        Position Type
+                        {t("tableHeaders.positionType")}
                     </div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
-                        Open Date
+                        {t("tableHeaders.openDate")}
                     </div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
-                        Close Date
+                        {t("tableHeaders.closeDate")}
                     </div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
-                        P&L
+                        {t("tableHeaders.pnl")}
                     </div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
-                        Equity Before
+                        {t("tableHeaders.equityBefore")}
                     </div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
-                        Equity After
+                        {t("tableHeaders.equityAfter")}
                     </div>
-                    <div className="px-4 py-3 text-tertiary ">Entry Price</div>
+                    <div className="px-4 py-3 text-tertiary ">{t("tableHeaders.entryPrice")}</div>
                 </div>
 
                 {/* Scrollable Content */}

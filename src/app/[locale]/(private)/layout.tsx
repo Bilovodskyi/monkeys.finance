@@ -1,5 +1,6 @@
 import Header from "@/components/private/Header";
 import SideMenu from "@/components/private/SideMenu";
+import { MobileMenuProvider } from "@/context/MobileMenuContext";
 
 export default function PrivateLayout({
     children,
@@ -7,12 +8,14 @@ export default function PrivateLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="flex h-screen relative">
-            <SideMenu />
-            <div className="flex flex-col w-full ml-[71px]">
-                <Header />
-                <div className="overflow-y-scroll h-full">{children}</div>
+        <MobileMenuProvider>
+            <div className="flex h-[100dvh] lg:h-screen relative overflow-hidden">
+                <SideMenu />
+                <div className="flex flex-col w-full md:ml-[71px] h-full">
+                    <Header />
+                    <div className="overflow-y-scroll h-full">{children}</div>
+                </div>
             </div>
-        </div>
+        </MobileMenuProvider>
     );
 }

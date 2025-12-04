@@ -13,24 +13,24 @@ import {
     ShieldCheck,
 } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function SafetyPage() {
+    const t = useTranslations("safety");
+    
     return (
-        <div className="flex flex-col h-full overflow-hidden">
-            <div className="flex items-center justify-center px-24 pt-12 shrink-0">
+        <div className="flex flex-col h-full overflow-y-auto 2xl:overflow-hidden">
+            <div className="flex flex-col lg:flex-row items-center justify-center px-6 lg:px-24 pt-8 lg:pt-12 shrink-0 gap-8 lg:gap-0">
                 <div className="flex flex-1 flex-col gap-4 justify-center">
-                    <h1 className="text-4xl">
-                        Your <span className="text-highlight">Security</span> is
-                        Our Priority
+                    <h1 className="text-3xl lg:text-4xl">
+                        {t("header.title")} <span className="text-highlight">{t("header.titleHighlight")}</span> {t("header.titleEnd")}
                     </h1>
-                    <h2 className="text-xl text-secondary w-2/3">
-                        We use industry standards to protect you and your data.
-                        Our main priority is to ensure a safe trading
-                        experience.
+                    <h2 className="text-lg lg:text-xl text-secondary w-full lg:w-2/3 mx-auto lg:mx-0">
+                        {t("header.description")}
                     </h2>
                     <div className="flex items-center gap-6 mt-4">
                         <h2 className="text-lg text-secondary">
-                            We are using:
+                            {t("header.weAreUsing")}
                         </h2>
                         <Image
                             src="/security-logos/aws.svg"
@@ -58,105 +58,97 @@ export default function SafetyPage() {
                 <Image
                     src="/illustrations/safetyPage.svg"
                     alt="Safety"
-                    width={300}
-                    height={300}
+                    width={400}
+                    height={400}
                     className="flex-1 h-[400px]"
                 />
             </div>
-            <div className="flex flex-1 gap-6 items-center justify-center px-24 py-12 shrink-0">
-                <div className="flex-1 p-10 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 px-6 py-12 lg:px-18 lg:py-12 shrink-0">
+                <div className="p-6 lg:p-8 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
                     <div className="bg-[rgba(59,189,122,0.3)] border border-[rgba(59,189,122,0.5)] rounded-md p-2 h-[40px] w-[40px] flex items-center justify-center">
                         <Cloud color="#919191" />
                     </div>
-                    <h1 className="text-2xl">Cloud</h1>
+                    <h1 className="text-2xl">{t("features.cloud.title")}</h1>
                     <h2 className="text-secondary text-md">
-                        Your data is processed on AWS infrastructure. Nothing is
-                        stored or processed in your browser, eliminating
-                        client-side vulnerabilities
+                        {t("features.cloud.description")}
                     </h2>
                     <div className="flex gap-3 items-center pt-2">
                         <Server color="#919191" />
                         <p className="text-tertiary !text-md">
-                            Enterprise-grade AWS security
+                            {t("features.cloud.point1")}
                         </p>
                     </div>
                     <div className="h-px bg-gradient-to-r from-zinc-700 to-transparent ml-7" />
                     <div className="flex gap-3 items-center">
                         <Globe color="#919191" />
                         <p className="text-tertiary !text-md">
-                            Zero browser data exposure
+                            {t("features.cloud.point2")}
                         </p>
                     </div>
                 </div>
-                <div className="flex-1 p-10 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
+                <div className="p-6 lg:p-8 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
                     <div className="bg-[rgba(59,189,122,0.3)] border border-[rgba(59,189,122,0.5)] rounded-md p-2 h-[40px] w-[40px] flex items-center justify-center">
                         <LockKeyhole color="#919191" />
                     </div>
-                    <h1 className="text-2xl">Auth</h1>
+                    <h1 className="text-2xl">{t("features.auth.title")}</h1>
                     <h2 className="text-secondary text-md">
-                        Multi-factor authentication powered by Clerk. Your
-                        credentials are managed by security experts, not stored
-                        in our database.
+                        {t("features.auth.description")}
                     </h2>
                     <div className="flex gap-3 items-center pt-2">
                         <Fingerprint color="#919191" />
                         <p className="text-tertiary !text-md">
-                            Multi-factor authentication (MFA)
+                            {t("features.auth.point1")}
                         </p>
                     </div>
                     <div className="h-px bg-gradient-to-r from-zinc-700 to-transparent ml-7" />
                     <div className="flex gap-3 items-center">
                         <KeyRound color="#919191" />
                         <p className="text-tertiary !text-md">
-                            No password storage liability
+                            {t("features.auth.point2")}
                         </p>
                     </div>
                 </div>
-                <div className="flex-1 p-10 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
+                <div className="p-6 lg:p-8 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
                     <div className="bg-[rgba(59,189,122,0.3)] border border-[rgba(59,189,122,0.5)] rounded-md p-2 h-[40px] w-[40px] flex items-center justify-center">
                         <Database color="#919191" />
                     </div>
-                    <h1 className="text-2xl">Database</h1>
+                    <h1 className="text-2xl">{t("features.database.title")}</h1>
                     <h2 className="text-secondary text-md">
-                        Your account data is protected by the same database
-                        infrastructure used by Fortune 500 companies. Automatic
-                        backups ensure you'll never lose data
+                        {t("features.database.description")}
                     </h2>
                     <div className="flex gap-3 items-center pt-2">
                         <ChartColumn color="#919191" />
                         <p className="text-tertiary !text-md">
-                            Enterprise-level data protection
+                            {t("features.database.point1")}
                         </p>
                     </div>
                     <div className="h-px bg-gradient-to-r from-zinc-700 to-transparent ml-7" />
                     <div className="flex gap-3 items-center">
                         <Cpu color="#919191" />
                         <p className="text-tertiary !text-md">
-                            Continuous automatic backups
+                            {t("features.database.point2")}
                         </p>
                     </div>
                 </div>
-                <div className="flex-1 p-10 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
+                <div className="p-6 lg:p-8 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
                     <div className="bg-[rgba(59,189,122,0.3)] border border-[rgba(59,189,122,0.5)] rounded-md p-2 h-[40px] w-[40px] flex items-center justify-center">
                         <ShieldCheck color="#919191" />
                     </div>
-                    <h1 className="text-2xl">Encryption</h1>
+                    <h1 className="text-2xl">{t("features.encryption.title")}</h1>
                     <h2 className="text-secondary text-md">
-                        We encrypt your API keys with military-grade encryption
-                        before storing them—adding an extra security layer on
-                        top of database encryption.
+                        {t("features.encryption.description")}
                     </h2>
                     <div className="flex gap-3 items-center pt-2">
                         <Binary color="#919191" />
                         <p className="text-tertiary !text-md">
-                            Keys unreadable even to us
+                            {t("features.encryption.point1")}
                         </p>
                     </div>
                     <div className="h-px bg-gradient-to-r from-zinc-700 to-transparent ml-7" />
                     <div className="flex gap-3 items-center">
                         <Layers2 color="#919191" />
                         <p className="text-tertiary !text-md">
-                            Double-layer encryption protection
+                            {t("features.encryption.point2")}
                         </p>
                     </div>
                 </div>

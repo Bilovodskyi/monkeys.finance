@@ -6,6 +6,7 @@ import { CreateInstanceSheet } from "@/components/private/instances/CreateInstan
 import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropdownMenu";
 import { CustomButton } from "@/components/CustomButton";
 import Link from "next/link";
+import MetaballsLoader from "@/components/Loader";
 
 export default function Instances() {
     const t = useTranslations("instances");
@@ -23,7 +24,8 @@ export default function Instances() {
     // Loading state
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+            <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2">
+                <MetaballsLoader className="min-h-[200px]" />
                 <h1 className="text-lg font-bold">
                     {t("loadingTitle")}
                 </h1>
@@ -37,7 +39,7 @@ export default function Instances() {
     // Error state
     if (error || !user || !credentialsStatus) {
         return (
-            <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+            <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2">
                 <h1 className="text-lg font-bold text-red-500">
                     {t("errorTitle")}
                 </h1>
@@ -123,29 +125,29 @@ export default function Instances() {
                     </div>
                     <div className="flex-1 p-6 flex flex-col overflow-hidden">
                         {/* Sticky Header */}
-                        <div className="grid grid-cols-11 border border-zinc-800 backdrop-blur-md">
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                        <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 backdrop-blur-md">
+                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
                                 {t("tableHeaders.status")}
                             </div>
-                            <div className="col-span-3 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-3 border-r border-zinc-800 px-4 py-3 hidden xl:block text-tertiary">
                                 {t("tableHeaders.name")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.strategy")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
-                                Account
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
+                                {t("tableHeaders.account")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
                                 {t("tableHeaders.instrument")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.positionSizeUSDT")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
                                 {t("tableHeaders.exchange")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.createdAt")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
@@ -160,7 +162,7 @@ export default function Instances() {
                                     key={index}
                                     credentialsStatus={credentialsStatus}
                                     instance={instance}>
-                                    <div className="grid grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
+                                    <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center text-xs">
                                             {instance.status === "active" ? (
                                                 <span className="bg-green-500/10 text-green-500 px-2.5 py-0.5 rounded-full">
@@ -172,25 +174,25 @@ export default function Instances() {
                                                 </span>
                                             )}
                                         </div>
-                                        <div className="col-span-3 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-3 border-r border-zinc-800 px-4 py-3 hidden xl:flex items-center">
                                             {instance.name}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.strategy}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                            {instance.isTestnet ? "Demo" : "Real"}
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
+                                            {instance.isTestnet ? t("accountTypeDemo") : t("accountTypeReal")}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {instance.instrument}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDT</span>
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center capitalize">
                                             {instance.exchange}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.createdAt.toLocaleDateString()}
                                         </div>
                                         <div className="group/actions col-span-1 border-r border-zinc-800 px-2 py-1 flex items-center justify-center">

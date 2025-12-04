@@ -71,8 +71,8 @@ export default function TelegramSetupPage() {
 
     if (status === "loading") {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen w-full px-4">
-                <div className="w-full max-w-md aspect-square">
+            <div className="flex flex-col items-center justify-center h-full w-full px-4">
+                <div className="w-full max-w-md">
                     <MetaballsLoader />
                 </div>
                 <p className="mt-8 text-lg text-tertiary">

@@ -84,7 +84,7 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
                         {exchangeKey.charAt(0).toUpperCase() + exchangeKey.slice(1)}
                     </h1>
                     
-                    <div className="flex items-center gap-4 text-xs text-tertiary mb-3">
+                    <div className="flex md:flex-row flex-col md:items-center gap-4 text-xs text-tertiary mb-3 mt-3 md:mt-0">
                         <p>
                             Created: <span className="text-secondary">{credentials.createdAt.toLocaleString()}</span>
                         </p>
@@ -111,7 +111,7 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
                     width={140}
                     height={40}
                     alt="Crypto Exchange API Key"
-                    className="w-[140px] h-full brightness-0 invert"
+                    className="w-[140px] h-full brightness-0 invert hidden md:block"
                 />
             </div>
             <div className="h-[1px] w-full bg-zinc-800 mt-4" />

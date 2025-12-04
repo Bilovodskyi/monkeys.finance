@@ -113,7 +113,7 @@ export function PlanClient({
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+        <div className="flex flex-col items-center justify-center lg:h-full w-full lg:w-1/4 lg:mx-auto px-6 lg:px-0 gap-2 pt-8 lg:py-0 pb-12 lg:pb-0">
             <h1 className="text-lg font-bold">{heading}</h1>
             <p className="text-center text-tertiary">
                 {t(messageKey, messageParams)}
@@ -129,9 +129,9 @@ export function PlanClient({
                 </div>
             )}
             {plan !== "active" && (
-                <div className="flex gap-4 mt-6">
+                <div className="flex flex-col max-md:items-center lg:flex-row gap-4 mt-6 max-md:w-full">
                     {/* Monthly Plan */}
-                    <div className="border border-zinc-800 p-6 space-y-3 h-full w-[250px]">
+                    <div className="border border-zinc-800 p-6 space-y-3 h-full w-[320px] lg:w-[250px]">
                         <h2 className="text-lg font-bold">{t("monthly")}</h2>
                         <span className="text-2xl">
                             {currency}
@@ -185,7 +185,7 @@ export function PlanClient({
                     </div>
 
                     {/* Yearly Plan */}
-                    <div className="border border-zinc-800 p-6 space-y-3 h-full w-[250px]">
+                    <div className="border border-zinc-800 p-6 space-y-3 h-full w-[320px] lg:w-[250px]">
                         <div className="flex justify-between items-center">
                             <h2 className="text-lg font-bold">{t("yearly")}</h2>
                             <span className="text-secondary text-xs bg-zinc-900 px-2 py-1 rounded-full border border-zinc-800">

@@ -488,14 +488,14 @@ export function CreateInstanceSheet({
                                 )}
                             />
                             <label className="text-sm text-tertiary cursor-pointer select-none font-medium">
-                                Use demo account
+                                {translations("useDemoAccount")}
                             </label>
                         </div>
                     </div>
                     
                     {/* API Credentials Section */}
                     <div className="pt-4 border-t border-zinc-800/50 space-y-4">
-                        <h3 className="text-sm font-medium text-white mb-2">Exchange Credentials</h3>
+                        <h3 className="text-sm font-medium text-white mb-2">{translations("exchangeCredentials")}</h3>
                         
                         {/* API Key Field */}
                         <div className="grid gap-2">
