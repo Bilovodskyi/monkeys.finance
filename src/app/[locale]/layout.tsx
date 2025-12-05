@@ -3,7 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { locales } from "@/i18n/locales";
+import { locales, type Locale } from "@/i18n/locales";
 import "../globals.css";
 import { enUS, esES, ruRU, ukUA } from "@clerk/localizations";
 import { Toaster } from "sonner";
@@ -20,17 +20,22 @@ export function generateStaticParams() {
     return locales.map((locale) => ({ locale }));
 }
 
+// Type guard to check if a string is a valid locale
+function isValidLocale(locale: string): locale is Locale {
+    return locales.includes(locale as Locale);
+}
+
 export default async function LocaleLayout({
     children,
     params,
 }: {
     children: React.ReactNode;
-    params: Promise<{ locale: "en" | "es" | "ru" | "uk" }>;
+    params: Promise<{ locale: string }>;
 }) {
     const { locale } = await params;
 
     // Ensure that the incoming `locale` is valid
-    if (!locales.includes(locale)) {
+    if (!isValidLocale(locale)) {
         notFound();
     }
 

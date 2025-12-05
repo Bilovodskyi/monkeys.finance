@@ -17,6 +17,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 });
 
 // Type guard to check if a string is a valid locale
-function isValidLocale(locale: string): locale is Locale {
+export function isValidLocale(locale: string): locale is Locale {
     return locales.includes(locale as Locale);
 }
