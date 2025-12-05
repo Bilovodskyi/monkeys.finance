@@ -8,6 +8,8 @@ function isFiniteNumber(n: unknown): n is number {
 
 function isValidTrade(t: unknown): t is TradeData {
     if (!t || typeof t !== "object") return false;
+    // Intentional 'any' - type guard needs to inspect unknown object properties
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const anyT: any = t;
     return (
         typeof anyT.date === "string" &&

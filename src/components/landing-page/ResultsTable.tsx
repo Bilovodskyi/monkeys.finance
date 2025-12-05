@@ -25,6 +25,8 @@ export function ResultsTable() {
     const visibleTrades = hasData && data.length > 1 ? data.slice(1, 16) : [];
     const statsInput = hasData && data.length > 1 ? data.slice(1) : [];
 
+    // Calculate stats before conditional return (hooks must be called unconditionally)
+    const stats = useBacktestStats(statsInput);
 
     if (loading) {
         return (
@@ -39,7 +41,6 @@ export function ResultsTable() {
     }
 
     const pairs = groupTradesIntoPairs(visibleTrades);
-    const stats = useBacktestStats(statsInput);
 
     return (
         <section className="px-24 mt-8">

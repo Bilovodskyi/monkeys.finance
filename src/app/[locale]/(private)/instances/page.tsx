@@ -58,7 +58,7 @@ export default function Instances() {
         <>
             {instances.length === 0 ? (
                 hasActiveSubscription ? (
-                    <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                    <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2 px-6 md:px-0">
                         <h1 className="text-lg font-bold">
                             {t("addFirstInstance")}
                         </h1>
@@ -77,7 +77,7 @@ export default function Instances() {
                         </p>
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                    <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2 px-6 md:px-0">
                         <h1 className="text-lg font-bold">
                             {t("subscriptionExpired")}
                         </h1>
@@ -150,7 +150,7 @@ export default function Instances() {
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.createdAt")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
                                 {t("tableHeaders.actions")}
                             </div>
                         </div>
@@ -163,7 +163,7 @@ export default function Instances() {
                                     credentialsStatus={credentialsStatus}
                                     instance={instance}>
                                     <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center text-xs">
+                                        <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center text-xs">
                                             {instance.status === "active" ? (
                                                 <span className="bg-green-500/10 text-green-500 px-2.5 py-0.5 rounded-full">
                                                     {t("statusActive")}
@@ -183,13 +183,13 @@ export default function Instances() {
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.isTestnet ? t("accountTypeDemo") : t("accountTypeReal")}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center">
                                             {instance.instrument}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDT</span>
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center capitalize">
+                                        <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center capitalize">
                                             {instance.exchange}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">

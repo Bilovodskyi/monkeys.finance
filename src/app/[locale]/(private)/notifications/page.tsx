@@ -55,7 +55,7 @@ export default async function notifications() {
         <>
             {data.length === 0 && !telegramAccount ? (
                 hasActiveSubscription ? (
-                    <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                    <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2 px-6 md:px-0">
                         <h1 className="text-lg font-bold">{t("emptyTitle")}</h1>
                         <p className="text-center text-tertiary">
                             {t("emptyDescription")}
@@ -72,7 +72,7 @@ export default async function notifications() {
                         </p>
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                    <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2 px-6 md:px-0">
                         <h1 className="text-lg font-bold">
                             {t("subscriptionExpiredTitle")}
                         </h1>

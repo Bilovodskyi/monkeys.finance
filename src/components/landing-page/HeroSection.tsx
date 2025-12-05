@@ -15,7 +15,8 @@ export async function HeroSection() {
         <section className="flex relative overflow-hidden max-xl:h-screen">
             {/* Header */}
             <section className="absolute top-0 left-0 py-3 xl:py-6 px-6 xl:px-16 2xl:px-24 flex items-center gap-4 justify-between w-full">
-                <img src="/main-logo.png" alt="Main Logo" className="w-32" />
+                {/* <Image src="/main-logo.png" alt="Main Logo" width={128} height={32} className="w-32" /> */}
+                <Image src="/monkeys-logo.svg" alt="Monkeys Logo" width={128} height={32} className="w-32" />
                 <div className="flex items-center gap-8">
                     <LanguageSelector isPrivatePage={false} />
                     <div className="hidden xl:flex items-center gap-2 text-secondary">
@@ -70,10 +71,12 @@ export async function HeroSection() {
             </section>
 
             {/* Background Grid */}
-            <img
+            <Image
                 className="absolute -right-48 top-4 object-none -z-10 hidden xl:block"
                 alt="Grid"
                 src="/hero-grid.svg"
+                width={1200}
+                height={1200}
                 style={{ transform: "rotate(-30deg) skewX(30deg)" }}
             />
 

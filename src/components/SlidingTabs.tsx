@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { GalleryVerticalEnd, ListTodo } from "lucide-react";
 import { strategies } from "@/data/constants";
 
 const SlidingTabs: React.FC = () => {

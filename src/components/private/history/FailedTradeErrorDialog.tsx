@@ -20,7 +20,7 @@ export function FailedTradeErrorDialog({ errorMessage }: { errorMessage: string 
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <button
-                    className="ml-2 cursor-pointer text-red-500 hover:text-red-400 transition-colors"
+                    className="ml-[1px] lg:ml-2 cursor-pointer text-red-500 hover:text-red-400 transition-colors"
                     onClick={(e) => {
                         e.stopPropagation();
                         setIsOpen(true);

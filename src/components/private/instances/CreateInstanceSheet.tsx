@@ -171,19 +171,7 @@ export function CreateInstanceSheet({
                 isTestnet: false,
             });
         }
-    }, [instance, form, open]);
-
-    // Build instance name dynamically
-    const instanceName = [
-        INSTRUMENT_SHORT_NAMES[
-            selectedInstrument as keyof typeof INSTRUMENT_SHORT_NAMES
-        ] || "-",
-        selectedExchange || "-",
-        selectedStrategy === "Squid Ribbon V2" ? "1H" : "4H",
-        selectedStrategy || "-",
-    ]
-        .join("-")
-        .toUpperCase();
+    }, [instance,form, open]);
 
     const clearForm = () => {
         form.reset({ strategy: "", instrument: "", exchange: "" });

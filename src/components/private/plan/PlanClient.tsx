@@ -99,7 +99,7 @@ export function PlanClient({
     // Use the daysLeft already calculated on the server
     // Determine the appropriate message key and parameters
     let messageKey = "planEndsMessage";
-    let messageParams: Record<string, string> = { date, time };
+    const messageParams: Record<string, string> = { date, time };
 
     if (daysLeft < 0) {
         // Plan expired

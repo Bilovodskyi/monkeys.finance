@@ -2,7 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
-import { InstanceTable, UserTable } from "@/drizzle/schema";
+import { InstanceTable } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
 type DeleteResult =

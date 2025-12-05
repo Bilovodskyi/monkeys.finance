@@ -1,5 +1,6 @@
 import DitherBackground from "@/components/landing-page/DitherBackground";
 import Link from "next/link";
+import Image from "next/image";
 import { SignUpButton } from "@clerk/nextjs";
 import { CustomButton } from "@/components/CustomButton";
 import { getTranslations } from "next-intl/server";
@@ -13,9 +14,11 @@ export default async function About() {
                 {/* <LedGridFlicker rows={80} cols={380} activeTarget={4000} className="absolute left-0 top-0 z-20 w-full h-full scale-130" /> */}
                 <div className="absolute top-0 left-0 right-0 bottom-0 h-screen">
                     <Link className="absolute top-6 left-6 md:left-24 z-30" href="/">
-                        <img
-                            src="/main-logo.png"
-                            alt="Main Logo"
+                        <Image
+                            src="/monkeys-logo.svg"
+                            alt="Monkeys Logo"
+                            width={128}
+                            height={32}
                             className="w-32"
                         />
                     </Link>
@@ -28,7 +31,7 @@ export default async function About() {
                 </div>
 
                 <div className="h-[500px] z-20 flex items-center justify-center">
-                    <h1 className="text-4xl md:text-5xl font-title">{t("title")}</h1>
+                    <h1 className="text-4xl md:text-5xl font-title text-center">{t("title")}</h1>
                 </div>
                 <div className="z-20 flex flex-col gap-3 items-center pt-8 md:pt-32 pb-20">
                     <h2 className="!text-2xl px-6 md:px-0 md:w-1/2">

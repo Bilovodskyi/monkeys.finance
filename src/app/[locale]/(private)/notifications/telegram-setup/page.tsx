@@ -52,7 +52,7 @@ export default function TelegramSetupPage() {
                     data.error || "Failed to link account. Please try again."
                 );
             }
-        } catch (error) {
+        } catch {
             setStatus("error");
             setErrorMessage(
                 "Network error. Please check your connection and try again."
@@ -113,7 +113,7 @@ export default function TelegramSetupPage() {
                     has been connected.
                 </p>
                 <p className="text-tertiary mb-8">
-                    This window will close automatically. If it doesn't, you can
+                    This window will close automatically. If it doesn&apos;t, you can
                     close it manually.
                 </p>
                 <CustomButton isBlue={true} onClick={handleContinue}>

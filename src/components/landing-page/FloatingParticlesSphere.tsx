@@ -223,7 +223,6 @@ function ParticleSphere({
 
     return (
         <points geometry={geometry} frustumCulled>
-            {/* @ts-ignore */}
             <shaderMaterial
                 ref={materialRef}
                 uniforms={uniforms}
@@ -393,6 +392,7 @@ function Scene({
         camera,
         sectionOneRef,
         sectionTwoRef,
+        sectionThreeRef,
         insideTextRef,
         sphereTitleRef,
         sphereDescriptionRef,

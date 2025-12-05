@@ -2,7 +2,7 @@
 
 import { db } from "@/drizzle/db";
 import { and, eq, sql } from "drizzle-orm";
-import { InstanceTable, UserTable } from "@/drizzle/schema";
+import { InstanceTable } from "@/drizzle/schema";
 import { auth } from "@clerk/nextjs/server";
 
 type PauseActivateResult = { ok: true; instanceId: string; newStatus: "active" | "paused" } | { ok: false; error: string };

@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
                 console.log(
                     `Using existing Stripe customer: ${stripeCustomerId}`
                 );
-            } catch (err: any) {
+            } catch {
                 // Customer doesn't exist in Stripe (deleted or wrong account)
                 console.warn(
                     `Customer ${stripeCustomerId} not found in Stripe, creating new one`
@@ -131,6 +131,7 @@ export async function POST(req: NextRequest) {
             ],
             mode: "subscription",
             billing_address_collection: "required", // Important: verify billing address
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             locale: checkoutLocale as any, // Set the locale for Stripe checkout
             success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan`,
             cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/plan`,

@@ -30,7 +30,7 @@ export function DeleteNotification({
             await deleteNotification(notificationId);
             toast.success(t("successToast"));
             setIsDeleteOpen(false);
-        } catch (error: any) {
+        } catch (error) {
             toast.error(t("errorToast"));
             console.error("Delete notification failed:", error);
         } finally {

@@ -143,6 +143,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 }
 
 async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sub = subscription as any;
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     console.log("🔔 WEBHOOK: customer.subscription.updated");
@@ -197,7 +198,7 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
     const customerId = subscription.customer as string;
 
     // Try multiple places where current_period_end might be
-    let currentPeriodEnd =
+    const currentPeriodEnd =
         sub.current_period_end ||
         sub.current_period_end_at ||
         subscription.items?.data?.[0]?.current_period_end;

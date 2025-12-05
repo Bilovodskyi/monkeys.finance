@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 type StepProgressDotProps = {
     label?: React.ReactNode;
@@ -25,9 +26,7 @@ const StepProgressDot: React.FC<StepProgressDotProps> = ({
     const circleARef = useRef<SVGCircleElement>(null);
     const circleBRef = useRef<SVGCircleElement>(null);
 
-    useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
-
+    useGSAP(() => {
         const triggerEl = triggerRef.current as unknown as Element | null;
         const circleA = circleARef.current;
         const circleB = circleBRef.current;
@@ -45,7 +44,7 @@ const StepProgressDot: React.FC<StepProgressDotProps> = ({
         circleB.setAttribute("stroke-dasharray", `0 ${circumference}`);
         circleB.setAttribute("stroke-dashoffset", "0");
 
-        const st = ScrollTrigger.create({
+        ScrollTrigger.create({
             trigger: triggerEl,
             start: "top+=150px top",
             end: `bottom-=${endOffset || 100}px top`,
@@ -67,11 +66,8 @@ const StepProgressDot: React.FC<StepProgressDotProps> = ({
                 circleB.setAttribute("stroke-dashoffset", "0");
             },
         });
-
-        return () => {
-            st.kill();
-        };
-    }, [triggerRef, size, strokeWidth]);
+        // No manual cleanup needed - useGSAP handles it automatically
+    }, { dependencies: [triggerRef, size, strokeWidth, endOffset] });
 
     const gap = 1;
     const svgSize = size + 2 * gap + strokeWidth;

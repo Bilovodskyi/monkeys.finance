@@ -3,7 +3,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { getEntitlementForUser } from "@/services/entitlements";
 import { formatEntitlementHeading } from "@/lib/entitlements";
-import { getTranslations } from "next-intl/server";
 import type { EntitlementResponse } from "@/types/entitlement";
 import { PlanClient } from "@/components/private/plan/PlanClient";
 import { getTierForCountry, getTierInfo } from "@/lib/pricingTiers";
@@ -20,7 +19,6 @@ export default async function PlanPage() {
     if (!data || !data.subscriptionEndsAt) return null;
 
     // Get translations
-    const t = await getTranslations("plan");
     const heading = await formatEntitlementHeading(data);
 
     // Get user from database to retrieve country

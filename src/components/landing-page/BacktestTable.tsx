@@ -3,6 +3,7 @@ import { Activity, Fingerprint, GalleryVerticalEnd, History, Pyramid, Receipt, S
 import BacktestContent from "@/components/private/backtest/BacktestContent";
 import SlidingTabs from "../SlidingTabs";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 export default function BacktestTable() {
     const t = useTranslations("backtestTable");
@@ -54,8 +55,8 @@ export default function BacktestTable() {
                     </div>
                     {/* Sidebar */}
                     <div className="w-[71px] border-r border-zinc-800 shrink-0">
-                        <div className="flex items-center px-5 border-b border-zinc-800 h-[60px]">
-                            <img src="/algo-logo.png" alt="Main Logo" className="max-w-8 max-h-8" />
+                        <div className="flex items-center justify-center border-b border-zinc-800 h-[60px]">
+                            <Image src="/monkeys-small-logo.svg" alt="Main Logo" width={40} height={40} className="max-w-10 max-h-10" />
                         </div>
                         <div className="flex flex-col px-5 gap-5 py-10">
                             <div className="flex min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 text-secondary">
@@ -111,7 +112,7 @@ export default function BacktestTable() {
                     <div className="absolute -bottom-26 left-1/2 -translate-x-1/2 flex flex-col items-center">
                         <span className="text-tertiary text-md">{t("dataSource")}</span>
 
-                        <img src="/exchange-logo/binance.png" alt="Binance" className="w-32" />
+                        <Image src="/exchange-logo/binance.png" alt="Binance" width={128} height={32} className="w-32" />
 
                     </div>
                 </div>

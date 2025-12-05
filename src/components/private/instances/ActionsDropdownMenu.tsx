@@ -68,8 +68,10 @@ export function ActionsDropdownMenu({
                             toast.success(label);
                             router.refresh();
                         } else {
-                            const key = result.error as any;
-                            const message = t(`errors.${key}` as any);
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            const key = result.error as any; // Dynamic error key from server
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            const message = t(`errors.${key}` as any); // Dynamic translation key
                             toast.error(message || t("pauseActivate.failed"));
                         }
                     }}>
@@ -119,7 +121,8 @@ export function ActionsDropdownMenu({
                                                 setIsDeleteOpen(false);
                                                 router.refresh();
                                             } else {
-                                                const key = result.error as any;
+                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                const key = result.error as any; // Dynamic error key from server
                                                 toast.error(t("delete.failed"));
                                                 console.error(
                                                     "Delete instance failed:",

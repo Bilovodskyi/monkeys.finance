@@ -1,4 +1,3 @@
-import LedGridFlickerWrapper from "@/components/landing-page/LedGridAnimation";
 import { SignUp } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 

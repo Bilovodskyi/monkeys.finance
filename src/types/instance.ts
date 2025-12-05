@@ -1,5 +1,3 @@
-type Exchange = "binance" | "binanceus" | "kraken" | "coinbase" | "okx" | "bybit";
-
 export type InstanceRecord = {
     id: string;
     userId: string;

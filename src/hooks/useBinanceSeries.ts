@@ -61,7 +61,8 @@ export function useBinanceSeries(params: UseBinanceSeriesParams = {}) {
 
                     const res = await fetch(url.toString(), { signal: controller.signal });
                     if (!res.ok) throw new Error(`Failed to fetch klines: ${res.status}`);
-                    const data: any[] = await res.json();
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const data: any[] = await res.json(); // Binance API - external, may change
                     if (!Array.isArray(data) || data.length === 0) break;
 
                     const mapped: SeriesPoint[] = data.map((row) => ({
@@ -98,8 +99,9 @@ export function useBinanceSeries(params: UseBinanceSeriesParams = {}) {
                 } else {
                     setSeries(output);
                 }
-            } catch (e: any) {
-                if (e?.name === "AbortError") return;
+            } catch (e) {
+                // Check for AbortError using type narrowing
+                if (e instanceof Error && e.name === "AbortError") return;
                 setError(e instanceof Error ? e.message : "Failed to fetch Binance data");
             } finally {
                 setLoading(false);

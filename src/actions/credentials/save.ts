@@ -5,6 +5,7 @@ import { db } from "@/drizzle/db";
 import { userCredentials } from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { encryptApiCredentials } from "@/services/apiKeyManager";
+import { Exchange } from "@/types/global";
 
 export type SaveCredentialsInput = {
     exchange: string;
@@ -72,7 +73,7 @@ export async function saveCredentials(
         }
 
         // 5. Check if credentials already exist for this exchange
-        const exchangeEnum = input.exchange.toLowerCase() as any; // Convert to lowercase for enum
+        const exchangeEnum = input.exchange.toLowerCase() as Exchange;
 
         const existingCredentials = await db.query.userCredentials.findFirst({
             where: (t, { eq, and }) =>
@@ -80,8 +81,8 @@ export async function saveCredentials(
         });
 
         // 6. Determine what to encrypt
-        let finalApiKey = input.apiKey || "";
-        let finalApiSecret = input.apiSecret || "";
+        const finalApiKey = input.apiKey || "";
+        const finalApiSecret = input.apiSecret || "";
 
         // If updating partial credentials, we need to decrypt existing ones first
         if (existingCredentials) {

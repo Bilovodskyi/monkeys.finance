@@ -1,6 +1,8 @@
 import { CustomButton } from "../CustomButton";
 import { SignUpButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+import Link from "next/link";
 
 export default async function Footer() {
     const t = await getTranslations("footer");
@@ -21,35 +23,35 @@ export default async function Footer() {
             </div>
             <div className="flex flex-col lg:flex-row items-center justify-between w-full border-t border-zinc-800 lg:py-2 py-6">
                 <div className="flex flex-col items-center gap-8">
-                    <img src="/main-logo.png" alt="Main Logo" className="w-24" />
+                    <Image src="/monkeys-logo.svg" alt="Monkeys Logo" width={96} height={24} className="w-24" />
                     <p className="text-secondary ">{t("tagline")}</p>
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 items-start md:justify-items-end gap-12 lg:gap-24 py-12 w-full lg:w-1/2">
 
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><a href="/" className="text-secondary ">{t("products.title")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("products.aiInvestor")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("products.aiJournal")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("products.competition")}</a></li>
+                        <li><Link href="/" className="text-secondary ">{t("products.title")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("products.aiInvestor")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("products.aiJournal")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("products.competition")}</Link></li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><a href="/" className="text-secondary ">{t("tools.title")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("tools.algorithms")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("tools.backtesting")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("tools.ml")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("tools.bot")}</a></li>
+                        <li><Link href="/" className="text-secondary ">{t("tools.title")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("tools.algorithms")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("tools.backtesting")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("tools.ml")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("tools.bot")}</Link></li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><a href="/" className="text-secondary ">{t("socials.title")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("socials.telegram")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("socials.linkedin")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("socials.github")}</a></li>
+                        <li><Link href="/" className="text-secondary ">{t("socials.title")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("socials.telegram")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("socials.linkedin")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("socials.github")}</Link></li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><a href="/" className="text-secondary ">{t("company.title")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("company.about")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("company.careers")}</a></li>
-                        <li><a href="/" className=" hover:underline">{t("company.contact")}</a></li>
+                        <li><Link href="/" className="text-secondary ">{t("company.title")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("company.about")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("company.careers")}</Link></li>
+                        <li><Link href="/" className=" hover:underline">{t("company.contact")}</Link></li>
 
                     </ul>
 

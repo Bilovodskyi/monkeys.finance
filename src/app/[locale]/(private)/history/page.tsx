@@ -64,13 +64,13 @@ export default async function HistoryPage() {
                 <>
                     {/* Stats Cards */}
                     <div className="flex p-6 gap-6">
-                        <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                        <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 hidden md:flex flex-col justify-between gap-4">
                             <h1 className="text-lg 2xl:text-xl font-title">
                                 {totalTrades} / {successfulTrades} / {failedTrades}
                             </h1>
                             <h2 className="text-tertiary font-title">{t("stats.totalSuccessfulFailed")}</h2>
                         </div>
-                        <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                        <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 hidden md:flex flex-col justify-between gap-4">
                             <h1 className="text-lg 2xl:text-xl font-title">
                                 {winTrades} / {lossTrades} / {breakEvenTrades}
                             </h1>
@@ -87,17 +87,17 @@ export default async function HistoryPage() {
                     {/* Table */}
                     <div className="flex-1 p-6 flex flex-col overflow-hidden">
                         {/* Sticky Header */}
-                        <div className="grid grid-cols-10 border border-zinc-800 backdrop-blur-md">
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.status")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.openDate")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.closeDate")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.exchange")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.instrument")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.strategy")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.quantity")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.entryPrice")}</div>
-                            <div className="border-r border-zinc-800 px-4 py-3 text-tertiary">{t("tableHeaders.exitPrice")}</div>
-                            <div className="px-4 py-3 text-tertiary">{t("tableHeaders.pnl")}</div>
+                        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-10 border border-zinc-800 backdrop-blur-md">
+                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.status")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.openDate")}</div>
+                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.closeDate")}</div>
+                            <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.exchange")}</div>
+                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.instrument")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.strategy")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.quantity")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.entryPrice")}</div>
+                            <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.exitPrice")}</div>
+                            <div className="px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.pnl")}</div>
                         </div>
 
                         {/* Scrollable Content */}
@@ -110,9 +110,9 @@ export default async function HistoryPage() {
                                 return (
                                     <div
                                         key={position.id}
-                                        className="grid grid-cols-10 border border-zinc-800 border-t-0"
+                                        className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-10 border border-zinc-800 border-t-0"
                                     >
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             <div className="flex items-center">
                                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                                     position.status === 'filled' 
@@ -126,46 +126,46 @@ export default async function HistoryPage() {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.orderPlacedAt 
                                                 ? new Date(position.orderPlacedAt).toLocaleDateString()
                                                 : new Date(position.signalTime).toLocaleDateString()
                                             }
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.positionClosedAt 
                                                 ? new Date(position.positionClosedAt).toLocaleDateString()
                                                 : '—'
                                             }
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.exchange}
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.instrument}
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.strategyName}
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.quantity 
                                                 ? parseFloat(position.quantity).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 8 })
                                                 : '—'
                                             }
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.entryPrice 
                                                 ? `$${parseFloat(position.entryPrice).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
                                                 : '—'
                                             }
                                         </div>
-                                        <div className="border-r border-zinc-800 px-4 py-3">
+                                        <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.exitPrice 
                                                 ? `$${parseFloat(position.exitPrice).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
                                                 : '—'
                                             }
                                         </div>
-                                        <div className={`px-4 py-3 ${isProfitable ? 'text-green-500' : isLoss ? 'text-red-500' : ''}`}>
+                                        <div className={` px-2 lg:px-4 py-3 ${isProfitable ? 'text-green-500' : isLoss ? 'text-red-500' : ''}`}>
                                             {pnl !== null 
                                                 ? `${pnl >= 0 ? '+' : ''}$${pnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                                                 : '—'

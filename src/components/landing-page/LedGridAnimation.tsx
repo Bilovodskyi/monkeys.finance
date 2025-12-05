@@ -65,7 +65,18 @@ function GridFlicker({
     brightColor,
     superBrightColor,
     fit,
-}: any) {
+}: {
+    rows: number;
+    cols: number;
+    activeTarget: number;
+    holdSec: number;
+    cell: { w: number; h: number; gap: number };
+    baseColors: string[];
+    dimColor: string;
+    brightColor: string;
+    superBrightColor: string;
+    fit: 'contain' | 'width' | 'height';
+}) {
     const count = rows * cols;
     const meshRef = useRef<THREE.InstancedMesh>(null!);
     const { size, camera } = useThree();
@@ -73,7 +84,8 @@ function GridFlicker({
 
     // Compute a scale so the grid fits the viewport
     const computedCell = useMemo(() => {
-        const cam: any = camera as any;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const cam: any = camera as any; // Three.js camera types
         const aspect = size.width / size.height;
         const visibleH = 2 * Math.tan((cam.fov * Math.PI) / 360) * Math.abs(cam.position.z);
         const visibleW = visibleH * aspect;
@@ -95,7 +107,8 @@ function GridFlicker({
             h: cell.h * scale,
             gap: cell.gap * scale,
         };
-    }, [rows, cols, cell, size.width, size.height, (camera as any).fov, (camera as any).position.z, fit]);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }, [rows, cols, cell, size.width, size.height, (camera as any).fov, (camera as any).position.z, fit]); // Camera properties - Three.js dynamic types
 
     // Per-cell timers and state (JS arrays for simplicity & speed)
     const activeUntil = useMemo(() => new Float32Array(count).fill(-1), [count]);
@@ -146,7 +159,9 @@ function GridFlicker({
         }
 
         meshRef.current.instanceMatrix.needsUpdate = true;
-        if ((meshRef.current as any).instanceColor)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if ((meshRef.current as any).instanceColor) // Three.js InstancedMesh.instanceColor - optional property
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (meshRef.current as any).instanceColor.needsUpdate = true;
     }, [rows, cols, computedCell, basePalette, brightTone, activeTarget, holdSec, activeUntil, isActive]);
 
@@ -230,12 +245,15 @@ function GridFlicker({
         }
 
         // 4) Push color buffer updates
-        if ((meshRef.current as any).instanceColor)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if ((meshRef.current as any).instanceColor) // Three.js InstancedMesh.instanceColor
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (meshRef.current as any).instanceColor.needsUpdate = true;
     });
 
     return (
-        <instancedMesh ref={meshRef} args={[undefined as any, undefined as any, count]}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-explicit-any
+        <instancedMesh ref={meshRef} args={[undefined as any, undefined as any, count]} // Three.js uses dynamic args
             frustumCulled={false}
         >
             {/* Thin box to resemble a rounded rectangle LED; use more segments if you want rounded corners via bevel shader later */}

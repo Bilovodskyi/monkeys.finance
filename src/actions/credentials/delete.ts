@@ -5,6 +5,7 @@ import { db } from "@/drizzle/db";
 import { userCredentials, InstanceTable } from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { Exchange } from "@/types/global";
 
 export type DeleteCredentialsInput = {
     exchange: string;
@@ -53,8 +54,7 @@ export async function deleteCredentials(
         }
 
         // 4. Convert exchange to lowercase for enum matching
-        const exchangeEnum = input.exchange.toLowerCase() as any;
-
+        const exchangeEnum = input.exchange.toLowerCase() as Exchange;
         // 5. Check if credentials exist
         const existingCredentials = await db.query.userCredentials.findFirst({
             where: (t, { eq, and }) =>

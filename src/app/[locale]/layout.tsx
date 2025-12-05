@@ -12,7 +12,7 @@ import { dark } from "@clerk/themes";
 const CLERK_LOCALES = { en: enUS, es: esES, ru: ruRU, uk: ukUA };
 
 export const metadata: Metadata = {
-    title: "AlgoSquid",
+    title: "Monkeys",
     description: "Machine Learning Cryptocurrency Trading Bot",
 };
 
@@ -25,12 +25,12 @@ export default async function LocaleLayout({
     params,
 }: {
     children: React.ReactNode;
-    params: Promise<{ locale: string }>;
+    params: Promise<{ locale: "en" | "es" | "ru" | "uk" }>;
 }) {
     const { locale } = await params;
 
     // Ensure that the incoming `locale` is valid
-    if (!locales.includes(locale as any)) {
+    if (!locales.includes(locale)) {
         notFound();
     }
 

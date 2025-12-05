@@ -12,7 +12,6 @@ import {
 } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import Stripe from "stripe";
-import { revalidatePath } from "next/cache";
 
 const SECRET = process.env.CLERK_WEBHOOK_SECRET!;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -206,13 +205,14 @@ export async function POST(req: Request) {
                 "[clerk-webhook] 🔄 Country detection running in background..."
             );
             return new Response("User created", { status: 201 });
-        } catch (e: any) {
-            console.error("[clerk-webhook] Database error:", e);
+        } catch (error) {
+            console.error("[clerk-webhook] Database error:", error);
 
             // Handle duplicate email error gracefully
             if (
-                e.code === "23505" ||
-                e.message?.includes("unique constraint")
+                error && typeof error === "object" && "code" in error &&
+                (error.code === "23505" ||
+                ("message" in error && typeof error.message === "string" && error.message.includes("unique constraint")))
             ) {
                 console.log(
                     "[clerk-webhook] User already exists (unique constraint)"
@@ -262,10 +262,10 @@ export async function POST(req: Request) {
                 console.log(
                     `[clerk-webhook] ✅ Deleted ${deletedInstances.length} instances for user`
                 );
-            } catch (instanceError: any) {
+            } catch (error) {
                 console.error(
                     "[clerk-webhook] ⚠️  Failed to delete instances:",
-                    instanceError.message
+                    error
                 );
             }
 
@@ -286,10 +286,10 @@ export async function POST(req: Request) {
                 console.log(
                     `[clerk-webhook] ✅ Deleted ${deletedProvider} for user`
                 );
-            } catch (instanceError: any) {
+            } catch (error) {
                 console.error(
                     "[clerk-webhook] ⚠️  Failed to delete instances:",
-                    instanceError.message
+                    error
                 );
                 // Continue anyway - we still want to process deletion
             }
@@ -306,10 +306,10 @@ export async function POST(req: Request) {
                 console.log(
                     `[clerk-webhook] ✅ Deleted ${deletedNotificationsSettings.length} notification settings for user`
                 );
-            } catch (instanceError: any) {
+            } catch (error) {
                 console.error(
                     "[clerk-webhook] ⚠️  Failed to delete instances:",
-                    instanceError.message
+                    error
                 );
                 // Continue anyway - we still want to process deletion
             }
@@ -337,10 +337,10 @@ export async function POST(req: Request) {
                         "[clerk-webhook] ✅ Stripe subscription canceled:",
                         canceledSubscription.id
                     );
-                } catch (stripeError: any) {
+                } catch (error) {
                     console.error(
                         "[clerk-webhook] ⚠️  Failed to cancel Stripe subscription:",
-                        stripeError.message
+                        error
                     );
                     // Continue anyway - we still want to mark user as deleted
                 }
@@ -355,8 +355,8 @@ export async function POST(req: Request) {
             return new Response("User deleted and subscription canceled", {
                 status: 200,
             });
-        } catch (e: any) {
-            console.error("[clerk-webhook] Error processing deletion:", e);
+        } catch (error) {
+            console.error("[clerk-webhook] Error processing deletion:", error);
             return new Response("Failed to process deletion", {
                 status: 500,
             });
@@ -419,10 +419,10 @@ async function updateUserCountry(clerkId: string): Promise<void> {
         console.log(
             `[updateUserCountry] ✅ Country updated to: ${country} for user: ${clerkId}`
         );
-    } catch (error: any) {
+    } catch (error) {
         console.error(
             `[updateUserCountry] Failed for user ${clerkId}:`,
-            error.message
+            error
         );
         // Don't throw - this is background work, failure is non-critical
     }

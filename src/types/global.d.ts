@@ -6,3 +6,5 @@ export interface TradeData {
     entryPrice: number;
     positionType: string;
 }
+
+export type Exchange = "binance" | "binanceus" | "bybit" | "okx" | "kraken" | "coinbase";

@@ -95,8 +95,9 @@ export function useExcelTradeData(
                 }
 
                 setData(rows);
-            } catch (e: any) {
-                if (e?.name === "AbortError") return;
+            } catch (e) {
+                // Check for AbortError using type narrowing
+                if (e instanceof Error && e.name === "AbortError") return;
                 setError(e instanceof Error ? e.message : "Failed to load data");
 
                 // Optional: fallback sample

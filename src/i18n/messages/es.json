@@ -134,7 +134,7 @@
             "careers": "Carreras",
             "contact": "Contacto"
         },
-        "copyright": "© 2025 Algo Squid. Todos los derechos reservados.",
+        "copyright": "© 2025 Monkeys Finance. Todos los derechos reservados.",
         "systemStatus": "Todos los sistemas operativos."
     },
     "reviews": {
@@ -142,13 +142,13 @@
         "titleHighlight": "usuarios",
         "titleEnd": "dicen",
         "review1": {
-            "quote": "Con Algo Squid tengo mucho más tiempo libre.",
-            "description": "Con Algo Squid ya no necesito pasar horas monitoreando los mercados manualmente para abrir posiciones en el momento adecuado. Puedo enfocarme en otras cosas mientras el bot trabaja por mí.",
+            "quote": "Con Monkeys Finance tengo mucho más tiempo libre.",
+            "description": "Con Monkeys Finance ya no necesito pasar horas monitoreando los mercados manualmente para abrir posiciones en el momento adecuado. Puedo enfocarme en otras cosas mientras el bot trabaja por mí.",
             "name": "Pawel Kowalski",
             "location": "Varsovia • Polonia"
         },
         "review2": {
-            "quote": "Estoy muy contento de haber encontrado Algo Squid. La precisión de los algoritmos y el bot es increíble.",
+            "quote": "Estoy muy contento de haber encontrado Monkeys Finance. La precisión de los algoritmos y el bot es increíble.",
             "name": "Omar El-Sayed",
             "location": "Dubái • Emiratos Árabes Unidos"
         },
@@ -175,6 +175,11 @@
         "plan": "Plan",
         "safety": "Seguridad",
         "documentation": "Documentación"
+    },
+    "bot": {
+        "addCredentials": "Agregar credenciales",
+        "noCredentialsTitle": "No tienes credenciales",
+        "noCredentialsDescription": "Agrega tus credenciales para comenzar a usar el bot. O puedes agregar credenciales cuando crees una nueva instancia."
     },
     "plan": {
         "planEndsMessage": "Tu plan terminará el {date} a las {time}.",
@@ -417,14 +422,14 @@
         "errorToast": "Error al eliminar notificación"
     },
     "about": {
-        "title": "Acerca de AlgoSquid",
+        "title": "Acerca de Monkeys Finance",
         "subtitle": "Estamos construyendo el futuro del",
         "subtitleHighlight": "trading automatizado",
-        "intro": "Construimos AlgoSquid para ayudar a los traders de cripto a tomar decisiones más inteligentes sin monitorear gráficos las 24 horas. Nuestro sistema basado en la nube funciona 24/7, analizando continuamente los mercados de criptomonedas para identificar oportunidades de trading.",
+        "intro": "Construimos Monkeys Finance para ayudar a los traders de cripto a tomar decisiones más inteligentes sin monitorear gráficos las 24 horas. Nuestro sistema basado en la nube funciona 24/7, analizando continuamente los mercados de criptomonedas para identificar oportunidades de trading.",
         "howItWorksTitle": "Cómo funciona:",
         "howItWorksDescription": "Basado en el algoritmo que seleccionaste, nuestro sistema funciona continuamente en la nube, monitoreando señales de trading. Cuando se detecta una señal, se pasa a modelos de aprendizaje automático entrenados con años de datos históricos del mercado para verificación. Si la señal pasa nuestras rigurosas verificaciones de validación, el sistema ejecuta automáticamente operaciones en tu exchange o te envía una notificación a través de tu canal preferido.",
         "differenceTitle": "Lo que nos hace diferentes:",
-        "differenceDescription": "AlgoSquid va más allá del trading algorítmico básico al incorporar modelos de aprendizaje automático entrenados con años de comportamiento del mercado. Cada señal generada por nuestros algoritmos se valida a través de nuestros modelos ML para garantizar calidad y confiabilidad. Ejecutamos backtests mensuales completos para verificar el rendimiento de la estrategia y te proporcionamos informes detallados. Además, reentrenamos continuamente nuestros modelos con los últimos datos del mercado para adaptarnos a las condiciones cambiantes del mercado.",
+        "differenceDescription": "Monkeys Finance va más allá del trading algorítmico básico al incorporar modelos de aprendizaje automático entrenados con años de comportamiento del mercado. Cada señal generada por nuestros algoritmos se valida a través de nuestros modelos ML para garantizar calidad y confiabilidad. Ejecutamos backtests mensuales completos para verificar el rendimiento de la estrategia y te proporcionamos informes detallados. Además, reentrenamos continuamente nuestros modelos con los últimos datos del mercado para adaptarnos a las condiciones cambiantes del mercado.",
         "whatsNextTitle": "Qué sigue:",
         "whatsNextDescription": "Estamos expandiendo activamente el soporte para exchanges adicionales, proveedores de notificaciones, estrategias y características. Valoramos tu opinión: si tienes ideas o comentarios, contáctanos en GitHub o Telegram. Ayúdanos a construir la mejor plataforma de trading juntos.",
         "ctaText": "¿Listo para automatizar tu trading?",

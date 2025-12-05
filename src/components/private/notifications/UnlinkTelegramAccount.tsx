@@ -26,7 +26,7 @@ export function UnlinkTelegramAccount({ username }: { username: string }) {
             await unlinkTelegramAccount();
             toast.success(t("successToast"));
             setIsUnlinkOpen(false);
-        } catch (error: any) {
+        } catch (error) {
             toast.error(t("errorToast"));
             console.error("Unlink Telegram account failed:", error);
         } finally {

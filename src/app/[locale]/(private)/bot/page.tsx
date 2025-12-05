@@ -5,7 +5,7 @@ import { CredentialCard } from "@/components/private/credentials/CredentialCard"
 import { getTranslations } from "next-intl/server";
 
 export default async function Bot() {
-    const t = await getTranslations("header");
+    const t = await getTranslations("bot");
     const credentialsStatus = await getCredentialsStatus();
 
     return (
@@ -13,17 +13,17 @@ export default async function Bot() {
             <div className="flex items-center justify-end px-6 pt-4">
                 <ManageCredentialsSheet>
                     <CustomButton isBlue={false}>
-                        Add Credentials
+                        {t("addCredentials")}
                     </CustomButton>
                 </ManageCredentialsSheet>
             </div>
             {Object.keys(credentialsStatus).length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full w-1/4 mx-auto gap-2">
+                <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2 px-6 md:px-0">
                     <h1 className="text-lg font-bold">
-                        You don't have any credentials
+                        {t("noCredentialsTitle")}
                     </h1>
                     <p className="text-xs text-tertiary text-center">
-                        Add your credentials to start using the bot. Or you can add credentials when you create a new instance.
+                        {t("noCredentialsDescription")}
                     </p>
                 </div>
             ) : (

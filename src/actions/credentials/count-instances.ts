@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
 import { InstanceTable } from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
+import { Exchange } from "@/types/global";
 
 /**
  * Get the count of instances for a specific exchange
@@ -21,7 +22,7 @@ export async function getInstanceCountByExchange(
 
         if (!user) return 0;
 
-        const exchangeEnum = exchange.toLowerCase() as any;
+        const exchangeEnum = exchange.toLowerCase() as Exchange
 
         const instances = await db
             .select()

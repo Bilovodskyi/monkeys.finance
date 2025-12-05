@@ -7,7 +7,6 @@ import Footer from "@/components/landing-page/Footer";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import ChartCompareToBitcoin from "@/components/landing-page/ChartCompareToBitcoin";
-import BluePixelAnimation from "@/components/landing-page/BluePixelAnimation";
 import StaticDitherBackground from "@/components/landing-page/StaticDitherBackground";
 
 export default async function Home() {

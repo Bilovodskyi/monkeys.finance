@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import NextImage from "next/image";
 
 import {
     Activity,
@@ -265,11 +266,13 @@ export default function ChartCompareToBitcoin() {
                     </div>
                     {/* Sidebar */}
                     <div className="w-[71px] border-r border-zinc-800 shrink-0">
-                        <div className="flex items-center px-5 border-b border-zinc-800 h-[60px]">
-                            <img
-                                src="/algo-logo.png"
+                        <div className="flex items-center justify-center border-b border-zinc-800 h-[60px]">
+                            <NextImage
+                                src="/monkeys-small-logo.svg"
                                 alt="Main Logo"
-                                className="max-w-8 max-h-8"
+                                width={40}
+                                height={40}
+                                className="max-w-10 max-h-10"
                             />
                         </div>
                         <div className="flex flex-col px-5 gap-5 py-10">
@@ -470,7 +473,7 @@ export default function ChartCompareToBitcoin() {
                                                             value
                                                         ) => {
                                                             const d = new Date(
-                                                                value as any
+                                                                value as any // eslint-disable-line @typescript-eslint/no-explicit-any
                                                             );
                                                             if (
                                                                 !Number.isNaN(
@@ -608,7 +611,8 @@ export default function ChartCompareToBitcoin() {
 }
 
 // Custom label component for end points
-const EndPointLabel = (props: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const EndPointLabel = (props: any) => { // Chart library props have dynamic structure
     const { x, y, value, index, label, color, chartData, isMobile } = props;
 
     // Only show label for the last data point

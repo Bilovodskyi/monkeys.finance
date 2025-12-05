@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
     Activity,
     BellRing,
@@ -67,11 +68,13 @@ export default function SideMenu() {
             <div className={`group/side-menu absolute left-0 bg-background h-screen z-40 w-[320px] md:w-[71px] border-r border-zinc-800 shrink-0 md:hover:w-[270px] transition-all duration-300 ease-in-out ${
                 isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
             } md:block`}>
-                <div className="flex items-center justify-between px-5 border-b border-zinc-800 h-[50px] md:h-[70px]">
-                    <img
-                        src="/algo-logo.png"
+                <div className="flex items-center justify-between px-4 border-b border-zinc-800 h-[50px] md:h-[70px]">
+                    <Image
+                        src="/monkeys-small-logo.svg"
                         alt="Main Logo"
-                        className="max-w-8 max-h-8"
+                        width={40}
+                        height={40}
+                        className="max-w-10 max-h-10"
                     />
                     <button 
                         onClick={closeMenu}

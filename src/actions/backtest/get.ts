@@ -2,7 +2,6 @@
 import {
     GetObjectCommand,
     ListObjectsV2Command,
-    type _Object,
 } from "@aws-sdk/client-s3";
 import s3Client, { S3_BUCKET_NAME } from "@/lib/s3Client";
 import { processBacktestFiles } from "@/utils/processBacktestFiles";

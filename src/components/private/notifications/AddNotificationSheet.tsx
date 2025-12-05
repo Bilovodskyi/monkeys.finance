@@ -28,7 +28,8 @@ import { useTranslations } from "next-intl";
 
 interface AddNotificationSheetProps {
     children: ReactNode;
-    notification?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    notification?: any; // Dynamic notification object structure from API
 }
 
 export function AddNotificationSheet({
@@ -122,7 +123,7 @@ export function AddNotificationSheet({
             setOpen(false);
             clearForm();
             router.refresh();
-        } catch (error: unknown) {
+        } catch (error) {
             console.error("[AddNotificationSheet] Unexpected error:", error);
             toast.dismiss();
             toast.error(t("errors.unexpected"));
