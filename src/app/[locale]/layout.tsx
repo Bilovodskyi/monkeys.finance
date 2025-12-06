@@ -3,11 +3,12 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { locales, type Locale } from "@/i18n/locales";
+import { locales } from "@/i18n/locales";
 import "../globals.css";
 import { enUS, esES, ruRU, ukUA } from "@clerk/localizations";
 import { Toaster } from "sonner";
 import { dark } from "@clerk/themes";
+import { isValidLocale } from "@/i18n/request";
 
 const CLERK_LOCALES = { en: enUS, es: esES, ru: ruRU, uk: ukUA };
 
@@ -18,11 +19,6 @@ export const metadata: Metadata = {
 
 export function generateStaticParams() {
     return locales.map((locale) => ({ locale }));
-}
-
-// Type guard to check if a string is a valid locale
-function isValidLocale(locale: string): locale is Locale {
-    return locales.includes(locale as Locale);
 }
 
 export default async function LocaleLayout({

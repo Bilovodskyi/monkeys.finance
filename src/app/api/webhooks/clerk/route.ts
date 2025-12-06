@@ -144,6 +144,13 @@ export async function POST(req: Request) {
 
                 // Update clerkId if it changed
                 if (existing.clerkId !== clerkId) {
+                    console.warn(
+                        `[clerk-webhook] ⚠️ Mismatch detected! Existing DB ID: ${existing.clerkId}, Webhook ID: ${clerkId}. SKIPPING UPDATE to prevent lockout.`
+                    );
+                    
+                    // DANGEROUS: This was causing users to lose access if the ID changed unexpectedly.
+                    // Commented out to prevent overwriting the valid ID.
+                    /*
                     console.log(
                         `[clerk-webhook] Updating clerkId to ${clerkId}`
                     );
@@ -155,6 +162,7 @@ export async function POST(req: Request) {
                             updatedAt: new Date(),
                         })
                         .where(eq(UserTable.email, email));
+                    */
                 }
 
                 return new Response("User already exists", { status: 200 });
