@@ -282,6 +282,7 @@
         "signalLabel": "Señal:",
         "create": "Crear",
         "save": "Guardar",
+        "submitting": "Enviando...",
         "cancel": "Cancelar",
         "clear": "Limpiar",
         "createdSuccess": "¡Instancia creada con éxito!",
@@ -299,7 +300,8 @@
             "saveFailed": "Error al guardar las credenciales. Inténtalo de nuevo",
             "leverageWarning": "Por favor, configure manualmente el apalancamiento en su exchange a x1. Todas las pruebas retrospectivas se realizaron con apalancamiento x1.",
             "validPositiveNumber": "Debe ser un número positivo válido",
-            "minimumPositionSize": "El tamaño mínimo de la posición es de $20 USDT"
+            "minimumPositionSize": "El tamaño mínimo de la posición es de $20 USDT",
+            "duplicateInstance": "Ya tienes una instancia con esta estrategia, instrumento e intercambio"
         },
         "createdError": "Error al crear instancia",
         "updatedError": "Error al actualizar instancia",
@@ -385,6 +387,7 @@
         "telegramLinked": "✅ Cuenta de Telegram vinculada",
         "checkingTelegram": "Verificando estado de Telegram...",
         "buttonCreate": "Crear",
+        "buttonSubmitting": "Enviando...",
         "buttonSave": "Guardar",
         "buttonClear": "Limpiar",
         "toastCreating": "Creando notificación...",

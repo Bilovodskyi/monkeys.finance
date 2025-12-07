@@ -35,11 +35,11 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     ...style
                 }}
             >
-                <LedGridFlicker rows={117} cols={200} activeTarget={800} className="absolute left-0 top-0 z-20 lg:h-[280px] 2xl:h-[350px] lg:w-[460px] 2xl:w-[597px]" />
+                <LedGridFlicker rows={117} cols={200} activeTarget={800} className="absolute left-0 top-0 z-10 lg:h-[280px] 2xl:h-[350px] lg:w-[460px] 2xl:w-[597px]" />
                 {/* Animated container clone */}
                 {showAnimatedClone && (
                     <div
-                        className="absolute rounded-lg left-0 top-0 z-20 lg:h-[280px] 2xl:h-[350px] lg:w-[460px] 2xl:w-[597px] border border-dashed border-zinc-200 pointer-events-none anim-rise-fade"
+                        className="absolute rounded-lg left-0 top-0 z-10 lg:h-[280px] 2xl:h-[350px] lg:w-[460px] 2xl:w-[597px] border border-dashed border-zinc-200 pointer-events-none anim-rise-fade"
                         style={{
                             backgroundColor: "transparent",
                             opacity: 1,
@@ -52,7 +52,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     <>
                         {/* Bottom light sweep */}
                         <div
-                            className="pointer-events-none absolute left-0 bottom-0 h-40 w-full transition-opacity ease-out z-20"
+                            className="pointer-events-none absolute left-0 bottom-0 h-40 w-full transition-opacity ease-out z-10"
                             style={{
                                 transform: 'translateY(100%) skewX(-48deg) scaleY(-1)',
                                 transformOrigin: 'center top',
@@ -64,7 +64,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
 
                         {/* Left light sweep */}
                         <div
-                            className="pointer-events-none absolute left-0 top-0 h-full w-40 transition-opacity ease-out"
+                            className="pointer-events-none absolute left-0 top-0 h-full w-40 transition-opacity ease-out z-10"
                             style={{
                                 transform: 'translateX(-100%) skewY(-42deg) scaleX(-1)',
                                 transformOrigin: 'right center',
@@ -76,7 +76,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
 
                         {/* Top light sweep */}
                         <div
-                            className="pointer-events-none absolute left-0 top-0 h-40 w-full transition-opacity ease-out z-20"
+                            className="pointer-events-none absolute left-0 top-0 h-40 w-full transition-opacity ease-out z-10"
                             style={{
                                 transform: 'translateY(-100%) skewX(-48deg)',
                                 transformOrigin: 'center bottom',
@@ -88,7 +88,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
 
                         {/* Right light sweep */}
                         <div
-                            className="pointer-events-none absolute right-0 top-0 h-full w-40 transition-opacity ease-out z-20"
+                            className="pointer-events-none absolute right-0 top-0 h-full w-40 transition-opacity ease-out z-10"
                             style={{
                                 transform: 'translateX(100%) skewY(-42deg)',
                                 transformOrigin: 'left center',
@@ -105,7 +105,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative group h-fit self-start hover:text-cyan-500 hover:underline z-50"
+                    className="relative group h-fit self-start hover:text-emerald-400 hover:underline z-40"
                 >
                     <span className="flex gap-1 font-mono text-xs uppercase tracking-widest" style={{ opacity: 1 }}>
                         {title}
@@ -115,7 +115,7 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                                 {subtitle}
                             </>
                         )}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 group-hover:text-cyan-500">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 group-hover:text-emerald-400">
                             <path d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
                         </svg>
                     </span>

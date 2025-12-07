@@ -41,7 +41,7 @@ export function CustomButton({
                     </span>
                 </span>
             ) : (
-                <span className="text-white text-sm font-normal text-center">
+                <span className="text-white text-sm font-normal text-center whitespace-nowrap">
                     {children}
                 </span>
             )}

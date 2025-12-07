@@ -4,7 +4,7 @@ import { z } from "zod";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/drizzle/db";
 import { InstanceTable } from "@/drizzle/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { hasEntitlement } from "@/lib/has-entitelment-client";
 
 const inputSchema = z.object({
@@ -38,6 +38,7 @@ type CreateResult =
               | "invalidInput"
               | "userNotFound"
               | "subscriptionEnded"
+              | "duplicateInstance"
               | "failedToCreate"
               | "unexpected";
       };
@@ -58,6 +59,21 @@ export async function createInstance(input: unknown): Promise<CreateResult> {
 
         if (!hasEntitlement(user)) {
             return { ok: false, error: "subscriptionEnded" };
+        }
+
+        // Check for duplicate submission
+        const duplicateInstance = await db.query.InstanceTable.findFirst({
+            where: and(
+                eq(InstanceTable.userId, user.id),
+                eq(InstanceTable.strategy, data.strategy),
+                eq(InstanceTable.instrument, data.instrument),
+                eq(InstanceTable.exchange, data.exchangeLabel),
+            ),
+        });
+
+        if (duplicateInstance) {
+            console.log("[createInstance] Duplicate instance detected for user");
+            return { ok: false, error: "duplicateInstance" };
         }
 
         const [inserted] = await db

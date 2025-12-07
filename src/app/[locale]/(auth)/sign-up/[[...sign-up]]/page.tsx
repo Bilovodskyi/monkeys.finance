@@ -1,10 +1,18 @@
 import { SignUp } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
-export default function Page() {
+export default async function Page({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}) {
+    const { locale } = await params;
+    
     return (
         <div className="flex min-h-screen items-center justify-center bg-main-background relative">
             <SignUp
+                fallbackRedirectUrl={`/${locale}/instances`}
+                signInUrl={`/${locale}/sign-in`}
                 appearance={{
                     baseTheme: dark,
                     variables: {

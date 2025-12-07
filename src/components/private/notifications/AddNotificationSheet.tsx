@@ -22,7 +22,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRef, useState, useEffect, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
 import { checkTelegramLinked } from "@/actions/telegram/status";
 import { useTranslations } from "next-intl";
 
@@ -37,8 +36,8 @@ export function AddNotificationSheet({
     notification,
 }: AddNotificationSheetProps) {
     const t = useTranslations("addNotificationSheet");
-    const router = useRouter();
     const [open, setOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [checkingTelegram, setCheckingTelegram] = useState(false);
     const [isTelegramLinked, setIsTelegramLinked] = useState(false);
 
@@ -81,6 +80,9 @@ export function AddNotificationSheet({
     };
 
     async function handleFormSubmit(values: FormValues) {
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        
         try {
             toast.loading(t("toastCreating"));
 
@@ -122,12 +124,13 @@ export function AddNotificationSheet({
             toast.success(t("toastSuccess"));
             setOpen(false);
             clearForm();
-            router.refresh();
         } catch (error) {
             console.error("[AddNotificationSheet] Unexpected error:", error);
             toast.dismiss();
             toast.error(t("errors.unexpected"));
             setOpen(false);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -330,6 +333,7 @@ export function AddNotificationSheet({
                         <CustomButton
                             isBlue={true}
                             disabled={
+                                isSubmitting ||
                                 !selectedProvider ||
                                 !selectedStrategy ||
                                 !selectedInstrument
@@ -337,7 +341,11 @@ export function AddNotificationSheet({
                             onClick={() => formRef.current?.requestSubmit()}
                             role="button"
                             tabIndex={0}>
-                            {isEditMode ? t("buttonSave") : t("buttonCreate")}
+                            {isSubmitting
+                                ? t("buttonSubmitting")
+                                : isEditMode
+                                  ? t("buttonSave")
+                                  : t("buttonCreate")}
                         </CustomButton>
                         <CustomButton
                             isBlue={false}

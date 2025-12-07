@@ -6,6 +6,7 @@ import { userCredentials } from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { encryptApiCredentials } from "@/services/apiKeyManager";
 import { Exchange } from "@/types/global";
+import { revalidatePath } from "next/cache";
 
 export type SaveCredentialsInput = {
     exchange: string;
@@ -157,6 +158,7 @@ export async function saveCredentials(
                 });
             }
 
+            revalidatePath("/bot");
             return { ok: true };
         } catch (error) {
             console.error("[saveCredentials] Database save failed:", error);

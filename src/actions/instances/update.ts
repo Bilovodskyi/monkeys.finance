@@ -89,6 +89,5 @@ export async function updateInstance(input: unknown): Promise<UpdateResult> {
         .returning({ id: InstanceTable.id });
 
     if (updated.length === 0) return { ok: false, error: "notFound" };
-
     return { ok: true, id: updated[0].id };
 }

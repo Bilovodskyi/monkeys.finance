@@ -198,20 +198,21 @@ export async function POST(req: Request) {
             });
 
             // ========================================
-            // STEP 2: UPDATE COUNTRY IN BACKGROUND (non-blocking)
+            // STEP 2: UPDATE COUNTRY (await to ensure it completes on Vercel)
             // ========================================
-            // Don't await - let this run in background
-            updateUserCountry(clerkId).catch((error) => {
+            // Note: On Vercel, background tasks are terminated after response.
+            // We must await this to ensure the country update completes.
+            try {
+                await updateUserCountry(clerkId);
+            } catch (error) {
                 console.error(
-                    "[clerk-webhook] ⚠️  Background country update failed:",
+                    "[clerk-webhook] ⚠️  Country update failed (non-critical):",
                     error
                 );
                 // Non-critical - user is already created
-            });
+            }
 
-            console.log(
-                "[clerk-webhook] 🔄 Country detection running in background..."
-            );
+            console.log("[clerk-webhook] ✅ User creation complete");
             return new Response("User created", { status: 201 });
         } catch (error) {
             console.error("[clerk-webhook] Database error:", error);
@@ -383,8 +384,8 @@ async function updateUserCountry(clerkId: string): Promise<void> {
     try {
         const clerk = await clerkClient();
 
-        // Wait a moment for session to be fully created
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        // Wait for session to be fully created (longer in production)
+        await new Promise((resolve) => setTimeout(resolve, 3000));
 
         // Fetch sessions from Clerk API
         const sessions = await clerk.sessions.getSessionList({

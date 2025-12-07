@@ -117,6 +117,7 @@
         "telegramLinked": "✅ Аккаунт Telegram підключено",
         "checkingTelegram": "Перевірка статусу Telegram...",
         "buttonCreate": "Створити",
+        "buttonSubmitting": "Відправка...",
         "buttonSave": "Зберегти",
         "buttonClear": "Очистити",
         "toastCreating": "Створення сповіщення...",
@@ -358,6 +359,7 @@
         "signalLabel": "Сигнал:",
         "create": "Створити",
         "save": "Зберегти",
+        "submitting": "Відправка...",
         "cancel": "Скасувати",
         "clear": "Очистити",
         "createdSuccess": "Екземпляр успішно створено!",
@@ -375,7 +377,8 @@
             "saveFailed": "Не вдалося зберегти облікові дані. Спробуйте ще раз",
             "leverageWarning": "Будь ласка, вручну встановіть кредитне плече на вашій біржі на x1. Всі бектести проводилися з кредитним плечем x1.",
             "validPositiveNumber": "Має бути позитивним числом",
-            "minimumPositionSize": "Мінімальний розмір позиції $20 USDT"
+            "minimumPositionSize": "Мінімальний розмір позиції $20 USDT",
+            "duplicateInstance": "У вас вже є екземпляр з цією стратегією, інструментом та біржею"
         },
         "createdError": "Не вдалося створити екземпляр",
         "updatedError": "Не вдалося оновити екземпляр",

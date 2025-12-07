@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchCurrentUser, type UserData } from "@/actions/user/fetch";
 import { fetchUserInstances, type InstanceData } from "@/actions/instances/fetch";
 import { getCredentialsStatus, type CredentialsStatus } from "@/actions/credentials/check";
@@ -17,6 +17,7 @@ export type UseInstancesDataReturn = {
     isLoading: boolean;
     error: boolean;
     daysLeft: number;
+    refetch: () => void;
 };
 
 /**
@@ -36,6 +37,12 @@ export function useInstancesData(
     const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    // Function to trigger a refetch
+    const refetch = useCallback(() => {
+        setRefreshKey((prev) => prev + 1);
+    }, []);
 
     useEffect(() => {
         let isMounted = true;
@@ -95,7 +102,7 @@ export function useInstancesData(
         return () => {
             isMounted = false;
         };
-    }, [maxRetries, delays]);
+    }, [maxRetries, delays, refreshKey]);
 
     return {
         user,
@@ -105,5 +112,7 @@ export function useInstancesData(
         hasActiveSubscription,
         isLoading,
         error,
+        refetch,
     };
 }
+

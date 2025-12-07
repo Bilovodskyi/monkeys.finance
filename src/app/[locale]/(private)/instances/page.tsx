@@ -18,7 +18,8 @@ export default function Instances() {
         credentialsStatus, 
         hasActiveSubscription, 
         isLoading, 
-        error 
+        error,
+        refetch 
     } = useInstancesData();
 
     // Loading state
@@ -66,7 +67,7 @@ export default function Instances() {
                             {t("instanceDescription")}
                         </p>
                         <div className="flex gap-2 mt-6">
-                            <CreateInstanceSheet credentialsStatus={credentialsStatus}>
+                            <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
                                 <CustomButton isBlue={false}>
                                     {t("addInstance")}
                                 </CustomButton>
@@ -101,7 +102,7 @@ export default function Instances() {
                         </h1>
                         {instances.length < 3 ? (
                             hasActiveSubscription ? (
-                                <CreateInstanceSheet credentialsStatus={credentialsStatus}>
+                                <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
                                     <CustomButton isBlue={false}>
                                         {t("addInstance")}
                                     </CustomButton>
@@ -161,7 +162,8 @@ export default function Instances() {
                                 <CreateInstanceSheet
                                     key={index}
                                     credentialsStatus={credentialsStatus}
-                                    instance={instance}>
+                                    instance={instance}
+                                    onSuccess={refetch}>
                                     <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
                                         <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center text-xs">
                                             {instance.status === "active" ? (
@@ -199,6 +201,7 @@ export default function Instances() {
                                             <ActionsDropdownMenu
                                                 instance={instance}
                                                 credentialsStatus={credentialsStatus}
+                                                onSuccess={refetch}
                                             />
                                         </div>
                                     </div>

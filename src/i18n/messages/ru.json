@@ -282,6 +282,7 @@
         "signalLabel": "Сигнал:",
         "create": "Создать",
         "save": "Сохранить",
+        "submitting": "Отправка...",
         "cancel": "Отменить",
         "clear": "Очистить",
         "createdSuccess": "Экземпляр успешно создан!",
@@ -299,7 +300,8 @@
             "saveFailed": "Не удалось сохранить учетные данные. Попробуйте еще раз",
             "leverageWarning": "Пожалуйста, вручную установите кредитное плечо на вашей бирже на x1. Все бэктесты проводились с кредитным плечом x1.",
             "validPositiveNumber": "Должно быть положительным числом",
-            "minimumPositionSize": "Минимальный размер позиции $20 USDT"
+            "minimumPositionSize": "Минимальный размер позиции $20 USDT",
+            "duplicateInstance": "У вас уже есть экземпляр с этой стратегией, инструментом и биржей"
         },
         "createdError": "Не удалось создать экземпляр",
         "updatedError": "Не удалось обновить экземпляр",
@@ -385,6 +387,7 @@
         "telegramLinked": "✅ Аккаунт Telegram подключен",
         "checkingTelegram": "Проверка статуса Telegram...",
         "buttonCreate": "Создать",
+        "buttonSubmitting": "Отправка...",
         "buttonSave": "Сохранить",
         "buttonClear": "Очистить",
         "toastCreating": "Создание уведомления...",

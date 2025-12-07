@@ -37,6 +37,7 @@ interface CreateInstanceSheetProps {
     credentialsStatus: CredentialsStatus;
     children: ReactNode;
     instance?: InstanceRecord;
+    onSuccess?: () => void;
 }
 
 const INSTRUMENT_SHORT_NAMES = {
@@ -52,10 +53,12 @@ export function CreateInstanceSheet({
     credentialsStatus,
     children,
     instance,
+    onSuccess,
 }: CreateInstanceSheetProps) {
     const translations = useTranslations("instances");
     const router = useRouter();
     const [open, setOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const isEditMode = !!instance;
 
     const FormSchema = z
@@ -178,6 +181,10 @@ export function CreateInstanceSheet({
     };
 
     const handleSubmit = async (values: FormValues) => {
+        // Prevent duplicate submissions
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        
         try {
             // 1. Save credentials if provided
             if (values.apiKey || values.apiSecret) {
@@ -271,24 +278,27 @@ export function CreateInstanceSheet({
                         invalidInput: "errors.invalidInput",
                         userNotFound: "errors.userNotFound",
                         subscriptionEnded: "subscriptionEnded",
+                        duplicateInstance: "errors.duplicateInstance",
                         failedToCreate: "createdError",
                         unexpected: "errors.unexpected",
                     }[result.error];
 
-                    toast.error(translations(errorKey));
+                    toast.error(translations(errorKey ?? "errors.unexpected"));
                     setOpen(false);
                     return;
                 }
                 toast.success(translations("createdSuccess"));
             }
             setOpen(false);
-            router.refresh();
+            onSuccess?.();
         } catch (error: unknown) {
             // This should never happen since createInstance catches all errors,
             // but keep as a safety net for unexpected issues
             console.error("[CreateInstanceSheet] Unexpected error:", error);
             toast.error(translations("createdError"));
             setOpen(false);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -584,6 +594,7 @@ export function CreateInstanceSheet({
                         <div className="flex gap-2 justify-end ">
                             <CustomButton
                                 disabled={
+                                    isSubmitting ||
                                     !selectedStrategy ||
                                     !selectedInstrument ||
                                     !selectedExchange ||
@@ -594,9 +605,11 @@ export function CreateInstanceSheet({
                                 onClick={() => formRef.current?.requestSubmit()}
                                 role="button"
                                 tabIndex={0}>
-                                {isEditMode
-                                    ? translations("save")
-                                    : translations("create")}
+                                {isSubmitting
+                                    ? translations("submitting")
+                                    : isEditMode
+                                        ? translations("save")
+                                        : translations("create")}
                             </CustomButton>
                             <CustomButton
                                 isBlue={false}

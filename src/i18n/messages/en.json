@@ -282,6 +282,7 @@
         "signalLabel": "Signal:",
         "create": "Create",
         "save": "Save",
+        "submitting": "Submitting...",
         "cancel": "Cancel",
         "clear": "Clear",
         "createdSuccess": "Instance created successfully!",
@@ -299,7 +300,8 @@
             "saveFailed": "Failed to save credentials. Please try again",
             "leverageWarning": "Please manually set leverage on your exchange to x1. All backtests were performed with x1 leverage.",
             "validPositiveNumber": "Must be a valid positive number",
-            "minimumPositionSize": "Minimum position size is $20 USDT"
+            "minimumPositionSize": "Minimum position size is $20 USDT",
+            "duplicateInstance": "You already have an instance with this strategy, instrument, and exchange"
         },
         "createdError": "Failed to create instance",
         "updatedError": "Failed to update instance",
@@ -385,6 +387,7 @@
         "telegramLinked": "✅ Telegram account linked",
         "checkingTelegram": "Checking Telegram status...",
         "buttonCreate": "Create",
+        "buttonSubmitting": "Submitting...",
         "buttonSave": "Save",
         "buttonClear": "Clear",
         "toastCreating": "Creating notification...",

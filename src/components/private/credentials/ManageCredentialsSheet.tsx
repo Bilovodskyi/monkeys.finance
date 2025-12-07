@@ -23,8 +23,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useRef, useState, useEffect, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useRef, useState, useEffect, type ReactNode } from "react"
 
 interface ManageCredentialsSheetProps {
     children: ReactNode;
@@ -36,8 +35,8 @@ export function ManageCredentialsSheet({
     exchange,
 }: ManageCredentialsSheetProps) {
     const translations = useTranslations("instances");
-    const router = useRouter();
     const [open, setOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const isEditMode = !!exchange;
 
     const FormSchema = z.object({
@@ -88,6 +87,9 @@ export function ManageCredentialsSheet({
     };
 
     const handleSubmit = async (values: FormValues) => {
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        
         try {
             const result = await saveCredentials({
                 exchange: values.exchange,
@@ -122,7 +124,6 @@ export function ManageCredentialsSheet({
                     : "Credentials saved successfully"
             );
             setOpen(false);
-            router.refresh();
         } catch (error: unknown) {
             console.error(
                 "[ManageCredentialsSheet] Unexpected error:",
@@ -130,6 +131,8 @@ export function ManageCredentialsSheet({
             );
             toast.error(translations("errors.unexpected"));
             setOpen(false);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -279,12 +282,16 @@ export function ManageCredentialsSheet({
 
                     <div className="absolute bottom-0 right-0 left-0 pt-4 flex gap-2 justify-end">
                         <CustomButton
-                            disabled={!form.formState.isValid}
+                            disabled={!form.formState.isValid || isSubmitting}
                             isBlue={true}
                             onClick={() => formRef.current?.requestSubmit()}
                             role="button"
                             tabIndex={0}>
-                            {isEditMode ? "Update" : "Save"}
+                            {isSubmitting
+                                ? translations("submitting")
+                                : isEditMode
+                                  ? "Update"
+                                  : "Save"}
                         </CustomButton>
                         <CustomButton
                             isBlue={false}

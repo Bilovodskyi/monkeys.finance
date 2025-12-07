@@ -19,7 +19,6 @@ import {
 import { Activity, Ellipsis } from "lucide-react";
 import { pauseActivate } from "@/actions/instances/pauseActivate";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { CreateInstanceSheet } from "./CreateInstanceSheet";
 import type { InstanceRecord } from "@/types/instance";
@@ -30,11 +29,12 @@ import { useState } from "react";
 export function ActionsDropdownMenu({
     instance,
     credentialsStatus,
+    onSuccess,
 }: {
     instance: InstanceRecord;
     credentialsStatus: CredentialsStatus;
+    onSuccess?: () => void;
 }) {
-    const router = useRouter();
     const t = useTranslations("instances.actionsMenu");
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -49,7 +49,7 @@ export function ActionsDropdownMenu({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem onSelect={(e) => e.stopPropagation()}>
-                    <CreateInstanceSheet credentialsStatus={credentialsStatus} instance={instance}>
+                    <CreateInstanceSheet credentialsStatus={credentialsStatus} instance={instance} onSuccess={onSuccess}>
                         <span onClick={(e) => e.stopPropagation()}>
                             {t("items.edit")}
                         </span>
@@ -66,7 +66,7 @@ export function ActionsDropdownMenu({
                                     ? t("pauseActivate.paused")
                                     : t("pauseActivate.activated");
                             toast.success(label);
-                            router.refresh();
+                            onSuccess?.();
                         } else {
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             const key = result.error as any; // Dynamic error key from server
@@ -119,7 +119,7 @@ export function ActionsDropdownMenu({
                                                     t("delete.deleted")
                                                 );
                                                 setIsDeleteOpen(false);
-                                                router.refresh();
+                                                onSuccess?.();
                                             } else {
                                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                                 const key = result.error as any; // Dynamic error key from server
@@ -147,3 +147,4 @@ export function ActionsDropdownMenu({
         </DropdownMenu>
     );
 }
+
