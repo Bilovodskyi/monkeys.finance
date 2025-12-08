@@ -179,7 +179,35 @@
     "bot": {
         "addCredentials": "Agregar credenciales",
         "noCredentialsTitle": "No tienes credenciales",
-        "noCredentialsDescription": "Agrega tus credenciales para comenzar a usar el bot. O puedes agregar credenciales cuando crees una nueva instancia."
+        "noCredentialsDescription": "Agrega tus credenciales para comenzar a usar el bot. O puedes agregar credenciales cuando crees una nueva instancia.",
+        "credentialsSheet": {
+            "titleAdd": "Agregar Credenciales",
+            "titleUpdate": "Actualizar Credenciales",
+            "descriptionAdd": "Agrega tus credenciales API del intercambio para comenzar a operar",
+            "descriptionUpdate": "Actualiza tus credenciales API para {exchange}",
+            "update": "Actualizar",
+            "save": "Guardar",
+            "successUpdate": "Credenciales actualizadas exitosamente",
+            "successSave": "Credenciales guardadas exitosamente"
+        },
+        "exchange": "Intercambio",
+        "selectPlaceholder": "Seleccionar...",
+        "apiKey": "Clave API",
+        "enterApiKey": "Ingresa clave API",
+        "apiSecret": "Secreto API",
+        "enterApiSecret": "Ingresa secreto API",
+        "passphrase": "Frase de contraseña",
+        "passphraseOptional": "(opcional)",
+        "enterPassphrase": "Ingresa frase de contraseña (si es requerida)",
+        "submitting": "Enviando...",
+        "clear": "Limpiar",
+        "errors": {
+            "required": "Este campo es obligatorio",
+            "unexpected": "Ocurrió un error inesperado. Por favor intenta de nuevo",
+            "credentialsRequired": "Por favor proporciona la clave API y el secreto para este exchange",
+            "encryptionFailed": "Error al cifrar las credenciales. Inténtalo de nuevo",
+            "saveFailed": "Error al guardar las credenciales. Inténtalo de nuevo"
+        }
     },
     "plan": {
         "planEndsMessage": "Tu plan terminará el {date} a las {time}.",
@@ -543,6 +571,33 @@
                 "point1": "Claves ilegibles incluso para nosotros",
                 "point2": "Protección de encriptación de doble capa"
             }
+        }
+    },
+    "credentialCard": {
+        "created": "Creado:",
+        "updated": "Actualizado:",
+        "never": "Nunca",
+        "securityNote": "Por seguridad, tus credenciales API están encriptadas y ocultas. <br /> Solo puedes actualizarlas o eliminarlas.",
+        "learnSecurity": "Aprende sobre nuestra seguridad",
+        "update": "Actualizar",
+        "delete": "Eliminar",
+        "deleteTitle": "Eliminar credenciales",
+        "deleteConfirm": "¿Estás seguro de que quieres eliminar estas credenciales?",
+        "loadingInstances": "Cargando instancias...",
+        "deleteWarning": "⚠️ Esto también eliminará <strong>{count}</strong> instancia{s} activa{s}",
+        "cannotUndo": "Esta acción no se puede deshacer.",
+        "deleteButton": "Eliminar credenciales",
+        "deleteButtonWithInstances": "Eliminar credenciales y {count} instancia{s}",
+        "toastDeleted": "Credenciales eliminadas con éxito",
+        "toastDeletedWithInstances": "Credenciales y {count} instancia{s} eliminadas con éxito",
+        "toastFailed": "Error al eliminar credenciales",
+        "errors": {
+            "unauthorized": "No autorizado",
+            "userNotFound": "Usuario no encontrado",
+            "invalidInput": "Entrada inválida",
+            "notFound": "Credenciales no encontradas",
+            "deleteFailed": "Error al eliminar credenciales",
+            "unexpected": "Error inesperado"
         }
     }
 }

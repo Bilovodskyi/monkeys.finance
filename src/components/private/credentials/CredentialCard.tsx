@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import type { ExchangeCredentialStatus } from "@/actions/credentials/check";
+import { useTranslations } from "next-intl";
 
 interface CredentialCardProps {
     exchangeKey: string;
@@ -26,6 +27,7 @@ interface CredentialCardProps {
 }
 
 export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps) {
+    const t = useTranslations("credentialCard");
     const router = useRouter();
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [instanceCount, setInstanceCount] = useState<number>(0);
@@ -50,29 +52,26 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
             const result = await deleteCredentials({ exchange: exchangeKey });
 
             if (!result.ok) {
-                const errorMessages = {
-                    unauthorized: "Unauthorized",
-                    userNotFound: "User not found",
-                    invalidInput: "Invalid input",
-                    notFound: "Credentials not found",
-                    deleteFailed: "Failed to delete credentials",
-                    unexpected: "Unexpected error",
-                };
+                // Map error codes to translation keys if possible, or use a generic error
+                const errorKey = result.error as string;
+                const errorMessage = t.has(`errors.${errorKey}`) 
+                    ? t(`errors.${errorKey}`) 
+                    : t("toastFailed");
 
-                toast.error(errorMessages[result.error] || "Failed to delete credentials");
+                toast.error(errorMessage);
                 return;
             }
 
             const message = result.deletedInstancesCount > 0
-                ? `Credentials and ${result.deletedInstancesCount} instance${result.deletedInstancesCount > 1 ? 's' : ''} deleted successfully`
-                : "Credentials deleted successfully";
+                ? t("toastDeletedWithInstances", { count: result.deletedInstancesCount, s: result.deletedInstancesCount > 1 ? 's' : '' })
+                : t("toastDeleted");
             
             toast.success(message);
             setIsDeleteOpen(false);
             router.refresh();
         } catch (error) {
             console.error("[CredentialCard] Delete error:", error);
-            toast.error("Failed to delete credentials");
+            toast.error(t("toastFailed"));
         }
     };
 
@@ -86,21 +85,23 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
                     
                     <div className="flex md:flex-row flex-col md:items-center gap-4 text-xs text-tertiary mb-3 mt-3 md:mt-0">
                         <p>
-                            Created: <span className="text-secondary">{credentials.createdAt.toLocaleString()}</span>
+                            {t("created")} <span className="text-secondary">{credentials.createdAt.toLocaleString()}</span>
                         </p>
                         <div className="w-1 h-1 rounded-full bg-zinc-700" />
                         <p>
-                            Updated: <span className="text-secondary">{credentials.updatedAt.getTime() === credentials.createdAt.getTime() ? "Never" : credentials.updatedAt.toLocaleString()}</span>
+                            {t("updated")} <span className="text-secondary">{credentials.updatedAt.getTime() === credentials.createdAt.getTime() ? t("never") : credentials.updatedAt.toLocaleString()}</span>
                         </p>
                     </div>
 
                     <div className="text-secondary space-y-2">
                         <p>
-                            For security, your API credentials are encrypted and hidden. <br /> You can only update or delete them.
+                            {t.rich("securityNote", {
+                                br: () => <br />
+                            })}
                         </p>
                         <p>
                             <a className="text-highlight hover:text-highlight/80 transition-colors flex items-center gap-1 w-fit" href="https://algosquid.com/" target="_blank" rel="noopener noreferrer">
-                                Learn about our security
+                                {t("learnSecurity")}
                                 <ArrowUpRight className="w-3 h-3" />
                             </a>
                         </p>
@@ -117,16 +118,16 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
             <div className="h-[1px] w-full bg-zinc-800 mt-4" />
             <div className="flex p-6 justify-end bg-[rgb(20,20,20)] gap-4">
                 <ManageCredentialsSheet exchange={exchangeKey}>
-                    <CustomButton isBlue={false}>Update</CustomButton>
+                    <CustomButton isBlue={false}>{t("update")}</CustomButton>
                 </ManageCredentialsSheet>
                 
                 <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
                     <DialogTrigger asChild>
-                        <CustomButton isBlue={false}>Delete</CustomButton>
+                        <CustomButton isBlue={false}>{t("delete")}</CustomButton>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Delete Credentials</DialogTitle>
+                            <DialogTitle>{t("deleteTitle")}</DialogTitle>
                             <DialogDescription></DialogDescription>
                         </DialogHeader>
                         <div className="flex flex-col justify-center items-center py-4 gap-4">
@@ -135,24 +136,28 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
                             </div>
                             <h1 className="text-xl">{exchangeKey.toUpperCase()}</h1>
                             <p className="text-secondary text-center">
-                                Are you sure you want to delete these credentials?
+                                {t("deleteConfirm")}
                             </p>
                             {isLoadingCount ? (
-                                <p className="text-tertiary text-sm">Loading instances...</p>
+                                <p className="text-tertiary text-sm">{t("loadingInstances")}</p>
                             ) : instanceCount > 0 ? (
                                 <p className="text-secondary text-center">
-                                    ⚠️ This will also delete <strong>{instanceCount}</strong> active instance{instanceCount > 1 ? 's' : ''}
+                                    {t.rich("deleteWarning", {
+                                        count: instanceCount,
+                                        s: instanceCount > 1 ? 's' : '',
+                                        strong: (chunks) => <strong>{chunks}</strong>
+                                    })}
                                 </p>
                             ) : null}
                             <p className="text-tertiary text-sm text-center">
-                                This action cannot be undone.
+                                {t("cannotUndo")}
                             </p>
                         </div>
                         <DialogFooter className="w-full flex justify-center">
                             <button
                                 className="w-full border border-zinc-800 p-2 text-white duration-200 hover:bg-neutral-900 transition-all cursor-pointer"
                                 onClick={handleDelete}>
-                                Delete {instanceCount > 0 ? `Credentials & ${instanceCount} Instance${instanceCount > 1 ? 's' : ''}` : 'Credentials'}
+                                {instanceCount > 0 ? t("deleteButtonWithInstances", { count: instanceCount, s: instanceCount > 1 ? 's' : '' }) : t("deleteButton")}
                             </button>
                         </DialogFooter>
                     </DialogContent>

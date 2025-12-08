@@ -305,7 +305,7 @@ export function CreateInstanceSheet({
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>{children}</SheetTrigger>
-            <SheetContent className="flex flex-col">
+            <SheetContent className="flex flex-col overflow-scroll">
                 <SheetHeader>
                     <SheetTitle className="text-xl font-title">
                         {isEditMode
@@ -554,44 +554,8 @@ export function CreateInstanceSheet({
                         </div>
                     </div>
 
-                    <div className="absolute bottom-0 right-0 left-0 pt-4 flex flex-col gap-8">
-                        {/* <div className="border border-zinc-800 p-4 space-y-4">
-                            <div className="flex flex-col gap-2">
-                                <span className="text-tertiary mr-1 font-mein">
-                                    {translations("yourInstance")}
-                                </span>
-                                <h1 className="font-title">{instanceName}</h1>
-                            </div>
-                            <div className="grid grid-cols-2 grid-rows-2 gap-2">
-                                <span className="text-tertiary mr-1 font-mein">
-                                    {translations("strategyLabel")}{" "}
-                                    <span className="text-white">
-                                        {selectedStrategy || "-"}
-                                    </span>
-                                </span>
-                                <span className="text-tertiary mr-1 font-mein">
-                                    {translations("instrumentLabel")}{" "}
-                                    <span className="text-white">
-                                        {selectedInstrument || "-"}
-                                    </span>
-                                </span>
-                                <span className="text-tertiary mr-1 font-mein">
-                                    {translations("exchangeLabel")}{" "}
-                                    <span className="text-white">
-                                        {selectedExchange || "-"}
-                                    </span>
-                                </span>
-                                <span className="text-tertiary mr-1 font-mein">
-                                    {translations("signalLabel")}{" "}
-                                    <span className="text-white">
-                                        {selectedStrategy === "Squid Ribbon V2"
-                                            ? "1H"
-                                            : "4H"}
-                                    </span>
-                                </span>
-                            </div>
-                        </div> */}
-                        <div className="flex gap-2 justify-end ">
+                    <div className="sticky lg:absolute bottom-0 right-0 left-0 bg-background border-t border-zinc-800/50 px-6 py-4">
+                        <div className="flex gap-2 justify-end">
                             <CustomButton
                                 disabled={
                                     isSubmitting ||

@@ -151,7 +151,7 @@ export function AddNotificationSheet({
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>{children}</SheetTrigger>
-            <SheetContent className="flex flex-col">
+            <SheetContent className="flex flex-col overflow-scroll">
                 <SheetHeader>
                     <SheetTitle className="text-xl font-title">
                         {isEditMode ? t("titleEdit") : t("titleAdd")}
@@ -162,7 +162,7 @@ export function AddNotificationSheet({
                 </SheetHeader>
 
                 <form
-                    className="mt-6 space-y-8 relative flex-1"
+                    className="mt-6 space-y-8 relative flex-1 flex flex-col"
                     onSubmit={form.handleSubmit(handleFormSubmit)}
                     ref={formRef}>
                     {/* Provider Field */}
@@ -329,7 +329,8 @@ export function AddNotificationSheet({
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="absolute bottom-0 right-0 left-0 pt-4 flex gap-2 justify-end">
+                    <div className="sticky lg:absolute bottom-0 right-0 left-0 mt-auto bg-background border-t border-zinc-800/50 px-6 py-4">
+                        <div className="flex gap-2 justify-end">
                         <CustomButton
                             isBlue={true}
                             disabled={
@@ -355,6 +356,7 @@ export function AddNotificationSheet({
                             }}>
                             {t("buttonClear")}
                         </CustomButton>
+                        </div>
                     </div>
                 </form>
             </SheetContent>

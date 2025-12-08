@@ -179,7 +179,35 @@
     "bot": {
         "addCredentials": "Add Credentials",
         "noCredentialsTitle": "You don't have any credentials",
-        "noCredentialsDescription": "Add your credentials to start using the bot. Or you can add credentials when you create a new instance."
+        "noCredentialsDescription": "Add your credentials to start using the bot. Or you can add credentials when you create a new instance.",
+        "credentialsSheet": {
+            "titleAdd": "Add Credentials",
+            "titleUpdate": "Update Credentials",
+            "descriptionAdd": "Add your exchange API credentials to start trading",
+            "descriptionUpdate": "Update your API credentials for {exchange}",
+            "update": "Update",
+            "save": "Save",
+            "successUpdate": "Credentials updated successfully",
+            "successSave": "Credentials saved successfully"
+        },
+        "exchange": "Exchange",
+        "selectPlaceholder": "Select...",
+        "apiKey": "API Key",
+        "enterApiKey": "Enter API key",
+        "apiSecret": "API Secret",
+        "enterApiSecret": "Enter API Secret",
+        "passphrase": "Passphrase",
+        "passphraseOptional": "(optional)",
+        "enterPassphrase": "Enter passphrase (if required)",
+        "submitting": "Submitting...",
+        "clear": "Clear",
+        "errors": {
+            "required": "This field is required",
+            "unexpected": "An unexpected error occurred. Please try again",
+            "credentialsRequired": "Please provide both API key and secret for this exchange",
+            "encryptionFailed": "Failed to encrypt credentials. Please try again",
+            "saveFailed": "Failed to save credentials. Please try again"
+        }
     },
     "plan": {
         "planEndsMessage": "Your plan will end on {date} at {time}.",
@@ -543,6 +571,33 @@
                 "point1": "Keys unreadable even to us",
                 "point2": "Double-layer encryption protection"
             }
+        }
+    },
+    "credentialCard": {
+        "created": "Created:",
+        "updated": "Updated:",
+        "never": "Never",
+        "securityNote": "For security, your API credentials are encrypted and hidden. <br /> You can only update or delete them.",
+        "learnSecurity": "Learn about our security",
+        "update": "Update",
+        "delete": "Delete",
+        "deleteTitle": "Delete Credentials",
+        "deleteConfirm": "Are you sure you want to delete these credentials?",
+        "loadingInstances": "Loading instances...",
+        "deleteWarning": "⚠️ This will also delete <strong>{count}</strong> active instance{s}",
+        "cannotUndo": "This action cannot be undone.",
+        "deleteButton": "Delete Credentials",
+        "deleteButtonWithInstances": "Delete Credentials & {count} Instance{s}",
+        "toastDeleted": "Credentials deleted successfully",
+        "toastDeletedWithInstances": "Credentials and {count} instance{s} deleted successfully",
+        "toastFailed": "Failed to delete credentials",
+        "errors": {
+            "unauthorized": "Unauthorized",
+            "userNotFound": "User not found",
+            "invalidInput": "Invalid input",
+            "notFound": "Credentials not found",
+            "deleteFailed": "Failed to delete credentials",
+            "unexpected": "Unexpected error"
         }
     }
 }

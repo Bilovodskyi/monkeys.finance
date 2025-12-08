@@ -34,7 +34,7 @@ export function ManageCredentialsSheet({
     children,
     exchange,
 }: ManageCredentialsSheetProps) {
-    const translations = useTranslations("instances");
+    const translations = useTranslations("bot");
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const isEditMode = !!exchange;
@@ -120,8 +120,8 @@ export function ManageCredentialsSheet({
 
             toast.success(
                 isEditMode
-                    ? "Credentials updated successfully"
-                    : "Credentials saved successfully"
+                    ? translations("credentialsSheet.successUpdate")
+                    : translations("credentialsSheet.successSave")
             );
             setOpen(false);
         } catch (error: unknown) {
@@ -143,13 +143,13 @@ export function ManageCredentialsSheet({
                 <SheetHeader>
                     <SheetTitle className="text-xl font-title">
                         {isEditMode
-                            ? "Update Credentials"
-                            : "Add Credentials"}
+                            ? translations("credentialsSheet.titleUpdate")
+                            : translations("credentialsSheet.titleAdd")}
                     </SheetTitle>
                     <SheetDescription className="text-tertiary mt-2">
                         {isEditMode
-                            ? "Update your API credentials for " + exchange
-                            : "Add your exchange API credentials to start trading"}
+                            ? translations("credentialsSheet.descriptionUpdate", { exchange })
+                            : translations("credentialsSheet.descriptionAdd")}
                     </SheetDescription>
                 </SheetHeader>
 
@@ -256,7 +256,7 @@ export function ManageCredentialsSheet({
                     {/* Passphrase Field (Optional) */}
                     <div className="grid gap-2">
                         <label className="text-tertiary">
-                            Passphrase <span className="text-xs">(optional)</span>
+                            {translations("passphrase")} <span className="text-xs">{translations("passphraseOptional")}</span>
                         </label>
                         <Controller
                             control={form.control}
@@ -267,7 +267,7 @@ export function ManageCredentialsSheet({
                                         {...field}
                                         value={field.value || ""}
                                         type="text"
-                                        placeholder="Enter passphrase (if required)"
+                                        placeholder={translations("enterPassphrase")}
                                         className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
                                     />
                                     {form.formState.errors.passphrase && (
@@ -280,7 +280,8 @@ export function ManageCredentialsSheet({
                         />
                     </div>
 
-                    <div className="absolute bottom-0 right-0 left-0 pt-4 flex gap-2 justify-end">
+                    <div className="absolute bottom-0 right-0 left-0 bg-background border-t border-zinc-800/50 px-6 py-4">
+                        <div className="flex gap-2 justify-end">
                         <CustomButton
                             disabled={!form.formState.isValid || isSubmitting}
                             isBlue={true}
@@ -290,8 +291,8 @@ export function ManageCredentialsSheet({
                             {isSubmitting
                                 ? translations("submitting")
                                 : isEditMode
-                                  ? "Update"
-                                  : "Save"}
+                                  ? translations("credentialsSheet.update")
+                                  : translations("credentialsSheet.save")}
                         </CustomButton>
                         <CustomButton
                             isBlue={false}
@@ -301,6 +302,7 @@ export function ManageCredentialsSheet({
                             }}>
                             {translations("clear")}
                         </CustomButton>
+                        </div>
                     </div>
                 </form>
             </SheetContent>
