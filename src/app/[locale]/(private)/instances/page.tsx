@@ -189,7 +189,7 @@ export default function Instances() {
                                             {instance.instrument}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
-                                            {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDT</span>
+                                            {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDC</span>
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center capitalize">
                                             {instance.exchange}

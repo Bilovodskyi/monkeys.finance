@@ -65,8 +65,9 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
 
     // All animations - only run on desktop (lg breakpoint and above)
     useGSAP(() => {
-        if (!isDesktop) return;
-
+        if (!isDesktop) {
+            return;
+        }
         gsap.registerPlugin(ScrollTrigger);
 
         // Active step highlight triggers
@@ -345,7 +346,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                 }
             );
         }
-    }, { dependencies: [isDesktop], scope: containerOne });
+
+        // Cleanup function to kill all ScrollTriggers when component re-renders
+        return () => {
+            ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+        };
+    }, { dependencies: [isDesktop] });
 
     return (
         <div style={{ width: "100vw", ...style }} className={`relative ${className}`}>

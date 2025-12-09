@@ -1,6 +1,7 @@
 "use client";
 
 import { CustomButton } from "@/components/CustomButton";
+import { Copy } from "lucide-react";
 import {
     Sheet,
     SheetTrigger,
@@ -214,11 +215,25 @@ export function AddNotificationSheet({
                                 <p className="text-sm text-tertiary">
                                     {t("telegramStep1")}
                                 </p>
-                                <p className="text-sm text-tertiary">
-                                    {t("telegramStep2", {
-                                        botName: "@algo_squid_bot",
-                                    })}
-                                </p>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-sm text-tertiary">
+                                        {t("telegramStep2", {
+                                            botName: "",
+                                        })}
+                                    </p>
+                                    <div className="flex items-center gap-1 bg-zinc-900 px-2 py-1 rounded border border-zinc-800">
+                                        <code className="text-sm text-white font-mono">@algo_squid_bot</code>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                navigator.clipboard.writeText("@algo_squid_bot");
+                                                toast.success(t("botNameCopied"));
+                                            }}
+                                            className="p-1 hover:bg-zinc-800 rounded transition-colors">
+                                            <Copy className="w-3 h-3 text-tertiary" />
+                                        </button>
+                                    </div>
+                                </div>
                                 <p className="text-sm text-tertiary">
                                     {t("telegramStep3", { command: "/start" })}
                                 </p>

@@ -53,9 +53,10 @@ export function PlanClient({
             const data = await response.json();
 
             if (data.url) {
-                window.open(data.url, "_blank", "noopener,noreferrer");
-                setLoading(false);
+                // Redirect in same tab to avoid Safari popup blocker
+                window.location.href = data.url;
             } else {
+                setLoading(false);
                 throw new Error(data.error || "Failed to create checkout");
             }
         } catch (error) {
@@ -78,9 +79,10 @@ export function PlanClient({
             const data = await response.json();
 
             if (data.url) {
-                window.open(data.url, "_blank", "noopener,noreferrer");
-                setLoadingPortal(false);
+                // Redirect in same tab to avoid Safari popup blocker
+                window.location.href = data.url;
             } else {
+                setLoadingPortal(false);
                 throw new Error(data.error || "Failed to open portal");
             }
         } catch (error) {

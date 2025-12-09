@@ -460,7 +460,7 @@ export function CreateInstanceSheet({
                                                 placeholder="0.00"
                                                 className="h-11 w-full bg-zinc-900/50 border border-zinc-800 px-3 py-2 text-white outline-none focus:border-zinc-600 transition-colors rounded-md"
                                             />
-                                            <span className="absolute right-3 top-3 text-tertiary text-sm">USDT</span>
+                                            <span className="absolute right-3 top-3 text-tertiary text-sm">USDC</span>
                                         </div>
                                         {form.formState.errors.positionSizeUSDT && (
                                             <p className="text-xs text-red-500">

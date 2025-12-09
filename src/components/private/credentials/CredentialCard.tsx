@@ -95,9 +95,10 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
 
                     <div className="text-secondary space-y-2">
                         <p>
-                            {t.rich("securityNote", {
-                                br: () => <br />
-                            })}
+                            {t("securityNoteLine1")}
+                        </p>
+                        <p>
+                            {t("securityNoteLine2")}
                         </p>
                         <p>
                             <a className="text-highlight hover:text-highlight/80 transition-colors flex items-center gap-1 w-fit" href="https://algosquid.com/" target="_blank" rel="noopener noreferrer">

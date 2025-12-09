@@ -47,12 +47,17 @@ export function ActionsDropdownMenu({
                     <Ellipsis className="w-4 h-4 text-tertiary group-hover/actions:text-white" />
                 </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuItem onSelect={(e) => e.stopPropagation()}>
+            <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                <DropdownMenuItem 
+                    onSelect={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }}
+                    onClick={(e) => e.stopPropagation()}>
                     <CreateInstanceSheet credentialsStatus={credentialsStatus} instance={instance} onSuccess={onSuccess}>
-                        <span onClick={(e) => e.stopPropagation()}>
+                        <div className="w-full cursor-pointer">
                             {t("items.edit")}
-                        </span>
+                        </div>
                     </CreateInstanceSheet>
                 </DropdownMenuItem>
                 <DropdownMenuItem
