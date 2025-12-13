@@ -12,9 +12,9 @@ const CACHE_DURATION_MS = 5000; // 5 seconds cache
 /**
  * Convert instrument from DB format to Binance format
  * Examples:
- * - "BTC-USD" -> "BTCUSDC"
- * - "BTCUSDC" -> "BTCUSDC" (already in correct format)
- * - "XRP-USD" -> "XRPUSDC"
+ * - "BTC-USD" -> "BTCUSDT"
+ * - "BTCUSDT" -> "BTCUSDT" (already in correct format)
+ * - "XRP-USD" -> "XRPUSDT"
  */
 function convertToBinanceSymbol(instrument: string): string {
     // If already in correct format (no dash), return as-is
@@ -23,7 +23,7 @@ function convertToBinanceSymbol(instrument: string): string {
     }
     
     // Replace -USD with USDC for Binance
-    return instrument.replace("-USD", "USDC").replace("-", "");
+    return instrument.replace("-USD", "USDT").replace("-", "");
 }
 
 export async function GET() {
