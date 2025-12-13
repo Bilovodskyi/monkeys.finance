@@ -55,9 +55,9 @@ export default async function About() {
                     <p className="px-6 md:px-0 md:w-1/2 !text-xl text-secondary">
                         <span className="text-main">{t("whatsNextTitle")}</span> {t("whatsNextDescription")}
                     </p>
-                    <h2 className="!text-2xl px-6 md:px-0 md:w-1/2 pt-6">
+                    
+                    <h2 className="!text-2xl px-6 md:px-0 md:w-1/2 pt-6 font-title pb-4">
                         {t("ctaText")}{" "}
-                        <span className="text-highlight">{t("ctaHighlight")}</span>
                     </h2>
                     <div className="flex gap-4 px-6 md:px-0 md:w-1/2 justify-start">
                         <SignUpButton>
@@ -71,6 +71,7 @@ export default async function About() {
                             </CustomButton>
                         </Link>
                     </div>
+                 
                 </div>
             </div>
         </div>

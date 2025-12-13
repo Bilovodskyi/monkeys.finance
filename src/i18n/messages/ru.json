@@ -167,6 +167,7 @@
     },
     "sideMenu": {
         "myInstances": "Мои экземпляры",
+        "algorithms": "Алгоритмы",
         "history": "История",
         "backtest": "Бектест",
         "apiKeys": "API Ключи",
@@ -601,7 +602,36 @@
             "invalidInput": "Неверный ввод",
             "notFound": "Учетные данные не найдены",
             "deleteFailed": "Не удалось удалить учетные данные",
-            "unexpected": "Непредвиденная ошибка"
+            "unexpected": "Неожиданная ошибка"
+        }
+    },
+    "algorithms": {
+        "emptyTitle": "Алгоритмы не найдены",
+        "emptyDescription": "Попробуйте обновить страницу",
+        "buySignal": "СИГНАЛ ПОКУПКИ",
+        "sellSignal": "СИГНАЛ ПРОДАЖИ",
+        "noSignal": "НЕТ СИГНАЛА",
+        "filtered": "ОТФИЛЬТРОВАНО",
+        "signalPrice": "Цена сигнала:",
+        "signalGenerated": "Сигнал сгенерирован:",
+        "currentPrice": "Текущая цена",
+        "flipPrice": "Цена разворота",
+        "mlBadProbability": "ML вероятность плохого сигнала",
+        "predictedRemaining": "Прогноз остатка",
+        "seeOnChart": "Смотреть на графике",
+        "chart": {
+            "title": "График {instrument} - {interval}",
+            "description": "Данные о ценах в реальном времени с Binance.us",
+            "flipPriceLabel": "Цена разворота",
+            "buySignalEntry": "Вход по сигналу покупки",
+            "sellSignalEntry": "Вход по сигналу продажи",
+            "signalEntry": "Вход по сигналу"
+        },
+        "footer": {
+            "line1": "Если цена пересечет цену разворота, будет сгенерирован сигнал.",
+            "line2": "Цена разворота может меняться в зависимости от текущих рыночных условий.",
+            "line3": "Проверка происходит каждые 4 часа.",
+            "lastUpdated": "Последнее обновление:"
         }
     }
 }

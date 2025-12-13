@@ -4,6 +4,7 @@ import Image from "next/image";
 import {
     Activity,
     BellRing,
+    BrainCircuit,
     Fingerprint,
     GalleryVerticalEnd,
     History,
@@ -18,6 +19,7 @@ import { useMobileMenu } from "@/context/MobileMenuContext";
 
 type SideMenuTab =
     | "instances"
+    | "algorithms"
     | "history"
     | "backtest"
     | "bot"
@@ -38,6 +40,7 @@ function tabFromPath(pathname: string): SideMenuTab {
     if (normalizedPath.startsWith("/plan")) return "plan";
     if (normalizedPath.startsWith("/how")) return "how";
     if (normalizedPath.startsWith("/safety")) return "safety";
+    if (normalizedPath.startsWith("/algorithms")) return "algorithms";
     return "instances";
 }
 
@@ -103,6 +106,29 @@ export default function SideMenu() {
                             </span>
                             <span className="absolute inset-0 block whitespace-nowrap opacity-100 md:opacity-0 md:group-hover/side-menu:opacity-100 transition-opacity duration-150">
                                 {t("myInstances")}
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        className={`flex min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${
+                            activeTab === "algorithms"
+                                ? "border border-zinc-800 bg-active-tab text-white"
+                                : "text-secondary hover:!text-white"
+                        }`}
+                        onClick={() => {
+                            setActiveTab("algorithms");
+                        }}>
+                        <div className="flex-none">
+                         
+                            <BrainCircuit className="w-4 h-4" />
+                        </div>
+                        <div className="relative overflow-hidden">
+                            <span className="invisible block whitespace-nowrap">
+                                {" "}
+                                {t("algorithms")}
+                            </span>
+                            <span className="absolute inset-0 block whitespace-nowrap opacity-100 md:opacity-0 md:group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                                {t("algorithms")}
                             </span>
                         </div>
                     </div>

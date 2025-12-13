@@ -167,6 +167,7 @@
     },
     "sideMenu": {
         "myInstances": "My Instances",
+        "algorithms": "Algorithms",
         "history": "History",
         "backtest": "Backtest",
         "apiKeys": "API Keys",
@@ -602,6 +603,35 @@
             "notFound": "Credentials not found",
             "deleteFailed": "Failed to delete credentials",
             "unexpected": "Unexpected error"
+        }
+    },
+    "algorithms": {
+        "emptyTitle": "No algorithms found",
+        "emptyDescription": "Try refreshing the page",
+        "buySignal": "BUY SIGNAL",
+        "sellSignal": "SELL SIGNAL",
+        "noSignal": "NO SIGNAL",
+        "filtered": "FILTERED",
+        "signalPrice": "Signal Price:",
+        "signalGenerated": "Signal Generated:",
+        "currentPrice": "Current Price",
+        "flipPrice": "Flip Price",
+        "mlBadProbability": "ML Bad Probability",
+        "predictedRemaining": "Predicted Remaining",
+        "seeOnChart": "See on the chart",
+        "chart": {
+            "title": "{instrument} Chart - {interval}",
+            "description": "Real-time price data from Binance.us",
+            "flipPriceLabel": "Flip Price",
+            "buySignalEntry": "Buy Signal Entry",
+            "sellSignalEntry": "Sell Signal Entry",
+            "signalEntry": "Signal Entry"
+        },
+        "footer": {
+            "line1": "If price crosses the flip price, the signal will be generated.",
+            "line2": "Flip price might change based on current market conditions.",
+            "line3": "Check happens every 4 hours.",
+            "lastUpdated": "Last updated:"
         }
     }
 }

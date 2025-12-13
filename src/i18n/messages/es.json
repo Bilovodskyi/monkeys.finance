@@ -167,6 +167,7 @@
     },
     "sideMenu": {
         "myInstances": "Mis Instancias",
+        "algorithms": "Algoritmos",
         "history": "Historial",
         "backtest": "Backtesting",
         "apiKeys": "Claves API",
@@ -602,6 +603,35 @@
             "notFound": "Credenciales no encontradas",
             "deleteFailed": "Error al eliminar credenciales",
             "unexpected": "Error inesperado"
+        }
+    },
+    "algorithms": {
+        "emptyTitle": "No se encontraron algoritmos",
+        "emptyDescription": "Intenta actualizar la página",
+        "buySignal": "SEÑAL DE COMPRA",
+        "sellSignal": "SEÑAL DE VENTA",
+        "noSignal": "SIN SEÑAL",
+        "filtered": "FILTRADO",
+        "signalPrice": "Precio de señal:",
+        "signalGenerated": "Señal generada:",
+        "currentPrice": "Precio actual",
+        "flipPrice": "Precio de cambio",
+        "mlBadProbability": "Probabilidad ML de mala señal",
+        "predictedRemaining": "Predicción restante",
+        "seeOnChart": "Ver en el gráfico",
+        "chart": {
+            "title": "Gráfico de {instrument} - {interval}",
+            "description": "Datos de precios en tiempo real de Binance.us",
+            "flipPriceLabel": "Precio de cambio",
+            "buySignalEntry": "Entrada de señal de compra",
+            "sellSignalEntry": "Entrada de señal de venta",
+            "signalEntry": "Entrada de señal"
+        },
+        "footer": {
+            "line1": "Si el precio cruza el precio de cambio, se generará la señal.",
+            "line2": "El precio de cambio puede variar según las condiciones actuales del mercado.",
+            "line3": "La verificación ocurre cada 4 horas.",
+            "lastUpdated": "Última actualización:"
         }
     }
 }

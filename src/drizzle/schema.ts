@@ -40,6 +40,8 @@ export const positionStatus = pgEnum("position_status", [
     "failed",
 ]);
 
+export const signalType = pgEnum("signal_type", ["buy", "sell", "none"]);
+
 export const UserTable = pgTable(
     "user",
     {
@@ -303,5 +305,50 @@ export const PositionTrackingTable = pgTable(
         createdAtIdx: index("position_tracking_created_at_idx").on(
             table.createdAt
         ),
+    })
+);
+
+export const SignalStateTable = pgTable(
+    "signal_state",
+    {
+        id: uuid("id").defaultRandom().primaryKey(),
+        
+        // Instrument identification
+        instrument: text("instrument").notNull(),
+        interval: text("interval").notNull(),
+        strategy: text("strategy").notNull(),
+        
+        // Current signal state
+        currentSignal: signalType("current_signal").notNull().default("none"),
+        signalFiltered: boolean("signal_filtered").default(false).notNull(),
+        filterReason: text("filter_reason"),
+        
+        // Price levels
+        signalPrice: decimal("signal_price", { precision: 30, scale: 10 }),
+        flipPrice: decimal("flip_price", { precision: 30, scale: 10 }),
+        currentPrice: decimal("current_price", { precision: 30, scale: 10 }),
+        supportLevel: decimal("support_level", { precision: 30, scale: 10 }),
+        resistanceLevel: decimal("resistance_level", { precision: 30, scale: 10 }),
+        
+        // ML scores
+        pBad: decimal("p_bad", { precision: 10, scale: 6 }),
+        predRemaining: decimal("pred_remaining", { precision: 10, scale: 6 }),
+        
+        // Timestamps
+        lastUpdated: timestamp("last_updated", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+        lastSignalChange: timestamp("last_signal_change", { withTimezone: true }),
+        
+        createdAt: timestamp("created_at", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+    },
+    (table) => ({
+        uniqueSignal: unique().on(table.instrument, table.interval, table.strategy),
+        instrumentIdx: index("signal_state_instrument_idx").on(table.instrument),
+        strategyIdx: index("signal_state_strategy_idx").on(table.strategy),
+        signalTypeIdx: index("signal_state_signal_type_idx").on(table.currentSignal),
+        lastUpdatedIdx: index("signal_state_last_updated_idx").on(table.lastUpdated),
     })
 );

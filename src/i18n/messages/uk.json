@@ -245,6 +245,7 @@
     },
     "sideMenu": {
         "myInstances": "Мої екземпляри",
+        "algorithms": "Алгоритми",
         "history": "Історія",
         "backtest": "Бектест",
         "apiKeys": "API Ключі",
@@ -602,6 +603,35 @@
             "notFound": "Облікові дані не знайдено",
             "deleteFailed": "Не вдалося видалити облікові дані",
             "unexpected": "Непередбачена помилка"
+        }
+    },
+    "algorithms": {
+        "emptyTitle": "Алгоритми не знайдено",
+        "emptyDescription": "Спробуйте оновити сторінку",
+        "buySignal": "СИГНАЛ КУПІВЛІ",
+        "sellSignal": "СИГНАЛ ПРОДАЖУ",
+        "noSignal": "НЕМАЄ СИГНАЛУ",
+        "filtered": "ВІДФІЛЬТРОВАНО",
+        "signalPrice": "Ціна сигналу:",
+        "signalGenerated": "Сигнал згенеровано:",
+        "currentPrice": "Поточна ціна",
+        "flipPrice": "Ціна зміни",
+        "mlBadProbability": "ML ймовірність поганого сигналу",
+        "predictedRemaining": "Прогноз залишку",
+        "seeOnChart": "Дивитись на графіку",
+        "chart": {
+            "title": "Графік {instrument} - {interval}",
+            "description": "Дані про ціни в реальному часі з Binance.us",
+            "flipPriceLabel": "Ціна зміни",
+            "buySignalEntry": "Вхід за сигналом купівлі",
+            "sellSignalEntry": "Вхід за сигналом продажу",
+            "signalEntry": "Вхід за сигналом"
+        },
+        "footer": {
+            "line1": "Якщо ціна перетне ціну зміни, буде згенеровано сигнал.",
+            "line2": "Ціна зміни може змінюватися залежно від поточних ринкових умов.",
+            "line3": "Перевірка відбувається кожні 4 години.",
+            "lastUpdated": "Останнє оновлення:"
         }
     }
 }
