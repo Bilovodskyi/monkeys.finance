@@ -52,7 +52,7 @@ export async function GET() {
                 
                 try {
                     const response = await fetch(
-                        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`,
+                        `https://api.binance.us/api/v3/ticker/price?symbol=${symbol}`,
                         { 
                             next: { revalidate: 0 },
                             cache: "no-store" 
