@@ -356,7 +356,7 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
     return (
         <div style={{ width: "100vw", ...style }} className={`relative ${className}`}>
             <div ref={sectionOne} className="w-full lg:h-screen lg:sticky top-0 z-30 overflow-hidden" style={{ perspective: "1000px", transformStyle: "preserve-3d" }}>
-                <div className="lg:h-screen flex flex-col gap-4 justify-center px-6 lg:pl-16 2xl:pl-24 lg:pr-24 2xl:pr-0 lg:w-1/2 2xl:w-1/3">
+                <div className="lg:h-screen flex flex-col gap-4 justify-center px-4 lg:pl-16 2xl:pl-24 lg:pr-24 2xl:pr-0 lg:w-1/2 2xl:w-1/3">
                     <h2 className='text-2xl md:text-4xl text-white font-title pb-8'>{t("title")} <span className='text-highlight'>{t("titleHighlight")}</span></h2>
 
                     <ul className="space-y-0 text-secondary text-lg">

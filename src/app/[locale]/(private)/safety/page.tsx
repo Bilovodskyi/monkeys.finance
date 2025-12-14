@@ -20,7 +20,7 @@ export default function SafetyPage() {
     
     return (
         <div className="flex flex-col h-full overflow-y-auto 2xl:overflow-hidden">
-            <div className="flex flex-col lg:flex-row items-center justify-center px-6 lg:px-24 pt-8 lg:pt-12 shrink-0 gap-8 lg:gap-0">
+            <div className="flex flex-col lg:flex-row items-center justify-center px-4 md:px-6 lg:px-24 pt-8 lg:pt-12 shrink-0 gap-8 lg:gap-0">
                 <div className="flex flex-1 flex-col gap-4 justify-center">
                     <h1 className="text-3xl lg:text-4xl">
                         {t("header.title")} <span className="text-highlight">{t("header.titleHighlight")}</span> {t("header.titleEnd")}
@@ -63,7 +63,7 @@ export default function SafetyPage() {
                     className="flex-1 h-[400px]"
                 />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 px-6 py-12 lg:px-18 lg:py-12 shrink-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 px-4 md:px-6 py-8 md:py-12 lg:px-18 lg:py-12 shrink-0">
                 <div className="p-6 lg:p-8 h-full border border-zinc-800 bg-[rgb(20,20,20)] space-y-4">
                     <div className="bg-[rgba(59,189,122,0.3)] border border-[rgba(59,189,122,0.5)] rounded-md p-2 h-[40px] w-[40px] flex items-center justify-center">
                         <Cloud color="#919191" />

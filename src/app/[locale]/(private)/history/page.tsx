@@ -63,7 +63,7 @@ export default async function HistoryPage() {
             ) : (
                 <>
                     {/* Stats Cards */}
-                    <div className="flex p-6 gap-6">
+                    <div className="flex p-4 md:p-6 gap-4 md:gap-6">
                         <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 hidden md:flex flex-col justify-between gap-4">
                             <h1 className="text-lg 2xl:text-xl font-title">
                                 {totalTrades} / {successfulTrades} / {failedTrades}
@@ -85,7 +85,7 @@ export default async function HistoryPage() {
                     </div>
 
                     {/* Table */}
-                    <div className="flex-1 p-6 flex flex-col overflow-hidden">
+                    <div className="flex-1 p-4 md:p-6 flex flex-col overflow-hidden">
                         {/* Sticky Header */}
                         <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-10 border border-zinc-800 backdrop-blur-md">
                             <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.status")}</div>

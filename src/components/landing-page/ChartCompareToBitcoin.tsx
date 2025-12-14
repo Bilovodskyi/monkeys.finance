@@ -216,7 +216,7 @@ export default function ChartCompareToBitcoin() {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center gap-4 pt-16 md:pt-32 px-6 md:px-0">
+            <div className="flex flex-col items-center justify-center gap-4 pt-16 md:pt-32 px-4 md:px-0">
                 <h1 className="text-2xl md:text-4xl font-title">
                     <span className="text-highlight">{t("titleHighlight")}</span>{" "}
                     {t("titleEnd")}

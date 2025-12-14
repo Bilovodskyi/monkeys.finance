@@ -90,7 +90,7 @@ export default async function notifications() {
                 )
             ) : (
                 <div className="h-full flex flex-col">
-                    <div className="flex items-center justify-between px-6 pt-4">
+                    <div className="flex items-center justify-between px-4 md:px-6 pt-4">
                         {/* TODO Account number hardcoded, with only Telegram provider, add functionality after adding more providers */}
                         <h1 className="text-lg font-bold">
                             {t("accountsTitle")}
@@ -119,7 +119,7 @@ export default async function notifications() {
                         )}
                     </div>
                     {telegramAccount && (
-                        <div className="p-6 flex flex-col overflow-hidden">
+                        <div className="p-4 md:p-6 flex flex-col overflow-hidden">
                             {/* Sticky Header */}
                             <div className="grid grid-cols-3 lg:grid-cols-6 border border-zinc-800 backdrop-blur-md">
                                 <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
@@ -160,14 +160,14 @@ export default async function notifications() {
                     )}
                     {data.length > 0 && (
                         <>
-                            <div className="flex items-center justify-between px-6 pt-4">
+                            <div className="flex items-center justify-between px-4 md:px-6 pt-4">
                                 <h1 className="text-lg font-bold">
                                     {t("notificationsCount", {
                                         count: data.length,
                                     })}
                                 </h1>
                             </div>
-                            <div className="p-6 flex flex-col overflow-hidden">
+                            <div className="p-4 md:p-6 flex flex-col overflow-hidden">
                                 {/* Sticky Header */}
                                 <div className="grid grid-cols-3 lg:grid-cols-10 border border-zinc-800 backdrop-blur-md">
                                     <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">

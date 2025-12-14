@@ -611,6 +611,7 @@
         "buySignal": "СИГНАЛ КУПІВЛІ",
         "sellSignal": "СИГНАЛ ПРОДАЖУ",
         "noSignal": "НЕМАЄ СИГНАЛУ",
+        "noPosition": "НЕМАЄ ПОЗИЦІЇ",
         "filtered": "ВІДФІЛЬТРОВАНО",
         "signalPrice": "Ціна сигналу:",
         "signalGenerated": "Сигнал згенеровано:",

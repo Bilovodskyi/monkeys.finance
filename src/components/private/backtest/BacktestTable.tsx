@@ -41,7 +41,7 @@ export default function BacktestTable({
 
     return (
         <div className="flex flex-col h-full">
-            <div className="px-6 pt-6">
+            <div className="px-4 md:px-6 pt-6">
                 <div
                     className={`flex max-md:w-full max-md:justify-between md:flex-wrap md:gap-4 ${
                         compact ? "" : "w-1/2"
@@ -64,8 +64,8 @@ export default function BacktestTable({
                     ))}
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row p-6 gap-6">
-                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+            <div className="flex flex-col md:flex-row p-4 md:p-6 gap-6">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-4 2xl:p-6 flex flex-col justify-between gap-4">
                     <div>
                         <span className="text-xs text-tertiary">
                             {formatNumberWithCommas(stats.startEquity)} USD
@@ -78,7 +78,7 @@ export default function BacktestTable({
                         {t("stats.startEndCapital")}
                     </h2>
                 </div>
-                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-4 2xl:p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-lg 2xl:text-xl font-title">
                         {firstDate} - {lastDate}
                     </h1>
@@ -86,7 +86,7 @@ export default function BacktestTable({
                         {t("stats.backtestPeriod")}
                     </h2>
                 </div>
-                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-4 2xl:p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-lg 2xl:text-xl font-title">
                         {Math.round(stats.capitalChangePct)}%
                     </h1>
@@ -94,7 +94,7 @@ export default function BacktestTable({
                         {t("stats.capitalChange")}
                     </h2>
                 </div>
-                <div className="h-[130px] flex-1 border border-zinc-800 p-3 2xl:p-6 flex flex-col justify-between gap-4">
+                <div className="h-[130px] flex-1 border border-zinc-800 p-4 2xl:p-6 flex flex-col justify-between gap-4">
                     <h1 className="text-lg 2xl:text-xl font-title">
                         {stats.numTrades} / {stats.winTradesCount} /{" "}
                         {stats.lossTradesCount}
@@ -105,7 +105,7 @@ export default function BacktestTable({
                 </div>
             </div>
 
-            <div className="flex-1 p-6 hidden md:flex flex-col overflow-hidden">
+            <div className="flex-1 p-4 md:p-6 hidden md:flex flex-col overflow-hidden">
                 {/* Sticky Header */}
                 <div className="grid grid-cols-7 border border-zinc-800 backdrop-blur-md">
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">

@@ -8,7 +8,7 @@ export default async function Footer() {
     const t = await getTranslations("footer");
 
     return (
-        <footer className="flex flex-col px-6 lg:px-24 pt-32 gap-12">
+        <footer className="flex flex-col px-4 lg:px-24 pt-32 gap-12">
             <div className="flex flex-col lg:w-1/3 h-full justify-center">
                 <h1 className="text-2xl lg:text-4xl font-title mb-6">
                     {t("title")} <span className="text-highlight">{t("titleHighlight")}</span> {t("titleEnd")}

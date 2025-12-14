@@ -14,7 +14,7 @@ export async function HeroSection() {
     return (
         <section className="flex relative overflow-hidden max-xl:h-screen">
             {/* Header */}
-            <section className="absolute top-0 left-0 py-3 xl:py-6 px-6 xl:px-16 2xl:px-24 flex items-center gap-4 justify-between w-full">
+            <section className="absolute top-0 left-0 py-3 xl:py-6 px-4 xl:px-16 2xl:px-24 flex items-center gap-4 justify-between w-full">
                 {/* <Image src="/main-logo.png" alt="Main Logo" width={128} height={32} className="w-32" /> */}
                 <Image src="/monkeys-logo.svg" alt="Monkeys Logo" width={128} height={32} className="w-32" />
                 <div className="flex items-center gap-8">
@@ -36,7 +36,7 @@ export async function HeroSection() {
             </section>
 
             {/* Hero Content */}
-            <section className="flex flex-col items-center xl:items-start w-full xl:w-1/3 px-6 xl:px-16 2xl:px-24 pt-20 xl:pt-28 2xl:pt-32">
+            <section className="flex flex-col items-center xl:items-start w-full xl:w-1/3 px-4 xl:px-16 2xl:px-24 pt-20 xl:pt-28 2xl:pt-32">
                 <div className="border border-zinc-800 rounded-full px-5 py-2 mb-6 text-[12px] font-semibold w-fit">
                     {t("badge")}
                 </div>

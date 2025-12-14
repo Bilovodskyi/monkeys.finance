@@ -611,6 +611,7 @@
         "buySignal": "BUY SIGNAL",
         "sellSignal": "SELL SIGNAL",
         "noSignal": "NO SIGNAL",
+        "noPosition": "NO POSITION",
         "filtered": "FILTERED",
         "signalPrice": "Signal Price:",
         "signalGenerated": "Signal Generated:",

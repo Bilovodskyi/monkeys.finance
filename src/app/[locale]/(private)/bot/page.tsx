@@ -10,7 +10,7 @@ export default async function Bot() {
 
     return (
         <div className="flex flex-col h-full">
-            <div className="flex items-center justify-end px-6 pt-4">
+            <div className="flex items-center justify-end px-4 md:px-6 pt-4">
                 <ManageCredentialsSheet>
                     <CustomButton isBlue={false}>
                         {t("addCredentials")}
@@ -27,7 +27,7 @@ export default async function Bot() {
                     </p>
                 </div>
             ) : (
-            <div className="flex flex-col gap-8 p-6">
+            <div className="flex flex-col gap-6 md:gap-8 p-4 md:p-6">
                 {Object.keys(credentialsStatus).map((key) => (
                     <CredentialCard
                         key={key}

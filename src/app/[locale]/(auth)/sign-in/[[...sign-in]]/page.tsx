@@ -9,7 +9,7 @@ export default async function Page({
     const { locale } = await params;
     
     return (
-        <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="flex min-h-screen items-center justify-center bg-background px-3 md:px-0">
             <SignIn
                 fallbackRedirectUrl={`/${locale}/instances`}
                 signUpUrl={`/${locale}/sign-up`}
@@ -22,6 +22,7 @@ export default async function Page({
                         colorInputBackground: "rgb(24,24,27)",
                         borderRadius: "0rem",
                         fontSize: "14px",
+                       
                     },
                 }}
             />

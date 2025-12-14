@@ -14,7 +14,7 @@ export default function Header() {
     const t = useTranslations("header");
 
     return (
-        <header className="border-b border-zinc-800 flex justify-between items-center px-6 h-[50px] md:h-[70px] shrink-0">
+        <header className="border-b border-zinc-800 flex justify-between items-center px-4 md:px-6 h-[50px] md:h-[70px] shrink-0">
             <div className="flex items-center gap-4">
                 <button 
                     onClick={toggleMenu}

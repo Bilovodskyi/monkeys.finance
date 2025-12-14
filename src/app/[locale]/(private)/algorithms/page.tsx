@@ -21,7 +21,7 @@ export default async function Algorithms() {
                     </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6 p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6 p-4 md:p-6">
 
                     {algorithms.map((algorithm) => {
                         const signalType = algorithm.currentSignal;
@@ -29,27 +29,16 @@ export default async function Algorithms() {
                         const isSell = signalType === "sell";
                         const isNone = signalType === "none";
 
-                        // Calculate percentage change
+                        // Get prices
                         const signalPrice = algorithm.signalPrice ? Number(algorithm.signalPrice) : null;
                         const currentPrice = algorithm.currentPrice ? Number(algorithm.currentPrice) : null;
-                        
-                        // For BUY: profit when price goes up (positive %)
-                        // For SELL: profit when price goes down (invert the calculation)
-                        let percentageChange = null;
-                        if (signalPrice && currentPrice) {
-                            const rawChange = ((currentPrice - signalPrice) / signalPrice) * 100;
-                            percentageChange = isSell ? -rawChange : rawChange;
-                        }
-                        
-                        const isPositive = percentageChange !== null && percentageChange > 0;
-                        const isNegative = percentageChange !== null && percentageChange < 0;
 
                         return (
                             <div
                                 key={algorithm.id}
                                 className="border border-zinc-800">
                                 {/* Main Content - Split into Left and Right */}
-                                <div className="p-6 flex items-start justify-between gap-6">
+                                <div className="p-4 md:p-6 flex items-start justify-between gap-6">
                                     {/* Left Side */}
                                     <div className="flex flex-col gap-5 flex-1">
                                         {/* Header */}
@@ -186,21 +175,31 @@ export default async function Algorithms() {
                                             signalDate={algorithm.lastSignalChange ? new Date(algorithm.lastSignalChange) : null}
                                             signalType={algorithm.currentSignal}
                                         />
-                                        {/* Percentage Change - Centered Vertically */}
+                                        {/* Percentage Change or No Position Badge */}
                                         {!isNone && signalPrice && currentPrice && (
-                                            <LivePercentageChange
-                                                instrument={algorithm.instrument}
-                                                initialPrice={currentPrice}
-                                                signalPrice={signalPrice}
-                                                signalType={algorithm.currentSignal}
-                                            />
+                                            <>
+                                                {isSell ? (
+                                                    <div className="flex-1 flex items-center justify-center">
+                                                        <span className="text-sm font-medium text-tertiary">
+                                                            {t("noPosition")}
+                                                        </span>
+                                                    </div>
+                                                ) : (
+                                                    <LivePercentageChange
+                                                        instrument={algorithm.instrument}
+                                                        initialPrice={currentPrice}
+                                                        signalPrice={signalPrice}
+                                                        signalType={algorithm.currentSignal}
+                                                    />
+                                                )}
+                                            </>
                                         )}
                                     </div>
                                 </div>
                                 
                                 {/* Footer Information */}
                                 <div className="h-[1px] w-full bg-zinc-800" />
-                                <div className="p-6 bg-[rgb(20,20,20)] space-y-2">
+                                <div className="p-4 md:p-6 bg-[rgb(20,20,20)] space-y-2">
                                     <p className="text-xs text-tertiary leading-relaxed">
                                         {t("footer.line1")}
                                     </p>

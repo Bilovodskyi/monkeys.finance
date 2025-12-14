@@ -96,7 +96,7 @@ export default function Instances() {
                 )
             ) : (
                 <div className="h-full flex flex-col">
-                    <div className="flex items-center justify-between px-6 pt-4">
+                    <div className="flex items-center justify-between px-4 md:px-6 pt-4">
                         <h1 className="text-lg font-bold">
                             {t("instances")} {instances.length}/3
                         </h1>
@@ -124,10 +124,10 @@ export default function Instances() {
                             </h2>
                         )}
                     </div>
-                    <div className="flex-1 p-6 flex flex-col overflow-hidden">
+                    <div className="flex-1 p-4 md:p-6 flex flex-col overflow-hidden">
                         {/* Sticky Header */}
                         <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 backdrop-blur-md">
-                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
                                 {t("tableHeaders.status")}
                             </div>
                             <div className="col-span-3 border-r border-zinc-800 px-4 py-3 hidden xl:block text-tertiary">
@@ -139,19 +139,19 @@ export default function Instances() {
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.account")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
                                 {t("tableHeaders.instrument")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.positionSizeUSDT")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
                                 {t("tableHeaders.exchange")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.createdAt")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
                                 {t("tableHeaders.actions")}
                             </div>
                         </div>
@@ -165,7 +165,7 @@ export default function Instances() {
                                     instance={instance}
                                     onSuccess={refetch}>
                                     <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
-                                        <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center text-xs">
+                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start text-xs">
                                             {instance.status === "active" ? (
                                                 <span className="bg-green-500/10 text-green-500 px-2.5 py-0.5 rounded-full">
                                                     {t("statusActive")}
@@ -185,13 +185,13 @@ export default function Instances() {
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.isTestnet ? t("accountTypeDemo") : t("accountTypeReal")}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center">
-                                            {instance.instrument}
+                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start">
+                                            {instance.instrument === "Binance Coin" ? "BNB" : instance.instrument}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDC</span>
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-2 lg:px-4 py-3 flex items-center capitalize">
+                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start capitalize">
                                             {instance.exchange}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
