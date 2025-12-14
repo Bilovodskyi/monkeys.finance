@@ -618,7 +618,9 @@
         "currentPrice": "Поточна ціна",
         "flipPrice": "Ціна зміни",
         "mlBadProbability": "ML ймовірність поганого сигналу",
-        "predictedRemaining": "Прогноз залишку",
+        "predictedRemaining": "Залишок",
+        "pBadDescription": "pBad - ймовірність поганого сигналу",
+        "remainingDescription": "Залишок - прогнозований час, що залишився в консолідації",
         "seeOnChart": "Дивитись на графіку",
         "chart": {
             "title": "Графік {instrument} - {interval}",

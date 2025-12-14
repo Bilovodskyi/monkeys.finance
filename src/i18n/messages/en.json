@@ -618,7 +618,9 @@
         "currentPrice": "Current Price",
         "flipPrice": "Flip Price",
         "mlBadProbability": "ML Bad Probability",
-        "predictedRemaining": "Predicted Remaining",
+        "predictedRemaining": "Remaining",
+        "pBadDescription": "pBad - probability of signal being bad",
+        "remainingDescription": "Remaining - predicted remaining time in consolidation",
         "seeOnChart": "See on the chart",
         "chart": {
             "title": "{instrument} Chart - {interval}",

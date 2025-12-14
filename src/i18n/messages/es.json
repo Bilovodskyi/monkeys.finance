@@ -618,7 +618,9 @@
         "currentPrice": "Precio actual",
         "flipPrice": "Precio de cambio",
         "mlBadProbability": "Probabilidad ML de mala señal",
-        "predictedRemaining": "Predicción restante",
+        "predictedRemaining": "Restante",
+        "pBadDescription": "pBad - probabilidad de que la señal sea mala",
+        "remainingDescription": "Restante - tiempo restante predicho en consolidación",
         "seeOnChart": "Ver en el gráfico",
         "chart": {
             "title": "Gráfico de {instrument} - {interval}",

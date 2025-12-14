@@ -618,7 +618,9 @@
         "currentPrice": "Текущая цена",
         "flipPrice": "Цена разворота",
         "mlBadProbability": "ML вероятность плохого сигнала",
-        "predictedRemaining": "Прогноз остатка",
+        "predictedRemaining": "Остаток",
+        "pBadDescription": "pBad - вероятность плохого сигнала",
+        "remainingDescription": "Остаток - прогнозируемое оставшееся время в консолидации",
         "seeOnChart": "Смотреть на графике",
         "chart": {
             "title": "График {instrument} - {interval}",

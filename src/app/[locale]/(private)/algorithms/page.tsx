@@ -38,7 +38,7 @@ export default async function Algorithms() {
                                 key={algorithm.id}
                                 className="border border-zinc-800">
                                 {/* Main Content - Split into Left and Right */}
-                                <div className="p-4 md:p-6 flex items-start justify-between gap-6">
+                                <div className="p-4 md:p-6 flex flex-col md:flex-row items-start justify-between gap-6">
                                     {/* Left Side */}
                                     <div className="flex flex-col gap-5 flex-1">
                                         {/* Header */}
@@ -144,7 +144,7 @@ export default async function Algorithms() {
                                                 {algorithm.pBad && (
                                                     <div className="flex flex-col gap-1.5">
                                                         <p className="text-xs text-zinc-500 font-medium">
-                                                            {t("mlBadProbability")}
+                                                            pBad
                                                         </p>
                                                         <p className="text-sm font-semibold text-zinc-300">
                                                             {(Number(algorithm.pBad) * 100).toFixed(2)}%
@@ -166,7 +166,7 @@ export default async function Algorithms() {
                                     </div>
 
                                     {/* Right Side */}
-                                    <div className="flex flex-col items-end justify-between h-full min-h-[200px]">
+                                    <div className="flex flex-col items-center md:items-end justify-between h-full min-h-[200px] w-full md:w-auto">
                                         <AlgorithmChart
                                             instrument={algorithm.instrument}
                                             interval={algorithm.interval}
@@ -200,15 +200,23 @@ export default async function Algorithms() {
                                 {/* Footer Information */}
                                 <div className="h-[1px] w-full bg-zinc-800" />
                                 <div className="p-4 md:p-6 bg-[rgb(20,20,20)] space-y-2">
-                                    <p className="text-xs text-tertiary leading-relaxed">
+                                    <ol className="list-disc ml-3">
+                                    <li className="text-sm text-tertiary leading-relaxed">
+                                       {t("pBadDescription")}
+                                    </li>   
+                                    <li className="text-sm text-tertiary leading-relaxed">
+                                       {t("remainingDescription")}
+                                    </li>
+                                        <li className="text-sm text-tertiary leading-relaxed">
                                         {t("footer.line1")}
-                                    </p>
-                                    <p className="text-xs text-tertiary leading-relaxed">
+                                    </li>   
+                                    <li className="text-sm text-tertiary leading-relaxed">
                                         {t("footer.line2")}
-                                    </p>
-                                     <p className="text-xs text-tertiary leading-relaxed">
+                                    </li>
+                                     <li className="text-sm text-tertiary leading-relaxed">
                                         {t("footer.line3")}
-                                    </p>
+                                    </li>
+                                    </ol>
                                     <p className="text-xs text-tertiary">
                                         {t("footer.lastUpdated")}{" "}
                                         <span className="text-main font-medium">
