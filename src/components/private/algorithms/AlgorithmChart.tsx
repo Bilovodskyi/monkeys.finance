@@ -174,8 +174,13 @@ export function AlgorithmChart({
                     }
 
                     // Add signal entry point marker
+                    // Signal is detected at candle close, but entry happens on next candle open
                     if (signalPrice && signalDate) {
                         const signalTimestamp = Math.floor(signalDate.getTime() / 1000);
+                        
+                        // Offset by 4h (14400 seconds) to next candle open (entry point)
+                        const entryTimestamp = signalTimestamp + 4 * 60 * 60;
+                        
                         const markerText = signalType === 'buy' 
                             ? t("chart.buySignalEntry")
                             : signalType === 'sell' 
@@ -184,13 +189,13 @@ export function AlgorithmChart({
                         
                         candlestickSeries.setMarkers([{
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            time: signalTimestamp as any,
+                            time: entryTimestamp as any,
                             position: 'inBar',
                             color: '#fff',
                             shape: 'circle',
                             text: markerText,
                         }]);
-                        console.log('Signal marker added at:', new Date(signalTimestamp * 1000));
+                        console.log('Signal marker added at entry candle:', new Date(entryTimestamp * 1000));
                     }
 
                     // Fit content

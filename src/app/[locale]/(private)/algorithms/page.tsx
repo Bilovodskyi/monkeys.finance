@@ -114,6 +114,9 @@ export default async function Algorithms() {
                                                 </span>
                                             </p>
                                         )}
+                                        <div className="flex flex-row md:flex-col gap-1 md:gap-5 max-md:justify-between max-md:w-full">
+
+                                       
 
                                         {/* Price Information */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -163,10 +166,11 @@ export default async function Algorithms() {
                                                 )}
                                             </div>
                                         )}
+                                         </div>
                                     </div>
 
                                     {/* Right Side */}
-                                    <div className="flex flex-col items-center md:items-end justify-between h-full min-h-[200px] w-full md:w-auto">
+                                    <div className="flex flex-col-reverse md:flex-col items-center md:items-end justify-between h-full min-h-[100px] md:min-h-[200px] w-full md:w-auto">
                                         <AlgorithmChart
                                             instrument={algorithm.instrument}
                                             interval={algorithm.interval}
