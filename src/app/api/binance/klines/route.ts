@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
         const symbol = searchParams.get('symbol');
         const interval = searchParams.get('interval') || '4h';
         const limit = searchParams.get('limit') || '540';
+        const startTime = searchParams.get('startTime');
 
         if (!symbol) {
             return NextResponse.json(
@@ -15,7 +16,10 @@ export async function GET(request: NextRequest) {
         }
 
         // Fetch from Binance.us API server-side
-        const binanceUrl = `https://api.binance.us/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`;
+        let binanceUrl = `https://api.binance.us/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`;
+        if (startTime) {
+            binanceUrl += `&startTime=${startTime}`;
+        }
         
         const response = await fetch(binanceUrl);
 

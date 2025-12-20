@@ -173,13 +173,9 @@ export function AlgorithmChart({
                         console.log('Flip price line added:', flipPrice);
                     }
 
-                    // Add signal entry point marker
-                    // Signal is detected at candle close, but entry happens on next candle open
+                    // Add signal entry point marker (signalDate already represents entry time)
                     if (signalPrice && signalDate) {
-                        const signalTimestamp = Math.floor(signalDate.getTime() / 1000);
-                        
-                        // Offset by 4h (14400 seconds) to next candle open (entry point)
-                        const entryTimestamp = signalTimestamp + 4 * 60 * 60;
+                        const entryTimestamp = Math.floor(signalDate.getTime() / 1000);
                         
                         const markerText = signalType === 'buy' 
                             ? t("chart.buySignalEntry")

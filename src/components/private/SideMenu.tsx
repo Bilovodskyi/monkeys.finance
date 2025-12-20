@@ -5,6 +5,8 @@ import {
     Activity,
     BellRing,
     BrainCircuit,
+    ChartBar,
+    ChartCandlestick,
     Fingerprint,
     GalleryVerticalEnd,
     History,
@@ -26,7 +28,8 @@ type SideMenuTab =
     | "notifications"
     | "plan"
     | "how"
-    | "safety";
+    | "safety"
+    | "real-price";
 
 function tabFromPath(pathname: string): SideMenuTab {
     // Remove locale prefix if present (e.g., "/en/history" -> "/history")
@@ -41,6 +44,7 @@ function tabFromPath(pathname: string): SideMenuTab {
     if (normalizedPath.startsWith("/how")) return "how";
     if (normalizedPath.startsWith("/safety")) return "safety";
     if (normalizedPath.startsWith("/algorithms")) return "algorithms";
+    if (normalizedPath.startsWith("/real-price")) return "real-price";
     return "instances";
 }
 
@@ -129,6 +133,28 @@ export default function SideMenu() {
                             </span>
                             <span className="absolute inset-0 block whitespace-nowrap opacity-100 md:opacity-0 md:group-hover/side-menu:opacity-100 transition-opacity duration-150">
                                 {t("algorithms")}
+                            </span>
+                        </div>
+                    </div>
+                     <div
+                        className={`flex min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${
+                            activeTab === "real-price"
+                                ? "border border-zinc-800 bg-active-tab text-white"
+                                : "text-secondary hover:!text-white"
+                        }`}
+                        onClick={() => {
+                            setActiveTab("real-price");
+                        }}>
+                        <div className="flex-none">
+                            <ChartCandlestick className="w-4 h-4" />
+                        </div>
+                        <div className="relative overflow-hidden">
+                            <span className="invisible block whitespace-nowrap">
+                                {" "}
+                                Real Price
+                            </span>
+                            <span className="absolute inset-0 block whitespace-nowrap opacity-100 md:opacity-0 md:group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                                Real Price
                             </span>
                         </div>
                     </div>
