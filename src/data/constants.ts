@@ -1,6 +1,6 @@
 export type Instrument = "Bitcoin" | "XRP" | "Binance Coin";
 
-export const instruments: Instrument[] = ["Bitcoin", "XRP", "Binance Coin"];
+export const instruments: Instrument[] = ["Bitcoin", "Binance Coin"];
 
 export const strategies = ["Trend V3"];
 

@@ -1,12 +1,14 @@
 import LedGridFlickerWrapper from "./LedGridAnimation";
 import { Activity, Fingerprint, GalleryVerticalEnd, History, Pyramid, Receipt, Search, Shield } from "lucide-react";
-import BacktestContent from "@/components/private/backtest/BacktestContent";
+import { getAllLeverageBacktestFiles } from "@/actions/backtest/getLeverageBacktest";
+import BacktestTableComponent from "@/components/private/backtest/BacktestTable";
 import SlidingTabs from "../SlidingTabs";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
-export default function BacktestTable() {
-    const t = useTranslations("backtestTable");
+export default async function BacktestTableSection() {
+    const t = await getTranslations("backtestTable");
+    const backtestData = await getAllLeverageBacktestFiles();
     
     return (
         <div className="hidden lg:block">
@@ -106,7 +108,7 @@ export default function BacktestTable() {
 
                         {/* Content area */}
                         <div className="flex-1 overflow-hidden">
-                            <BacktestContent compact />
+                            <BacktestTableComponent data={backtestData} compact />
                         </div>
                     </div>
                     <div className="absolute -bottom-26 left-1/2 -translate-x-1/2 flex flex-col items-center">

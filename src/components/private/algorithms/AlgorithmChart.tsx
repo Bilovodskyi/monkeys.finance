@@ -243,8 +243,8 @@ export function AlgorithmChart({
                     {t("seeOnChart")}
                 </button>
             </DialogTrigger>
-            <DialogContent className="max-w-5xl">
-                <DialogHeader>
+            <DialogContent className="max-w-5xl px-3 pb-3">
+                <DialogHeader className="px-2">
                     <DialogTitle>
                         {t("chart.title", { instrument, interval })}
                     </DialogTitle>

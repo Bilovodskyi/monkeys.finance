@@ -1,16 +1,22 @@
 "use client";
 
-import { useBacktestStats } from "@/hooks/useBacktestStats";
+import { useLeverageBacktest } from "@/hooks/useLeverageBacktest";
 import { formatNumberWithCommas } from "@/lib/utils";
 import { useState } from "react";
 import HoverEffectAroundCard from "@/components/hero-animation/HoverEffectAroundCard";
 import type { Instrument } from "@/data/constants";
 import { instruments } from "@/data/constants";
-import { TradeData } from "@/types/global";
+import { LeverageTradeData } from "@/types/global";
 import { useTranslations } from "next-intl";
 
+// Nested data type: instrument -> leverage -> trades
+type BacktestDataByLeverage = Record<string, Record<number, LeverageTradeData[]>>;
+
+const LEVERAGE_LEVELS = [1, 2, 3, 4, 5, 6] as const;
+type LeverageLevel = (typeof LEVERAGE_LEVELS)[number];
+
 interface BacktestTableProps {
-    data: Record<string, TradeData[]>;
+    data: BacktestDataByLeverage;
     compact?: boolean;
 }
 
@@ -21,31 +27,28 @@ export default function BacktestTable({
     const t = useTranslations("backtest");
     const [selectedInstrument, setSelectedInstrument] =
         useState<Instrument>("Bitcoin");
+    const [selectedLeverage, setSelectedLeverage] = useState<LeverageLevel>(6);
 
-    // Get data for the selected instrument
-    const instrumentData = data[selectedInstrument] || [];
+    // Get data for the selected instrument AND leverage
+    const instrumentData = data[selectedInstrument]?.[selectedLeverage] || [];
 
     const hasData = instrumentData.length > 0;
-    const firstDate = new Date(
-        instrumentData.at(0)?.date ?? "—"
-    ).toLocaleDateString();
-    const lastDate = new Date(
-        instrumentData.at(-1)?.date ?? "—"
-    ).toLocaleDateString();
-    const statsInput =
-        hasData && instrumentData.length > 1 ? instrumentData.slice(1) : [];
+    const firstDate = hasData
+        ? new Date(instrumentData[0].entryDate).toLocaleDateString()
+        : "—";
+    const lastDate = hasData
+        ? new Date(instrumentData[instrumentData.length - 1].exitDate).toLocaleDateString()
+        : "—";
 
-    console.log(statsInput);
-    const stats = useBacktestStats(statsInput);
-    const pairs = stats.pairs;
+    const stats = useLeverageBacktest(instrumentData);
+    const trades = stats.trades;
 
     return (
-        <div className="flex flex-col h-full">
-            <div className="px-4 md:px-6 pt-6">
-                <div
-                    className={`flex max-md:w-full max-md:justify-between md:flex-wrap md:gap-4 ${
-                        compact ? "" : "w-1/2"
-                    }`}>
+        <div className="flex flex-col h-full overflow-hidden">
+            {/* Selectors Row */}
+            <div className="flex flex-wrap gap-8 items-center px-4 md:px-6 pt-6">
+                {/* Instrument Selector */}
+                <div className="flex gap-2 md:gap-4">
                     {instruments.map((instrument) => (
                         <div key={instrument} className="group relative">
                             {selectedInstrument === instrument && (
@@ -55,7 +58,7 @@ export default function BacktestTable({
                                 onClick={() =>
                                     setSelectedInstrument(instrument)
                                 }
-                                className={`hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-1 lg:px-3 text-white text-center text-sm ${
+                                className={`hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-3 lg:px-4 text-white text-center text-sm ${
                                     compact ? "min-w-[80px]" : "min-w-[100px]"
                                 }`}>
                                 {instrument}
@@ -63,7 +66,33 @@ export default function BacktestTable({
                         </div>
                     ))}
                 </div>
+
+                {/* Divider */}
+                <div className="hidden md:block h-8 w-px bg-zinc-700" />
+
+                {/* Leverage Selector */}
+                <div className="flex gap-2 md:gap-4">
+                    {LEVERAGE_LEVELS.map((level) => (
+                        <div key={level} className="group relative">
+                            {selectedLeverage === level && (
+                                <HoverEffectAroundCard offset={4} />
+                            )}
+                            <div
+                                onClick={() => setSelectedLeverage(level)}
+                                className={`hover:bg-zinc-900 cursor-pointer border border-zinc-700 py-2 px-3 lg:px-4 text-white text-center text-sm min-w-[50px] ${
+                                    selectedLeverage === level
+                                        ? "text-white"
+                                        : "text-tertiary"
+                                }`}>
+                                {level}x
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
+
+
+            {/* Stats Cards */}
             <div className="flex flex-col md:flex-row p-4 md:p-6 gap-6">
                 <div className="h-[130px] flex-1 border border-zinc-800 p-4 2xl:p-6 flex flex-col justify-between gap-4">
                     <div>
@@ -105,9 +134,10 @@ export default function BacktestTable({
                 </div>
             </div>
 
+            {/* Trades Table */}
             <div className="flex-1 p-4 md:p-6 hidden md:flex flex-col overflow-hidden">
                 {/* Sticky Header */}
-                <div className="grid grid-cols-7 border border-zinc-800 backdrop-blur-md">
+                <div className="grid grid-cols-9 border border-zinc-800 backdrop-blur-md">
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
                         {t("tableHeaders.positionType")}
                     </div>
@@ -120,54 +150,59 @@ export default function BacktestTable({
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
                         {t("tableHeaders.pnl")}
                     </div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">Fees</div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
                         {t("tableHeaders.equityBefore")}
                     </div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
                         {t("tableHeaders.equityAfter")}
                     </div>
-                    <div className="px-4 py-3 text-tertiary ">{t("tableHeaders.entryPrice")}</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">{t("tableHeaders.entryPrice")}</div>
+                    <div className="px-4 py-3 text-tertiary ">Exit Price</div>
+                    
                 </div>
 
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto min-h-0">
-                    {pairs.map((trade, index) => (
-                        <div
-                            key={index}
-                            className="grid grid-cols-7 border border-zinc-800 border-t-0">
-                            <div className="border-r border-zinc-800 px-4 py-3">
-                                {trade.firstTrade.positionType}
-                            </div>
-                            <div className="border-r border-zinc-800 px-4 py-3">
-                                {new Date(
-                                    trade.firstTrade.date
-                                ).toLocaleDateString()}
-                            </div>
-                            <div className="border-r border-zinc-800 px-4 py-3">
-                                {new Date(
-                                    trade.secondTrade.date
-                                ).toLocaleDateString()}
-                            </div>
-                            <div className="border-r border-zinc-800 px-4 py-3">
-                                {trade.totalChange}
-                            </div>
-                            <div className="border-r border-zinc-800 px-4 py-3">
-                                {formatNumberWithCommas(
-                                    trade.firstTrade.totalEquity
-                                )}
-                            </div>
-                            <div className="border-r border-zinc-800 px-4 py-3">
-                                {formatNumberWithCommas(
-                                    trade.secondTrade.totalEquity
-                                )}
-                            </div>
-                            <div className="px-4 py-3">
-                                {formatNumberWithCommas(
-                                    trade.firstTrade.entryPrice
-                                )}
-                            </div>
+                    {trades.length === 0 ? (
+                        <div className="flex items-center justify-center h-32 text-tertiary">
+                            No trades available for {selectedInstrument} at {selectedLeverage}x
                         </div>
-                    ))}
+                    ) : (
+                        trades.map((trade, index) => (
+                            <div
+                                key={index}
+                                className={`grid grid-cols-9 border border-zinc-800 border-t-0 ${trade.isFiltered ? 'text-yellow-500' : ''}`}>
+                                <div className="border-r border-zinc-800 px-4 py-3">
+                                    {trade.isFiltered ? 'Filtered' : `${trade.leverage}x Long`}
+                                </div>
+                                <div className="border-r border-zinc-800 px-4 py-3">
+                                    {new Date(trade.entryDate).toLocaleDateString()}
+                                </div>
+                                <div className="border-r border-zinc-800 px-4 py-3">
+                                    {trade.isFiltered ? '—' : new Date(trade.exitDate).toLocaleDateString()}
+                                </div>
+                                <div className={`border-r border-zinc-800 px-4 py-3 ${trade.isFiltered ? '' : (trade.pnlUsdt >= 0 ? 'text-green-500' : 'text-red-500')}`}>
+                                    {trade.isFiltered ? '—' : `${trade.pnlUsdt >= 0 ? '+' : ''}${formatNumberWithCommas(Math.round(trade.pnlUsdt))}`}
+                                </div>
+                                <div className={`border-r border-zinc-800 px-4 py-3 ${trade.isFiltered ? '' : 'text-tertiary'}`}>
+                                    {trade.isFiltered ? '—' : formatNumberWithCommas(Math.round(trade.totalFees))}
+                                </div>
+                                <div className="border-r border-zinc-800 px-4 py-3">
+                                    {trade.isFiltered ? '—' : formatNumberWithCommas(Math.round(trade.equityBefore))}
+                                </div>
+                                <div className="border-r border-zinc-800 px-4 py-3">
+                                    {trade.isFiltered ? '—' : formatNumberWithCommas(Math.round(trade.equityAfter))}
+                                </div>
+                                <div className="border-r border-zinc-800 px-4 py-3">
+                                    {trade.isFiltered ? '—' : formatNumberWithCommas(Math.round(trade.entryPrice))}
+                                </div>
+                                <div className="px-4 py-3">
+                                    {trade.isFiltered ? '—' : formatNumberWithCommas(Math.round(trade.exitPrice))}
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </div>
