@@ -275,8 +275,11 @@ function Scene({
         )
             return;
 
+        // Store ScrollTrigger instances to clean up only these on unmount
+        const triggers: ScrollTrigger[] = [];
+
         // 1) Sphere scale animation (only during Section 1)
-        gsap.fromTo(
+        const tween1 = gsap.fromTo(
             group.current.scale,
             { x: 0.8, y: 0.8, z: 0.8 },
             {
@@ -296,9 +299,10 @@ function Scene({
                 },
             }
         );
+        if (tween1.scrollTrigger) triggers.push(tween1.scrollTrigger);
 
         // 2) Camera zoom animation (start on Section 2, extend into half of Section 3)
-        gsap.fromTo(
+        const tween2 = gsap.fromTo(
             camera.position,
             { z: 6 },
             {
@@ -316,9 +320,10 @@ function Scene({
                 },
             }
         );
+        if (tween2.scrollTrigger) triggers.push(tween2.scrollTrigger);
 
         // 3) Assembly trigger: when half of section enters viewport, animate uAssemble 0->1
-        gsap.fromTo(
+        const tween3 = gsap.fromTo(
             assembleProgress,
             { current: 0 },
             {
@@ -332,9 +337,10 @@ function Scene({
                 },
             }
         );
+        if (tween3.scrollTrigger) triggers.push(tween3.scrollTrigger);
 
         // 4) Text container show (last half of Section 2)
-        gsap.fromTo(
+        const tween4 = gsap.fromTo(
             insideTextRef.current,
             { opacity: 0 },
             {
@@ -348,9 +354,10 @@ function Scene({
                 },
             }
         );
+        if (tween4.scrollTrigger) triggers.push(tween4.scrollTrigger);
 
         // 5) Title animation (last half of Section 2)
-        gsap.fromTo(
+        const tween5 = gsap.fromTo(
             sphereTitleRef.current,
             { opacity: 0, y: 32, scale: 0.95 },
             {
@@ -366,9 +373,10 @@ function Scene({
                 },
             }
         );
+        if (tween5.scrollTrigger) triggers.push(tween5.scrollTrigger);
 
         // 6) Description animation (last half of Section 2)
-        gsap.fromTo(
+        const tween6 = gsap.fromTo(
             sphereDescriptionRef.current,
             { opacity: 0, y: 24, filter: "blur(4px)" },
             {
@@ -384,9 +392,11 @@ function Scene({
                 },
             }
         );
+        if (tween6.scrollTrigger) triggers.push(tween6.scrollTrigger);
 
+        // Cleanup only this component's ScrollTriggers, not all global ones
         return () => {
-            ScrollTrigger.getAll().forEach((t) => t.kill());
+            triggers.forEach((t) => t.kill());
         };
     }, [
         camera,

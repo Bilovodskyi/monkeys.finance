@@ -537,10 +537,17 @@
             "openDate": "Дата открытия",
             "closeDate": "Дата закрытия",
             "pnl": "P&L",
+            "fees": "Комиссии",
             "equityBefore": "Капитал до",
             "equityAfter": "Капитал после",
-            "entryPrice": "Цена входа"
-        }
+            "entryPrice": "Цена входа",
+            "exitPrice": "Цена выхода"
+        },
+        "positionTypes": {
+            "long": "Лонг",
+            "filtered": "Отфильтровано"
+        },
+        "noTrades": "Нет сделок для {instrument} при {leverage}x"
     },
     "safety": {
         "header": {

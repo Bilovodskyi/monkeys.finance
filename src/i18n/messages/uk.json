@@ -537,10 +537,17 @@
             "openDate": "Дата відкриття",
             "closeDate": "Дата закриття",
             "pnl": "P&L",
+            "fees": "Комісії",
             "equityBefore": "Капітал до",
             "equityAfter": "Капітал після",
-            "entryPrice": "Ціна входу"
-        }
+            "entryPrice": "Ціна входу",
+            "exitPrice": "Ціна виходу"
+        },
+        "positionTypes": {
+            "long": "Лонг",
+            "filtered": "Відфільтровано"
+        },
+        "noTrades": "Немає угод для {instrument} при {leverage}x"
     },
     "safety": {
         "header": {

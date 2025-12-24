@@ -221,7 +221,7 @@ export function CreateInstanceSheet({
                     values.instrument as keyof typeof INSTRUMENT_SHORT_NAMES
                 ] || "-",
                 values.exchange || "-",
-                values.strategy === "Squid Ribbon V2" ? "1H" : "4H",
+                values.strategy === "ribbon" ? "1H" : "4H",
                 values.strategy || "-",
             ]
                 .join("-")

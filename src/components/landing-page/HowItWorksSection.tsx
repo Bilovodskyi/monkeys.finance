@@ -70,47 +70,54 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
         }
         gsap.registerPlugin(ScrollTrigger);
 
+        // Store ScrollTrigger instances to clean up only these on unmount
+        const triggers: ScrollTrigger[] = [];
+
         // Active step highlight triggers
         if (sectionOne.current) {
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionOne.current,
                 start: "top top",
                 end: "bottom top",
                 onEnter: () => setActiveStep(1),
                 onEnterBack: () => setActiveStep(1),
             });
+            triggers.push(trigger);
         }
         if (sectionTwo.current) {
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionTwo.current,
                 start: "top top",
                 end: "bottom top",
                 onEnter: () => setActiveStep(2),
                 onEnterBack: () => setActiveStep(2),
             });
+            triggers.push(trigger);
         }
         if (sectionThree.current) {
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionThree.current,
                 start: "top top",
                 end: "bottom top",
                 onEnter: () => setActiveStep(3),
                 onEnterBack: () => setActiveStep(3),
             });
+            triggers.push(trigger);
         }
         if (sectionFour.current) {
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionFour.current,
                 start: "top top",
                 end: "bottom top",
                 onEnter: () => setActiveStep(4),
                 onEnterBack: () => setActiveStep(4),
             });
+            triggers.push(trigger);
         }
 
         // Step 1 ring animation
         if (sectionOne.current && step1Ring.current) {
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionOne.current,
                 start: "top top",
                 end: "bottom top",
@@ -123,12 +130,13 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     gsap.set(step1Ring.current, { scale, opacity, transformOrigin: "50% 50%" });
                 },
             });
+            triggers.push(trigger);
         }
 
         // Line animations
         if (line1.current) {
             gsap.set(line1.current, { scaleY: 0, transformOrigin: "top" });
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionOne.current,
                 start: "top top",
                 end: "bottom top",
@@ -141,11 +149,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     }
                 },
             });
+            triggers.push(trigger);
         }
 
         if (line2.current) {
             gsap.set(line2.current, { scaleY: 0, transformOrigin: "top" });
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionTwo.current,
                 start: "top top",
                 end: "bottom top",
@@ -158,11 +167,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     }
                 },
             });
+            triggers.push(trigger);
         }
 
         if (line3.current) {
             gsap.set(line3.current, { scaleY: 0, transformOrigin: "top" });
-            ScrollTrigger.create({
+            const trigger = ScrollTrigger.create({
                 trigger: sectionThree.current,
                 start: "top top",
                 end: "bottom top",
@@ -175,11 +185,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     }
                 },
             });
+            triggers.push(trigger);
         }
 
         // Container One animation
         if (sectionOne.current && containerOne.current) {
-            gsap.fromTo(containerOne.current,
+            const tween = gsap.fromTo(containerOne.current,
                 { y: -300, opacity: 0 },
                 {
                     y: 0,
@@ -216,11 +227,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     },
                 }
             );
+            if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
         }
 
         // Container Two animation
         if (sectionTwo.current && containerTwo.current) {
-            gsap.fromTo(containerTwo.current,
+            const tween = gsap.fromTo(containerTwo.current,
                 { y: -300, opacity: 0 },
                 {
                     y: 0,
@@ -259,11 +271,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     },
                 }
             );
+            if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
         }
 
         // Container Three animation
         if (sectionThree.current && containerThree.current) {
-            gsap.fromTo(containerThree.current,
+            const tween = gsap.fromTo(containerThree.current,
                 { y: -300, opacity: 0 },
                 {
                     y: 0,
@@ -302,11 +315,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     },
                 }
             );
+            if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
         }
 
         // Container Four animation
         if (sectionFour.current && containerFour.current) {
-            gsap.fromTo(containerFour.current,
+            const tween = gsap.fromTo(containerFour.current,
                 { y: -300, opacity: 0 },
                 {
                     y: 0,
@@ -345,11 +359,12 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
                     },
                 }
             );
+            if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
         }
 
-        // Cleanup function to kill all ScrollTriggers when component re-renders
+        // Cleanup only this component's ScrollTriggers, not all global ones
         return () => {
-            ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+            triggers.forEach((trigger) => trigger.kill());
         };
     }, { dependencies: [isDesktop] });
 

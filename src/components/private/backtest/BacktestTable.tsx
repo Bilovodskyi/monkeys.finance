@@ -44,7 +44,7 @@ export default function BacktestTable({
     const trades = stats.trades;
 
     return (
-        <div className="flex flex-col h-full overflow-hidden">
+        <div className="flex flex-col h-full md:overflow-hidden">
             {/* Selectors Row */}
             <div className="flex flex-wrap gap-8 items-center px-4 md:px-6 pt-6">
                 {/* Instrument Selector */}
@@ -150,7 +150,7 @@ export default function BacktestTable({
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
                         {t("tableHeaders.pnl")}
                     </div>
-                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">Fees</div>
+                    <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">{t("tableHeaders.fees")}</div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">
                         {t("tableHeaders.equityBefore")}
                     </div>
@@ -158,7 +158,7 @@ export default function BacktestTable({
                         {t("tableHeaders.equityAfter")}
                     </div>
                     <div className="border-r border-zinc-800 px-4 py-3 text-tertiary ">{t("tableHeaders.entryPrice")}</div>
-                    <div className="px-4 py-3 text-tertiary ">Exit Price</div>
+                    <div className="px-4 py-3 text-tertiary ">{t("tableHeaders.exitPrice")}</div>
                     
                 </div>
 
@@ -166,7 +166,7 @@ export default function BacktestTable({
                 <div className="flex-1 overflow-y-auto min-h-0">
                     {trades.length === 0 ? (
                         <div className="flex items-center justify-center h-32 text-tertiary">
-                            No trades available for {selectedInstrument} at {selectedLeverage}x
+                            {t("noTrades", { instrument: selectedInstrument, leverage: selectedLeverage })}
                         </div>
                     ) : (
                         trades.map((trade, index) => (
@@ -174,7 +174,7 @@ export default function BacktestTable({
                                 key={index}
                                 className={`grid grid-cols-9 border border-zinc-800 border-t-0 ${trade.isFiltered ? 'text-yellow-500' : ''}`}>
                                 <div className="border-r border-zinc-800 px-4 py-3">
-                                    {trade.isFiltered ? 'Filtered' : `${trade.leverage}x Long`}
+                                    {trade.isFiltered ? t("positionTypes.filtered") : `${trade.leverage}x ${t("positionTypes.long")}`}
                                 </div>
                                 <div className="border-r border-zinc-800 px-4 py-3">
                                     {new Date(trade.entryDate).toLocaleDateString()}

@@ -537,10 +537,17 @@
             "openDate": "Fecha de apertura",
             "closeDate": "Fecha de cierre",
             "pnl": "P&L",
+            "fees": "Comisiones",
             "equityBefore": "Capital antes",
             "equityAfter": "Capital después",
-            "entryPrice": "Precio de entrada"
-        }
+            "entryPrice": "Precio de entrada",
+            "exitPrice": "Precio de salida"
+        },
+        "positionTypes": {
+            "long": "Largo",
+            "filtered": "Filtrado"
+        },
+        "noTrades": "No hay operaciones disponibles para {instrument} a {leverage}x"
     },
     "safety": {
         "header": {
