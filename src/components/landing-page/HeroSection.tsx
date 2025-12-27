@@ -36,16 +36,13 @@ export async function HeroSection() {
             </section>
 
             {/* Hero Content */}
-            <section className="flex flex-col items-center xl:items-start w-full xl:w-1/3 px-4 xl:px-16 2xl:px-24 pt-20 xl:pt-28 2xl:pt-32">
+            <section className="flex flex-col items-center xl:items-start w-full xl:w-1/3 px-4 xl:px-16 2xl:px-20 pt-20 xl:pt-28 2xl:pt-38">
                 <div className="border border-zinc-800 rounded-full px-5 py-2 mb-6 text-[12px] font-semibold w-fit">
                     {t("badge")}
                 </div>
-                <h1 className="text-4xl xl:text-5xl font-title mb-6 text-center xl:text-left">
-                    {t("title")}{" "}
-                    <span className="text-highlight">
-                        {t("titleHighlight")}
-                    </span>{" "}
-                    {t("titleEnd")}
+                <h1 className="flex flex-col text-3xl xl:text-4xl font-title mb-6 text-center xl:text-left">
+                    <span className="text-highlight">{t("titleLine1")}</span>
+                    <span>{t("titleLine2")}</span>
                 </h1>
                 <p className="text-secondary mb-8 text-center xl:text-left">
                     {t("description")}

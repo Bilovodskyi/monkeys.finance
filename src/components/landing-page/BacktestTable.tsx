@@ -52,7 +52,10 @@ export default async function BacktestTableSection() {
                     <LedGridFlickerWrapper dimColor="rgb(18, 18, 18)" className="w-full h-full" fit="width" rows={120} cols={240} activeTarget={2600} cell={{ w: 1, h: 1, gap: 0.5 }} />
                 </div>
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-3/4 lg:w-[960px] 2xl:w-2/3 bg-background border border-zinc-700 flex">
-                    <div className="absolute -top-14 left-1/2 -translate-x-1/2">
+                     <div className="hidden md:flex items-center gap-2 absolute -top-14 left-2/4 -translate-x-2/4">
+                        <p className="text-tertiary text-center !text-sm">
+                            {t("usesStrategy")}
+                        </p>
                         <SlidingTabs />
                     </div>
                     {/* Sidebar */}
@@ -111,12 +114,17 @@ export default async function BacktestTableSection() {
                             <BacktestTableComponent data={backtestData} compact />
                         </div>
                     </div>
-                    <div className="absolute -bottom-26 left-1/2 -translate-x-1/2 flex flex-col items-center">
+                    <div className="hidden md:block absolute -bottom-12 left-2/4 -translate-x-2/4">
+                        <p className="text-tertiary text-center !text-xs">
+                            {t("chartDescription")}
+                        </p>
+                    </div>
+                    {/* <div className="absolute -bottom-26 left-1/2 -translate-x-1/2 flex flex-col items-center">
                         <span className="text-tertiary text-md">{t("dataSource")}</span>
 
                         <Image src="/exchange-logo/binance.png" alt="Binance" width={128} height={32} className="w-32" />
 
-                    </div>
+                    </div> */}
                 </div>
 
 

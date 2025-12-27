@@ -8,6 +8,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import ChartCompareToBitcoin from "@/components/landing-page/ChartCompareToBitcoin";
 import StaticDitherBackground from "@/components/landing-page/StaticDitherBackground";
+import DitherPortrait from "@/components/landing-page/DitherBuffet";
 
 export default async function Home() {
   const { userId } = await auth();
@@ -20,6 +21,9 @@ export default async function Home() {
       <ChartCompareToBitcoin />
       <StaticDitherBackground />
       <BacktestTable />
+      <section className="h-[800px] w-full relative">
+        <DitherPortrait />
+      </section>
       <HowItWorksSkewStack />
       <Reviews />
       <Footer />

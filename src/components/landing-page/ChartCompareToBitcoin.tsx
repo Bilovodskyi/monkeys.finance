@@ -31,23 +31,24 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useEquitySeries } from "@/hooks/useEquitySeries";
+import { useLeverageEquitySeries } from "@/hooks/useLeverageEquitySeries";
 import { useBinanceSeries } from "@/hooks/useBinanceSeries";
+import SlidingTabs from "../SlidingTabs";
 
-// Build real chart data from ML/no-ML Excel files and Binance US BTC data
-const ML_FILE = "/data/chart/ml/BTC-USD_4h_20251020-204907.xlsx";
-const NO_ML_FILE = "/data/chart/no_ml/BTC-USD_4h_20251020-204716.xlsx";
+// Build real chart data from leverage Excel files and Binance US BTC data
+const LEVERAGE_5X_FILE = "/data/chart/BTC-USD_4h_binanceus_5x_2025dec.xlsx";
+const LEVERAGE_1X_FILE = "/data/chart/BTC-USD_4h_binanceus_1x_2025dec.xlsx";
 
 const chartConfig = {
     visitors: {
         label: "Visitors",
     },
-    ml: {
-        label: "Algorithm (With Machine Learning)",
+    leverage5x: {
+        label: "Algorithm (5x Leverage)",
         color: "var(--highlight-text)",
     },
-    noMl: {
-        label: "Algorithm (No Machine Learning)",
+    leverage1x: {
+        label: "Algorithm (1x Leverage)",
         color: "var(--green-color-for-chart)",
     },
     bitcoin: {
@@ -72,23 +73,13 @@ export default function ChartCompareToBitcoin() {
     
     // Memoize dates to prevent re-fetching on every render
     const startDate = useMemo(() => new Date("2025-01-01T00:00:00Z"), []);
-    const endDate = useMemo(() => new Date("2025-10-20T00:00:00Z"), []);
-    const displayDate = useMemo(
-        () =>
-            new Intl.DateTimeFormat("en-US", {
-                timeZone: "UTC",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-            }).format(startDate),
-        [startDate]
-    );
+    const endDate = useMemo(() => new Date("2025-12-01T00:00:00Z"), []);
 
-    const { series: mlSeries } = useEquitySeries(ML_FILE, {
-        valueField: "totalEquity",
+    const { series: leverage5xSeries } = useLeverageEquitySeries(LEVERAGE_5X_FILE, {
+        initialCapital: 100000,
     });
-    const { series: noMlSeries } = useEquitySeries(NO_ML_FILE, {
-        valueField: "totalEquity",
+    const { series: leverage1xSeries } = useLeverageEquitySeries(LEVERAGE_1X_FILE, {
+        initialCapital: 100000,
     });
     const { series: btcSeries } = useBinanceSeries({
         symbol: "BTCUSDT",
@@ -107,21 +98,21 @@ export default function ChartCompareToBitcoin() {
             string,
             {
                 date: string;
-                ml: number | null;
-                noMl: number | null;
+                leverage5x: number | null;
+                leverage1x: number | null;
                 bitcoin: number | null;
             }
         >();
 
         // Find the latest date across all series
         let latestDate = "";
-        for (const point of mlSeries) {
+        for (const point of leverage5xSeries) {
             const key = point.date.includes("T")
                 ? point.date.split("T")[0]
                 : point.date;
             if (key > latestDate) latestDate = key;
         }
-        for (const point of noMlSeries) {
+        for (const point of leverage1xSeries) {
             const key = point.date.includes("T")
                 ? point.date.split("T")[0]
                 : point.date;
@@ -135,45 +126,45 @@ export default function ChartCompareToBitcoin() {
         }
 
         // Track last values for each series
-        let lastMl: number | null = null;
-        let lastNoMl: number | null = null;
+        let lastLeverage5x: number | null = null;
+        let lastLeverage1x: number | null = null;
         let lastBitcoin: number | null = null;
-        let lastMlDate = "";
-        let lastNoMlDate = "";
+        let lastLeverage5xDate = "";
+        let lastLeverage1xDate = "";
         let lastBitcoinDate = "";
 
-        for (const point of mlSeries) {
+        for (const point of leverage5xSeries) {
             const key = point.date.includes("T")
                 ? point.date.split("T")[0]
                 : point.date;
             const row = dateToRow.get(key) || {
                 date: key,
-                ml: null,
-                noMl: null,
+                leverage5x: null,
+                leverage1x: null,
                 bitcoin: null,
             };
-            row.ml = Number.isFinite(point.value) ? point.value : null;
+            row.leverage5x = Number.isFinite(point.value) ? point.value : null;
             dateToRow.set(key, row);
-            if (Number.isFinite(point.value) && key > lastMlDate) {
-                lastMl = point.value;
-                lastMlDate = key;
+            if (Number.isFinite(point.value) && key > lastLeverage5xDate) {
+                lastLeverage5x = point.value;
+                lastLeverage5xDate = key;
             }
         }
-        for (const point of noMlSeries) {
+        for (const point of leverage1xSeries) {
             const key = point.date.includes("T")
                 ? point.date.split("T")[0]
                 : point.date;
             const row = dateToRow.get(key) || {
                 date: key,
-                ml: null,
-                noMl: null,
+                leverage5x: null,
+                leverage1x: null,
                 bitcoin: null,
             };
-            row.noMl = Number.isFinite(point.value) ? point.value : null;
+            row.leverage1x = Number.isFinite(point.value) ? point.value : null;
             dateToRow.set(key, row);
-            if (Number.isFinite(point.value) && key > lastNoMlDate) {
-                lastNoMl = point.value;
-                lastNoMlDate = key;
+            if (Number.isFinite(point.value) && key > lastLeverage1xDate) {
+                lastLeverage1x = point.value;
+                lastLeverage1xDate = key;
             }
         }
         for (const point of btcSeries) {
@@ -182,8 +173,8 @@ export default function ChartCompareToBitcoin() {
                 : point.date;
             const row = dateToRow.get(key) || {
                 date: key,
-                ml: null,
-                noMl: null,
+                leverage5x: null,
+                leverage1x: null,
                 bitcoin: null,
             };
             row.bitcoin = Number.isFinite(point.value) ? point.value : null;
@@ -200,11 +191,11 @@ export default function ChartCompareToBitcoin() {
         );
 
         for (const row of sorted) {
-            if (row.date > lastMlDate && lastMl !== null) {
-                row.ml = lastMl;
+            if (row.date > lastLeverage5xDate && lastLeverage5x !== null) {
+                row.leverage5x = lastLeverage5x;
             }
-            if (row.date > lastNoMlDate && lastNoMl !== null) {
-                row.noMl = lastNoMl;
+            if (row.date > lastLeverage1xDate && lastLeverage1x !== null) {
+                row.leverage1x = lastLeverage1x;
             }
             if (row.date > lastBitcoinDate && lastBitcoin !== null) {
                 row.bitcoin = lastBitcoin;
@@ -212,14 +203,14 @@ export default function ChartCompareToBitcoin() {
         }
 
         return sorted;
-    }, [mlSeries, noMlSeries, btcSeries]);
+    }, [leverage5xSeries, leverage1xSeries, btcSeries]);
 
     return (
         <>
             <div className="flex flex-col items-center justify-center gap-4 pt-16 md:pt-32 px-4 md:px-0">
-                <h1 className="text-2xl md:text-4xl font-title">
-                    <span className="text-highlight">{t("titleHighlight")}</span>{" "}
-                    {t("titleEnd")}
+                <h1 className="flex flex-col text-2xl md:text-4xl font-title text-center">
+                    <span className="text-highlight">{t("titleFirstLine")}</span>
+                    <span>{t("titleSecondLine")}</span>
                 </h1>
                 <h2 className="text-secondary text-start lg:text-center text-lg md:text-xl text-balance max-w-xl">
                     {t("description")}
@@ -259,11 +250,13 @@ export default function ChartCompareToBitcoin() {
                     />
                 </div>
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 h-[500px] lg:h-3/4 w-[800px] lg:w-[960px] 2xl:w-2/3 bg-background border border-zinc-700 flex origin-center scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-100">
-                    <div className="hidden md:block absolute -top-14 left-2/4 -translate-x-2/4">
-                        <p className="text-tertiary text-center text-sm">
-                            {t("chartDescription", { date: displayDate })}
+                    <div className="hidden md:flex items-center gap-2 absolute -top-14 left-2/4 -translate-x-2/4">
+                        <p className="text-tertiary text-center !text-sm">
+                            {t("usesStrategy")}
                         </p>
+                        <SlidingTabs />
                     </div>
+                    
                     {/* Sidebar */}
                     <div className="w-[71px] border-r border-zinc-800 shrink-0">
                         <div className="flex items-center justify-center border-b border-zinc-800 h-[60px]">
@@ -332,36 +325,36 @@ export default function ChartCompareToBitcoin() {
                                         <AreaChart data={chartData}>
                                             <defs>
                                                 <linearGradient
-                                                    id="fillMl"
+                                                    id="fillLeverage5x"
                                                     x1="0"
                                                     y1="0"
                                                     x2="0"
                                                     y2="1">
                                                     <stop
                                                         offset="5%"
-                                                        stopColor="var(--color-ml)"
+                                                        stopColor="var(--color-leverage5x)"
                                                         stopOpacity={0.8}
                                                     />
                                                     <stop
                                                         offset="95%"
-                                                        stopColor="var(--color-ml)"
+                                                        stopColor="var(--color-leverage5x)"
                                                         stopOpacity={0.1}
                                                     />
                                                 </linearGradient>
                                                 <linearGradient
-                                                    id="fillNoMl"
+                                                    id="fillLeverage1x"
                                                     x1="0"
                                                     y1="0"
                                                     x2="0"
                                                     y2="1">
                                                     <stop
                                                         offset="5%"
-                                                        stopColor="var(--color-noMl)"
+                                                        stopColor="var(--color-leverage1x)"
                                                         stopOpacity={0.8}
                                                     />
                                                     <stop
                                                         offset="95%"
-                                                        stopColor="var(--color-noMl)"
+                                                        stopColor="var(--color-leverage1x)"
                                                         stopOpacity={0.1}
                                                     />
                                                 </linearGradient>
@@ -526,18 +519,18 @@ export default function ChartCompareToBitcoin() {
                                                 }
                                             />
                                             <Area
-                                                dataKey="ml"
+                                                dataKey="leverage5x"
                                                 type="monotone"
                                                 connectNulls
-                                                fill="url(#fillMl)"
-                                                stroke="var(--color-ml)">
+                                                fill="url(#fillLeverage5x)"
+                                                stroke="var(--color-leverage5x)">
                                                 <LabelList
-                                                    dataKey="ml"
+                                                    dataKey="leverage5x"
                                                     content={(props) => (
                                                         <EndPointLabel
                                                             {...props}
-                                                            label={t("withML")}
-                                                            color="var(--color-ml)"
+                                                            label={t("leverage5x")}
+                                                            color="var(--color-leverage5x)"
                                                             chartData={
                                                                 chartData
                                                             }
@@ -547,18 +540,18 @@ export default function ChartCompareToBitcoin() {
                                                 />
                                             </Area>
                                             <Area
-                                                dataKey="noMl"
+                                                dataKey="leverage1x"
                                                 type="monotone"
                                                 connectNulls
-                                                fill="url(#fillNoMl)"
-                                                stroke="var(--color-noMl)">
+                                                fill="url(#fillLeverage1x)"
+                                                stroke="var(--color-leverage1x)">
                                                 <LabelList
-                                                    dataKey="noMl"
+                                                    dataKey="leverage1x"
                                                     content={(props) => (
                                                         <EndPointLabel
                                                             {...props}
-                                                            label={t("noML")}
-                                                            color="var(--color-noMl)"
+                                                            label={t("leverage1x")}
+                                                            color="var(--color-leverage1x)"
                                                             chartData={
                                                                 chartData
                                                             }
@@ -597,6 +590,11 @@ export default function ChartCompareToBitcoin() {
                                 </CardContent>
                             </Card>
                         </div>
+                    </div>
+                    <div className="hidden md:block absolute -bottom-12 left-2/4 -translate-x-2/4">
+                        <p className="text-tertiary text-center !text-xs">
+                            {t("chartDescription")}
+                        </p>
                     </div>
                 </div>
                 {/* <div className="absolute -bottom-26 left-1/2 -translate-x-1/2 flex flex-col items-center">
