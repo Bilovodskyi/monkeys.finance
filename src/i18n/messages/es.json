@@ -86,25 +86,25 @@
         },
         "step2": {
             "title": "Elige el algoritmo y la criptomoneda para operar",
-            "description": "Elige un algoritmo, luego una criptomoneda y prueba el par. Eres libre de explorar tantas combinaciones como desees para encontrar la más rentable.",
+            "description": "Elige un algoritmo, luego una criptomoneda y prueba el par. Puedes explorar diferentes combinaciones y comparar resultados.",
             "containerTitle": "Elige algoritmo e instrumento"
         },
         "step3": {
             "title": "Conéctate a tu intercambio de criptomonedas",
-            "description": "Soportamos los intercambios de criptomonedas más populares y estamos trabajando en agregar aún más. También puedes generar señales y operar por tu cuenta.",
+            "description": "Conecta tu exchange para habilitar la ejecución automatizada. Soportamos varios exchanges populares y estamos agregando más. También puedes ejecutar señales sin conectar un exchange.",
             "containerTitle": "Conéctate al intercambio de cripto"
         },
         "step4": {
-            "title": "El bot de trading operará por ti automáticamente",
-            "description": "Nuestro bot de trading operará por ti automáticamente. Puedes configurar los parámetros y dejar que opere por ti. 24/7 sin descansos ni errores.",
+            "title": "Habilita el trading automatizado",
+            "description": "Configura tus parámetros y elige si deseas ejecutar operaciones automáticamente o recibir notificaciones. El sistema funciona continuamente y sigue tu configuración.",
             "containerTitle": "¡Todo listo! Ahora el bot operará por ti"
         }
     },
     "footer": {
-        "title": "Obtén 6 meses",
+        "title": "Obtén 1 mes",
         "titleHighlight": "Gratis",
         "titleEnd": "de Prueba",
-        "description": "Obtén acceso a nuestros algoritmos de trading, backtesting y modelos de aprendizaje automático durante 6 meses gratis. No se requiere tarjeta de crédito.",
+        "description": "Obtén acceso a nuestros algoritmos de trading, backtesting y modelos de aprendizaje automático durante 1 mes gratis. No se requiere tarjeta de crédito.",
         "startTradingButton": "Comenzar a Operar",
         "documentationButton": "Documentación",
         "tagline": "Plataforma de trading para comercio automatizado de criptomonedas",
@@ -141,25 +141,25 @@
         "titleHighlight": "usuarios",
         "titleEnd": "dicen",
         "review1": {
-            "quote": "Con Monkeys Finance tengo mucho más tiempo libre.",
-            "description": "Con Monkeys Finance ya no necesito pasar horas monitoreando los mercados manualmente para abrir posiciones en el momento adecuado. Puedo enfocarme en otras cosas mientras el bot trabaja por mí.",
+            "quote": "Tengo mucho más tiempo libre.",
+            "description": "Monkeys Finance redujo el tiempo que paso viendo gráficos. Puedo concentrarme en otras cosas mientras monitorea señales según mi configuración.",
             "name": "Pawel Kowalski",
             "location": "Varsovia • Polonia"
         },
         "review2": {
-            "quote": "Estoy muy contento de haber encontrado Monkeys Finance. La precisión de los algoritmos y el bot es increíble.",
+            "quote": "Me alegro mucho de haber encontrado Monkeys Finance. Las señales son claras y la automatización es fácil de configurar.",
             "name": "Omar El-Sayed",
             "location": "Dubái • Emiratos Árabes Unidos"
         },
         "review3": {
-            "quote": "Ha transformado completamente mi trading.",
-            "description": "Desde generar señales de trading hasta rastrear el rendimiento de los algoritmos con el tiempo y abrir posiciones automáticamente.",
+            "quote": "Optimizó mi flujo de trabajo de trading",
+            "description": "Desde generar señales hasta rastrear el rendimiento de la estrategia con el tiempo y opcionalmente automatizar la ejecución, todo está en un solo lugar.",
             "name": "Alexey Kuznetsov",
             "location": "Kiev • Ucrania"
         },
         "review4": {
-            "quote": "El Aprendizaje Automático llevó el rendimiento del algoritmo a un nivel que nunca creí posible.",
-            "description": "Tener aprendizaje automático para reducir el número de señales falsas es un cambio radical.",
+            "quote": "El filtro ML es una capa adicional útil.",
+            "description": "Agregar un paso de aprendizaje automático para filtrar señales ha sido útil, especialmente para reducir el ruido.",
             "name": "Steve Smith",
             "location": "Nueva York • Estados Unidos"
         }
@@ -500,6 +500,14 @@
         "leverage5x": "Apalancamiento 5x",
         "leverage1x": "Apalancamiento 1x",
         "bitcoin": "Bitcoin"
+    },
+    "philosophy": {
+        "titleStart": "Nuestra",
+        "titleHighlight": "Filosofía",
+        "quote": "A corto plazo, el mercado es una máquina de votar; a largo plazo, es una máquina de pesar.",
+        "author": "Benjamin Graham",
+        "description": "Esta famosa cita refleja la filosofía detrás de esta plataforma. El legado de Graham es fundamental para muchos inversores, y nosotros no somos la excepción. Esta plataforma está diseñada para navegar el ruido del mercado a corto plazo y buscar una ventaja estadística a largo plazo.",
+        "learnMore": "Más información"
     },
     "history": {
         "emptyTitle": "No tienes historial",

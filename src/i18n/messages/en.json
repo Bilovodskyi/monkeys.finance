@@ -86,25 +86,25 @@
         },
         "step2": {
             "title": "Pick algorithm and cryptocurrency to trade",
-            "description": "Pick an algorithm, then a cryptocurrency, and backtest the pair. You're free to explore as many combinations as you like to find the most profitable one.",
+            "description": "Pick an algorithm, then a cryptocurrency, and backtest the pair. You can explore different combinations and compare results.",
             "containerTitle": "Pick algorithm and instrument"
         },
         "step3": {
             "title": "Connect to your crypto exchange",
-            "description": "We support the most popular crypto exchanges and are working on adding even more. You can also generate signals and trade on your own.",
+            "description": "Connect your exchange to enable automated execution. We support several popular exchanges and are adding more. You can also run signals without connecting an exchange.",
             "containerTitle": "Connect to crypto exchange"
         },
         "step4": {
-            "title": "Trading bot will trade for you automatically",
-            "description": "Our trading bot will trade for you automatically. You can set the parameters and let it trade for you. 24/7 without breaks and mistakes.",
+            "title": "Enable automated trading",
+            "description": "Set your parameters and choose whether to execute trades automatically or receive notifications. The system runs continuously and follows your configuration.",
             "containerTitle": "You all set! Now bot will trade for you"
         }
     },
     "footer": {
-        "title": "Get 6 months",
+        "title": "Get 1 month",
         "titleHighlight": "Free",
         "titleEnd": "Trial",
-        "description": "Get access to our trading algorithms, backtest and machine learning models for 6 months for free. No credit card required.",
+        "description": "Get access to our trading algorithms, backtest and machine learning models for 1 month for free. No credit card required.",
         "startTradingButton": "Start Trading",
         "documentationButton": "Documentation",
         "tagline": "Trading platform for automated crypto trading",
@@ -141,25 +141,25 @@
         "titleHighlight": "users",
         "titleEnd": "say",
         "review1": {
-            "quote": "With Monkeys Finance I've got so much more free time.",
-            "description": "With Monkeys Finance I'm not longer need to spend hours on monitoring markets manualy to open positions in the right time. I can focus on other things while bot is working for me.",
+            "quote": "I have a lot more free time.",
+            "description": "Monkeys Finance reduced the time I spend watching charts. I can focus on other things while it monitors signals based on my settings.",
             "name": "Pawel Kowalski",
             "location": "Warsaw • Poland"
         },
         "review2": {
-            "quote": "I'm so glad I found Monkeys Finance. The precision of the algorithms and bot is amazing.",
+            "quote": "I'm so glad I found Monkeys Finance. Signals are clear, and the automation is easy to configure.",
             "name": "Omar El-Sayed",
             "location": "Dubai • United Arab Emirates"
         },
         "review3": {
-            "quote": "It has completely transformed my trading.",
-            "description": "From generating trading signals to tracking algorithms performance over time and automatically open positions.",
+            "quote": "It streamlined my trading workflow",
+            "description": "From generating signals to tracking strategy performance over time and optionally automating execution, everything is in one place.",
             "name": "Alexey Kuznetsov",
             "location": "Kyiv • Ukraine"
         },
         "review4": {
-            "quote": "Machine Learning moved algorithm performance to level I never thought possible.",
-            "description": "Having machine learning to reduce number of false signals is a game changer.",
+            "quote": "The ML filter is a helpful extra layer.",
+            "description": "Adding a machine-learning step to screen signals has been useful, especially for reducing noise.",
             "name": "Steve Smith",
             "location": "New York • United States"
         }
@@ -500,6 +500,14 @@
         "leverage5x": "5x Leverage",
         "leverage1x": "1x Leverage",
         "bitcoin": "Bitcoin"
+    },
+    "philosophy": {
+        "titleStart": "Our",
+        "titleHighlight": "Philosophy",
+        "quote": "In the short run, the market is a voting machine; in the long run, it is a weighing machine.",
+        "author": "Benjamin Graham",
+        "description": "This famous quote reflects the philosophy behind this platform. Graham's legacy is foundational for many investors, and we're no exception. This platform is built to navigate short-term market noise and to pursue a statistical edge over the long run.",
+        "learnMore": "Learn more"
     },
     "history": {
         "emptyTitle": "You don't have any history",
