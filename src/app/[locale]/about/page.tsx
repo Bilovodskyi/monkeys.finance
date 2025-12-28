@@ -13,7 +13,7 @@ export default async function About() {
             <div className="w-full overflow-hidden bg-[rgb(18,18,18)] flex flex-col">
                 {/* <LedGridFlicker rows={80} cols={380} activeTarget={4000} className="absolute left-0 top-0 z-20 w-full h-full scale-130" /> */}
                 <div className="absolute top-0 left-0 right-0 bottom-0 h-screen">
-                    <Link className="absolute top-3 left-4 md:left-24 z-30" href="/">
+                    <Link className="absolute top-4 lg:top-6 left-4 md:left-24 z-30" href="/">
                         <Image
                             src="/monkeys-logo.svg"
                             alt="Monkeys Logo"

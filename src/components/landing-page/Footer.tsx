@@ -42,10 +42,10 @@ export default async function Footer() {
                         <li><Link href="/" className=" hover:underline">{t("tools.bot")}</Link></li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><Link href="/" className="text-secondary ">{t("socials.title")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("socials.telegram")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("socials.linkedin")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("socials.github")}</Link></li>
+                        <li><span className="text-secondary">{t("legal.title")}</span></li>
+                        <li><Link href="/tos" className=" hover:underline">{t("legal.tos")}</Link></li>
+                        <li><Link href="/privacy" className=" hover:underline">{t("legal.privacy")}</Link></li>
+                        <li><Link href="/disclosures" className=" hover:underline">{t("legal.disclosures")}</Link></li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
                         <li><Link href="/" className="text-secondary ">{t("company.title")}</Link></li>

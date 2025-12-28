@@ -121,11 +121,11 @@
             "ml": "Aprendizaje Automático",
             "bot": "Bot de Trading"
         },
-        "socials": {
-            "title": "Redes Sociales",
-            "telegram": "Telegram",
-            "linkedin": "LinkedIn",
-            "github": "Github"
+        "legal": {
+            "title": "Legal",
+            "tos": "Términos de Servicio",
+            "privacy": "Política de Privacidad",
+            "disclosures": "Divulgaciones"
         },
         "company": {
             "title": "Empresa",
@@ -651,6 +651,237 @@
             "line2": "El precio de cambio puede variar según las condiciones actuales del mercado.",
             "line3": "La verificación ocurre cada 4 horas.",
             "lastUpdated": "Última actualización:"
+        }
+    },
+    "legalTabs": {
+        "tos": "Términos de Servicio",
+        "privacy": "Política de Privacidad",
+        "disclosures": "Divulgaciones"
+    },
+    "tosPage": {
+        "title": "Términos de",
+        "titleHighlight": "Servicio",
+        "companyName": "Monkeys Finance Inc.",
+        "address": "Dirección: 1888 Victoria Dr, Vancouver, BC, Canadá",
+        "support": "Soporte:",
+        "effectiveDate": "Fecha de entrada en vigor: 01/01/2026",
+        "section1": {
+            "title": "1) Aceptación de estos Términos",
+            "content": "Al acceder o usar Monkeys Finance (el \"Servicio\"), usted acepta estos Términos de Servicio (\"Términos\"). Si no está de acuerdo, no use el Servicio."
+        },
+        "section2": {
+            "title": "2) Elegibilidad",
+            "intro": "Usted solo puede usar el Servicio si:",
+            "item1": "tiene al menos la edad de mayoría en su lugar de residencia (19 en Columbia Británica), y",
+            "item2": "está legalmente autorizado a usar su exchange conectado y a operar derivados/futuros (si corresponde), y",
+            "item3": "puede celebrar un contrato vinculante."
+        },
+        "section3": {
+            "title": "3) El Servicio",
+            "intro": "Monkeys Finance ofrece herramientas como:",
+            "item1": "generación algorítmica de señales,",
+            "item2": "backtests simulados,",
+            "item3": "notificaciones a proveedores de notificación de terceros, y",
+            "item4": "colocación opcional de órdenes automatizadas en exchanges compatibles (incluidos futuros), según su configuración.",
+            "outro": "La lista de exchanges e integraciones compatibles puede cambiar con el tiempo."
+        },
+        "section4": {
+            "title": "4) No es asesoramiento de inversión",
+            "content": "El Servicio se proporciona solo con fines informativos y de automatización y no ofrece asesoramiento de inversión, legal, contable o fiscal. Usted es el único responsable de sus decisiones de trading, configuraciones y resultados."
+        },
+        "section5": {
+            "title": "5) Riesgos del trading y advertencias importantes",
+            "content1": "Operar con activos digitales—especialmente futuros y trading apalancado—implica un riesgo sustancial y puede resultar en pérdidas significativas, incluida la pérdida total de su posición y/o pérdidas adicionales según su exchange y configuración de apalancamiento.",
+            "content2": "Los backtests son simulados. Los resultados simulados no reflejan trading real y tienen limitaciones (incluidas suposiciones sobre comisiones, deslizamiento, liquidez, ejecución e impacto de mercado). El rendimiento pasado o simulado no es indicativo de resultados futuros."
+        },
+        "section6": {
+            "title": "6) Cuentas y seguridad",
+            "content": "Debe proporcionar información precisa y mantener su cuenta segura. Usted es responsable de toda actividad realizada en su cuenta.",
+            "intro": "Usted es responsable de:",
+            "item1": "mantener sus claves API del exchange válidas y actualizadas,",
+            "item2": "otorgar solo los permisos que pretende otorgar,",
+            "item3": "revisar su configuración del exchange (incluido el apalancamiento) y los parámetros de órdenes, y",
+            "item4": "supervisar su cuenta del exchange."
+        },
+        "section7": {
+            "title": "7) Claves API del exchange y permisos",
+            "content": "Si conecta un exchange, usted autoriza al Servicio a colocar órdenes según su configuración.",
+            "intro": "Usted reconoce que:",
+            "item1": "las APIs de los exchanges pueden fallar, retrasarse o comportarse de forma inesperada;",
+            "item2": "las órdenes pueden ser rechazadas, completarse parcialmente, ejecutarse a precios inesperados o ejecutarse cuando los mercados se mueven rápidamente; y",
+            "item3": "el Servicio puede experimentar errores o interrupciones.",
+            "outro": "Podemos mostrar ciertos errores en su historial/registros, pero no todos los errores pueden detectarse o mostrarse. Usted acepta supervisar activamente su cuenta y su exposición al riesgo."
+        },
+        "section8": {
+            "title": "8) Notificaciones",
+            "content": "Las notificaciones dependen de proveedores externos y pueden retrasarse, limitarse o no entregarse. No dependa de las notificaciones como su único control de riesgo."
+        },
+        "section9": {
+            "title": "9) Prueba gratuita, facturación, renovación automática y cancelación",
+            "freeTrial": "Prueba gratuita:",
+            "freeTrialValue": "1 mes, no se requiere tarjeta de crédito.",
+            "paidPlans": "Planes de pago:",
+            "paidPlansValue": "Después de la prueba, las suscripciones de pago se renuevan automáticamente a menos que se cancelen.",
+            "autoRenewal": "Renovación automática:",
+            "autoRenewalValue": "Al suscribirse, usted autoriza cargos recurrentes mediante Stripe usando el método de pago seleccionado.",
+            "cancelAnytime": "Cancelar en cualquier momento:",
+            "cancelAnytimeValue": "Puede cancelar en cualquier momento desde la configuración de su cuenta. La cancelación entra en vigor al final del período de facturación actual, salvo que se indique lo contrario al momento del pago.",
+            "priceChanges": "Cambios de precio:",
+            "priceChangesValue": "Podemos cambiar los precios con aviso previo (por ejemplo, por email y/o aviso dentro de la app). Los cambios se aplican en su próxima renovación, salvo que la ley exija lo contrario.",
+            "taxes": "Impuestos:",
+            "taxesValue": "Los precios pueden no incluir impuestos aplicables."
+        },
+        "section10": {
+            "title": "10) Uso aceptable y restricciones",
+            "intro": "Usted acepta no:",
+            "item1": "abusar de la prueba gratuita (incluida la creación repetida de cuentas para obtener múltiples pruebas),",
+            "item2": "intentar evadir controles de acceso o medidas de seguridad,",
+            "item3": "hacer ingeniería inversa, rastrear/scrapear o copiar el Servicio o cualquier parte de él,",
+            "item4": "usar el Servicio para actividades ilegales o para violar reglas del exchange, leyes o regulaciones,",
+            "item5": "interferir o interrumpir el Servicio.",
+            "outro": "Si detectamos abuso de la prueba gratuita (incluido el uso repetido del mismo email para recrear cuentas y obtener pruebas adicionales), podemos suspender o prohibir cuentas."
+        },
+        "section11": {
+            "title": "11) Propiedad intelectual",
+            "content": "El Servicio (incluyendo software, diseños, textos, logos, algoritmos y salidas de modelos) pertenece a Monkeys Finance Inc. y/o sus licenciantes y está protegido por leyes de propiedad intelectual. Usted recibe una licencia limitada, no exclusiva, intransferible y revocable para usar el Servicio para uso personal o interno de negocio, sujeta a estos Términos."
+        },
+        "section12": {
+            "title": "12) Suspensión y terminación",
+            "content": "Podemos suspender o terminar su acceso al Servicio en cualquier momento si creemos que usted violó estos Términos, creó riesgo para otros o por razones legales/de cumplimiento. Usted puede dejar de usar el Servicio en cualquier momento."
+        },
+        "section13": {
+            "title": "13) Exención de garantías",
+            "content": "El Servicio se proporciona \"tal cual\" y \"según disponibilidad.\" No garantizamos funcionamiento ininterrumpido, rendimiento sin errores ni que las señales, backtests o la ejecución automatizada cumplan sus expectativas."
+        },
+        "section14": {
+            "title": "14) Limitación de responsabilidad",
+            "intro": "En la máxima medida permitida por la ley:",
+            "item1": "Monkeys Finance Inc. no será responsable por daños indirectos, incidentales, especiales, consecuentes o punitivos, ni por pérdida de ganancias, pérdidas de trading, pérdida de datos o interrupción del negocio.",
+            "item2": "Nuestra responsabilidad total por cualquier reclamo relacionado con el Servicio se limita al monto que usted nos pagó en los 12 meses anteriores al hecho que dio origen al reclamo. Si usted no nos ha pagado, el límite es $0."
+        },
+        "section15": {
+            "title": "15) Indemnización",
+            "content": "Usted acepta indemnizar y eximir a Monkeys Finance Inc. de reclamos que surjan de su uso del Servicio, su actividad en exchanges, sus configuraciones o su violación de estos Términos o de leyes aplicables."
+        },
+        "section16": {
+            "title": "16) Cambios a estos Términos",
+            "content": "Podemos actualizar estos Términos ocasionalmente. Si los cambios son significativos, proporcionaremos aviso (por ejemplo, por email o dentro de la app). El uso continuado después de los cambios significa que usted acepta los Términos actualizados."
+        },
+        "section17": {
+            "title": "17) Ley aplicable",
+            "content": "Estos Términos se rigen por las leyes de Columbia Británica y las leyes federales aplicables de Canadá, sin considerar normas de conflicto de leyes. Cualquier disputa se presentará ante los tribunales ubicados en Vancouver, BC, salvo que la ley exija lo contrario."
+        },
+        "section18": {
+            "title": "18) Contacto",
+            "content": "Preguntas sobre estos Términos:"
+        },
+        "footerNote": "Al usar Monkeys Finance, usted reconoce que ha leído, comprendido y aceptado estos Términos de Servicio."
+    },
+    "privacyPage": {
+        "title": "Política de",
+        "titleHighlight": "Privacidad",
+        "companyName": "Monkeys Finance Inc.",
+        "address": "Dirección: 1888 Victoria Dr, Vancouver, BC, Canadá",
+        "contact": "Contacto:",
+        "effectiveDate": "Fecha de entrada en vigor: 01/01/2026",
+        "section1": {
+            "title": "1) Resumen",
+            "content": "Esta Política de Privacidad explica cómo recopilamos, usamos y compartimos información personal cuando usted usa Monkeys Finance."
+        },
+        "section2": {
+            "title": "2) Información que recopilamos",
+            "intro": "Podemos recopilar:",
+            "accountInfo": "Información de cuenta:",
+            "accountInfoValue": "email, nombre/usuario, identificadores de autenticación (a través de Clerk).",
+            "usageData": "Datos de uso y del dispositivo:",
+            "usageDataValue": "registros, dirección IP, información de dispositivo/navegador, páginas/acciones, marcas de tiempo.",
+            "tradingData": "Datos de configuración de trading:",
+            "tradingDataValue": "estrategias seleccionadas, parámetros, ajustes, selecciones de backtest.",
+            "apiCredentials": "Credenciales del exchange (API):",
+            "apiCredentialsValue": "claves/secretos que usted proporciona (almacenados cifrados).",
+            "notificationsData": "Datos de notificaciones:",
+            "notificationsDataValue": "identificadores del canal (por ejemplo, URL de webhook, ID de chat) si los conecta.",
+            "paymentInfo": "Información de pago:",
+            "paymentInfoValue": "estado de suscripción y metadatos de facturación (pagos gestionados por Stripe; no almacenamos números completos de tarjeta)."
+        },
+        "section3": {
+            "title": "3) Cómo usamos la información",
+            "intro": "Usamos la información para:",
+            "item1": "proporcionar y operar el Servicio (señales, backtests, notificaciones, ejecución),",
+            "item2": "asegurar cuentas, prevenir fraude y abuso de prueba gratuita,",
+            "item3": "brindar soporte y responder solicitudes,",
+            "item4": "mejorar funciones y confiabilidad,",
+            "item5": "cumplir obligaciones legales."
+        },
+        "section4": {
+            "title": "4) Cómo compartimos la información",
+            "intro": "Podemos compartir información con proveedores que ayudan a operar el Servicio, como:",
+            "authentication": "Autenticación:",
+            "authenticationValue": "Clerk",
+            "database": "Base de datos/hosting:",
+            "databaseValue": "Neon y proveedores de infraestructura",
+            "payments": "Pagos:",
+            "paymentsValue": "Stripe",
+            "notifications": "Notificaciones:",
+            "notificationsValue": "sus proveedores conectados",
+            "outro": "También podemos compartir información si lo exige la ley, para hacer cumplir nuestros Términos o para proteger derechos y seguridad."
+        },
+        "section5": {
+            "title": "5) Seguridad",
+            "content": "Usamos salvaguardas técnicas y organizativas destinadas a proteger la información. Las claves API del exchange se almacenan cifradas y no se muestran en texto plano dentro de la aplicación."
+        },
+        "section6": {
+            "title": "6) Retención",
+            "content": "Conservamos información personal el tiempo necesario para prestar el Servicio, cumplir requisitos legales, resolver disputas y hacer cumplir acuerdos. Usted puede solicitar eliminación sujeto a limitaciones legales y operativas."
+        },
+        "section7": {
+            "title": "7) Acceso y corrección",
+            "content": "Puede solicitar acceso o corrección de su información personal contactándonos en"
+        },
+        "section8": {
+            "title": "8) Cookies y analíticas",
+            "content": "Podemos usar cookies o tecnologías similares para autenticación, seguridad y rendimiento."
+        },
+        "section9": {
+            "title": "9) Transferencias internacionales",
+            "content": "Los proveedores pueden procesar datos fuera de Canadá. En ese caso, la información puede estar sujeta a las leyes de esas jurisdicciones."
+        },
+        "section10": {
+            "title": "10) Contacto",
+            "content": "Consultas de privacidad:"
+        }
+    },
+    "disclosuresPage": {
+        "title": "Divulgaciones y",
+        "titleHighlight": "Aviso de Riesgo",
+        "effectiveDate": "Fecha de entrada en vigor: 01/01/2026",
+        "section1": {
+            "title": "1) No es asesoramiento de inversión",
+            "content": "Monkeys Finance no ofrece asesoramiento de inversión. El contenido, señales, modelos y backtests son solo para fines informativos."
+        },
+        "section2": {
+            "title": "2) Riesgo de trading y apalancamiento",
+            "content": "El trading de criptoactivos implica riesgo sustancial. Futuros y apalancamiento pueden amplificar ganancias y pérdidas y pueden resultar en liquidación rápida."
+        },
+        "section3": {
+            "title": "3) Los backtests son simulados",
+            "content": "Los backtests y gráficos de rendimiento son simulados/hipotéticos y no representan trading real. Dependen de suposiciones (comisiones, deslizamiento, spreads, liquidez, timing de ejecución e impacto de mercado). Los resultados pueden diferir materialmente en mercados reales."
+        },
+        "section4": {
+            "title": "4) Riesgo de automatización y ejecución",
+            "content": "La automatización puede fallar por errores de configuración, caídas del exchange, límites de API, latencia, llenados parciales o comportamiento inesperado del mercado. Usted es responsable de monitorear su cuenta y exposición."
+        },
+        "section5": {
+            "title": "5) Sin garantías",
+            "content": "No garantizamos ganancias, rendimiento ni que las estrategias superen cualquier benchmark. El rendimiento pasado o simulado no predice resultados futuros."
+        },
+        "section6": {
+            "title": "6) Servicios de terceros",
+            "content": "Exchanges y proveedores de notificaciones son servicios de terceros con sus propios términos. No somos responsables por su disponibilidad, seguridad o rendimiento."
+        },
+        "section7": {
+            "title": "7) Contacto",
+            "content": "Preguntas:"
         }
     }
 }
