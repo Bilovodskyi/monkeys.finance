@@ -13,8 +13,7 @@ import {
     BookOpenText,
     ChartLine,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
-
+import { useLocale, useTranslations } from "next-intl";
 export interface HeroBoardProps {
     className?: string;
     /** Optional: extra wrapper styles */
@@ -24,6 +23,7 @@ export interface HeroBoardProps {
 const LINE_COLOR = "var(--highlight-text)";
 
 export default function HeroBoard({ className, style }: HeroBoardProps) {
+    const locale = useLocale();
     const t = useTranslations("heroAnimation");
 
     return (
@@ -734,10 +734,10 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                     backgroundColor: "rgba(18, 18, 18, 0.8)",
                 }}>
                 <a
-                    href="/"
+                    href={`https://docs.monkeys.finance/${locale}/ml`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group h-fit self-start text-fg3 hover:text-cyan-500 hover:underline">
+                    className="group h-fit self-start text-fg3 hover:text-highlight hover:underline">
                     <span
                         className="flex gap-1 font-mono text-xs uppercase tracking-widest"
                         style={{ opacity: 1 }}>
@@ -749,7 +749,7 @@ export default function HeroBoard({ className, style }: HeroBoardProps) {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             role="presentation"
-                            className="h-4 w-4 text-fg3 group-hover:text-cyan-500">
+                            className="h-4 w-4 text-fg3 group-hover:text-highlight">
                             <path
                                 d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983"
                                 stroke="currentColor"

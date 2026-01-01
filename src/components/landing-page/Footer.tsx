@@ -1,10 +1,11 @@
 import { CustomButton } from "../CustomButton";
 import { SignUpButton } from "@clerk/nextjs";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function Footer() {
+    const locale = await getLocale();
     const t = await getTranslations("footer");
 
     return (
@@ -18,7 +19,7 @@ export default async function Footer() {
                 </p>
                 <div className="flex gap-4 items-center">
                     <SignUpButton><CustomButton isBlue={true}>{t("startTradingButton")}</CustomButton></SignUpButton>
-                    <CustomButton isBlue={false}>{t("documentationButton")}</CustomButton>
+                    <Link href={`https://docs.monkeys.finance/${locale}/`} target="_blank"><CustomButton isBlue={false}>{t("documentationButton")}</CustomButton></Link>
                 </div>
             </div>
             <div className="flex flex-col lg:flex-row items-center justify-between w-full border-t border-zinc-800 lg:py-2 py-6">
@@ -29,29 +30,32 @@ export default async function Footer() {
                 <div className="grid grid-cols-2 lg:grid-cols-4 items-start md:justify-items-end gap-12 lg:gap-24 py-12 w-full lg:w-1/2">
 
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><Link href="/" className="text-secondary ">{t("products.title")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("products.aiInvestor")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("products.aiJournal")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("products.competition")}</Link></li>
+                        <li className="text-secondary ">{t("products.title")}</li>
+                        <li><Link href="https://ai-investor-bice.vercel.app" target="_blank" className=" hover:underline">{t("products.aiInvestor")}</Link></li>
+                        <li><Link href="https://trade-journal-v2.vercel.app" target="_blank" className=" hover:underline">{t("products.aiJournal")}</Link></li>
+                        <li className="flex items-center gap-2">
+                            <span className=" hover:underline">{t("products.competition")}</span>
+                            <span className="text-[10px] px-1.5 py-0.5 bg-highlight/20 text-highlight rounded-full font-medium">Soon</span>
+                        </li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><Link href="/" className="text-secondary ">{t("tools.title")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("tools.algorithms")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("tools.backtesting")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("tools.ml")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("tools.bot")}</Link></li>
+                        <li className="text-secondary ">{t("tools.title")}</li>
+                        <li><Link href={`https://docs.monkeys.finance/${locale}/algorithms`} target="_blank" className=" hover:underline">{t("tools.algorithms")}</Link></li>
+                        <li><Link href={`https://docs.monkeys.finance/${locale}/backtest`} target="_blank" className=" hover:underline">{t("tools.backtesting")}</Link></li>
+                        <li><Link href={`https://docs.monkeys.finance/${locale}/ml`} target="_blank" className=" hover:underline">{t("tools.ml")}</Link></li>
+                        <li><Link href={`https://docs.monkeys.finance/${locale}/instances`} target="_blank" className=" hover:underline">{t("tools.bot")}</Link></li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><span className="text-secondary">{t("legal.title")}</span></li>
+                        <li className="text-secondary ">{t("legal.title")}</li>
                         <li><Link href="/tos" className=" hover:underline">{t("legal.tos")}</Link></li>
                         <li><Link href="/privacy" className=" hover:underline">{t("legal.privacy")}</Link></li>
                         <li><Link href="/disclosures" className=" hover:underline">{t("legal.disclosures")}</Link></li>
                     </ul>
                     <ul className="col-span-1 flex flex-col items-start gap-4">
-                        <li><Link href="/" className="text-secondary ">{t("company.title")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("company.about")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("company.careers")}</Link></li>
-                        <li><Link href="/" className=" hover:underline">{t("company.contact")}</Link></li>
+                        <li className="text-secondary ">{t("company.title")}</li>
+                        <li><Link href="/about" className=" hover:underline">{t("company.about")}</Link></li>
+                        {/* <li><Link href="/" className=" hover:underline">{t("company.careers")}</Link></li> */}
+                        <li><Link href="https://github.com/Bilovodskyi" target="_blank" className=" hover:underline">{t("company.contact")}</Link></li>
 
                     </ul>
 

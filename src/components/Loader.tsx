@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 
 /**
  * Metaballs loader — circular motion, **4× speed**, dark bg, and
@@ -44,12 +44,14 @@ const APPROACH_K = 0.12;     // easing factor for radius changes (0..1)
 const MERGE_PAD = 1.10;      // how early we consider them "touching" (blur buffer)
 
 export default function MetaballsLoader({ className }: { className?: string }) {
+    // Use React's useId for stable IDs across server and client (prevents hydration mismatch)
+    const baseId = useId();
     const ids = useMemo(
         () => ({
-            goo: `goo-${Math.random().toString(36).slice(2)}`,
-            shadow: `shadow-${Math.random().toString(36).slice(2)}`,
+            goo: `goo${baseId}`,
+            shadow: `shadow${baseId}`,
         }),
-        []
+        [baseId]
     );
 
     // Animated state - initialize at center to avoid flash at (0,0)

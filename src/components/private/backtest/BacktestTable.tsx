@@ -34,10 +34,10 @@ export default function BacktestTable({
 
     const hasData = instrumentData.length > 0;
     const firstDate = hasData
-        ? new Date(instrumentData[0].entryDate).toLocaleDateString()
+        ? new Date(instrumentData[0].entryDate).toLocaleDateString('en-CA')
         : "—";
     const lastDate = hasData
-        ? new Date(instrumentData[instrumentData.length - 1].exitDate).toLocaleDateString()
+        ? new Date(instrumentData[instrumentData.length - 1].exitDate).toLocaleDateString('en-CA')
         : "—";
 
     const stats = useLeverageBacktest(instrumentData);
@@ -177,10 +177,10 @@ export default function BacktestTable({
                                     {trade.isFiltered ? t("positionTypes.filtered") : `${trade.leverage}x ${t("positionTypes.long")}`}
                                 </div>
                                 <div className="border-r border-zinc-800 px-4 py-3">
-                                    {new Date(trade.entryDate).toLocaleDateString()}
+                                    {new Date(trade.entryDate).toLocaleDateString('en-CA')}
                                 </div>
                                 <div className="border-r border-zinc-800 px-4 py-3">
-                                    {trade.isFiltered ? '—' : new Date(trade.exitDate).toLocaleDateString()}
+                                    {trade.isFiltered ? '—' : new Date(trade.exitDate).toLocaleDateString('en-CA')}
                                 </div>
                                 <div className={`border-r border-zinc-800 px-4 py-3 ${trade.isFiltered ? '' : (trade.pnlUsdt >= 0 ? 'text-green-500' : 'text-red-500')}`}>
                                     {trade.isFiltered ? '—' : `${trade.pnlUsdt >= 0 ? '+' : ''}${formatNumberWithCommas(Math.round(trade.pnlUsdt))}`}

@@ -5,8 +5,8 @@ import {
     Activity,
     BellRing,
     BrainCircuit,
-    ChartBar,
     ChartCandlestick,
+    ExternalLink,
     Fingerprint,
     GalleryVerticalEnd,
     History,
@@ -16,8 +16,9 @@ import {
     X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useMobileMenu } from "@/context/MobileMenuContext";
+import Link from "next/link";
 
 type SideMenuTab =
     | "instances"
@@ -54,6 +55,7 @@ export default function SideMenu() {
     const activeTab = tabFromPath(pathname);
     const t = useTranslations("sideMenu");
     const { isOpen, closeMenu } = useMobileMenu();
+    const locale = useLocale();
 
     // Extract current locale from pathname (e.g., "/en/about" -> "en")
     const currentLocale = pathname.split("/")[1] || "en";
@@ -286,25 +288,25 @@ export default function SideMenu() {
                         </div>
                     </div>
 
-                    <div
-                        className={`flex min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${
-                            activeTab === "how"
-                                ? "border border-zinc-800 bg-active-tab text-white"
-                                : "text-secondary hover:!text-white"
-                        }`}
+                    <Link
+                        href={`https://docs.monkeys.finance/${locale}/`}
+                        target="_blank"
+                        className="flex min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer text-secondary hover:!text-white"
                         >
                         <div className="flex-none">
                             <Pyramid className="w-4 h-4" />
                         </div>
                         <div className="relative overflow-hidden">
-                            <span className="invisible block whitespace-nowrap">
+                            <span className="invisible flex items-center gap-2 whitespace-nowrap">
                                 {t("documentation")}
+                                <ExternalLink className="w-4 h-4" />
                             </span>
-                            <span className=" absolute inset-0 block whitespace-nowrap opacity-100 md:opacity-0 md:group-hover/side-menu:opacity-100 transition-opacity duration-150">
+                            <span className=" absolute inset-0 flex items-center gap-2 whitespace-nowrap opacity-100 md:opacity-0 md:group-hover/side-menu:opacity-100 transition-opacity duration-150">
                                 {t("documentation")}
+                                <ExternalLink className="w-4 h-4" />
                             </span>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </>

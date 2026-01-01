@@ -110,7 +110,7 @@ export default async function Algorithms() {
                                             <p className="text-xs text-zinc-500">
                                                 {t("signalGenerated")}{" "}
                                                 <span className="text-zinc-400">
-                                                    {new Date(algorithm.lastSignalChange).toLocaleString()}
+                                                    {new Date(algorithm.lastSignalChange).toLocaleString('en-CA')}
                                                 </span>
                                             </p>
                                         )}
@@ -224,7 +224,7 @@ export default async function Algorithms() {
                                     <p className="text-xs text-tertiary">
                                         {t("footer.lastUpdated")}{" "}
                                         <span className="text-main font-medium">
-                                            {new Date(algorithm.lastUpdated).toLocaleString()}
+                                            {new Date(algorithm.lastUpdated).toLocaleString('en-CA')}
                                         </span>
                                     </p>
                                 </div>

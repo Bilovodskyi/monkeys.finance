@@ -1,11 +1,11 @@
-"use client";
-
-import DitherPortrait from "./DitherBuffet";
+import DitherPortrait from "./DitherPortrait";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
+import Link from "next/link";
 
-export default function Philosophy() {
-    const t = useTranslations("philosophy");
+export async function Philosophy() {
+    const locale = await getLocale();
+    const t = await getTranslations("philosophy");
 
     return (
         <section className="w-full relative overflow-hidden bg-[rgb(18,18,18)] py-16 md:py-4">
@@ -41,9 +41,9 @@ export default function Philosophy() {
                         
                         {/* Learn more + logo row */}
                         <div className="flex items-center justify-between gap-6">
-                            <a href="#" className="text-white text-sm hover:text-highlight transition-colors">
+                            <Link href={`https://docs.monkeys.finance/${locale}/instruments`} target="_blank" className="text-white text-sm hover:text-highlight transition-colors">
                                 {t("learnMore")} &gt;
-                            </a>
+                            </Link>
                             <div className="flex items-center gap-3">
                                 <Image 
                                     src="/monkeys-logo.png" 

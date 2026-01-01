@@ -24,7 +24,7 @@ export default function LegalLayout({
                     </Link>
                     
                     {/* Tabs - center */}
-                    <div className="absolute left-1/2 -translate-x-1/2">
+                    <div className="absolute left-1/2 -translate-x-1/2 hidden md:block">
                         <SlidingTabs />
                     </div>
                     

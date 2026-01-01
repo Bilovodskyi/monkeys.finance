@@ -85,11 +85,11 @@ export function CredentialCard({ exchangeKey, credentials }: CredentialCardProps
                     
                     <div className="flex md:flex-row flex-col md:items-center gap-4 text-xs text-tertiary mb-3 mt-3 md:mt-0">
                         <p>
-                            {t("created")} <span className="text-secondary">{credentials.createdAt.toLocaleString()}</span>
+                            {t("created")} <span className="text-secondary">{credentials.createdAt.toLocaleString('en-CA')}</span>
                         </p>
                         <div className="w-1 h-1 rounded-full bg-zinc-700" />
                         <p>
-                            {t("updated")} <span className="text-secondary">{credentials.updatedAt.getTime() === credentials.createdAt.getTime() ? t("never") : credentials.updatedAt.toLocaleString()}</span>
+                            {t("updated")} <span className="text-secondary">{credentials.updatedAt.getTime() === credentials.createdAt.getTime() ? t("never") : credentials.updatedAt.toLocaleString('en-CA')}</span>
                         </p>
                     </div>
 

@@ -128,13 +128,13 @@ export default async function HistoryPage() {
                                         </div>
                                         <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.orderPlacedAt 
-                                                ? new Date(position.orderPlacedAt).toLocaleDateString()
-                                                : new Date(position.signalTime).toLocaleDateString()
+                                                ? new Date(position.orderPlacedAt).toLocaleDateString('en-CA')
+                                                : new Date(position.signalTime).toLocaleDateString('en-CA')
                                             }
                                         </div>
                                         <div className="border-r border-zinc-800 px-2 lg:px-4 py-3">
                                             {position.positionClosedAt 
-                                                ? new Date(position.positionClosedAt).toLocaleDateString()
+                                                ? new Date(position.positionClosedAt).toLocaleDateString('en-CA')
                                                 : '—'
                                             }
                                         </div>

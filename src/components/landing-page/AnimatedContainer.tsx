@@ -101,11 +101,8 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                 )}
 
                 {/* Content */}
-                <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative group h-fit self-start hover:text-emerald-400 hover:underline z-40"
+                <div
+                    className="relative group h-fit self-start z-40"
                 >
                     <span className="flex gap-1 font-mono text-xs uppercase tracking-widest" style={{ opacity: 1 }}>
                         {title}
@@ -115,11 +112,11 @@ const AnimatedContainer = forwardRef<HTMLDivElement, AnimatedContainerProps>(
                                 {subtitle}
                             </>
                         )}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4 group-hover:text-emerald-400">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation" className="h-4 w-4">
                             <path d="M18.25 15.25V5.75H8.75M6 18L17.6002 6.39983" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
                         </svg>
                     </span>
-                </a>
+                </div>
             </div>
         );
     }

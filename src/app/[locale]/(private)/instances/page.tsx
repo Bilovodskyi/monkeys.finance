@@ -1,7 +1,7 @@
 "use client";
 
 import { useInstancesData } from "@/hooks/useInstancesData";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { CreateInstanceSheet } from "@/components/private/instances/CreateInstanceSheet";
 import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropdownMenu";
 import { CustomButton } from "@/components/CustomButton";
@@ -10,6 +10,7 @@ import MetaballsLoader from "@/components/Loader";
 
 export default function Instances() {
     const t = useTranslations("instances");
+    const locale = useLocale();
     
     // Custom hook handles all data fetching logic
     const { 
@@ -66,12 +67,20 @@ export default function Instances() {
                         <p className="text-center text-tertiary">
                             {t("instanceDescription")}
                         </p>
-                        <div className="flex gap-2 mt-6">
+                        <div className="flex items-center gap-4 mt-6">
+                             <Link 
+                                href={`https://docs.monkeys.finance/${locale}/instances`} 
+                                target="_blank" 
+                                className="text-sm text-secondary hover:text-highlight hover:underline transition-colors"
+                            >
+                                {t("whatIsInstance")}
+                            </Link>
                             <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
                                 <CustomButton isBlue={false}>
                                     {t("addInstance")}
                                 </CustomButton>
                             </CreateInstanceSheet>
+                           
                         </div>
                         <p className="text-xs text-tertiary text-center mt-6">
                             {t("visitDocumentation")}
@@ -102,11 +111,21 @@ export default function Instances() {
                         </h1>
                         {instances.length < 3 ? (
                             hasActiveSubscription ? (
-                                <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
-                                    <CustomButton isBlue={false}>
-                                        {t("addInstance")}
-                                    </CustomButton>
-                                </CreateInstanceSheet>
+                                <div className="flex items-center gap-4">
+                                    <Link 
+                                        href={`https://docs.monkeys.finance/${locale}/instances`} 
+                                        target="_blank" 
+                                        className="text-sm text-secondary hover:text-highlight hover:underline transition-colors"
+                                    >
+                                        {t("whatIsInstance")}
+                                    </Link>
+                                    <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
+                                        <CustomButton isBlue={false}>
+                                            {t("addInstance")}
+                                        </CustomButton>
+                                    </CreateInstanceSheet>
+                                    
+                                </div>
                             ) : (
                                 <div>
                                     <h1>{t("subscriptionExpired")}</h1>
@@ -195,7 +214,7 @@ export default function Instances() {
                                             {instance.exchange}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
-                                            {instance.createdAt.toLocaleDateString()}
+                                            {instance.createdAt.toLocaleDateString('en-CA')}
                                         </div>
                                         <div className="group/actions col-span-1 border-r border-zinc-800 px-2 py-1 flex items-center justify-center">
                                             <ActionsDropdownMenu

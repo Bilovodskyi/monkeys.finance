@@ -7,6 +7,7 @@ import { SignUpButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
 import { LanguageSelector } from "./LanguageSelector";
 import Link from "next/link";
+import DitherBackground from "./DitherBackground";
 
 export async function HeroSection() {
     const t = await getTranslations("hero");
@@ -19,7 +20,7 @@ export async function HeroSection() {
                 <Image src="/monkeys-logo.svg" alt="Monkeys Logo" width={128} height={32} className="w-32" />
                 <div className="flex items-center gap-8">
                     <LanguageSelector isPrivatePage={false} />
-                    <div className="hidden xl:flex items-center gap-2 text-secondary">
+                    <Link href="https://github.com/Bilovodskyi/monkeys.finance" target="_blank" className="hidden xl:flex items-center gap-2 text-secondary">
                         <Github className="w-3 h-3 shrink-0" />
                         <div className="flex items-center gap-1 hover:underline cursor-pointer hover:text-white z-50">
                             <p className="whitespace-nowrap font-semibold">
@@ -27,11 +28,11 @@ export async function HeroSection() {
                             </p>
                             /
                             <p className="whitespace-nowrap font-semibold">
-                                ml-crypto-bot
+                                monkeys.finance 
                             </p>
                             <Star className="w-3 h-3" />
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </section>
 
@@ -68,14 +69,14 @@ export async function HeroSection() {
             </section>
 
             {/* Background Grid */}
-            <Image
+            {/* <Image
                 className="absolute -right-48 top-4 object-none -z-10 hidden xl:block"
                 alt="Grid"
                 src="/hero-grid.svg"
                 width={1200}
                 height={1200}
                 style={{ transform: "rotate(-30deg) skewX(30deg)" }}
-            />
+            /> */}
 
             {/* Supported Exchanges */}
             <section className="grid grid-cols-6 grid-rows-2 absolute right-0 bottom-0 xl:bottom-12 bg-background w-full border-y border-zinc-800 [&>div:not(:first-child)]:border-l [&>div]:border-zinc-800">

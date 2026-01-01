@@ -263,6 +263,7 @@
         "settingUpDescription": "We're preparing your account. This will only take a moment...",
         "instanceDescription": "Instance is a function that will run on the cloud 24/7 constantly checking for new signals. Once signal is detected, the instance will open a position on the exchange. After instance automatically closes the position once opposite signal is detected.",
         "addInstance": "Add instance",
+        "whatIsInstance": "What is an instance?",
         "visitDocumentation": "Visit documentation page for more information",
         "subscriptionExpired": "Your subscription has expired",
         "subscriptionExpiredDescription": "Please renew your subscription to create and manage instances.",

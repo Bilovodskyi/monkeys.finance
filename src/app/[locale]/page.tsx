@@ -8,7 +8,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import ChartCompareToBitcoin from "@/components/landing-page/ChartCompareToBitcoin";
 import StaticDitherBackground from "@/components/landing-page/StaticDitherBackground";
-import Philosophy from "@/components/landing-page/Philosophy";
+import { Philosophy } from "@/components/landing-page/Philosophy";
 
 export default async function Home() {
   const { userId } = await auth();

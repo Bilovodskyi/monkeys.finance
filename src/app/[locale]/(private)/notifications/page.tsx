@@ -147,7 +147,7 @@ export default async function notifications() {
                                     @{telegramAccount.telegramUsername}
                                 </div>
                                 <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                    {telegramAccount.createdAt.toLocaleDateString()}
+                                    {telegramAccount.createdAt.toLocaleDateString('en-CA')}
                                 </div>
                                 <UnlinkTelegramAccount
                                     username={
@@ -210,7 +210,7 @@ export default async function notifications() {
                                             {notification.instrument}
                                         </div>
                                         <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                            {notification.createdAt.toLocaleDateString()}
+                                            {notification.createdAt.toLocaleDateString('en-CA')}
                                         </div>
                                         <DeleteNotification
                                             notificationId={notification.id}

@@ -43,13 +43,9 @@ const HowItWorksSection: React.FC<Props> = ({ className = "", style }) => {
     const [activeStep, setActiveStep] = useState<number>(1);
 
     // Track if we should show containers (desktop only)
-    // Use lazy initializer to get correct value before first render
-    const [isDesktop, setIsDesktop] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return window.innerWidth >= 1024;
-        }
-        return false;
-    });
+    // Always initialize to false for SSR hydration compatibility
+    // The useEffect will update it after mount on client
+    const [isDesktop, setIsDesktop] = useState(false);
 
     // Check viewport size on mount and resize
     useEffect(() => {
