@@ -222,11 +222,11 @@ export function AddNotificationSheet({
                                         })}
                                     </p>
                                     <div className="flex items-center gap-1 bg-zinc-900 px-2 py-1 rounded border border-zinc-800">
-                                        <code className="text-sm text-white font-mono">@algo_squid_bot</code>
+                                        <code className="text-sm text-white font-mono">@monkeys_finance_bot</code>
                                         <button
                                             type="button"
                                             onClick={() => {
-                                                navigator.clipboard.writeText("@algo_squid_bot");
+                                                navigator.clipboard.writeText("@monkeys_finance_bot");
                                                 toast.success(t("botNameCopied"));
                                             }}
                                             className="p-1 hover:bg-zinc-800 rounded transition-colors">
