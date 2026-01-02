@@ -9,6 +9,20 @@ import { Search, X, FileText, ArrowRight, ExternalLink } from "lucide-react";
 import type { SearchItem } from "@/lib/searchData.en";
 import DialogDitherBackground from "../ui/DialogDitherBackground";
 
+// Import all locale search data
+import { searchData as searchDataEn } from "@/lib/searchData.en";
+import { searchData as searchDataEs } from "@/lib/searchData.es";
+import { searchData as searchDataRu } from "@/lib/searchData.ru";
+import { searchData as searchDataUk } from "@/lib/searchData.uk";
+
+// Locale to search data mapping
+const searchDataByLocale: Record<string, SearchItem[]> = {
+    en: searchDataEn,
+    es: searchDataEs,
+    ru: searchDataRu,
+    uk: searchDataUk,
+};
+
 // Configure Fuse.js options
 const fuseOptions = {
     keys: [
@@ -39,29 +53,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
     // Dynamically load search data based on locale
     const fuse = useMemo(() => {
-        let data: SearchItem[] = [];
+        // Get locale-specific data with English fallback
+        const data = searchDataByLocale[locale] || searchDataByLocale.en;
         
-        // Import the correct search data based on locale
-        try {
-            switch (locale) {
-                case "es":
-                    data = require("@/lib/searchData.es").searchData;
-                    break;
-                case "ru":
-                    data = require("@/lib/searchData.ru").searchData;
-                    break;
-                case "uk":
-                    data = require("@/lib/searchData.uk").searchData;
-                    break;
-                default:
-                    data = require("@/lib/searchData.en").searchData;
-            }
-        } catch (error) {
-            console.error(`Failed to load search data for locale ${locale}:`, error);
-            // Fallback to English
-            data = require("@/lib/searchData.en").searchData;
-        }
-
         // Initialize Fuse instance with locale-specific data
         return new Fuse(data, fuseOptions);
     }, [locale]);
@@ -174,7 +168,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 <div className="max-h-[400px] overflow-y-auto">
                     {query.length >= 2 && results.length === 0 && (
                         <div className="px-4 py-8 text-center text-zinc-500">
-                            {t("noResults")} "{query}"
+                            {t("noResults")} &quot;{query}&quot;
                         </div>
                     )}
 
