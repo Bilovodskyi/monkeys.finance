@@ -3,10 +3,11 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, ExternalLink } from "lucide-react";
 import { CustomButton } from "@/components/CustomButton";
 import { parseIsoToDateTime } from "@/lib/utils";
 import { useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
 
 interface PlanClientProps {
     heading: string;
@@ -162,10 +163,6 @@ export function PlanClient({
                             </li>
                             <li className="flex items-center gap-2">
                                 <Check className="w-4 h-4" />
-                                {t("features.unlimitedBacktests")}
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <Check className="w-4 h-4" />
                                 {t("features.unlimitedNotifications")}
                             </li>
                             <li className="flex items-center gap-2">
@@ -221,10 +218,6 @@ export function PlanClient({
                             </li>
                             <li className="flex items-center gap-2">
                                 <Check className="w-4 h-4" />
-                                {t("features.unlimitedBacktests")}
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <Check className="w-4 h-4" />
                                 {t("features.unlimitedNotifications")}
                             </li>
                             <li className="flex items-center gap-2">
@@ -244,6 +237,14 @@ export function PlanClient({
                     </div>
                 </div>
             )}
+            <Link 
+                href={`https://docs.monkeys.finance/${locale}/payments`} 
+                target="_blank" 
+                className="hidden md:flex text-sm text-secondary hover:text-highlight hover:underline transition-colors mt-6"
+            >
+                {t("learnMorePayments")}
+                <ExternalLink className="w-4 h-4 ml-1" />
+            </Link>
         </div>
     );
 }

@@ -138,7 +138,7 @@ export default function SideMenu() {
                             </span>
                         </div>
                     </div>
-                     <div
+                     {/* <div
                         className={`flex min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${
                             activeTab === "real-price"
                                 ? "border border-zinc-800 bg-active-tab text-white"
@@ -159,7 +159,7 @@ export default function SideMenu() {
                                 Real Price
                             </span>
                         </div>
-                    </div>
+                    </div> */}
                     <div
                         className={`flex  min-w-[36px] min-h-[36px] items-center justify-start px-2 gap-2 shrink-0 cursor-pointer ${
                             activeTab === "history"

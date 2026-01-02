@@ -7,6 +7,7 @@ import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropd
 import { CustomButton } from "@/components/CustomButton";
 import Link from "next/link";
 import MetaballsLoader from "@/components/Loader";
+import { ExternalLink } from "lucide-react";
 
 export default function Instances() {
     const t = useTranslations("instances");
@@ -68,13 +69,6 @@ export default function Instances() {
                             {t("instanceDescription")}
                         </p>
                         <div className="flex items-center gap-4 mt-6">
-                             <Link 
-                                href={`https://docs.monkeys.finance/${locale}/instances`} 
-                                target="_blank" 
-                                className="text-sm text-secondary hover:text-highlight hover:underline transition-colors"
-                            >
-                                {t("whatIsInstance")}
-                            </Link>
                             <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
                                 <CustomButton isBlue={false}>
                                     {t("addInstance")}
@@ -82,9 +76,13 @@ export default function Instances() {
                             </CreateInstanceSheet>
                            
                         </div>
-                        <p className="text-xs text-tertiary text-center mt-6">
-                            {t("visitDocumentation")}
-                        </p>
+                       <Link 
+                                href={`https://docs.monkeys.finance/${locale}/instances`} 
+                                target="_blank" 
+                                className="flex text-sm text-secondary hover:text-highlight hover:underline transition-colors mt-6">
+                                {t("whatIsInstance")}
+                                <ExternalLink className="w-4 h-4 ml-1" />
+                            </Link>
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2 px-6 md:px-0">
@@ -115,9 +113,11 @@ export default function Instances() {
                                     <Link 
                                         href={`https://docs.monkeys.finance/${locale}/instances`} 
                                         target="_blank" 
-                                        className="text-sm text-secondary hover:text-highlight hover:underline transition-colors"
+                                        className="hidden md:flex text-sm text-secondary hover:text-highlight hover:underline transition-colors"
                                     >
                                         {t("whatIsInstance")}
+                                <ExternalLink className="w-4 h-4 ml-1" />
+
                                     </Link>
                                     <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
                                         <CustomButton isBlue={false}>

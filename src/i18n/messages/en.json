@@ -53,7 +53,7 @@
         "tradingJournal": {
             "label": "Trading Journal",
             "title": "Trading Journal",
-            "description": "We keep track of all our trades in a trading journal."
+            "description": "Keep track of all trades in the trading journal."
         },
         "backtestModel": {
             "label": "Backtest",
@@ -224,15 +224,15 @@
         "monthlyShort": "mo",
         "yearlyShort": "y",
         "features": {
-            "algorithms": "2 powerful algorithms",
+            "algorithms": "Trend V3 algorithm",
             "mlModels": "ML models",
             "tradingBot": "Trading bot",
-            "unlimitedInstances": "Unlimited instances",
-            "unlimitedBacktests": "Unlimited backtests",
-            "unlimitedNotifications": "Unlimited notifications",
+            "unlimitedInstances": "3 instances",
+            "unlimitedNotifications": "Notifications",
             "supportProject": "Support the project"
         },
-        "selectPlan": "Select plan"
+        "selectPlan": "Select plan",
+        "learnMorePayments": "Learn more about payments"
     },
     "entitlements": {
         "loading": "Loading...",
@@ -251,6 +251,19 @@
         "searchPlaceholder": "Find anything...",
         "settingUpAccount": "Setting up your account...",
         "errorOccurred": "An error occurred"
+    },
+    "search": {
+        "placeholder": "Search...",
+        "noResults": "No results found for",
+        "typeToSearch": "Type at least 2 characters to search",
+        "exampleBitcoin": "bitcoin",
+        "exampleInstance": "instance",
+        "exampleBacktest": "backtest",
+        "exampleMl": "ML",
+        "navigate": "to navigate",
+        "open": "to open",
+        "close": "to close",
+        "docs": "Documentation"
     },
     "instances": {
         "loadingTitle": "Loading your account",
@@ -329,7 +342,7 @@
             "credentialsRequired": "Please provide both API key and secret for this exchange",
             "encryptionFailed": "Failed to encrypt credentials. Please try again",
             "saveFailed": "Failed to save credentials. Please try again",
-            "leverageWarning": "Please manually set leverage on your exchange to x1. All backtests were performed with x1 leverage.",
+            "leverageWarning": "Set your leverage manually on your exchange before starting the bot. Make sure you have enough USDC available to open positions.",
             "validPositiveNumber": "Must be a valid positive number",
             "minimumPositionSize": "Minimum position size is $20 USDC",
             "duplicateInstance": "You already have an instance with this strategy, instrument, and exchange"
@@ -398,7 +411,9 @@
             "instrument": "Instrument",
             "createdAt": "Created At",
             "actions": "Actions"
-        }
+        },
+        "howToSetUpNotifications": "How to set up notifications?",
+        "learnMoreNotifications": "Learn more about notifications"
     },
     "addNotificationSheet": {
         "titleAdd": "Add Notification",
@@ -652,7 +667,8 @@
             "line2": "Flip price might change based on current market conditions.",
             "line3": "Check happens every 4 hours.",
             "lastUpdated": "Last updated:"
-        }
+        },
+        "learnAboutAlgorithms": "Learn about algorithms. And why only those instruments are available."
     },
     "legalTabs": {
         "tos": "Terms of Service",

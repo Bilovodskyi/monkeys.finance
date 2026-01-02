@@ -1,44 +1,44 @@
 {
     "hero": {
-        "badge": "Rendimiento de algoritmo mejorado con ML",
+        "badge": "Rendimiento del algoritmo mejorado con ML",
         "titleLine1": "Señales, ML, Ejecución",
-        "titleLine2": "para Trading de Criptomonedas",
-        "description": "Comercio algorítmico, impulsado por aprendizaje automático — integrado con tu intercambio.",
+        "titleLine2": "para trading de criptomonedas",
+        "description": "Trading algorítmico, impulsado por aprendizaje automático — integrado con tu exchange.",
         "startTradingButton": "Comenzar a comerciar",
         "aboutButton": "Acerca de",
-        "supportedExchanges": "Intercambios compatibles:",
-        "supportedExchangesSubtext": "más próximamente",
+        "supportedExchanges": "Exchanges compatibles:",
+        "supportedExchangesSubtext": "próximamente habrá más",
         "steps": {
             "algorithms": "Múltiples algoritmos personalizados",
             "ml": "Filtrado por modelos de aprendizaje automático",
-            "backtest": "Backtests para evaluar rendimiento"
+            "backtest": "Backtests para evaluar el rendimiento"
         }
     },
     "heroAnimation": {
         "data": {
             "label": "Datos",
-            "title": "Obtener datos",
-            "description": "Estamos obteniendo datos financieros de los intercambios de criptomonedas. Todos los indicadores y algoritmos se calculan dentro de la aplicación."
+            "title": "Obtención de datos",
+            "description": "Obtenemos datos financieros de exchanges de criptomonedas. Todos los indicadores y algoritmos se calculan dentro de la aplicación."
         },
         "algorithm": {
             "label": "Algoritmo",
             "title": "Algoritmos personalizados",
-            "description": "Transformamos +10 años de experiencia comercial en algoritmos."
+            "description": "Convertimos más de 10 años de experiencia en trading en algoritmos."
         },
         "backtest": {
             "label": "Backtesting",
-            "title": "Probar algoritmo",
-            "description": "Pruebe los algoritmos para ver el rendimiento de cada algoritmo. Y elija el mejor."
+            "title": "Pruebas del algoritmo",
+            "description": "Prueba los algoritmos para ver el rendimiento de cada uno y elige el mejor."
         },
         "decision": {
             "label": "Decisión",
-            "title": "¿Comerciamos?",
-            "description": "Nuestro modelo de aprendizaje automático ayuda a mejorar el rendimiento del algoritmo. Y toma decisiones de comerciar o no."
+            "title": "¿Operamos?",
+            "description": "Nuestro modelo de aprendizaje automático ayuda a mejorar el rendimiento del algoritmo y decide si operar o no."
         },
         "cryptoExchange": {
-            "label": "Intercambio de Cripto",
-            "title": "Intercambio de Cripto",
-            "description": "El bot de comercio abre y cierra posiciones en el intercambio de criptomonedas automáticamente."
+            "label": "Exchange",
+            "title": "Exchange",
+            "description": "El bot abre y cierra posiciones automáticamente en el exchange."
         },
         "trainClassifier": {
             "label": "Entrenar clasificador",
@@ -51,14 +51,14 @@
             "description": "El modelo entrenado se utiliza para detectar señales débiles generadas por los algoritmos."
         },
         "tradingJournal": {
-            "label": "Diario de Comercio",
-            "title": "Diario de Comercio",
-            "description": "Mantenemos un registro de todas nuestras operaciones en un diario de comercio."
+            "label": "Diario de trading",
+            "title": "Diario de trading",
+            "description": "Lleva el registro de todas tus operaciones en el diario de trading."
         },
         "backtestModel": {
             "label": "Backtesting",
-            "title": "Probar modelo entrenado",
-            "description": "Pruebe el modelo entrenado para ver cómo funciona con diferentes parámetros."
+            "title": "Pruebas del modelo entrenado",
+            "description": "Prueba el modelo entrenado para ver cómo funciona con distintos parámetros."
         },
         "indicators": {
             "label": "Indicadores",
@@ -66,7 +66,7 @@
             "description": "Usamos indicadores para entrenar modelos e identificar puntos débiles en los algoritmos."
         },
         "financialData": {
-            "label": "Datos Financieros",
+            "label": "Datos financieros",
             "title": "Datos Financieros",
             "description": "Usamos datos financieros para entrenar modelos e identificar puntos débiles en los algoritmos."
         },
@@ -74,30 +74,30 @@
     },
     "sphere": {
         "title": "Incorpora ML a tu trading",
-        "description": "Nuestros modelos de aprendizaje automático están entrenados en miles de operaciones para mejorar el rendimiento del algoritmo."
+        "description": "Nuestros modelos de aprendizaje automático se entrenan con miles de operaciones para mejorar el rendimiento del algoritmo."
     },
     "howItWorks": {
         "title": "Cómo",
         "titleHighlight": "Comenzar",
         "step1": {
-            "title": "Inicia sesión o crea una cuenta para comenzar",
+            "title": "Inicia sesión o crea una cuenta",
             "description": "Crea una cuenta segura para desbloquear todas las herramientas. Protegemos tu información mediante cifrado para que tus datos permanezcan privados mientras trabajas.",
             "containerTitle": "Inicia sesión o crea una cuenta"
         },
         "step2": {
-            "title": "Elige el algoritmo y la criptomoneda para operar",
+            "title": "Elige el algoritmo y la criptomoneda",
             "description": "Elige un algoritmo, luego una criptomoneda y prueba el par. Puedes explorar diferentes combinaciones y comparar resultados.",
             "containerTitle": "Elige algoritmo e instrumento"
         },
         "step3": {
             "title": "Conéctate a tu intercambio de criptomonedas",
-            "description": "Conecta tu exchange para habilitar la ejecución automatizada. Soportamos varios exchanges populares y estamos agregando más. También puedes ejecutar señales sin conectar un exchange.",
+            "description": "Conecta tu exchange para habilitar la ejecución automatizada. Admitimos varios exchanges populares y añadimos más continuamente. También puedes recibir señales sin conectar un exchange.",
             "containerTitle": "Conéctate al intercambio de cripto"
         },
         "step4": {
             "title": "Habilita el trading automatizado",
             "description": "Configura tus parámetros y elige si deseas ejecutar operaciones automáticamente o recibir notificaciones. El sistema funciona continuamente y sigue tu configuración.",
-            "containerTitle": "¡Todo listo! Ahora el bot operará por ti"
+            "containerTitle": "¡Todo listo! El bot operará por ti"
         }
     },
     "footer": {
@@ -110,16 +110,16 @@
         "tagline": "Plataforma de trading para comercio automatizado de criptomonedas",
         "products": {
             "title": "Productos",
-            "aiInvestor": "AI Inversor",
-            "aiJournal": "Diario de Trading AI",
-            "competition": "Competencia de Trading"
+            "aiInvestor": "Inversor con IA",
+            "aiJournal": "Diario de trading con IA",
+            "competition": "Competición de trading"
         },
         "tools": {
             "title": "Herramientas",
             "algorithms": "Algoritmos",
             "backtesting": "Backtesting",
             "ml": "Aprendizaje Automático",
-            "bot": "Bot de Trading"
+            "bot": "Bot de trading"
         },
         "legal": {
             "title": "Legal",
@@ -134,7 +134,7 @@
             "contact": "Contacto"
         },
         "copyright": "© 2025 Monkeys Finance. Todos los derechos reservados.",
-        "systemStatus": "Todos los sistemas operativos."
+        "systemStatus": "Todos los sistemas están operativos."
     },
     "reviews": {
         "title": "Lo que nuestros",
@@ -165,13 +165,13 @@
         }
     },
     "sideMenu": {
-        "myInstances": "Mis Instancias",
+        "myInstances": "Mis instancias",
         "algorithms": "Algoritmos",
         "history": "Historial",
         "backtest": "Backtesting",
         "apiKeys": "Claves API",
         "notifications": "Notificaciones",
-        "managePlan": "Gestionar Mi Plan",
+        "managePlan": "Gestionar mi plan",
         "plan": "Plan",
         "safety": "Seguridad",
         "documentation": "Documentación"
@@ -190,7 +190,7 @@
             "successUpdate": "Credenciales actualizadas exitosamente",
             "successSave": "Credenciales guardadas exitosamente"
         },
-        "exchange": "Intercambio",
+        "exchange": "Exchange",
         "selectPlaceholder": "Seleccionar...",
         "apiKey": "Clave API",
         "enterApiKey": "Ingresa clave API",
@@ -198,13 +198,13 @@
         "enterApiSecret": "Ingresa secreto API",
         "passphrase": "Frase de contraseña",
         "passphraseOptional": "(opcional)",
-        "enterPassphrase": "Ingresa frase de contraseña (si es requerida)",
+        "enterPassphrase": "Ingresa la frase de contraseña (si es necesario)",
         "submitting": "Enviando...",
         "clear": "Limpiar",
         "errors": {
             "required": "Este campo es obligatorio",
             "unexpected": "Ocurrió un error inesperado. Por favor intenta de nuevo",
-            "credentialsRequired": "Por favor proporciona la clave API y el secreto para este exchange",
+            "credentialsRequired": "Por favor, proporciona la clave API y el secreto de este exchange",
             "encryptionFailed": "Error al cifrar las credenciales. Inténtalo de nuevo",
             "saveFailed": "Error al guardar las credenciales. Inténtalo de nuevo"
         }
@@ -222,28 +222,28 @@
         "excVat": "sin IVA",
         "including": "Incluye",
         "monthlyShort": "mes",
-        "yearlyShort": "a",
+        "yearlyShort": "año",
         "features": {
-            "algorithms": "2 algoritmos potentes",
+            "algorithms": "Algoritmo Trend V3",
             "mlModels": "Modelos ML",
             "tradingBot": "Bot de trading",
-            "unlimitedInstances": "Instancias ilimitadas",
-            "unlimitedBacktests": "Backtests ilimitados",
-            "unlimitedNotifications": "Notificaciones ilimitadas",
+            "unlimitedInstances": "3 instancias",
+            "unlimitedNotifications": "Notificaciones",
             "supportProject": "Apoyar el proyecto"
         },
-        "selectPlan": "Seleccionar plan"
+        "selectPlan": "Seleccionar plan",
+        "learnMorePayments": "Más información sobre los pagos"
     },
     "entitlements": {
         "loading": "Cargando...",
         "errorOccurred": "Ocurrió un error",
-        "proPlanActive": "Pro plan - activo",
-        "proPlanCanceled": "Pro plan - cancelado",
+        "proPlanActive": "Plan Pro activo",
+        "proPlanCanceled": "Plan Pro cancelado",
         "proInactive": "Pro (inactivo)",
-        "proTrialDaysLeft": "Pro Trial – quedan {days} {daysWord}",
-        "proTrialOneDayLeft": "Pro Trial – queda 1 día",
-        "proTrialEndsToday": "Pro Trial – termina hoy",
-        "freeTrialEnded": "Trial terminado",
+        "proTrialDaysLeft": "Pro Trial — quedan {days} {daysWord}",
+        "proTrialOneDayLeft": "Pro Trial — queda 1 día",
+        "proTrialEndsToday": "Pro Trial — termina hoy",
+        "freeTrialEnded": "Prueba finalizada",
         "day": "día",
         "days": "días"
     },
@@ -251,6 +251,19 @@
         "searchPlaceholder": "Buscar cualquier cosa...",
         "settingUpAccount": "Configurando tu cuenta...",
         "errorOccurred": "Ocurrió un error"
+    },
+    "search": {
+        "placeholder": "Buscar...",
+        "noResults": "No se encontraron resultados para:",
+        "typeToSearch": "Escribe al menos 2 caracteres para buscar",
+        "exampleBitcoin": "bitcoin",
+        "exampleInstance": "instancia",
+        "exampleBacktest": "backtest",
+        "exampleMl": "ML",
+        "navigate": "navegar",
+        "open": "abrir",
+        "close": "cerrar",
+        "docs": "Documentación"
     },
     "instances": {
         "loadingTitle": "Cargando tu cuenta",
@@ -271,7 +284,7 @@
         "statusActive": "Activa",
         "statusPaused": "Pausada",
         "limitBanner": {
-            "line1": "Sólo puedes tener hasta 3 instancias.",
+            "line1": "Solo puedes tener hasta 3 instancias.",
             "line2": "Estamos trabajando para aumentar este límite."
         },
         "tableHeaders": {
@@ -286,7 +299,7 @@
             "account": "Cuenta"
         },
         "instances": "Instancias",
-        "instanceCount": "Tienes {count} instancia(s).",
+        "instanceCount": "Tienes {count} instancia(s)",
         "createNewInstance": "Crear nueva instancia",
         "editInstance": "Editar instancia",
         "configureDescription": "Configura la estrategia y el intercambio para esta instancia. Se ejecutará en la nube.",
@@ -329,8 +342,8 @@
             "credentialsRequired": "Por favor proporciona la clave API y el secreto para este exchange",
             "encryptionFailed": "Error al cifrar las credenciales. Inténtalo de nuevo",
             "saveFailed": "Error al guardar las credenciales. Inténtalo de nuevo",
-            "leverageWarning": "Por favor, configure manualmente el apalancamiento en su exchange a x1. Todas las pruebas retrospectivas se realizaron con apalancamiento x1.",
-            "validPositiveNumber": "Debe ser un número positivo válido",
+            "leverageWarning": "Antes de iniciar el bot, configura manualmente el apalancamiento en tu exchange. Asegúrate de tener suficiente USDC disponible para abrir posiciones.",
+            "validPositiveNumber": "Debe ser un número positivo",
             "minimumPositionSize": "El tamaño mínimo de la posición es de $20 USDC",
             "duplicateInstance": "Ya tienes una instancia con esta estrategia, instrumento e intercambio"
         },
@@ -382,9 +395,9 @@
         "errorTitle": "Error al obtener tus datos",
         "errorDescription": "Inténtalo de nuevo. Si el problema continúa, contacta al soporte.",
         "emptyTitle": "Agregar notificación",
-        "emptyDescription": "Conecta tu proveedor de notificaciones para recibir avisos en tiempo real sobre las actividades de tu bot de trading, incluidas ejecuciones, rendimiento y alertas importantes.",
+        "emptyDescription": "Conecta un proveedor de notificaciones para recibir avisos en tiempo real sobre la actividad de tu bot, incluidas ejecuciones, rendimiento y alertas importantes.",
         "emptyButton": "Agregar notificación",
-        "visitDocumentation": "Visitar documentación",
+        "visitDocumentation": "Ver documentación",
         "subscriptionExpiredTitle": "Tu suscripción ha expirado",
         "subscriptionExpiredDescription": "Renueva tu suscripción para crear y administrar instancias.",
         "manageSubscription": "Administrar suscripción",
@@ -398,7 +411,9 @@
             "instrument": "Instrumento",
             "createdAt": "Creada el",
             "actions": "Acciones"
-        }
+        },
+        "howToSetUpNotifications": "¿Cómo configurar las notificaciones?",
+        "learnMoreNotifications": "Más información sobre las notificaciones"
     },
     "addNotificationSheet": {
         "titleAdd": "Agregar notificación",
@@ -414,9 +429,9 @@
         "telegramStep1": "Paso 1. Abre tu aplicación de Telegram",
         "telegramStep2": "Paso 2. Busca {botName}",
         "telegramStep3": "Paso 3. Envía {command}",
-        "telegramStep4": "Paso 4. Recibirás un enlace único que conecta tu cuenta de telegram a nuestro sistema de notificaciones.",
+        "telegramStep4": "Paso 4. ¡Listo! Vuelve aquí y crea la preferencia de notificación.",
         "botNameCopied": "¡Nombre del bot copiado!",
-        "telegramLinked": "✅ Cuenta de Telegram vinculada",
+        "telegramLinked": "✅ Cuenta de Telegram conectada",
         "checkingTelegram": "Verificando estado de Telegram...",
         "buttonCreate": "Crear",
         "buttonSubmitting": "Enviando...",
@@ -488,7 +503,7 @@
         "stat1": "retorno de inversión en Bitcoin (mercado spot)",
         "stat2": "retorno de inversión con nuestro algoritmo y apalancamiento 5x",
         "stat3": "retorno de inversión con nuestro algoritmo y sin apalancamiento",
-        "disclaimer": "* basado en un backtest realizado en el período del 1 de enero de 2025 - 1 de diciembre de 2025 en de Binance.us. Rendimiento hipotético/simulado solo con fines informativos. Se aplican suposiciones; el apalancamiento aumenta el riesgo. No es asesoramiento de inversión."
+        "disclaimer": "* basado en un backtest realizado del 1 de enero de 2025 al 1 de diciembre de 2025 en Binance.us. Rendimiento hipotético/simulado solo con fines informativos. Se aplican suposiciones; el apalancamiento aumenta el riesgo. No es asesoramiento de inversión."
     },
     "chartCompareToBitcoin": {
         "titleFirstLine": "¿Qué pasaría si hubiéramos invertido $100,000 (USD)",
@@ -582,15 +597,15 @@
             },
             "database": {
                 "title": "Base de datos",
-                "description": "Los datos de tu cuenta están protegidos por la misma infraestructura de base de datos utilizada por empresas Fortune 500. Las copias de seguridad automáticas garantizan que nunca perderás datos",
+                "description": "Los datos de tu cuenta están protegidos por la misma infraestructura de base de datos que usan empresas Fortune 500. Las copias de seguridad automáticas ayudan a evitar la pérdida de datos.",
                 "point1": "Protección de datos de nivel empresarial",
                 "point2": "Copias de seguridad automáticas continuas"
             },
             "encryption": {
-                "title": "Encriptación",
-                "description": "Encriptamos tus claves API con encriptación de grado militar antes de almacenarlas, agregando una capa de seguridad adicional sobre la encriptación de la base de datos.",
+                "title": "Cifrado",
+                "description": "Ciframos tus claves API con cifrado de grado militar antes de almacenarlas, agregando una capa de seguridad adicional sobre el cifrado de la base de datos.",
                 "point1": "Claves ilegibles incluso para nosotros",
-                "point2": "Protección de encriptación de doble capa"
+                "point2": "Protección con cifrado en doble capa"
             }
         }
     },
@@ -598,7 +613,7 @@
         "created": "Creado:",
         "updated": "Actualizado:",
         "never": "Nunca",
-        "securityNoteLine1": "Por seguridad, tus credenciales API están encriptadas y ocultas.",
+        "securityNoteLine1": "Por seguridad, tus credenciales API están cifradas y ocultas.",
         "securityNoteLine2": "Solo puedes actualizarlas o eliminarlas.",
         "learnSecurity": "Aprende sobre nuestra seguridad",
         "update": "Actualizar",
@@ -606,7 +621,7 @@
         "deleteTitle": "Eliminar credenciales",
         "deleteConfirm": "¿Estás seguro de que quieres eliminar estas credenciales?",
         "loadingInstances": "Cargando instancias...",
-        "deleteWarning": "⚠️ Esto también eliminará <strong>{count}</strong> instancia{s} activa{s}",
+        "deleteWarning": "⚠️ Esto también eliminará <strong>{count}</strong> instancia{s} activa{s}.",
         "cannotUndo": "Esta acción no se puede deshacer.",
         "deleteButton": "Eliminar credenciales",
         "deleteButtonWithInstances": "Eliminar credenciales y {count} instancia{s}",
@@ -633,26 +648,27 @@
         "signalPrice": "Precio de señal:",
         "signalGenerated": "Señal generada:",
         "currentPrice": "Precio actual",
-        "flipPrice": "Precio de cambio",
+        "flipPrice": "Precio de giro",
         "mlBadProbability": "Probabilidad ML de mala señal",
-        "predictedRemaining": "Restante",
+        "predictedRemaining": "Tiempo restante",
         "pBadDescription": "pBad - probabilidad de que la señal sea mala",
-        "remainingDescription": "Restante - tiempo restante predicho en consolidación",
+        "remainingDescription": "Tiempo restante: tiempo estimado que queda en consolidación",
         "seeOnChart": "Ver en el gráfico",
         "chart": {
             "title": "Gráfico de {instrument} - {interval}",
             "description": "Datos de precios en tiempo real de Binance.us",
-            "flipPriceLabel": "Precio de cambio",
+            "flipPriceLabel": "Precio de giro",
             "buySignalEntry": "Entrada de señal de compra",
             "sellSignalEntry": "Entrada de señal de venta",
             "signalEntry": "Entrada de señal"
         },
         "footer": {
-            "line1": "Si el precio cruza el precio de cambio, se generará la señal.",
+            "line1": "Si el precio cruza el precio de giro, se generará la señal.",
             "line2": "El precio de cambio puede variar según las condiciones actuales del mercado.",
             "line3": "La verificación ocurre cada 4 horas.",
             "lastUpdated": "Última actualización:"
-        }
+        },
+        "learnAboutAlgorithms": "Aprende sobre los algoritmos y por qué solo estos instrumentos están disponibles."
     },
     "legalTabs": {
         "tos": "Términos de Servicio",

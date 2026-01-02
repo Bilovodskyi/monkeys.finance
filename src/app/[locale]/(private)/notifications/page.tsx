@@ -8,9 +8,11 @@ import { DeleteNotification } from "@/components/private/notifications/DeleteNot
 import { UnlinkTelegramAccount } from "@/components/private/notifications/UnlinkTelegramAccount";
 import { getActiveSubscriptionStatusForUI } from "@/lib/entitlements";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { ExternalLink } from "lucide-react";
 
 export default async function notifications() {
+    const locale = await getLocale();
     const t = await getTranslations("notificationsPage");
     
     const { userId: clerkId } = await auth();
@@ -67,9 +69,14 @@ export default async function notifications() {
                                 </CustomButton>
                             </AddNotificationSheet>
                         </div>
-                        <p className="text-xs text-tertiary text-center mt-6">
-                            {t("visitDocumentation")}
-                        </p>
+                        <Link 
+                            href={`https://docs.monkeys.finance/${locale}/notifications`} 
+                            target="_blank" 
+                            className="flex text-sm text-secondary hover:text-highlight hover:underline transition-colors mt-6"
+                        >
+                            {t("howToSetUpNotifications")}
+                            <ExternalLink className="w-4 h-4 ml-1" />
+                        </Link>
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center h-full md:w-1/4 mx-auto gap-2 px-6 md:px-0">
@@ -97,11 +104,21 @@ export default async function notifications() {
                         </h1>
                         {data.length < 3 ? (
                             hasActiveSubscription ? (
+                                 <div className="flex items-center gap-4">
+                                    <Link 
+                                        href={`https://docs.monkeys.finance/${locale}/notifications`} 
+                                        target="_blank" 
+                                        className="hidden md:flex text-sm text-secondary hover:text-highlight hover:underline transition-colors"
+                                    >
+                                        {t("learnMoreNotifications")}
+                                        <ExternalLink className="w-4 h-4 ml-1" />
+                                    </Link>
                                 <AddNotificationSheet>
                                     <CustomButton isBlue={false}>
                                         {t("emptyButton")}
                                     </CustomButton>
                                 </AddNotificationSheet>
+                                </div>
                             ) : (
                                 <div>
                                     <h1>{t("subscriptionExpiredTitle")}</h1>

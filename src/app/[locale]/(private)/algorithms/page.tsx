@@ -1,18 +1,37 @@
 import { db } from "@/drizzle/db";
-import { ArrowUpDown, TrendingUp, TrendingDown } from "lucide-react";
+import { ArrowUpDown, TrendingUp, TrendingDown, ExternalLink } from "lucide-react";
 import { AlgorithmChart } from "@/components/private/algorithms/AlgorithmChart";
 import { LivePrice } from "@/components/private/algorithms/LivePrice";
 import { LivePercentageChange } from "@/components/private/algorithms/LivePercentageChange";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { getActiveSubscriptionStatusForUI } from "@/lib/entitlements";
+import { redirect } from "next/navigation";
 
 export default async function Algorithms() {
+    const locale = await getLocale();
     const t = await getTranslations("algorithms");
+    
+    // Protect algorithms page - redirect if no active subscription
+    const { hasActiveSubscription } = await getActiveSubscriptionStatusForUI();
+    if (!hasActiveSubscription) {
+        redirect(`/${locale}/plan`);
+    }
+
     const algorithms = await db.query.SignalStateTable.findMany({
         orderBy: (table, { desc }) => [desc(table.lastUpdated)],
     });
 
     return (
         <div className="flex flex-col h-full">
+            <Link 
+                href={`https://docs.monkeys.finance/${locale}/instruments`} 
+                target="_blank" 
+                className="hidden md:flex text-sm text-secondary hover:text-highlight hover:underline transition-colors place-self-end pr-6 pt-4"
+            >
+                {t("learnAboutAlgorithms")}
+                <ExternalLink className="w-4 h-4 ml-1" />
+            </Link>
             {algorithms.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full w-full max-w-md mx-auto gap-2 px-6">
                     <h1 className="text-lg font-bold">{t("emptyTitle")}</h1>
