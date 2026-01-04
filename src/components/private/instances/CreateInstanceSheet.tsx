@@ -40,15 +40,6 @@ interface CreateInstanceSheetProps {
     onSuccess?: () => void;
 }
 
-const INSTRUMENT_SHORT_NAMES = {
-    Bitcoin: "BTC",
-    Ethereum: "ETH",
-    Solana: "SOL",
-    XRP: "XRP",
-    Dogecoin: "DOGE",
-    "Binance Coin": "BNB",
-};
-
 export function CreateInstanceSheet({
     credentialsStatus,
     children,
@@ -217,9 +208,7 @@ export function CreateInstanceSheet({
 
             // 2. Create/update instance
             const name = [
-                INSTRUMENT_SHORT_NAMES[
-                    values.instrument as keyof typeof INSTRUMENT_SHORT_NAMES
-                ] || "-",
+                values.instrument || "-",
                 values.exchange || "-",
                 values.strategy === "ribbon" ? "1H" : "4H",
                 values.strategy || "-",

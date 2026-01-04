@@ -10,6 +10,9 @@ import { getActiveSubscriptionStatusForUI } from "@/lib/entitlements";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ExternalLink } from "lucide-react";
+import { SYMBOL_TO_INSTRUMENT } from "@/data/constants";
+
+const MAX_NOTIFICATIONS = 4;
 
 export default async function notifications() {
     const locale = await getLocale();
@@ -102,7 +105,7 @@ export default async function notifications() {
                         <h1 className="text-lg font-bold">
                             {t("accountsTitle")}
                         </h1>
-                        {data.length < 3 ? (
+                        {data.length < MAX_NOTIFICATIONS ? (
                             hasActiveSubscription ? (
                                  <div className="flex items-center gap-4">
                                     <Link 
@@ -181,6 +184,7 @@ export default async function notifications() {
                                 <h1 className="text-lg font-bold">
                                     {t("notificationsCount", {
                                         count: data.length,
+                                        max: MAX_NOTIFICATIONS,
                                     })}
                                 </h1>
                             </div>
@@ -224,7 +228,7 @@ export default async function notifications() {
                                             {notification.strategy}
                                         </div>
                                         <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
-                                            {notification.instrument}
+                                            {SYMBOL_TO_INSTRUMENT[notification.instrument] || notification.instrument}
                                         </div>
                                         <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
                                             {notification.createdAt.toLocaleDateString('en-CA')}

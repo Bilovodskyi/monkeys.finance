@@ -402,7 +402,7 @@
         "subscriptionExpiredDescription": "Renueva tu suscripción para crear y administrar instancias.",
         "manageSubscription": "Administrar suscripción",
         "accountsTitle": "Cuentas 1/2",
-        "notificationsCount": "Notificaciones {count}/3",
+        "notificationsCount": "Notificaciones {count}/{max}",
         "limitReached": "Límite alcanzado",
         "tableHeaders": {
             "provider": "Proveedor",
@@ -651,6 +651,7 @@
         "flipPrice": "Precio de giro",
         "mlBadProbability": "Probabilidad ML de mala señal",
         "predictedRemaining": "Tiempo restante",
+        "mlNotAvailable": "El filtrado ML no está disponible para este instrumento",
         "pBadDescription": "pBad - probabilidad de que la señal sea mala",
         "remainingDescription": "Tiempo restante: tiempo estimado que queda en consolidación",
         "seeOnChart": "Ver en el gráfico",

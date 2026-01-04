@@ -14,6 +14,8 @@ export type BacktestDataByLeverage = Record<string, Record<number, LeverageTrade
 const SYMBOL_TO_INSTRUMENT: Record<string, string> = {
     BTC: "Bitcoin",
     BNB: "Binance Coin",
+    ETH: "Ethereum",
+    XRP: "Ripple"
 };
 
 const INSTRUMENT_TO_SYMBOL: Record<string, string> = Object.fromEntries(

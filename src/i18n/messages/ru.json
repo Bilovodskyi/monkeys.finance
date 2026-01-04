@@ -402,7 +402,7 @@
         "subscriptionExpiredDescription": "Продлите подписку, чтобы создавать и управлять экземплярами.",
         "manageSubscription": "Управлять подпиской",
         "accountsTitle": "Аккаунты (1/2)",
-        "notificationsCount": "Уведомления {count}/3",
+        "notificationsCount": "Уведомления {count}/{max}",
         "limitReached": "Достигнут лимит",
         "tableHeaders": {
             "provider": "Провайдер",
@@ -651,6 +651,7 @@
         "flipPrice": "Цена разворота",
         "mlBadProbability": "ML вероятность плохого сигнала",
         "predictedRemaining": "Остаток",
+        "mlNotAvailable": "ML-фильтрация недоступна для этого инструмента",
         "pBadDescription": "pBad — вероятность «плохого» сигнала",
         "remainingDescription": "Остаток — прогноз оставшегося времени в консолидации",
         "seeOnChart": "Смотреть на графике",

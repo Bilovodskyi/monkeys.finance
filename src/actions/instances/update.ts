@@ -6,6 +6,7 @@ import { db } from "@/drizzle/db";
 import { InstanceTable } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 import { hasEntitlement } from "@/lib/has-entitelment-client";
+import { INSTRUMENT_TO_SYMBOL, type Instrument } from "@/data/constants";
 
 const inputSchema = z.object({
     id: z.string().min(1),
@@ -79,7 +80,7 @@ export async function updateInstance(input: unknown): Promise<UpdateResult> {
         .update(InstanceTable)
         .set({
             strategy: data.strategy,
-            instrument: data.instrument,
+            instrument: INSTRUMENT_TO_SYMBOL[data.instrument as Instrument] || data.instrument,
             exchange,
             name: data.name,
             positionSizeUSDT: data.positionSizeUSDT,

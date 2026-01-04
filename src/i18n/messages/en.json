@@ -402,7 +402,7 @@
         "subscriptionExpiredDescription": "Please renew your subscription to create and manage instances.",
         "manageSubscription": "Manage Subscription",
         "accountsTitle": "Accounts 1/2",
-        "notificationsCount": "Notifications {count}/3",
+        "notificationsCount": "Notifications {count}/{max}",
         "limitReached": "Limit reached",
         "tableHeaders": {
             "provider": "Provider",
@@ -651,6 +651,7 @@
         "flipPrice": "Flip Price",
         "mlBadProbability": "ML Bad Probability",
         "predictedRemaining": "Remaining",
+        "mlNotAvailable": "ML filtering is not available for this instrument",
         "pBadDescription": "pBad - probability of signal being bad",
         "remainingDescription": "Remaining - predicted remaining time in consolidation",
         "seeOnChart": "See on the chart",

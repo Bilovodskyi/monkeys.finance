@@ -55,9 +55,9 @@ export default async function Algorithms() {
                         return (
                             <div
                                 key={algorithm.id}
-                                className="border border-zinc-800">
+                                className="border border-zinc-800 flex flex-col justify-between items-center">
                                 {/* Main Content - Split into Left and Right */}
-                                <div className="p-4 md:p-6 flex flex-col md:flex-row items-start justify-between gap-6">
+                                <div className="p-4 md:p-6 flex flex-1 flex-col md:flex-row items-start justify-between gap-6">
                                     {/* Left Side */}
                                     <div className="flex flex-col gap-5 flex-1">
                                         {/* Header */}
@@ -161,7 +161,7 @@ export default async function Algorithms() {
                                         </div>
 
                                         {/* ML Scores */}
-                                        {(algorithm.pBad || algorithm.predRemaining) && (
+                                        {(algorithm.pBad || algorithm.predRemaining) ? (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {algorithm.pBad && (
                                                     <div className="flex flex-col gap-1.5">
@@ -184,6 +184,10 @@ export default async function Algorithms() {
                                                     </div>
                                                 )}
                                             </div>
+                                        ) : (
+                                            <p className="text-xs text-zinc-500 font-medium">
+                                                {t("mlNotAvailable")}
+                                            </p>
                                         )}
                                          </div>
                                     </div>
@@ -222,7 +226,7 @@ export default async function Algorithms() {
                                 
                                 {/* Footer Information */}
                                 <div className="h-[1px] w-full bg-zinc-800" />
-                                <div className="p-4 md:p-6 bg-[rgb(20,20,20)] space-y-2">
+                                <div className="p-4 md:p-6 space-y-2">
                                     <ol className="list-disc ml-3">
                                     <li className="text-sm text-tertiary leading-relaxed">
                                        {t("pBadDescription")}

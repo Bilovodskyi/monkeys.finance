@@ -8,6 +8,9 @@ import { CustomButton } from "@/components/CustomButton";
 import Link from "next/link";
 import MetaballsLoader from "@/components/Loader";
 import { ExternalLink } from "lucide-react";
+import { SYMBOL_TO_INSTRUMENT } from "@/data/constants";
+
+const MAX_INSTANCES = 3;
 
 export default function Instances() {
     const t = useTranslations("instances");
@@ -105,9 +108,9 @@ export default function Instances() {
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-4 md:px-6 pt-4">
                         <h1 className="text-lg font-bold">
-                            {t("instances")} {instances.length}/3
+                            {t("instances")} {instances.length}/{MAX_INSTANCES}
                         </h1>
-                        {instances.length < 3 ? (
+                        {instances.length < MAX_INSTANCES ? (
                             hasActiveSubscription ? (
                                 <div className="flex items-center gap-4">
                                     <Link 
@@ -205,7 +208,7 @@ export default function Instances() {
                                             {instance.isTestnet ? t("accountTypeDemo") : t("accountTypeReal")}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start">
-                                            {instance.instrument === "Binance Coin" ? "BNB" : instance.instrument}
+                                            {SYMBOL_TO_INSTRUMENT[instance.instrument] || instance.instrument}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
                                             {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDC</span>

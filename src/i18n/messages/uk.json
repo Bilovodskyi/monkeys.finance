@@ -87,7 +87,7 @@
         "subscriptionExpiredDescription": "Оновіть підписку, щоб створювати та керувати екземплярами.",
         "manageSubscription": "Керувати підпискою",
         "accountsTitle": "Акаунти (1/2)",
-        "notificationsCount": "Сповіщення {count}/3",
+        "notificationsCount": "Сповіщення {count}/{max}",
         "limitReached": "Ліміт досягнуто",
         "tableHeaders": {
             "provider": "Провайдер",
@@ -651,6 +651,7 @@
         "flipPrice": "Ціна розвороту",
         "mlBadProbability": "ML ймовірність поганого сигналу",
         "predictedRemaining": "Залишилося",
+        "mlNotAvailable": "ML-фільтрація недоступна для цього інструменту",
         "pBadDescription": "pBad - ймовірність поганого сигналу",
         "remainingDescription": "Залишилося — прогнозований час до завершення консолідації",
         "seeOnChart": "Переглянути на графіку",

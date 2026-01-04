@@ -11,6 +11,7 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { hasEntitlement } from "@/lib/has-entitelment-client";
+import { INSTRUMENT_TO_SYMBOL, type Instrument } from "@/data/constants";
 
 // Input validation schema
 const createNotificationSchema = z.object({
@@ -90,7 +91,7 @@ export async function createNotification(
                 userId: user.id,
                 provider: "telegram",
                 providerId: telegramAccountId,
-                instrument,
+                instrument: INSTRUMENT_TO_SYMBOL[instrument as Instrument] || instrument,
                 strategy,
             })
             .returning();

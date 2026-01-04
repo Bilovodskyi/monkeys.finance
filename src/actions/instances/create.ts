@@ -6,6 +6,7 @@ import { db } from "@/drizzle/db";
 import { InstanceTable } from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { hasEntitlement } from "@/lib/has-entitelment-client";
+import { INSTRUMENT_TO_SYMBOL, type Instrument } from "@/data/constants";
 
 const inputSchema = z.object({
     strategy: z.string().min(1),
@@ -82,7 +83,7 @@ export async function createInstance(input: unknown): Promise<CreateResult> {
                 userId: user.id,
                 name: data.name,
                 exchange: data.exchangeLabel,
-                instrument: data.instrument,
+                instrument: INSTRUMENT_TO_SYMBOL[data.instrument as Instrument] || data.instrument,
                 strategy: data.strategy,
                 positionSizeUSDT: data.positionSizeUSDT,
                 isTestnet: data.isTestnet ?? false,
