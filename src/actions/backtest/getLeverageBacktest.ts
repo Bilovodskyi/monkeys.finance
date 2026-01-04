@@ -7,20 +7,12 @@ import { unstable_cache } from "next/cache";
 import s3Client, { S3_BUCKET_NAME } from "@/lib/s3Client";
 import { parseLeverageTradeData } from "@/utils/parseLeverageTradeData";
 import { LeverageTradeData } from "@/types/global";
+import { TICKER_TO_INSTRUMENT } from "@/data/constants";
 
 // Nested data type: instrument -> leverage -> trades
 export type BacktestDataByLeverage = Record<string, Record<number, LeverageTradeData[]>>;
 
-const SYMBOL_TO_INSTRUMENT: Record<string, string> = {
-    BTC: "Bitcoin",
-    BNB: "Binance Coin",
-    ETH: "Ethereum",
-    XRP: "Ripple"
-};
 
-const INSTRUMENT_TO_SYMBOL: Record<string, string> = Object.fromEntries(
-    Object.entries(SYMBOL_TO_INSTRUMENT).map(([k, v]) => [v, k])
-);
 
 /**
  * Get all leverage backtest xlsx files from S3 organized by instrument and leverage
@@ -114,7 +106,7 @@ async function fetchLeverageBacktestFiles(): Promise<BacktestDataByLeverage> {
                 if (!symbolMatch) continue;
 
                 const symbol = symbolMatch[1];
-                const instrumentName = SYMBOL_TO_INSTRUMENT[symbol] || symbol;
+                const instrumentName = TICKER_TO_INSTRUMENT[symbol] || symbol;
 
                 // Extract leverage (e.g., "6" from "_6x_")
                 const leverageMatch = file.filename.match(/_(\d+)x_/);

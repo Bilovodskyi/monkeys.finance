@@ -18,6 +18,14 @@ export const SYMBOL_TO_INSTRUMENT: Record<string, Instrument> = {
     XRPUSDC: "Ripple",
 };
 
+// Ticker to display name mapping (for S3 filenames like BTC-USD, ETH-USD)
+export const TICKER_TO_INSTRUMENT: Record<string, Instrument> = {
+    BTC: "Bitcoin",
+    ETH: "Ethereum",
+    BNB: "BNB",
+    XRP: "Ripple",
+};
+
 export const strategies = ["Trend V3"];
 
 export const exchanges = ["Binance"];
