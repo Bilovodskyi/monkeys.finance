@@ -48,7 +48,7 @@ export default function BacktestTable({
             {/* Selectors Row */}
             <div className="flex flex-wrap gap-8 items-center px-4 md:px-6 pt-6">
                 {/* Instrument Selector */}
-                <div className="flex gap-2 md:gap-4">
+                <div className="flex flex-wrap gap-2 md:gap-4">
                     {instruments.map((instrument) => (
                         <div key={instrument} className="group relative">
                             {selectedInstrument === instrument && (
@@ -71,7 +71,7 @@ export default function BacktestTable({
                 <div className="hidden md:block h-8 w-px bg-zinc-700" />
 
                 {/* Leverage Selector */}
-                <div className="flex gap-2 md:gap-4">
+                <div className="flex flex-wrap gap-2 md:gap-4">
                     {LEVERAGE_LEVELS.map((level) => (
                         <div key={level} className="group relative">
                             {selectedLeverage === level && (
