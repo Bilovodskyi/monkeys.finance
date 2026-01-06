@@ -7,6 +7,7 @@ import { InstanceTable } from "@/drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { hasEntitlement } from "@/lib/has-entitelment-client";
 import { INSTRUMENT_TO_SYMBOL, type Instrument } from "@/data/constants";
+import { checkInstanceStatus } from "./checkStatus";
 
 const inputSchema = z.object({
     strategy: z.string().min(1),
@@ -93,6 +94,9 @@ export async function createInstance(input: unknown): Promise<CreateResult> {
         if (!inserted) {
             return { ok: false, error: "failedToCreate" };
         }
+
+        // Trigger initial health check (skip rate limiting for new instances)
+        await checkInstanceStatus(inserted.id, true);
 
         return { ok: true, id: inserted.id };
     } catch (error: unknown) {

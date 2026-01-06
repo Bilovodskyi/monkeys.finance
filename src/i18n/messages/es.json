@@ -294,10 +294,15 @@
             "instrument": "Instrumento",
             "positionSizeUSDT": "Tamaño de posición",
             "exchange": "Intercambio",
+            "health": "Salud",
             "createdAt": "Fecha de creación",
             "actions": "Acciones",
             "account": "Cuenta"
         },
+        "healthConnected": "Conectado",
+        "healthChecking": "Verificando",
+        "healthNeedsAction": "Requiere acción",
+        "healthError": "Error",
         "instances": "Instancias",
         "instanceCount": "Tienes {count} instancia(s)",
         "createNewInstance": "Crear nueva instancia",
@@ -350,6 +355,20 @@
         "createdError": "Error al crear instancia",
         "updatedError": "Error al actualizar instancia",
         "subscriptionEnded": "Tu suscripción ha finalizado. Actualiza para continuar.",
+        "healthErrorDialog": {
+            "title": "Verificación de salud fallida",
+            "errorDetails": "Detalles del error",
+            "errorCodes": {
+                "INVALID_API_KEY": "Tu clave API no es válida o ha expirado. Actualiza tus credenciales API.",
+                "INVALID_SIGNATURE": "La firma del secreto API no es válida. Vuelve a ingresar tu secreto API.",
+                "INVALID_KEY_FORMAT": "El formato de tu clave API es incorrecto. Verifícala y actualízala.",
+                "INSUFFICIENT_PERMISSIONS": "Tu clave API no tiene los permisos necesarios. Habilita los permisos de trading en tu exchange.",
+                "IP_NOT_WHITELISTED": "Tu IP del servidor no está en la lista blanca. Añade nuestras direcciones IP a la lista blanca de tu exchange.",
+                "NETWORK_ERROR": "Problema de conexión de red. El exchange puede estar temporalmente no disponible.",
+                "RATE_LIMITED": "Demasiadas solicitudes. Espera antes de verificar de nuevo.",
+                "EXCHANGE_ERROR": "El exchange devolvió un error. Inténtalo de nuevo más tarde."
+            }
+        },
         "actionsMenu": {
             "pauseActivate": {
                 "paused": "Instancia pausada",
@@ -369,9 +388,15 @@
                 "invalidId": "ID de instancia inválido",
                 "notFound": "Instancia no encontrada o no accesible"
             },
+            "checkHealth": {
+                "queued": "Verificación de salud iniciada",
+                "rateLimited": "Verificación disponible una vez por hora",
+                "failed": "Error al verificar salud"
+            },
             "items": {
                 "edit": "Editar",
                 "pauseActivate": "Pausar/Activar",
+                "checkHealth": "Verificar Salud",
                 "delete": "Eliminar"
             }
         }

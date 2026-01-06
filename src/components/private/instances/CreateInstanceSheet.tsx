@@ -16,7 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { exchanges, instruments, strategies } from "@/data/constants";
+import { exchanges, instruments, strategies, SYMBOL_TO_INSTRUMENT } from "@/data/constants";
 import { createInstance } from "@/actions/instances/create";
 import { updateInstance } from "@/actions/instances/update";
 import { saveCredentials } from "@/actions/credentials/save";
@@ -32,6 +32,7 @@ import { mapExchangeEnumToLabel } from "@/utils/exchange";
 import type { InstanceRecord } from "@/types/instance";
 import type { CredentialsStatus } from "@/actions/credentials/check";
 import { Checkbox } from "@/components/ui/checkbox";
+import { INSTRUMENT_TO_SYMBOL, type Instrument } from "@/data/constants";
 
 interface CreateInstanceSheetProps {
     credentialsStatus: CredentialsStatus;
@@ -103,7 +104,7 @@ export function CreateInstanceSheet({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             strategy: instance?.strategy || "",
-            instrument: instance?.instrument || "",
+            instrument: SYMBOL_TO_INSTRUMENT[instance?.instrument as string] || "",
             exchange: mapExchangeEnumToLabel(instance?.exchange),
             positionSizeUSDT: instance?.positionSizeUSDT || "",
             apiKey: "",
@@ -146,7 +147,7 @@ export function CreateInstanceSheet({
         if (instance) {
             form.reset({
                 strategy: instance.strategy,
-                instrument: instance.instrument,
+                instrument: SYMBOL_TO_INSTRUMENT[instance.instrument] || instance.instrument,
                 exchange: mapExchangeEnumToLabel(instance.exchange),
                 positionSizeUSDT: instance.positionSizeUSDT,
                 apiKey: "",
@@ -208,7 +209,7 @@ export function CreateInstanceSheet({
 
             // 2. Create/update instance
             const name = [
-                values.instrument || "-",
+                INSTRUMENT_TO_SYMBOL[values.instrument as Instrument].slice(0, 3) || "-",
                 values.exchange || "-",
                 values.strategy === "ribbon" ? "1H" : "4H",
                 values.strategy || "-",

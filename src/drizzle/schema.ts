@@ -4,6 +4,7 @@ import {
     decimal,
     index,
     integer,
+    jsonb,
     pgEnum,
     pgTable,
     text,
@@ -41,6 +42,13 @@ export const positionStatus = pgEnum("position_status", [
 ]);
 
 export const signalType = pgEnum("signal_type", ["buy", "sell", "none"]);
+
+export const instanceHealthStatus = pgEnum("instance_health_status", [
+    "CHECKING",
+    "CONNECTED",
+    "NEEDS_ACTION",
+    "ERROR",
+]);
 
 export const UserTable = pgTable(
     "user",
@@ -352,3 +360,45 @@ export const SignalStateTable = pgTable(
         lastUpdatedIdx: index("signal_state_last_updated_idx").on(table.lastUpdated),
     })
 );
+
+export const InstanceHealthTable = pgTable(
+    "instance_health",
+    {
+        id: uuid("id").defaultRandom().primaryKey(),
+        instanceId: uuid("instance_id")
+            .notNull()
+            .unique()
+            .references(() => InstanceTable.id, { onDelete: "cascade" }),
+
+        status: instanceHealthStatus("status").notNull().default("CHECKING"),
+        errorCode: text("error_code"),
+        
+        lastRequestedAt: timestamp("last_requested_at", { withTimezone: true }), // Set by server action
+        lastCheckedAt: timestamp("last_checked_at", { withTimezone: true }), // Set by worker when finished
+        capabilities: jsonb("capabilities"), // JSON capabilities data
+
+        createdAt: timestamp("created_at", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+        updatedAt: timestamp("updated_at", { withTimezone: true })
+            .defaultNow()
+            .notNull(),
+    },
+    (table) => ({
+        instanceIdIdx: index("instance_health_instance_id_idx").on(table.instanceId),
+        statusIdx: index("instance_health_status_idx").on(table.status),
+        lastRequestedAtIdx: index("instance_health_last_requested_at_idx").on(
+            table.lastRequestedAt
+        ),
+        lastCheckedAtIdx: index("instance_health_last_checked_at_idx").on(
+            table.lastCheckedAt
+        ),
+    })
+);
+
+export const instanceHealthRelations = relations(InstanceHealthTable, ({ one }) => ({
+    instance: one(InstanceTable, {
+        fields: [InstanceHealthTable.instanceId],
+        references: [InstanceTable.id],
+    }),
+}));

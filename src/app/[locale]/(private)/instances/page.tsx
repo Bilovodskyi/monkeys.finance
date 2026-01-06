@@ -1,9 +1,12 @@
 "use client";
 
+import { useMemo } from "react";
 import { useInstancesData } from "@/hooks/useInstancesData";
+import { useHealthPolling } from "@/hooks/useHealthPolling";
 import { useLocale, useTranslations } from "next-intl";
 import { CreateInstanceSheet } from "@/components/private/instances/CreateInstanceSheet";
 import { ActionsDropdownMenu } from "@/components/private/instances/ActionsDropdownMenu";
+import { HealthErrorDialog } from "@/components/private/instances/HealthErrorDialog";
 import { CustomButton } from "@/components/CustomButton";
 import Link from "next/link";
 import MetaballsLoader from "@/components/Loader";
@@ -26,6 +29,18 @@ export default function Instances() {
         error,
         refetch 
     } = useInstancesData();
+
+    // Extract instance IDs for health polling
+    const instanceIds = useMemo(() => instances.map(i => i.id), [instances]);
+    
+    // Health polling hook - auto-polls when any instance has CHECKING status
+    const { healthMap, refetchHealth } = useHealthPolling(instanceIds);
+
+    // Combined refetch to refresh both instances and health
+    const handleRefetch = () => {
+        refetch();
+        refetchHealth();
+    };
 
     // Loading state
     if (isLoading) {
@@ -72,7 +87,7 @@ export default function Instances() {
                             {t("instanceDescription")}
                         </p>
                         <div className="flex items-center gap-4 mt-6">
-                            <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
+                            <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={handleRefetch}>
                                 <CustomButton isBlue={false}>
                                     {t("addInstance")}
                                 </CustomButton>
@@ -122,7 +137,7 @@ export default function Instances() {
                                 <ExternalLink className="w-4 h-4 ml-1" />
 
                                     </Link>
-                                    <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={refetch}>
+                                    <CreateInstanceSheet credentialsStatus={credentialsStatus} onSuccess={handleRefetch}>
                                         <CustomButton isBlue={false}>
                                             {t("addInstance")}
                                         </CustomButton>
@@ -147,30 +162,32 @@ export default function Instances() {
                         )}
                     </div>
                     <div className="flex-1 p-4 md:p-6 flex flex-col overflow-hidden">
-                        {/* Sticky Header */}
-                        <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 backdrop-blur-md">
-                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
+                        <div className="grid grid-cols-4 md:grid-cols-9 xl:grid-cols-11 border border-zinc-800 backdrop-blur-md">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 hidden md:block text-tertiary text-center md:text-left">
                                 {t("tableHeaders.status")}
                             </div>
-                            <div className="col-span-3 border-r border-zinc-800 px-4 py-3 hidden xl:block text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
+                                {t("tableHeaders.health")}
+                            </div>
+                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 hidden xl:block text-tertiary">
                                 {t("tableHeaders.name")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary truncate">
                                 {t("tableHeaders.strategy")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
                                 {t("tableHeaders.account")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left truncate">
                                 {t("tableHeaders.instrument")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary truncate">
                                 {t("tableHeaders.positionSizeUSDT")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
                                 {t("tableHeaders.exchange")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary truncate">
                                 {t("tableHeaders.createdAt")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
@@ -180,25 +197,63 @@ export default function Instances() {
 
                         {/* Scrollable Content */}
                         <div className="flex-1 overflow-y-auto min-h-0">
-                            {instances.map((instance, index) => (
+                            {instances.map((instance, index) => {
+                                const health = healthMap[instance.id];
+                                return (
                                 <CreateInstanceSheet
                                     key={index}
                                     credentialsStatus={credentialsStatus}
                                     instance={instance}
-                                    onSuccess={refetch}>
-                                    <div className="grid grid-cols-4 md:grid-cols-8 xl:grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
-                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start text-xs">
+                                    onSuccess={handleRefetch}>
+                                    <div className="grid grid-cols-4 md:grid-cols-9 xl:grid-cols-11 border border-zinc-800 border-t-0 hover:bg-neutral-900 transition-all duration-150 ease-in-out cursor-pointer">
+                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 hidden md:flex items-center justify-center md:justify-start text-xs">
                                             {instance.status === "active" ? (
-                                                <span className="bg-green-500/10 text-green-500 px-2.5 py-0.5 rounded-full">
+                                                <span className="bg-green-500/10 text-green-500 px-2.5 py-0.5 rounded-full truncate">
                                                     {t("statusActive")}
                                                 </span>
                                             ) : (
-                                                <span className="bg-yellow-500/10 text-yellow-500 px-2.5 py-0.5 rounded-full">
+                                                <span className="bg-yellow-500/10 text-yellow-500 px-2.5 py-0.5 rounded-full truncate">
                                                     {t("statusPaused")}
                                                 </span>
                                             )}
                                         </div>
-                                        <div className="col-span-3 border-r border-zinc-800 px-4 py-3 hidden xl:flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start text-xs">
+                                            {!health ? (
+                                                <span className="bg-zinc-500/10 text-zinc-400 px-2.5 py-0.5 rounded-full">
+                                                    N/A
+                                                </span>
+                                            ) : health.status === "CONNECTED" ? (
+                                                <span className="bg-green-500/10 text-green-500 px-2.5 py-0.5 rounded-full truncate">
+                                                    {t("healthConnected")}
+                                                </span>
+                                            ) : health.status === "CHECKING" ? (
+                                                <span className="bg-blue-500/10 text-blue-500 px-2.5 py-0.5 rounded-full truncate">
+                                                    {t("healthChecking")}
+                                                </span>
+                                            ) : health.status === "NEEDS_ACTION" ? (
+                                                <>
+                                                    <span 
+                                                        className="bg-yellow-500/10 text-yellow-500 px-2.5 py-0.5 rounded-full max-w-[80px] lg:max-w-none truncate"
+                                                        title={t("healthNeedsAction")}
+                                                    >
+                                                        {t("healthNeedsAction")}
+                                                    </span>
+                                                    <div onClick={(e) => e.stopPropagation()}>
+                                                        <HealthErrorDialog errorCode={health.errorCode || null} status="NEEDS_ACTION" />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className="bg-red-500/10 text-red-500 px-2.5 py-0.5 rounded-full">
+                                                        {t("healthError")}
+                                                    </span>
+                                                    <div onClick={(e) => e.stopPropagation()}>
+                                                        <HealthErrorDialog errorCode={health.errorCode || null} status="ERROR" />
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                        <div className="col-span-2 border-r border-zinc-800 px-4 py-3 hidden xl:flex items-center truncate">
                                             {instance.name}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
@@ -211,7 +266,7 @@ export default function Instances() {
                                             {SYMBOL_TO_INSTRUMENT[instance.instrument] || instance.instrument}
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
-                                            {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5">USDC</span>
+                                            {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5 truncate">USDC</span>
                                         </div>
                                         <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start capitalize">
                                             {instance.exchange}
@@ -223,12 +278,12 @@ export default function Instances() {
                                             <ActionsDropdownMenu
                                                 instance={instance}
                                                 credentialsStatus={credentialsStatus}
-                                                onSuccess={refetch}
+                                                onSuccess={handleRefetch}
                                             />
                                         </div>
                                     </div>
                                 </CreateInstanceSheet>
-                            ))}
+                            );})}
                         </div>
                     </div>
                 </div>

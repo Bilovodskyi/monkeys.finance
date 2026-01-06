@@ -18,6 +18,7 @@ import {
 
 import { Activity, Ellipsis } from "lucide-react";
 import { pauseActivate } from "@/actions/instances/pauseActivate";
+import { checkInstanceStatus } from "@/actions/instances/checkStatus";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { CreateInstanceSheet } from "./CreateInstanceSheet";
@@ -81,6 +82,24 @@ export function ActionsDropdownMenu({
                         }
                     }}>
                     <span>{t("items.pauseActivate")}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    onSelect={(e) => e.stopPropagation()}
+                    onClick={async (e) => {
+                        e.stopPropagation();
+                        const result = await checkInstanceStatus(instance.id, false);
+                        if (result.ok) {
+                            if (result.status === "rate_limited") {
+                                toast.info(t("checkHealth.rateLimited"));
+                            } else {
+                                toast.success(t("checkHealth.queued"));
+                                onSuccess?.();
+                            }
+                        } else {
+                            toast.error(t("checkHealth.failed"));
+                        }
+                    }}>
+                    <span>{t("items.checkHealth")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     onSelect={(e) => {

@@ -16,6 +16,7 @@
     "@aws-sdk/client-dynamodb": "^3.917.0",
     "@aws-sdk/client-kms": "^3.939.0",
     "@aws-sdk/client-s3": "^3.916.0",
+    "@aws-sdk/client-sqs": "^3.962.0",
     "@aws-sdk/lib-dynamodb": "^3.917.0",
     "@clerk/localizations": "^3.25.7",
     "@clerk/nextjs": "^6.33.0",

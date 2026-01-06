@@ -294,10 +294,15 @@
             "instrument": "Instrument",
             "positionSizeUSDT": "Position Size",
             "exchange": "Exchange",
+            "health": "Health",
             "createdAt": "Created At",
             "actions": "Actions",
             "account": "Account"
         },
+        "healthConnected": "Connected",
+        "healthChecking": "Checking",
+        "healthNeedsAction": "Needs Action",
+        "healthError": "Error",
         "instances": "Instances",
         "instanceCount": "You have {count} instance(s).",
         "createNewInstance": "Create new instance",
@@ -350,6 +355,20 @@
         "createdError": "Failed to create instance",
         "updatedError": "Failed to update instance",
         "subscriptionEnded": "Your subscription has ended. Please upgrade to continue.",
+        "healthErrorDialog": {
+            "title": "Health Check Failed",
+            "errorDetails": "Error Details",
+            "errorCodes": {
+                "INVALID_API_KEY": "Your API key is invalid or has expired. Please update your API credentials.",
+                "INVALID_SIGNATURE": "Your API secret signature is invalid. Please re-enter your API secret.",
+                "INVALID_KEY_FORMAT": "Your API key format is incorrect. Please check and update it.",
+                "INSUFFICIENT_PERMISSIONS": "Your API key lacks required permissions. Enable trading permissions on your exchange.",
+                "IP_NOT_WHITELISTED": "Your server IP is not whitelisted. Add our IP addresses to your exchange API whitelist.",
+                "NETWORK_ERROR": "Network connection issue. The exchange may be temporarily unavailable.",
+                "RATE_LIMITED": "Too many requests. Please wait before checking again.",
+                "EXCHANGE_ERROR": "The exchange returned an error. Please try again later."
+            }
+        },
         "actionsMenu": {
             "pauseActivate": {
                 "paused": "Instance paused",
@@ -369,9 +388,15 @@
                 "invalidId": "Invalid instance id",
                 "notFound": "Instance not found or not accessible"
             },
+            "checkHealth": {
+                "queued": "Health check started",
+                "rateLimited": "Health check available once per hour",
+                "failed": "Failed to check health"
+            },
             "items": {
                 "edit": "Edit",
                 "pauseActivate": "Pause/Activate",
+                "checkHealth": "Check Health",
                 "delete": "Delete"
             }
         }
