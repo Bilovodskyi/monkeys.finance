@@ -44,7 +44,19 @@ export function ManageCredentialsSheet({
         apiKey: z.string().min(1, translations("errors.required")),
         apiSecret: z.string().min(1, translations("errors.required")),
         passphrase: z.string().optional(),
-    });
+    }).refine(
+        (data) => {
+            // Passphrase is required for OKX
+            if (data.exchange.toLowerCase() === "okx") {
+                return data.passphrase && data.passphrase.length > 0;
+            }
+            return true;
+        },
+        {
+            message: translations("errors.required"),
+            path: ["passphrase"],
+        }
+    );
 
     type FormValues = z.infer<typeof FormSchema>;
     const formRef = useRef<HTMLFormElement>(null);
@@ -56,7 +68,11 @@ export function ManageCredentialsSheet({
             apiSecret: "",
             passphrase: "",
         },
+        mode: "onChange",
     });
+
+    const selectedExchange = form.watch("exchange");
+    const isOkx = selectedExchange?.toLowerCase() === "okx";
 
     // Reset form when exchange changes or when opening sheet
     useEffect(() => {
@@ -253,32 +269,34 @@ export function ManageCredentialsSheet({
                         />
                     </div>
 
-                    {/* Passphrase Field (Optional) */}
-                    <div className="grid gap-2">
-                        <label className="text-tertiary">
-                            {translations("passphrase")} <span className="text-xs">{translations("passphraseOptional")}</span>
-                        </label>
-                        <Controller
-                            control={form.control}
-                            name="passphrase"
-                            render={({ field }) => (
-                                <div className="space-y-1">
-                                    <input
-                                        {...field}
-                                        value={field.value || ""}
-                                        type="text"
-                                        placeholder={translations("enterPassphrase")}
-                                        className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
-                                    />
-                                    {form.formState.errors.passphrase && (
-                                        <p className="text-xs text-red-500">
-                                            {form.formState.errors.passphrase.message}
-                                        </p>
-                                    )}
-                                </div>
-                            )}
-                        />
-                    </div>
+                    {/* Passphrase Field - Only for OKX */}
+                    {isOkx && (
+                        <div className="grid gap-2">
+                            <label className="text-tertiary">
+                                {translations("passphrase")}
+                            </label>
+                            <Controller
+                                control={form.control}
+                                name="passphrase"
+                                render={({ field }) => (
+                                    <div className="space-y-1">
+                                        <input
+                                            {...field}
+                                            value={field.value || ""}
+                                            type="text"
+                                            placeholder={translations("enterPassphrase")}
+                                            className="h-9 w-full items-center justify-between whitespace-nowrap border border-zinc-800 px-3 py-2 text-white outline-none"
+                                        />
+                                        {form.formState.errors.passphrase && (
+                                            <p className="text-xs text-red-500">
+                                                {form.formState.errors.passphrase.message}
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
+                            />
+                        </div>
+                    )}
 
                     <div className="absolute bottom-0 right-0 left-0 bg-background border-t border-zinc-800/50 px-6 py-4">
                         <div className="flex gap-2 justify-end">

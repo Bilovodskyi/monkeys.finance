@@ -13,7 +13,7 @@ import MetaballsLoader from "@/components/Loader";
 import { ExternalLink } from "lucide-react";
 import { SYMBOL_TO_INSTRUMENT } from "@/data/constants";
 
-const MAX_INSTANCES = 3;
+const MAX_INSTANCES = 6;
 
 export default function Instances() {
     const t = useTranslations("instances");
@@ -163,19 +163,19 @@ export default function Instances() {
                     </div>
                     <div className="flex-1 p-4 md:p-6 flex flex-col overflow-hidden">
                         <div className="grid grid-cols-4 md:grid-cols-9 xl:grid-cols-11 border border-zinc-800 backdrop-blur-md">
-                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 hidden md:block text-tertiary text-center md:text-left">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 hidden md:block text-tertiary text-center md:text-left truncate">
                                 {t("tableHeaders.status")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left truncate">
                                 {t("tableHeaders.health")}
                             </div>
-                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 hidden xl:block text-tertiary">
+                            <div className="col-span-2 border-r border-zinc-800 px-4 py-3 hidden xl:block text-tertiary truncate">
                                 {t("tableHeaders.name")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary truncate">
                                 {t("tableHeaders.strategy")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary">
+                            <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary truncate">
                                 {t("tableHeaders.account")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left truncate">
@@ -184,13 +184,13 @@ export default function Instances() {
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary truncate">
                                 {t("tableHeaders.positionSizeUSDT")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left truncate">
                                 {t("tableHeaders.exchange")}
                             </div>
                             <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:block text-tertiary truncate">
                                 {t("tableHeaders.createdAt")}
                             </div>
-                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left">
+                            <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 text-tertiary text-center md:text-left truncate">
                                 {t("tableHeaders.actions")}
                             </div>
                         </div>
@@ -256,22 +256,22 @@ export default function Instances() {
                                         <div className="col-span-2 border-r border-zinc-800 px-4 py-3 hidden xl:flex items-center truncate">
                                             {instance.name}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center truncate">
                                             {instance.strategy}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center truncate">
                                             {instance.isTestnet ? t("accountTypeDemo") : t("accountTypeReal")}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start">
+                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start truncate">
                                             {SYMBOL_TO_INSTRUMENT[instance.instrument] || instance.instrument}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center truncate">
                                             {instance.positionSizeUSDT} <span className="text-xs ml-1 pt-0.5 truncate">USDC</span>
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start capitalize">
+                                        <div className="col-span-1 border-r border-zinc-800 px-1 lg:px-4 py-3 flex items-center justify-center md:justify-start capitalize truncate">
                                             {instance.exchange}
                                         </div>
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 hidden md:flex items-center truncate">
                                             {instance.createdAt.toLocaleDateString('en-CA')}
                                         </div>
                                         <div className="group/actions col-span-1 border-r border-zinc-800 px-2 py-1 flex items-center justify-center">

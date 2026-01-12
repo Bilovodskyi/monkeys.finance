@@ -8,6 +8,7 @@ import { eq } from "drizzle-orm";
 export type ExchangeCredentialStatus = {
     apiKey: boolean;
     apiSecret: boolean;
+    passphrase: boolean;
     createdAt: Date;
     updatedAt: Date;
 };
@@ -44,6 +45,7 @@ export async function getCredentialsStatus(): Promise<CredentialsStatus> {
             exchange: userCredentials.exchange,
             encKey: userCredentials.encKey,
             encSecret: userCredentials.encSecret,
+            encPassphrase: userCredentials.encPassphrase,
             createdAt: userCredentials.createdAt,
             updatedAt: userCredentials.updatedAt,
         })
@@ -57,6 +59,7 @@ export async function getCredentialsStatus(): Promise<CredentialsStatus> {
         status[cred.exchange] = {
             apiKey: !!cred.encKey && cred.encKey.length > 0,
             apiSecret: !!cred.encSecret && cred.encSecret.length > 0,
+            passphrase: !!cred.encPassphrase && cred.encPassphrase.length > 0,
             createdAt: cred.createdAt,
             updatedAt: cred.updatedAt,
         };

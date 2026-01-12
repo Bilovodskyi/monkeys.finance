@@ -142,16 +142,16 @@ export default async function notifications() {
                         <div className="p-4 md:p-6 flex flex-col overflow-hidden">
                             {/* Sticky Header */}
                             <div className="grid grid-cols-3 lg:grid-cols-6 border border-zinc-800 backdrop-blur-md">
-                                <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                     {t("tableHeaders.provider")}
                                 </div>
-                                <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                     {t("tableHeaders.username")}
                                 </div>
-                                <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                     {t("tableHeaders.createdAt")}
                                 </div>
-                                <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                     {t("tableHeaders.actions")}
                                 </div>
                             </div>  
@@ -191,22 +191,22 @@ export default async function notifications() {
                             <div className="p-4 md:p-6 flex flex-col overflow-hidden">
                                 {/* Sticky Header */}
                                 <div className="grid grid-cols-3 lg:grid-cols-10 border border-zinc-800 backdrop-blur-md">
-                                    <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                         {t("tableHeaders.provider")}
                                     </div>
-                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                         {t("tableHeaders.username")}
                                     </div>
-                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                         {t("tableHeaders.strategy")}
                                     </div>
-                                    <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                         {t("tableHeaders.instrument")}
                                     </div>
-                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                         {t("tableHeaders.createdAt")}
                                     </div>
-                                    <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary">
+                                    <div className="col-span-1 border-r border-zinc-800 px-4 py-3 text-tertiary truncate">
                                         {t("tableHeaders.actions")}
                                     </div>
                                 </div>
@@ -216,21 +216,21 @@ export default async function notifications() {
                                     <div
                                         key={index}
                                         className="grid grid-cols-3 lg:grid-cols-10 border border-zinc-800 border-t-0">
-                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 border-r border-zinc-800 px-4 py-3 flex items-center truncate">
                                             <div className="bg-blue-400 py-1 px-3 rounded-full">
                                                 {notification.provider}
                                             </div>
                                         </div>
-                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center truncate">
                                             {notification.telegramUsername}
                                         </div>
-                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center truncate">
                                             {notification.strategy}
                                         </div>
-                                        <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="col-span-1 lg:col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center truncate">
                                             {SYMBOL_TO_INSTRUMENT[notification.instrument] || notification.instrument}
                                         </div>
-                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center">
+                                        <div className="hidden lg:block col-span-2 border-r border-zinc-800 px-4 py-3 flex items-center truncate">
                                             {notification.createdAt.toLocaleDateString('en-CA')}
                                         </div>
                                         <DeleteNotification

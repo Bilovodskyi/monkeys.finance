@@ -28,7 +28,7 @@ export const TICKER_TO_INSTRUMENT: Record<string, Instrument> = {
 
 export const strategies = ["Trend V3"];
 
-export const exchanges = ["Binance"];
+export const exchanges = ["Binance", "OKX"];
 
 export const providers = ["Telegram"];
 

@@ -69,6 +69,7 @@ export function CreateInstanceSheet({
                 }),
             apiKey: z.string().optional(),
             apiSecret: z.string().optional(),
+            passphrase: z.string().optional(),
             isTestnet: z.boolean().optional(),
         })
         .refine(
@@ -97,6 +98,23 @@ export function CreateInstanceSheet({
                 message: translations("errors.credentialsRequired"),
                 path: ["apiKey"], // Show error on apiKey field
             }
+        )
+        .refine(
+            (data) => {
+                // Passphrase is required for OKX when entering new credentials
+                if (data.exchange.toLowerCase() === "okx") {
+                    const hasPassphrase = credentialsStatus["okx"]?.passphrase;
+                    // If passphrase not in DB, user must provide it
+                    if (!hasPassphrase && (!data.passphrase || data.passphrase.length === 0)) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            {
+                message: translations("errors.required"),
+                path: ["passphrase"],
+            }
         );
     type FormValues = z.infer<typeof FormSchema>;
     const formRef = useRef<HTMLFormElement>(null);
@@ -109,8 +127,10 @@ export function CreateInstanceSheet({
             positionSizeUSDT: instance?.positionSizeUSDT || "",
             apiKey: "",
             apiSecret: "",
+            passphrase: "",
             isTestnet: instance?.isTestnet || false,
         },
+        mode: "onChange",
     });
     const selectedStrategy = form.watch("strategy");
     const selectedInstrument = form.watch("instrument");
@@ -119,6 +139,8 @@ export function CreateInstanceSheet({
 
     const selectedApiKey = form.watch("apiKey");
     const selectedApiSecret = form.watch("apiSecret");
+    const selectedPassphrase = form.watch("passphrase");
+    const isOkx = selectedExchange?.toLowerCase() === "okx";
 
     const validateCredentials = () => {
         if (!selectedExchange) return false;
@@ -152,6 +174,7 @@ export function CreateInstanceSheet({
                 positionSizeUSDT: instance.positionSizeUSDT,
                 apiKey: "",
                 apiSecret: "",
+                passphrase: "",
                 isTestnet: instance.isTestnet || false,
             });
         } else {
@@ -163,10 +186,11 @@ export function CreateInstanceSheet({
                 positionSizeUSDT: "",
                 apiKey: "",
                 apiSecret: "",
+                passphrase: "",
                 isTestnet: false,
             });
         }
-    }, [instance,form, open]);
+    }, [instance, form, open]);
 
     const clearForm = () => {
         form.reset({ strategy: "", instrument: "", exchange: "" });
@@ -184,6 +208,7 @@ export function CreateInstanceSheet({
                     exchange: values.exchange,
                     apiKey: values.apiKey,
                     apiSecret: values.apiSecret,
+                    passphrase: values.passphrase,
                 });
 
                 if (!credResult.ok) {
@@ -295,8 +320,8 @@ export function CreateInstanceSheet({
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>{children}</SheetTrigger>
-            <SheetContent className="flex flex-col overflow-scroll">
-                <SheetHeader>
+            <SheetContent className="flex flex-col">
+                <SheetHeader className="flex-shrink-0">
                     <SheetTitle className="text-xl font-title">
                         {isEditMode
                             ? translations("editInstance")
@@ -308,15 +333,17 @@ export function CreateInstanceSheet({
                 </SheetHeader>
 
                 <form
-                    className="mt-6 space-y-6 relative flex-1"
+                    className="mt-6 space-y-6 flex-1 overflow-y-auto pb-24"
                     onSubmit={form.handleSubmit(handleSubmit)}
                     ref={formRef}>
                     
-                    <div className="flex items-start gap-3 p-3 rounded-md bg-yellow-500/10 border border-yellow-500/20 text-yellow-500">
-                        <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm">
-                            {translations("errors.leverageWarning")}
-                        </span>
+                    <div className="flex flex-col items-start gap-3 p-3 rounded-md bg-yellow-500/10 border border-yellow-500/20 text-yellow-500">
+                        {/* <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" /> */}
+                        <ul className="text-sm list-disc list-inside space-y-1">
+                            <li>{translations("errors.leverageWarning1")}</li>
+                            <li>{translations("errors.leverageWarning2", { currency: isOkx ? "USDT" : "USDC" })}</li>
+                            <li>{translations("errors.leverageWarning3", { currency: isOkx ? "USDT" : "USDC" })}</li>
+                        </ul>
                     </div>
 
                     {/* Strategy - Full Width */}
@@ -435,7 +462,7 @@ export function CreateInstanceSheet({
                     <div className="grid grid-cols-2 gap-4 items-start">
                         <div className="grid gap-2">
                             <label className="text-tertiary font-medium">
-                                {translations("positionSize")}
+                                {translations("positionSize", { currency: isOkx ? "USDT" : "USDC" })}
                             </label>
                             <Controller
                                 control={form.control}
@@ -450,7 +477,7 @@ export function CreateInstanceSheet({
                                                 placeholder="0.00"
                                                 className="h-11 w-full bg-zinc-900/50 border border-zinc-800 px-3 py-2 text-white outline-none focus:border-zinc-600 transition-colors rounded-md"
                                             />
-                                            <span className="absolute right-3 top-3 text-tertiary text-sm">USDC</span>
+                                            <span className="absolute right-3 top-3 text-tertiary text-sm">{isOkx ? "USDT" : "USDC"}</span>
                                         </div>
                                         {form.formState.errors.positionSizeUSDT && (
                                             <p className="text-xs text-red-500">
@@ -542,9 +569,47 @@ export function CreateInstanceSheet({
                                 />
                             )}
                         </div>
+
+                        {/* Passphrase Field - Only for OKX */}
+                        {isOkx && (
+                            <div className="grid gap-2">
+                                <label className="text-tertiary text-xs uppercase tracking-wider">
+                                    {translations("passphrase")}
+                                </label>
+                                {credentialsStatus["okx"]?.passphrase ? (
+                                    <div className="flex items-center gap-2 p-3 bg-green-500/5 border border-green-500/20 rounded-md">
+                                        <Check className="w-4 h-4 text-green-500" />
+                                        <span className="text-sm text-green-500">
+                                            {translations("passphraseProvided")}
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <Controller
+                                        control={form.control}
+                                        name="passphrase"
+                                        render={({ field }) => (
+                                            <div className="space-y-1">
+                                                <input
+                                                    {...field}
+                                                    value={field.value || ""}
+                                                    type="text"
+                                                    placeholder={translations("enterPassphrase")}
+                                                    className="h-10 w-full bg-zinc-900/30 border border-zinc-800 px-3 py-2 text-white outline-none focus:border-zinc-600 transition-colors rounded-md font-mono text-sm"
+                                                />
+                                                {form.formState.errors.passphrase && (
+                                                    <p className="text-xs text-red-500">
+                                                        {form.formState.errors.passphrase.message}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
+                                    />
+                                )}
+                            </div>
+                        )}
                     </div>
 
-                    <div className="sticky lg:absolute bottom-0 right-0 left-0 bg-background border-t border-zinc-800/50 px-6 py-4">
+                    <div className="absolute bottom-0 right-0 left-0 bg-background border-t border-zinc-800/50 px-6 py-4">
                         <div className="flex gap-2 justify-end">
                             <CustomButton
                                 disabled={

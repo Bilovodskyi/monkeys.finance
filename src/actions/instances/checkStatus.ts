@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { SendMessageCommand } from "@aws-sdk/client-sqs";
 import getSqsClient, { INSTANCE_HEALTH_QUEUE_URL } from "@/lib/sqsClient";
 
-const RATE_LIMIT_HOURS = 1;
+const RATE_LIMIT_MINUTES = 20;
 
 type CheckResult =
     | { ok: true; status: "queued" | "rate_limited"; message: string }
@@ -38,29 +38,29 @@ export async function checkInstanceStatus(
             return { ok: false, error: "instance_not_found" };
         }
 
-        // Check rate limiting (skip if forceCheck is true - for new instances)
-        if (!forceCheck) {
-            const health = await db.query.InstanceHealthTable.findFirst({
-                where: eq(InstanceHealthTable.instanceId, instanceId),
-            });
+        // // Check rate limiting (skip if forceCheck is true - for new instances)
+        // if (!forceCheck) {
+        //     const health = await db.query.InstanceHealthTable.findFirst({
+        //         where: eq(InstanceHealthTable.instanceId, instanceId),
+        //     });
 
-            // if (health?.lastRequestedAt) {
-            //     const hourAgo = new Date();
-            //     hourAgo.setHours(hourAgo.getHours() - RATE_LIMIT_HOURS);
+        //     if (health?.lastRequestedAt) {
+        //         const rateLimitTime = new Date();
+        //         rateLimitTime.setMinutes(rateLimitTime.getMinutes() - RATE_LIMIT_MINUTES);
 
-            //     if (health.lastRequestedAt > hourAgo) {
-            //         const nextCheckTime = new Date(health.lastRequestedAt);
-            //         nextCheckTime.setHours(
-            //             nextCheckTime.getHours() + RATE_LIMIT_HOURS
-            //         );
-            //         return {
-            //             ok: true,
-            //             status: "rate_limited",
-            //             message: `Please wait until ${nextCheckTime.toISOString()}`,
-            //         };
-            //     }
-            // }
-        }
+        //         if (health.lastRequestedAt > rateLimitTime) {
+        //             const nextCheckTime = new Date(health.lastRequestedAt);
+        //             nextCheckTime.setMinutes(
+        //                 nextCheckTime.getMinutes() + RATE_LIMIT_MINUTES
+        //             );
+        //             return {
+        //                 ok: true,
+        //                 status: "rate_limited",
+        //                 message: `Please wait until ${nextCheckTime.toISOString()}`,
+        //             };
+        //         }
+        //     }
+        // }
 
         // Upsert health record with CHECKING status
         await db

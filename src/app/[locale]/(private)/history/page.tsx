@@ -88,16 +88,16 @@ export default async function HistoryPage() {
                     <div className="flex-1 p-4 md:p-6 flex flex-col overflow-hidden">
                         {/* Sticky Header */}
                         <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-10 border border-zinc-800 backdrop-blur-md">
-                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.status")}</div>
-                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.openDate")}</div>
-                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.closeDate")}</div>
-                            <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.exchange")}</div>
-                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.instrument")}</div>
-                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.strategy")}</div>
-                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.quantity")}</div>
-                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.entryPrice")}</div>
-                            <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.exitPrice")}</div>
-                            <div className="px-2 lg:px-4 py-3 text-tertiary">{t("tableHeaders.pnl")}</div>
+                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.status")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.openDate")}</div>
+                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.closeDate")}</div>
+                            <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.exchange")}</div>
+                            <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.instrument")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.strategy")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.quantity")}</div>
+                            <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.entryPrice")}</div>
+                            <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.exitPrice")}</div>
+                            <div className="px-2 lg:px-4 py-3 text-tertiary truncate">{t("tableHeaders.pnl")}</div>
                         </div>
 
                         {/* Scrollable Content */}
@@ -112,7 +112,7 @@ export default async function HistoryPage() {
                                         key={position.id}
                                         className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-10 border border-zinc-800 border-t-0"
                                     >
-                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             <div className="flex items-center">
                                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                                     position.status === 'filled' 
@@ -126,46 +126,46 @@ export default async function HistoryPage() {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.orderPlacedAt 
                                                 ? new Date(position.orderPlacedAt).toLocaleDateString('en-CA')
                                                 : new Date(position.signalTime).toLocaleDateString('en-CA')
                                             }
                                         </div>
-                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.positionClosedAt 
                                                 ? new Date(position.positionClosedAt).toLocaleDateString('en-CA')
                                                 : '—'
                                             }
                                         </div>
-                                        <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.exchange}
                                         </div>
-                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.instrument}
                                         </div>
-                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.strategyName}
                                         </div>
-                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.quantity 
                                                 ? parseFloat(position.quantity).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 8 })
                                                 : '—'
                                             }
                                         </div>
-                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="hidden lg:block border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.entryPrice 
                                                 ? `$${parseFloat(position.entryPrice).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
                                                 : '—'
                                             }
                                         </div>
-                                        <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3">
+                                        <div className="hidden md:block border-r border-zinc-800 px-2 lg:px-4 py-3 truncate">
                                             {position.exitPrice 
                                                 ? `$${parseFloat(position.exitPrice).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}`
                                                 : '—'
                                             }
                                         </div>
-                                        <div className={` px-2 lg:px-4 py-3 ${isProfitable ? 'text-green-500' : isLoss ? 'text-red-500' : ''}`}>
+                                        <div className={` px-2 lg:px-4 py-3 truncate ${isProfitable ? 'text-green-500' : isLoss ? 'text-red-500' : ''}`}>
                                             {pnl !== null 
                                                 ? `${pnl >= 0 ? '+' : ''}$${pnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                                                 : '—'
