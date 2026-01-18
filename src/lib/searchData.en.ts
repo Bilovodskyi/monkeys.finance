@@ -248,7 +248,7 @@ export const searchData: SearchItem[] = [
         title: "Support",
         path: "https://docs.monkeys.finance/en/support",
         section: "Documentation",
-        content: "If you have any questions, need assistance, or want to provide feedback, send us an email at monkeys.finance@gmail.com.",
+        content: "If you have any questions, need assistance, or want to provide feedback, send us an email at monkeys.finance.ca@gmail.com.",
         keywords: ["support", "help", "contact", "email", "questions", "feedback"],
         isExternal: true,
     },

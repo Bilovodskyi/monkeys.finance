@@ -49,8 +49,8 @@ export default async function Disclosures() {
                     <h2 className="text-xl font-title text-white mb-3">{t("section7.title")}</h2>
                     <p className="text-secondary leading-relaxed">
                         {t("section7.content")}{" "}
-                        <a href="mailto:monkeys.finance@gmail.com" className="text-highlight hover:underline">
-                            monkeys.finance@gmail.com
+                        <a href="mailto:monkeys.finance.ca@gmail.com" className="text-highlight hover:underline">
+                            monkeys.finance.ca@gmail.com
                         </a>
                     </p>
                 </section>

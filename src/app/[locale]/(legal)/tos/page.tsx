@@ -13,7 +13,7 @@ export default async function Tos() {
                 <div className="text-secondary text-sm space-y-1">
                     <p>{t("companyName")}</p>
                     <p>{t("address")}</p>
-                    <p>{t("support")} <a href="mailto:monkeys.finance@gmail.com" className="text-highlight hover:underline">monkeys.finance@gmail.com</a></p>
+                    <p>{t("support")} <a href="mailto:monkeys.finance.ca@gmail.com" className="text-highlight hover:underline">monkeys.finance.ca@gmail.com</a></p>
                     <p className="text-tertiary">{t("effectiveDate")}</p>
                 </div>
             </div>
@@ -155,8 +155,8 @@ export default async function Tos() {
                     <h2 className="text-xl font-title text-white mb-3">{t("section18.title")}</h2>
                     <p className="text-secondary leading-relaxed">
                         {t("section18.content")}{" "}
-                        <a href="mailto:monkeys.finance@gmail.com" className="text-highlight hover:underline">
-                            monkeys.finance@gmail.com
+                        <a href="mailto:monkeys.finance.ca@gmail.com" className="text-highlight hover:underline">
+                            monkeys.finance.ca@gmail.com
                         </a>
                     </p>
                 </section>

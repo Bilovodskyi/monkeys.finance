@@ -174,11 +174,10 @@ export function AlgorithmChart({
                     }
 
                     // Add signal entry point marker
-                    // signalDate represents the bar close time when signal was generated
-                    // Binance klines are keyed by open time, so subtract 4h to get the signal bar's open time
+                    // signalDate is 2 bars (8h) ahead, subtract to get the signal bar
                     if (signalPrice && signalDate) {
-                        const fourHoursMs = 4 * 60 * 60 * 1000;
-                        const entryTimestamp = Math.floor((signalDate.getTime() - fourHoursMs) / 1000);
+                        const eightHoursMs = 8 * 60 * 60 * 1000;
+                        const entryTimestamp = Math.floor((signalDate.getTime() - eightHoursMs) / 1000);
                         
                         const markerText = signalType === 'buy' 
                             ? t("chart.buySignalEntry")

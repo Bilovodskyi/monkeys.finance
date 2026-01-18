@@ -193,7 +193,7 @@ export const searchData: SearchItem[] = [
         title: "Підтримка",
         path: "https://docs.monkeys.finance/uk/support",
         section: "Документація",
-        content: "Якщо у вас є питання, потрібна допомога або хочете залишити відгук, напишіть нам на monkeys.finance@gmail.com.",
+        content: "Якщо у вас є питання, потрібна допомога або хочете залишити відгук, напишіть нам на monkeys.finance.ca@gmail.com.",
         keywords: ["підтримка", "допомога", "контакт", "email", "питання", "відгук"],
         isExternal: true,
     },
