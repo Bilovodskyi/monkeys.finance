@@ -119,6 +119,9 @@ export function AlgorithmChart({
 
             console.log('Creating chart...');
 
+            // Get local timezone offset in seconds
+            const timezoneOffsetSeconds = new Date().getTimezoneOffset() * 60;
+
             // Create chart
             const chart = createChart(chartContainerRef.current, {
                 layout: {
@@ -134,6 +137,19 @@ export function AlgorithmChart({
                 timeScale: {
                     timeVisible: true,
                     secondsVisible: false,
+                },
+                localization: {
+                    // Format time in local timezone
+                    timeFormatter: (time: number) => {
+                        const date = new Date(time * 1000);
+                        return date.toLocaleString('en-CA', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false,
+                        });
+                    },
                 },
             });
 
@@ -174,10 +190,13 @@ export function AlgorithmChart({
                     }
 
                     // Add signal entry point marker
-                    // signalDate is 2 bars (8h) ahead, subtract to get the signal bar
                     if (signalPrice && signalDate) {
-                        const eightHoursMs = 8 * 60 * 60 * 1000;
-                        const entryTimestamp = Math.floor((signalDate.getTime() - eightHoursMs) / 1000);
+                        // Get UTC timestamp and floor to nearest 4h candle boundary
+                        // Binance 4h candles start at 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC
+                        const signalUtcMs = signalDate.getTime();
+                        const fourHoursMs = 4 * 60 * 60 * 1000;
+                        const candleOpenMs = Math.floor(signalUtcMs / fourHoursMs) * fourHoursMs;
+                        const entryTimestamp = Math.floor(candleOpenMs / 1000);
                         
                         const markerText = signalType === 'buy' 
                             ? t("chart.buySignalEntry")
@@ -193,7 +212,8 @@ export function AlgorithmChart({
                             shape: 'circle',
                             text: markerText,
                         }]);
-                        console.log('Signal marker added at entry candle:', new Date(entryTimestamp * 1000));
+                        console.log('Signal marker added at candle:', new Date(entryTimestamp * 1000).toISOString());
+                        console.log('Original signal time:', signalDate.toISOString());
                     }
 
                     // Fit content
